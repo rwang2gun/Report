@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원신 속성 반응 시스템 분석 보고서</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg: #0a0c10;
+    --bg2: #0f1117;
+    --bg3: #151821;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8eaf0;
+    --text-dim: #6b7080;
+    --text-mid: #a0a8b8;
+    --accent: #7ec8e3;
+    --accent2: #f0a070;
+    --accent3: #9be0a0;
+    --accent4: #d090d0;
+    --red: #e07070;
+    --yellow: #d4b870;
+    --pyro: #f4813a;
+    --hydro: #4ab8e8;
+    --cryo: #98d8e8;
+    --electro: #c070e8;
+    --anemo: #68d8c8;
+    --geo: #d4a840;
+    --dendro: #88c858;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 48px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(126,200,227,0.06) 0%, transparent 70%);
+  }
+  .header-meta { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .tag-doc { background: rgba(126,200,227,0.12); color: var(--accent); border: 1px solid rgba(126,200,227,0.25); }
+  .tag-ver { background: rgba(255,255,255,0.05); color: var(--text-dim); border: 1px solid var(--border); }
+  .tag-ref { background: rgba(240,160,112,0.12); color: var(--accent2); border: 1px solid rgba(240,160,112,0.25); }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .header h1 span { color: var(--accent); }
+  .header-sub { color: var(--text-mid); font-size: 13px; font-weight: 300; }
+
+  .nav {
+    display: flex;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    background: none;
+    border: none; border-right: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .nav-btn.active, .nav-btn:hover { color: var(--accent); background: rgba(126,200,227,0.05); }
+  .nav-btn.active::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--accent);
+  }
+
+  .section { display: none; padding: 40px 48px; max-width: 1200px; margin: 0 auto; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .sec-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.06em;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .sec-desc { color: var(--text-mid); font-size: 13px; margin-bottom: 32px; }
+  .divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 18px 16px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .kpi-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-label { font-size: 11px; color: var(--text-dim); letter-spacing: 0.06em; }
+
+  .overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .element-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 24px; }
+  .elem {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 8px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .elem:hover { transform: translateY(-2px); }
+  .elem-icon { font-size: 22px; margin-bottom: 4px; }
+  .elem-name { font-size: 10px; letter-spacing: 0.05em; font-family: 'Space Mono', monospace; }
+
+  .rx-table { width: 100%; border-collapse: collapse; }
+  .rx-table th {
+    background: var(--bg3);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .rx-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+    vertical-align: top;
+  }
+  .rx-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .rx-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+  .rx-combo { font-size: 11px; color: var(--text-dim); font-family: 'Space Mono', monospace; }
+  .rx-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .rb-dmg { background: rgba(224,112,112,0.15); color: var(--red); }
+  .rb-cc { background: rgba(196,176,112,0.15); color: var(--yellow); }
+  .rb-buff { background: rgba(155,224,160,0.15); color: var(--accent3); }
+  .rb-debuff { background: rgba(208,144,208,0.15); color: var(--accent4); }
+
+  .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pro-list, .con-list { list-style: none; }
+  .pro-list li, .con-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .pro-list li::before { content: '▲'; color: var(--accent3); font-size: 10px; margin-top: 4px; flex-shrink: 0; }
+  .con-list li::before { content: '▼'; color: var(--red); font-size: 10px; margin-top: 4px; flex-shrink: 0; }
+  .li-title { font-weight: 500; color: var(--text); }
+  .li-body { color: var(--text-mid); font-size: 12px; margin-top: 2px; }
+
+  .sev {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    margin-left: 8px;
+  }
+  .sev-fatal { background: rgba(224,112,112,0.2); color: var(--red); }
+  .sev-warn { background: rgba(212,184,112,0.2); color: var(--yellow); }
+  .sev-info { background: rgba(126,200,227,0.15); color: var(--accent); }
+
+  .world-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  .impl-item {
+    background: var(--bg2);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    border-radius: 0 4px 4px 0;
+  }
+  .impl-item.warn { border-left-color: var(--yellow); }
+  .impl-item.danger { border-left-color: var(--red); }
+  .impl-item.good { border-left-color: var(--accent3); }
+  .impl-head {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .impl-body { color: var(--text-mid); font-size: 13px; }
+
+  .sum-table { width: 100%; border-collapse: collapse; }
+  .sum-table th {
+    background: var(--bg3);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+  .sum-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  .dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .flow-row { display: flex; align-items: center; gap: 0; margin-bottom: 16px; }
+  .flow-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-size: 12px;
+    text-align: center;
+    min-width: 120px;
+  }
+  .flow-arrow {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    position: relative;
+    margin: 0 4px;
+  }
+  .flow-arrow::after {
+    content: '▶';
+    position: absolute;
+    right: -4px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 8px;
+    color: var(--text-dim);
+  }
+  .highlight-box {
+    background: rgba(126,200,227,0.06);
+    border: 1px solid rgba(126,200,227,0.2);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #2a2d35; border-radius: 2px; }
+
+  @media (max-width: 700px) {
+    .header { padding: 24px 20px; }
+    .section { padding: 24px 20px; }
+    .kpi-row { grid-template-columns: 2fr 2fr; }
+    .element-grid { grid-template-columns: repeat(4, 1fr); }
+    .pros-cons, .overview-grid, .world-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-meta">
+    <span class="tag tag-doc">Analysis Report</span>
+    <span class="tag tag-ver">v1.0 · 2025</span>
+    <span class="tag tag-ref">Ref: Genshin Impact</span>
+  </div>
+  <h1>원신 <span>속성 반응 시스템</span> 분석</h1>
+  <div class="header-sub">전투 플레이 & 월드 탐험 특징 · 장단점 · 설계 시사점</div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="show('overview', this)">01 · 개요</button>
+  <button class="nav-btn" onclick="show('elements', this)">02 · 속성 & 반응</button>
+  <button class="nav-btn" onclick="show('combat', this)">03 · 전투 분석</button>
+  <button class="nav-btn" onclick="show('world', this)">04 · 탐험 분석</button>
+  <button class="nav-btn" onclick="show('design', this)">05 · 설계 시사점</button>
+  <button class="nav-btn" onclick="show('summary', this)">06 · 총평</button>
+</div>
+
+<!-- 01 OVERVIEW -->
+<div class="section active" id="sec-overview">
+  <div class="sec-title">시스템 개요</div>
+  <div class="sec-desc">원신의 속성 반응 시스템이 전투 및 탐험 전반에 걸쳐 작동하는 핵심 구조를 요약한다.</div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-num" style="color:var(--accent)">7</div><div class="kpi-label">속성 종류</div></div>
+    <div class="kpi"><div class="kpi-num" style="color:var(--accent2)">22+</div><div class="kpi-label">반응 종류</div></div>
+    <div class="kpi"><div class="kpi-num" style="color:var(--accent3)">4</div><div class="kpi-label">파티 슬롯</div></div>
+    <div class="kpi"><div class="kpi-num" style="color:var(--accent4)">2-3</div><div class="kpi-label">반응 연계 깊이</div></div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="card">
+      <div class="card-title">핵심 설계 철학</div>
+      <p style="color:var(--text-mid);font-size:13px;margin-bottom:14px;">속성 부착 → 반응 발생 → 피드백의 3단 루프가 전투와 탐험 전반에 일관되게 작동한다. 플레이어가 '반응을 발생시키는 행위' 자체를 목적으로 삼도록 유도하는 통합 설계다.</p>
+      <div class="flow-row">
+        <div class="flow-box">속성 부착</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box" style="border-color:var(--accent);color:var(--accent)">반응 발생</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box">효과 & 피드백</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-box">파티 편성</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box" style="border-color:var(--accent2);color:var(--accent2)">속성 시너지</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box">딜 사이클</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">시스템 적용 범위</div>
+      <p style="color:var(--text-mid);font-size:13px;margin-bottom:14px;">전투와 탐험에 동시 적용되는 몇 안 되는 시스템. 하나를 배우면 다른 영역에서도 자연스럽게 활용된다.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:var(--bg3);border-radius:4px;padding:12px;">
+          <div style="font-size:11px;color:var(--accent);font-family:'Space Mono';margin-bottom:6px;">COMBAT</div>
+          <div style="font-size:12px;color:var(--text-mid);">딜 증폭 · CC · 버프 · 디버프 생성의 핵심 수단</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:4px;padding:12px;">
+          <div style="font-size:11px;color:var(--accent2);font-family:'Space Mono';margin-bottom:6px;">EXPLORATION</div>
+          <div style="font-size:12px;color:var(--text-mid);">퍼즐 해결 · 지형 상호작용 · 이동 보조의 핵심 도구</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:4px;padding:12px;">
+          <div style="font-size:11px;color:var(--accent3);font-family:'Space Mono';margin-bottom:6px;">PARTY BUILD</div>
+          <div style="font-size:12px;color:var(--text-mid);">캐릭터 편성의 주요 전략 레이어 제공</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:4px;padding:12px;">
+          <div style="font-size:11px;color:var(--accent4);font-family:'Space Mono';margin-bottom:6px;">CONTENT</div>
+          <div style="font-size:12px;color:var(--text-mid);">심연 · 이벤트 콘텐츠의 속성 요구 구조와 연결</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 ELEMENTS -->
+<div class="section" id="sec-elements">
+  <div class="sec-title">속성 & 반응 구조</div>
+  <div class="sec-desc">7개 속성과 주요 반응 유형 및 각각의 전략적 역할을 정리한다.</div>
+
+  <div class="card">
+    <div class="card-title">7속성 체계</div>
+    <div class="element-grid">
+      <div class="elem" style="border-color:rgba(244,129,58,0.4);"><div class="elem-icon">🔥</div><div class="elem-name" style="color:var(--pyro)">PYRO</div></div>
+      <div class="elem" style="border-color:rgba(74,184,232,0.4);"><div class="elem-icon">💧</div><div class="elem-name" style="color:var(--hydro)">HYDRO</div></div>
+      <div class="elem" style="border-color:rgba(152,216,232,0.4);"><div class="elem-icon">❄️</div><div class="elem-name" style="color:var(--cryo)">CRYO</div></div>
+      <div class="elem" style="border-color:rgba(192,112,232,0.4);"><div class="elem-icon">⚡</div><div class="elem-name" style="color:var(--electro)">ELECTRO</div></div>
+      <div class="elem" style="border-color:rgba(104,216,200,0.4);"><div class="elem-icon">🌀</div><div class="elem-name" style="color:var(--anemo)">ANEMO</div></div>
+      <div class="elem" style="border-color:rgba(212,168,64,0.4);"><div class="elem-icon">🪨</div><div class="elem-name" style="color:var(--geo)">GEO</div></div>
+      <div class="elem" style="border-color:rgba(136,200,88,0.4);"><div class="elem-icon">🌿</div><div class="elem-name" style="color:var(--dendro)">DENDRO</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">주요 반응 유형 분류</div>
+    <table class="rx-table">
+      <thead>
+        <tr><th>반응명</th><th>조합</th><th>유형</th><th>전투 역할</th><th>탐험 활용</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="rx-name" style="color:var(--red)">증발 (Vaporize)</div><div class="rx-combo">Pyro + Hydro</div></td>
+          <td><span style="color:var(--pyro)">🔥</span> + <span style="color:var(--hydro)">💧</span></td>
+          <td><span class="rx-badge rb-dmg">딜 증폭</span></td>
+          <td>×1.5~2.0 피해 배율, 최고 딜 효율 반응</td>
+          <td>낮음</td>
+        </tr>
+        <tr>
+          <td><div class="rx-name" style="color:#f0c0a0">용융 (Melt)</div><div class="rx-combo">Pyro + Cryo</div></td>
+          <td><span style="color:var(--pyro)">🔥</span> + <span style="color:var(--cryo)">❄️</span></td>
+          <td><span class="rx-badge rb-dmg">딜 증폭</span></td>
+          <td>×1.5~2.0 피해 배율, 버스트 순간딜의 핵심</td>
+          <td>낮음</td>
+        </tr>
+        <tr>
+          <td><div class="rx-name" style="color:var(--cryo)">빙결 (Freeze)</div><div class="rx-combo">Hydro + Cryo</div></td>
+          <td><span style="color:var(--hydro)">💧</span> + <span style="color:var(--cryo)">❄️</span></td>
+          <td><span class="rx-badge rb-cc">군중 제어</span></td>
+          <td>적 완전 행동 불능, 강체 포함 일부 대상 가능</td>
+          <td>중간 (수면 빙결)</td>
+        </tr>
+        <tr>
+          <td><div class="rx-name" style="color:var(--electro)">감전 (Electro-Charged)</div><div class="rx-combo">Hydro + Electro</div></td>
+          <td><span style="color:var(--hydro)">💧</span> + <span style="color:var(--electro)">⚡</span></td>
+          <td><span class="rx-badge rb-dmg">지속 피해</span></td>
+          <td>지속 전기 피해 + 광역 전도, 물 지형 시너지</td>
+          <td>낮음</td>
+        </tr>
+        <tr>
+          <td><div class="rx-name" style="color:#c8b870">과부하 (Overloaded)</div><div class="rx-combo">Pyro + Electro</div></td>
+          <td><span style="color:var(--pyro)">🔥</span> + <span style="color:var(--electro)">⚡</span></td>
+          <td><span class="rx-badge rb-dmg">폭발 피해</span></td>
+          <td>광역 물리 피해 + 넉백 (적 산개 리스크)</td>
+          <td>낮음</td>
+        </tr>
+        <tr>
+          <td><div class="rx-name" style="color:var(--anemo)">확산 (Swirl)</div><div class="rx-combo">Anemo + 불·물·전·얼음</div></td>
+          <td><span style="color:var(--anemo)">🌀</span> + Any</td>
+          <td><span class="rx-badge rb-debuff">광역 전파</span></td>
+          <td>속성 광역 확산 + 내성 감소 디버프 (빛 4세트)</td>
+          <td>높음 (이동, 돛단배 등)</td>
+        </tr>
+        <tr>
+          <td><div class="rx-name" style="color:var(--geo)">결정화 (Crystallize)</div><div class="rx-combo">Geo + 불·물·전·얼음</div></td>
+          <td><span style="color:var(--geo)">🪨</span> + Any</td>
+          <td><span class="rx-badge rb-buff">방어 버프</span></td>
+          <td>속성 결정 생성 → 흡수 시 실드 획득</td>
+          <td>높음 (지형 생성, 퍼즐)</td>
+        </tr>
+        <tr>
+          <td><div class="rx-name" style="color:var(--dendro)">만개 / 격화 (Bloom / Aggravate)</div><div class="rx-combo">Dendro + Hydro · Electro</div></td>
+          <td><span style="color:var(--dendro)">🌿</span> + <span style="color:var(--hydro)">💧</span><span style="color:var(--electro)">⚡</span></td>
+          <td><span class="rx-badge rb-dmg">폭발 피해</span></td>
+          <td>만개 씨앗 생성 → 추가 폭발, 격화는 전격 피해 증가</td>
+          <td>낮음</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 03 COMBAT -->
+<div class="section" id="sec-combat">
+  <div class="sec-title">전투 플레이 분석</div>
+  <div class="sec-desc">속성 반응 시스템이 전투 경험에 미치는 영향 — 강점과 약점을 모두 검토한다.</div>
+
+  <div class="pros-cons">
+    <div class="card">
+      <div class="card-title" style="color:var(--accent3)">강점 (Strengths)</div>
+      <ul class="pro-list">
+        <li><div><div class="li-title">낮은 조작 장벽, 높은 전략 깊이</div><div class="li-body">버튼 입력 자체는 단순하지만, '어느 순서로 속성을 부착하는가'가 딜 효율을 결정함. 입문은 쉬우나 최적화 여지가 넓다.</div></div></li>
+        <li><div><div class="li-title">즉각적인 시각 피드백</div><div class="li-body">반응 발생 시 화려한 VFX + 타격감 있는 SFX로 '성공했다'는 감각을 즉각 제공. 몰입도 유지에 탁월.</div></div></li>
+        <li><div><div class="li-title">파티 편성이 곧 전략</div><div class="li-body">4인 파티 안에서 속성 조합을 어떻게 구성하느냐가 핵심 전략 레이어. 캐릭터 수집 동기와 직결.</div></div></li>
+        <li><div><div class="li-title">반응 유형별 플레이스타일 분기</div><div class="li-body">증발·용융(고폭발) vs 빙결(CC) vs 확산(광역) 등 각 반응이 서로 다른 전투 리듬과 역할을 갖는다.</div></div></li>
+        <li><div><div class="li-title">속성 공명으로 파티 보너스 부여</div><div class="li-body">같은 속성 2명 조합 시 팀 전체 스탯 상승. 편성 선택의 보상 구조가 명확.</div></div></li>
+        <li><div><div class="li-title">콘텐츠 연계 동기 (심연 내성 구조)</div><div class="li-body">챌린지 콘텐츠가 특정 속성 내성/약점을 설정해 반응 지식이 실질적 클리어 조건이 됨.</div></div></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--red)">약점 (Weaknesses)</div>
+      <ul class="con-list">
+        <li><div><div class="li-title">반응 조건 파악의 진입 장벽</div><div class="li-body">속성 부착량(Gauge)·내성 소모 메커니즘이 UI에 노출되지 않아 신규 유저가 반응 조건을 직관적으로 이해하기 어려움.</div></div></li>
+        <li><div><div class="li-title">팀 의존성 과도 집중 (하이퍼캐리 문제)</div><div class="li-body">최적화 구성에서 서브 캐릭터가 '반응 트리거'로만 기능, 파티 전원의 활약감이 분산됨.</div></div></li>
+        <li><div><div class="li-title">반응 간 성능 불균형</div><div class="li-body">증발·용융 같은 배율 반응과 감전·확산 등 지속형 반응의 실전 성능 차이가 커, 특정 반응에 메타가 수렴하는 경향.</div></div></li>
+        <li><div><div class="li-title">과부하의 넉백 딜레마</div><div class="li-body">강력한 피해량임에도 적이 산개해 후속 타격이 끊기는 구조적 문제. 실전 활용 기피 원인.</div></div></li>
+        <li><div><div class="li-title">실시간 조작 복잡도와의 불일치</div><div class="li-body">속성 게이지 관리·스킬 순서 최적화 등은 실시간 전투에서 동시 처리하기 부담스럽고, PC와 모바일 조작 간 격차가 크다.</div></div></li>
+        <li><div><div class="li-title">신규 속성 추가 시 기존 메타 붕괴</div><div class="li-body">새 속성·반응 추가 시 기존 캐릭터의 메타 가치가 급격히 하락. 가챠 동기와 연결되지만 기존 유저 이탈 요인.</div></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card">
+    <div class="card-title">딜 루프 구조 — 증발 파티 예시</div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+      <div style="background:var(--bg3);border:1px solid rgba(74,184,232,0.3);padding:8px 14px;border-radius:4px;font-size:12px;"><span style="color:var(--hydro)">Hydro</span> 부착<br><span style="font-size:10px;color:var(--text-dim)">예) 이어로·사유</span></div>
+      <span style="color:var(--text-dim)">→</span>
+      <div style="background:var(--bg3);border:1px solid rgba(244,129,58,0.3);padding:8px 14px;border-radius:4px;font-size:12px;"><span style="color:var(--pyro)">Pyro</span> 스킬 발동<br><span style="font-size:10px;color:var(--text-dim)">예) 후토우·마스터레이</span></div>
+      <span style="color:var(--text-dim)">→</span>
+      <div style="background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.3);padding:8px 14px;border-radius:4px;font-size:12px;"><span style="color:var(--red)">증발 발생</span><br><span style="font-size:10px;color:var(--text-dim)">×1.5 or ×2.0</span></div>
+      <span style="color:var(--text-dim)">→</span>
+      <div style="background:var(--bg3);border:1px solid var(--border);padding:8px 14px;border-radius:4px;font-size:12px;">Hydro 재부착<br><span style="font-size:10px;color:var(--text-dim)">쿨타임 관리</span></div>
+    </div>
+    <p style="color:var(--text-mid);font-size:12px;">핵심: Hydro 부착 → Pyro 딜 → 증발 → Hydro 재부착의 루프. 스킬 쿨타임과 원소 부착 지속 시간의 연동이 숙련도 차이를 만든다.</p>
+  </div>
+</div>
+
+<!-- 04 WORLD -->
+<div class="section" id="sec-world">
+  <div class="sec-title">월드 탐험 분석</div>
+  <div class="sec-desc">속성 반응 시스템이 탐험 경험에 통합되는 방식과 그 효과를 분석한다.</div>
+
+  <div class="world-col">
+    <div class="card">
+      <div class="card-title" style="color:var(--anemo)">이동 보조</div>
+      <p style="color:var(--text-mid);font-size:13px;margin-bottom:12px;">아네모를 활용한 상승 기류 생성, 전기 속성의 수상 이동 보조 등 이동 시스템과 속성이 통합되어 있다.</p>
+      <div class="highlight-box" style="border-color:rgba(104,216,200,0.3);background:rgba(104,216,200,0.05)">
+        <div style="font-size:12px;color:var(--anemo)">대표 사례</div>
+        <div style="font-size:12px;color:var(--text-mid);margin-top:4px;">• 번개풀 → 수상 이동<br>• 아네모 스킬 → 상승 기류<br>• 료켄의 수중 이동 기믹</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--geo)">퍼즐 & 기믹</div>
+      <p style="color:var(--text-mid);font-size:13px;margin-bottom:12px;">환경 오브젝트에 속성을 적용해 퍼즐을 해결하는 구조. 전투 지식이 탐험에 자연스럽게 전이된다.</p>
+      <div class="highlight-box" style="border-color:rgba(212,168,64,0.3);background:rgba(212,168,64,0.05)">
+        <div style="font-size:12px;color:var(--geo)">대표 사례</div>
+        <div style="font-size:12px;color:var(--text-mid);margin-top:4px;">• Pyro로 횃불 점화<br>• Cryo로 물 표면 빙결 → 발판<br>• Geo로 지형 생성 → 진입</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--pyro)">환경 상호작용</div>
+      <p style="color:var(--text-mid);font-size:13px;margin-bottom:12px;">날씨·지형과 속성이 연동되어 탐험 시 속성 저항력이 필요해지는 구조. 생존과 탐험이 연결된다.</p>
+      <div class="highlight-box" style="border-color:rgba(244,129,58,0.3);background:rgba(244,129,58,0.05)">
+        <div style="font-size:12px;color:var(--pyro)">대표 사례</div>
+        <div style="font-size:12px;color:var(--text-mid);margin-top:4px;">• 드라곤스파인 한기 → Pyro<br>• 스메르 사막 과열 → Hydro<br>• 챠스마 독기 → Dendro</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pros-cons" style="margin-top:0">
+    <div class="card">
+      <div class="card-title" style="color:var(--accent3)">탐험 강점</div>
+      <ul class="pro-list">
+        <li><div><div class="li-title">전투·탐험 지식 통합으로 학습 부담 최소화</div><div class="li-body">하나의 속성 지식이 전투와 탐험 양쪽에서 재사용됨. 두 개의 분리된 시스템을 배울 필요 없음.</div></div></li>
+        <li><div><div class="li-title">탐험 동기와 파티 편성이 연동</div><div class="li-body">특정 지역 탐험을 위해 해당 속성 캐릭터가 필요해져 캐릭터 수집 동기 강화.</div></div></li>
+        <li><div><div class="li-title">다양한 퍼즐 유형으로 단조로움 방지</div><div class="li-body">속성별로 고유한 환경 반응이 달라 지역마다 색다른 탐험 경험 제공.</div></div></li>
+        <li><div><div class="li-title">시각적 세계관 몰입도 강화</div><div class="li-body">속성 현상이 세계 내 자연 현상처럼 표현되어 세계관 일체감 향상.</div></div></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--red)">탐험 약점</div>
+      <ul class="con-list">
+        <li><div><div class="li-title">특정 캐릭터 미보유 시 탐험 차단</div><div class="li-body">지역 고유 기믹 캐릭터를 미보유 시 진행 불가 퍼즐 다수. 강제 수집 요소로 인식될 수 있음.</div></div></li>
+        <li><div><div class="li-title">퍼즐 패턴 반복에 따른 신선도 저하</div><div class="li-body">지역이 늘어날수록 '불 켜기' '얼음 녹이기' 패턴이 반복되어 탐험 피로도 증가.</div></div></li>
+        <li><div><div class="li-title">탐험 파티와 전투 최적 파티의 충돌</div><div class="li-body">탐험을 위해 파티를 바꾸면 전투 효율이 떨어지는 경우 발생. 잦은 파티 교체 피로.</div></div></li>
+        <li><div><div class="li-title">환경 속성 디버프의 단순한 구조</div><div class="li-body">한기·과열 등 환경 디버프가 단순 수치 패널티에 그쳐, 속성 반응의 풍부함을 탐험에서 충분히 살리지 못함.</div></div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 05 DESIGN -->
+<div class="section" id="sec-design">
+  <div class="sec-title">설계 시사점</div>
+  <div class="sec-desc">자체 프로젝트 설계 시 원신 시스템에서 참고할 점과 주의할 점을 정리한다.</div>
+
+  <div style="margin-bottom:8px;font-family:'Space Mono';font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent)">▌ 참고할 점 (Keep)</div>
+  <div class="impl-item good">
+    <div class="impl-head" style="color:var(--accent3)">전투·탐험 지식 통합</div>
+    <div class="impl-body">속성 반응 지식을 전투와 탐험에서 재사용하게 만드는 구조는 학습 비용을 낮추고 시스템의 가치 밀도를 높인다. 설계 시 "이 메카닉이 전투 밖에서도 의미 있는가"를 기준으로 검토 권장.</div>
+  </div>
+  <div class="impl-item good">
+    <div class="impl-head" style="color:var(--accent3)">즉각적 시각 피드백 설계</div>
+    <div class="impl-body">반응 발생 시 VFX·SFX·UI 피드백의 3중 보상 구조는 낮은 조작 난이도 하에서도 성취감을 만든다. 피드백 루프 설계는 연출 팀과 초기부터 협업 필요.</div>
+  </div>
+  <div class="impl-item good">
+    <div class="impl-head" style="color:var(--accent3)">파티 편성이 곧 메타게임</div>
+    <div class="impl-body">캐릭터 조합이 전략의 핵심 레이어가 되게 만든 구조는 수집 동기와 전략 깊이를 동시에 달성한다. 단, 편성 복잡도 상승에 따른 신규 유저 진입 장벽을 튜토리얼 설계와 병행 고려.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div style="margin-bottom:8px;font-family:'Space Mono';font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--yellow)">▌ 주의·개선할 점 (Watch)</div>
+  <div class="impl-item warn">
+    <div class="impl-head" style="color:var(--yellow)">반응 성능 불균형 → 메타 수렴 위험 <span class="sev sev-fatal">FATAL</span></div>
+    <div class="impl-body">증발·용융 같은 배율 반응이 나머지를 압도하면 사실상 '정답'이 되어버린다. 반응 유형별 역할을 명확히 분리하고 각각의 실전 우위 상황을 설계 단계에서 확보해야 한다.</div>
+  </div>
+  <div class="impl-item warn">
+    <div class="impl-head" style="color:var(--yellow)">속성 게이지 시스템의 불투명성 <span class="sev sev-warn">WARN</span></div>
+    <div class="impl-body">원신의 속성 부착량·내성 게이지는 UI에 노출되지 않아 신규 유저가 이해하기 어렵다. 자체 설계 시 반응 조건을 어느 수준까지 시각화할지 명확히 결정 필요.</div>
+  </div>
+  <div class="impl-item warn">
+    <div class="impl-head" style="color:var(--yellow)">탐험 기믹 캐릭터 의존성 <span class="sev sev-warn">WARN</span></div>
+    <div class="impl-body">특정 캐릭터 없이 탐험 진행이 불가한 구조는 수집 동기가 될 수도 있지만, 미보유 시 콘텐츠 차단 경험을 줄 수 있다. 대체 수단 또는 우회 경로를 반드시 설계해야 한다.</div>
+  </div>
+  <div class="impl-item danger">
+    <div class="impl-head" style="color:var(--red)">모바일 이식 시 조작 복잡도 충돌 <span class="sev sev-fatal">FATAL</span></div>
+    <div class="impl-body">스킬 순서 관리 + 파티 스왑 + 속성 타이밍 최적화를 동시에 요구하는 구조는 PC에서는 쾌적하지만 모바일 터치 UI에서 심각한 조작 부담이 된다. PC 설계 단계에서부터 '어시스트 자동 반응' 또는 '탭 홀드로 트리거 딜레이 확보' 같은 모바일 조작 어댑터를 병행 설계해야 재작업을 피할 수 있다.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div style="margin-bottom:8px;font-family:'Space Mono';font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent4)">▌ ZZZ 레퍼런스 비교</div>
+  <div class="impl-item" style="border-left-color:var(--accent4)">
+    <div class="impl-head" style="color:var(--accent4)">ZZZ 방식과의 차별화 포인트</div>
+    <div class="impl-body">젠레스 존 제로는 속성보다 '타격 체인'과 '패링'으로 전투 반응감을 만든다. 속성 반응 시스템을 설계한다면 ZZZ처럼 속성 효과를 직접 조작 피드백에 연결하는 방식 (스왑 공격 → 즉발 반응)이 ZZZ의 고화력 저난이도 감각을 원소 시스템에 접목하는 방향으로 적합하다.</div>
+  </div>
+</div>
+
+<!-- 06 SUMMARY -->
+<div class="section" id="sec-summary">
+  <div class="sec-title">총평 및 설계 권고</div>
+  <div class="sec-desc">시스템 전체를 아우르는 요약 평가와 자체 프로젝트 적용 시 핵심 권고사항.</div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-title">종합 평가 매트릭스</div>
+    <table class="sum-table">
+      <thead>
+        <tr><th>평가 항목</th><th>점수</th><th>근거 요약</th><th>자체 설계 시 위험도</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>조작 진입 장벽</td><td><span class="dot" style="background:var(--accent3)"></span>낮음 ✔</td><td>버튼 자체는 단순, 최적화는 별도 학습</td><td><span class="sev sev-info">LOW</span></td></tr>
+        <tr><td>전략적 깊이</td><td><span class="dot" style="background:var(--accent3)"></span>높음 ✔</td><td>파티 편성·반응 순서가 핵심 변수</td><td><span class="sev sev-info">LOW</span></td></tr>
+        <tr><td>시각적 화려함</td><td><span class="dot" style="background:var(--accent3)"></span>매우 높음 ✔</td><td>반응별 고품질 VFX/SFX가 핵심 자산</td><td><span class="sev sev-warn">MEDIUM</span> (연출 비용)</td></tr>
+        <tr><td>메타 수렴 리스크</td><td><span class="dot" style="background:var(--red)"></span>높음 ✗</td><td>배율 반응 vs 지속 반응 성능 격차 큼</td><td><span class="sev sev-fatal">HIGH</span></td></tr>
+        <tr><td>탐험 통합도</td><td><span class="dot" style="background:var(--accent3)"></span>높음 ✔</td><td>전투 지식이 탐험에 자연스럽게 전이</td><td><span class="sev sev-info">LOW</span></td></tr>
+        <tr><td>신규 유저 명확성</td><td><span class="dot" style="background:var(--yellow)"></span>보통 △</td><td>반응 조건 UI 불투명, 학습 곡선 존재</td><td><span class="sev sev-warn">MEDIUM</span></td></tr>
+        <tr><td>모바일 이식성</td><td><span class="dot" style="background:var(--red)"></span>낮음 ✗</td><td>스왑·타이밍 최적화의 터치 조작 부담</td><td><span class="sev sev-fatal">FATAL</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">핵심 설계 권고 3가지</div>
+    <div class="impl-item good" style="margin-bottom:10px;">
+      <div class="impl-head" style="color:var(--accent3)">① 반응 유형별 역할 분리 설계</div>
+      <div class="impl-body">배율 반응(폭발딜) · CC 반응 · 버프/디버프 반응을 각각의 플레이 상황에서 '가장 좋은 선택'이 되도록 설계. 단순 수치 조정만이 아닌, 각 반응이 빛나는 콘텐츠 상황을 함께 설계해야 한다.</div>
+    </div>
+    <div class="impl-item warn" style="margin-bottom:10px;">
+      <div class="impl-head" style="color:var(--yellow)">② 반응 조건 시각화 수준 결정</div>
+      <div class="impl-body">'속성 게이지를 얼마나 노출할 것인가'를 UX 방침으로 확정해야 한다. 완전 노출은 복잡하지만 학습 가능, 비노출은 직관적이지만 오해 발생. 최소한 '반응 가능 상태' 시각화는 필수 권장.</div>
+    </div>
+    <div class="impl-item danger">
+      <div class="impl-head" style="color:var(--red)">③ 모바일 조작 레이어를 PC 설계 단계부터 병행 검토</div>
+      <div class="impl-body">속성 반응 트리거를 수동 타이밍 기반으로 설계하면 PC에서는 숙련도 보상이지만 모바일에서는 장벽이 된다. '어시스트 자동 반응' 또는 '탭 홀드로 트리거 딜레이 확보' 같은 모바일 조작 어댑터를 초기 설계부터 포함해야 PC-모바일 병행 개발 시 재작업을 피할 수 있다.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function show(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
