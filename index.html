@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Design Reports</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --base:     16px;   /* ← 폰트 크기 조절은 여기만 */
+    --bg:       #f7f6f3;
+    --bg2:      #ffffff;
+    --bg3:      #f0ede8;
+    --border:   #e4dfd8;
+    --border2:  #d4cfc8;
+    --text:     #1a1814;
+    --textDim:  #9a9490;
+    --textMid:  #5c5752;
+    --accent:   #2a6496;
+    --accent2:  #c4622d;
+    --accent3:  #3a7d54;
+    --accent4:  #7b4fa6;
+    --red:      #c0392b;
+    --yellow:   #b07d20;
+    --shadow:   0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+    --shadow-hover: 0 4px 8px rgba(0,0,0,0.08), 0 12px 28px rgba(0,0,0,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: var(--base);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 56px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
+  }
+  .header-inner { max-width: 1100px; margin: 0 auto; }
+
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--textDim);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .header-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--border2);
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 54px;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  header h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  header p {
+    color: var(--textMid);
+    font-size: 21px;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 56px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .filter-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; gap: 0;
+  }
+  .filter-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    background: none; border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--textDim);
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+    margin-bottom: -1px;
+  }
+  .filter-btn:hover { color: var(--text); }
+  .filter-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+  .filter-sep { width: 1px; height: 16px; background: var(--border); margin: 0 2px; }
+  .search-wrap { margin-left: auto; padding: 8px 0; }
+  .search-input {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 7px 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    width: 210px; outline: none;
+    border-radius: 2px;
+    transition: border-color 0.18s, box-shadow 0.18s;
+  }
+  .search-input::placeholder { color: var(--textDim); }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(42,100,150,0.08);
+  }
+
+  /* ── MAIN ── */
+  main { max-width: 1100px; margin: 0 auto; padding: 40px 56px 72px; }
+
+  /* ── STATS ── */
+  .stats-row { display: flex; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
+  .stat {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 16px 22px;
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px; line-height: 1;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .stat-label {
+    font-size: 16px; color: var(--textDim);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--textDim);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── CARD GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+    gap: 18px;
+    margin-bottom: 48px;
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex; flex-direction: column;
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--border2);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+  .card-accent { height: 3px; width: 100%; }
+
+  .card-body { padding: 22px 24px 16px; flex: 1; }
+  .card-meta {
+    display: flex; gap: 6px; margin-bottom: 12px;
+    flex-wrap: wrap; align-items: center;
+  }
+  .card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 15px; letter-spacing: 0.1em;
+    padding: 2px 8px; border-radius: 2px;
+    text-transform: uppercase;
+    border: 1px solid;
+  }
+  .card-date {
+    font-size: 17px; color: var(--textDim);
+    font-family: 'DM Mono', monospace;
+    margin-left: auto;
+  }
+  .card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--text);
+    line-height: 1.35;
+    margin-bottom: 10px;
+    letter-spacing: -0.2px;
+  }
+  .card p {
+    font-size: 19px; color: var(--textMid);
+    line-height: 1.7; font-weight: 300;
+  }
+  .card-footer {
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg3);
+  }
+  .card-ref {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px; color: var(--textDim);
+    letter-spacing: 0.06em;
+  }
+  .card-arrow {
+    font-size: 18px; color: var(--textDim);
+    transition: color 0.18s, transform 0.18s;
+  }
+  .card:hover .card-arrow { color: var(--accent); transform: translateX(4px); }
+
+  /* ── EMPTY ── */
+  .empty {
+    text-align: center; padding: 72px 20px;
+    color: var(--textDim); font-size: 20px;
+    display: none;
+  }
+  .empty.show { display: block; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  @media (max-width: 680px) {
+    header, .filter-bar, main { padding-left: 20px; padding-right: 20px; }
+    header h1 { font-size: 40px; }
+    .grid { grid-template-columns: 1fr; }
+    .search-wrap { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-eyebrow">Game Design · Reports Hub</div>
+    <h1>Design <em>Reports</em></h1>
+    <p>게임 설계 분석 보고서 모음 — Cluade Report</p>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <div class="filter-sep"></div>
+    <button class="filter-btn" data-filter="reference">레퍼런스 분석</button>
+    <button class="filter-btn" data-filter="combat">전투 시스템</button>
+    <button class="filter-btn" data-filter="ux">UX · 조작</button>
+    <button class="filter-btn" data-filter="world"> 콘텐츠 </button>
+    <div class="search-wrap">
+      <input class="search-input" type="text" placeholder="Search reports..." id="searchInput">
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="stats-row" id="statsRow"></div>
+  <div class="section-label" id="sectionLabel">All Reports</div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">검색 결과가 없습니다.</div>
+</main>
+
+<script>
+// ════════════════════════════════════════════════════
+// 📋 리포트 목록 — 새 리포트 추가 시 이 배열에만 추가
+// ════════════════════════════════════════════════════
+const REPORTS = [
+  {
+    title:    "원신 속성 반응 시스템 분석",
+    desc:     "7개 속성 체계와 22+ 반응 유형이 전투 및 월드 탐험에 통합되는 방식 분석. 전략적 깊이와 조작 난이도의 균형, 메타 수렴 리스크, 모바일 이식성 검토.",
+    category: "reference",
+    tags:     ["레퍼런스 분석", "전투 시스템", "월드 · 탐험"],
+    ref:      "Genshin Impact",
+    date:     "2026.03",
+    accent:   "#2a6496",
+    tagBg:    "#eef4f9",
+    tagColor: "#2a6496",
+    tagBorder:"#bdd4e8",
+    file:     "genshin_element_analysis_report.html",
+  },
+  // ── 새 리포트는 아래에 추가 ──
+  // {
+  //   title:    "보고서 제목",
+  //   desc:     "한두 줄 요약",
+  //   category: "combat",
+  //   tags:     ["태그1", "태그2"],
+  //   ref:      "참고 게임",
+  //   date:     "2025.04",
+  //   accent:   "#c4622d",
+  //   tagBg:    "#fdf2ec",
+  //   tagColor: "#c4622d",
+  //   tagBorder:"#f0c4a8",
+  //   file:     "report_filename.html",
+  // },
+];
+
+const CATEGORY_LABELS = {
+  all: "All Reports", reference: "레퍼런스 분석",
+  combat: "전투 시스템", ux: "UX · 조작", world: "월드 · 탐험",
+};
+
+let currentFilter = "all", currentSearch = "";
+
+function renderStats() {
+  const total = REPORTS.length;
+  const cats  = [...new Set(REPORTS.flatMap(r => r.tags))].length;
+  const refs  = [...new Set(REPORTS.map(r => r.ref))].length;
+  document.getElementById("statsRow").innerHTML = [
+    { num: total, label: "Total Reports" },
+    { num: cats,  label: "카테고리 태그" },
+    { num: refs,  label: "참고 타이틀" },
+  ].map(s => `<div class="stat"><div class="stat-num">${s.num}</div><div class="stat-label">${s.label}</div></div>`).join("");
+}
+
+function renderCards() {
+  const grid  = document.getElementById("grid");
+  const empty = document.getElementById("empty");
+  const label = document.getElementById("sectionLabel");
+
+  const filtered = REPORTS.filter(r => {
+    const matchCat    = currentFilter === "all" || r.category === currentFilter;
+    const matchSearch = !currentSearch ||
+      r.title.includes(currentSearch) ||
+      r.desc.includes(currentSearch) ||
+      r.ref.includes(currentSearch);
+    return matchCat && matchSearch;
+  });
+
+  label.textContent = CATEGORY_LABELS[currentFilter] || "All Reports";
+
+  if (!filtered.length) {
+    grid.innerHTML = "";
+    empty.classList.add("show");
+    return;
+  }
+  empty.classList.remove("show");
+
+  grid.innerHTML = filtered.map(r => `
+    <a class="card" href="${r.file}" target="_blank">
+      <div class="card-accent" style="background:${r.accent}"></div>
+      <div class="card-body">
+        <div class="card-meta">
+          ${r.tags.map(t => `<span class="card-tag" style="background:${r.tagBg};color:${r.tagColor};border-color:${r.tagBorder}">${t}</span>`).join("")}
+          <span class="card-date">${r.date}</span>
+        </div>
+        <h2>${r.title}</h2>
+        <p>${r.desc}</p>
+      </div>
+      <div class="card-footer">
+        <span class="card-ref">REF · ${r.ref}</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+  `).join("");
+}
+
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentFilter = btn.dataset.filter;
+    renderCards();
+  });
+});
+
+document.getElementById("searchInput").addEventListener("input", e => {
+  currentSearch = e.target.value.trim();
+  renderCards();
+});
+
+renderStats();
+renderCards();
+</script>
+</body>
+</html>
