@@ -1,250 +1,388 @@
-<!-- 1) 다크 테마 CSS 변수 정의 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZZZ 액션 키워드 맵 — 49 에이전트</title>
 <style>
-  :root {
-    --color-background-secondary: #1a1a19;
-    --color-background-primary: #2C2C2A;
-    --color-border-tertiary: rgba(255,255,255,0.1);
-    --color-border-secondary: rgba(255,255,255,0.2);
-    --color-text-primary: #e0dfda;
-    --color-text-secondary: rgba(255,255,255,0.55);
-    --color-text-tertiary: rgba(255,255,255,0.35);
-    --color-text-info: #85B7EB;
-    --color-background-info: rgba(55,138,221,0.15);
-    --border-radius-md: 8px;
-    --border-radius-lg: 12px;
-  }
-  body { background: #1a1a19; margin: 0; padding: 16px; }
-  * { color: #e0dfda; }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0e0e0d;color:#e0dfda;font-family:'Noto Sans KR',sans-serif;overflow-x:hidden}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 16px}
+h1{font-size:20px;font-weight:500;margin-bottom:4px;letter-spacing:-0.5px}
+.sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:20px}
+.controls{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.controls button{font-family:inherit;font-size:12px;padding:5px 14px;border-radius:20px;cursor:pointer;border:1px solid rgba(255,255,255,0.12);color:#c8c7c1;background:transparent;transition:all 0.2s}
+.controls button:hover{border-color:rgba(255,255,255,0.3);color:#fff}
+.controls button.active{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.3);color:#fff;font-weight:500}
+.divider{width:1px;background:rgba(255,255,255,0.08);margin:0 4px;align-self:stretch}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 14px;font-size:11px;color:rgba(255,255,255,0.45)}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.legend .dia{width:9px;height:9px;transform:rotate(45deg);border-radius:1px;flex-shrink:0;border:1px solid rgba(255,255,255,0.3)}
+canvas{width:100%;border-radius:12px;background:#151514;border:1px solid rgba(255,255,255,0.06)}
+#tooltip{display:none;position:fixed;background:#1e1e1c;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:99;max-width:300px;line-height:1.6;color:#e0dfda;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+#detail{margin-top:20px}
+.detail-card{background:#1a1a18;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px 20px;color:#e0dfda}
+.detail-card h3{font-size:15px;font-weight:500;margin-bottom:8px}
+.detail-card .meta{font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:10px}
+.tag-list{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.tag-list span{font-size:11px;padding:3px 10px;border-radius:12px}
+.conn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px}
+.conn-item{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.04);font-size:13px;color:#e0dfda}
+.conn-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:16px}
+.stat-card{background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px}
+.stat-card .label{font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:2px}
+.stat-card .val{font-size:20px;font-weight:500;color:#e0dfda}
 </style>
-
-<!-- 2) 가운데 정렬 wrapper -->
-<div style="max-width: 900px; margin: 0 auto;">
-
-  <!-- 3) 기존 코드 그대로 -->
-  <div style="padding:0.5rem 0;">
-    <div id="tag-filters">...</div>
-    <div id="graph-container">...</div>
-    <div id="tooltip">...</div>
-    <div id="legend">...</div>
-  </div>
-
-</div> <!-- wrapper 닫기 -->
-
-<div style="padding:0.5rem 0;">
-  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;" id="tag-filters"></div>
-  <div id="graph-container" style="width:100%;height:640px;position:relative;overflow:hidden;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);background:var(--color-background-secondary);"></div>
-  <div id="tooltip" style="display:none;position:absolute;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px 14px;font-size:13px;pointer-events:none;z-index:10;max-width:260px;box-shadow:0 2px 8px rgba(0,0,0,0.08);"></div>
-  <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:12px;color:var(--color-text-secondary);" id="legend"></div>
+</head>
+<body>
+<div class="wrap">
+<h1>ZZZ 액션 키워드 맵</h1>
+<p class="sub">노션 DB 전체 49 에이전트 · 스킬 태그 네트워크</p>
+<div class="stats" id="stats"></div>
+<div class="controls" id="attr-ctrl"></div>
+<div class="controls" id="cls-ctrl"></div>
+<div class="legend" id="legend"></div>
+<canvas id="c"></canvas>
+<div id="tooltip"></div>
+<div id="detail"></div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script>
-const isDark = matchMedia('(prefers-color-scheme:dark)').matches;
-
-const agents = [
-  {id:"비비안",cls:"이상",attr:"에테르",faction:"모킹버드",tags:["무적판정","이상축적","버프"]},
-  {id:"트리거",cls:"격파",attr:"전기",faction:"오블로스 소대",tags:["무적판정","경직저항증가","디버프","이상축적"]},
-  {id:"안톤",cls:"강공",attr:"전기",faction:"벨로보그 중공업",tags:["경직저항증가","게이지회복","버프"]},
-  {id:"다이아린",cls:"격파",attr:"물리",faction:"크람푸스의 검은 가지",tags:["스턴","무적판정","디버프"]},
-  {id:"청의",cls:"격파",attr:"전기",faction:"형사특수팀",tags:["스턴","무적판정","경직저항증가"]},
-  {id:"파이퍼",cls:"이상",attr:"물리",faction:"칼리돈의 자손",tags:["이상축적","버프","경직저항증가"]},
-  {id:"시드",cls:"강공",attr:"전기",faction:"오블로스 소대",tags:["무적판정","버프","경직저항증가"]},
-  {id:"니콜 데마라",cls:"지원",attr:"에테르",faction:"교활한 토끼굴",tags:["디버프","넉백","무적판정"]},
-  {id:"의현",cls:"명파",attr:"에테르",faction:"운규산",tags:["무적판정","버프","이상축적"]},
-  {id:"이블린",cls:"강공",attr:"불",faction:"스타즈 오브 리라",tags:["무적판정","경직저항증가","이상축적"]},
-  {id:"그레이스",cls:"이상",attr:"전기",faction:"벨로보그 중공업",tags:["이상축적","디버프"]},
-  {id:"라이터",cls:"격파",attr:"불",faction:"칼리돈의 자손",tags:["스턴","무적판정","버프","경직저항증가"]},
-  {id:"엔비",cls:"격파",attr:"전기",faction:"교활한 토끼굴",tags:["무적판정","게이지회복"]},
-  {id:"앨리스",cls:"이상",attr:"물리",faction:"괴담방",tags:["이상축적","디버프"]},
-  {id:"귤복복",cls:"격파",attr:"불",faction:"운규산",tags:["스턴","무적판정","넉백"]},
-  {id:"0호 엔비",cls:"강공",attr:"전기",faction:"실버 소대",tags:["무적판정","경직저항증가","버프"]},
-  {id:"제인",cls:"이상",attr:"물리",faction:"형사특수팀",tags:["이상축적","무적판정","경직저항증가"]},
-  {id:"리카온",cls:"격파",attr:"얼음",faction:"빅토리아 하우스키핑",tags:["스턴","버프","무적판정"]},
-  {id:"유즈하",cls:"지원",attr:"물리",faction:"괴담방",tags:["디버프","이상축적","버프"]},
-  {id:"반인호",cls:"방어",attr:"물리",faction:"운규산",tags:["무적판정","버프","경직저항증가"]},
-  {id:"콜레다",cls:"격파",attr:"불",faction:"벨로보그 중공업",tags:["스턴","무적판정","경직저항증가"]},
-  {id:"마나토",cls:"이상",attr:"불",faction:"괴담방",tags:["이상축적","경직저항증가","무적판정"]},
-  {id:"카이사르",cls:"방어",attr:"물리",faction:"칼리돈의 자손",tags:["무적판정","카운터","버프"]},
-  {id:"루시아",cls:"지원",attr:"에테르",faction:"괴담방",tags:["버프","게이지회복","무적판정"]},
-  {id:"자오",cls:"방어",attr:"얼음",faction:"크람푸스의 검은 가지",tags:["무적판정","카운터","경직저항증가"]}
+const A=[
+{id:0,name:"엔비",cls:"격파",attr:"전기",fac:"교활한 토끼굴",acts:[
+{n:"Thunderbolt",cat:"기본공격",sub:"탭-콤보",dmg:["전기데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Lightning Whirl",cat:"기본공격",sub:"홀드",dmg:["전기데미지"],cc:[],fx:[]},
+{n:"Slide Dodge",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Thunderclap",cat:"회피",sub:"회피반격",dmg:["전기데미지"],cc:[],fx:["무적판정"]},
+{n:"Flash",cat:"지원",sub:"패링지원",dmg:[],cc:[],fx:["무적판정"]},
+{n:"Fork Lightning",cat:"지원",sub:"빠른지원",dmg:["전기데미지"],cc:[],fx:[]},
+{n:"Thunderfall",cat:"특수공격",sub:"EX특수공격",dmg:["전기데미지"],cc:["넉백"],fx:["무적판정","게이지회복"]},
+{n:"Electro Engine",cat:"연쇄공격",sub:"연쇄공격",dmg:["전기데미지"],cc:[],fx:["무적판정","게이지회복"]},
+{n:"Turbo Volt",cat:"연쇄공격",sub:"궁극기",dmg:["전기데미지"],cc:[],fx:["무적판정"]},
+{n:"Overdrive Engine",cat:"코어스킬",sub:"코어패시브",dmg:[],cc:[],fx:["게이지회복"]},
+{n:"Parallel Connection",cat:"코어스킬",sub:"추가능력",dmg:[],cc:[],fx:["버프"]}
+]},
+{id:1,name:"니콜 데마라",cls:"지원",attr:"에테르",fac:"교활한 토끼굴",acts:[
+{n:"Cunning Combo",cat:"기본공격",sub:"탭-콤보",dmg:["에테르데미지"],cc:[],fx:[]},
+{n:"Do As I Please",cat:"기본공격",sub:"홀드",dmg:["에테르데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Speed Demon",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Sugarcoated Bullet",cat:"회피",sub:"회피반격",dmg:["에테르데미지"],cc:[],fx:[]},
+{n:"Mechanical Case",cat:"지원",sub:"빠른지원",dmg:["에테르데미지"],cc:[],fx:[]},
+{n:"Emergency Bombard",cat:"특수공격",sub:"EX특수공격",dmg:["에테르데미지"],cc:["풀업"],fx:["디버프"]},
+{n:"Ether Shellacking",cat:"연쇄공격",sub:"연쇄공격",dmg:["에테르데미지"],cc:[],fx:["무적판정"]},
+{n:"Ether Grenade",cat:"연쇄공격",sub:"궁극기",dmg:["에테르데미지"],cc:[],fx:["무적판정"]},
+{n:"Window of Opportunity",cat:"코어스킬",sub:"코어패시브",dmg:[],cc:[],fx:["디버프"]},
+{n:"Diverted Bombard",cat:"코어스킬",sub:"추가능력",dmg:[],cc:[],fx:["게이지회복"]}
+]},
+{id:2,name:"빌리",cls:"강공",attr:"물리",fac:"교활한 토끼굴",acts:[
+{n:"Risky Business",cat:"기본공격",sub:"탭-콤보",dmg:["물리데미지"],cc:[],fx:[]},
+{n:"Rolling Shot",cat:"회피",sub:"대시공격",dmg:["물리데미지"],cc:[],fx:["무적판정"]}
+]},
+{id:3,name:"네코미야",cls:"강공",attr:"물리",fac:"교활한 토끼굴",acts:[
+{n:"Assault Combo",cat:"기본공격",sub:"탭-콤보",dmg:["물리데미지"],cc:[],fx:["경직저항증가"]},
+{n:"EX Special",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:[],fx:["버프"]}
+]},
+{id:4,name:"안톤",cls:"강공",attr:"전기",fac:"벨로보그 중공업",acts:[
+{n:"Enthusiastic Drills",cat:"기본공격",sub:"탭-콤보",dmg:["전기데미지"],cc:[],fx:[]},
+{n:"Spin, Bro!",cat:"기본공격",sub:"홀드",dmg:["전기데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Let's Move",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Retaliation",cat:"회피",sub:"회피반격",dmg:["전기데미지"],cc:[],fx:[]},
+{n:"Teamwork",cat:"지원",sub:"빠른지원",dmg:["전기데미지"],cc:[],fx:["게이지회복"]}
+]},
+{id:5,name:"그레이스",cls:"이상",attr:"전기",fac:"벨로보그 중공업",acts:[
+{n:"Shock Combo",cat:"기본공격",sub:"탭-콤보",dmg:["전기데미지"],cc:[],fx:["이상축적"]}
+]},
+{id:6,name:"콜레다",cls:"격파",attr:"불",fac:"벨로보그 중공업",acts:[
+{n:"Furnace Fire",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:["스턴"],fx:["경직저항증가"]},
+{n:"EX Special",cat:"특수공격",sub:"EX특수공격",dmg:["불데미지"],cc:["스턴"],fx:["게이지회복"]}
+]},
+{id:7,name:"벤",cls:"방어",attr:"불",fac:"벨로보그 중공업",acts:[
+{n:"Shield Block",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:[],fx:["카운터","경직저항증가"]}
+]},
+{id:8,name:"청의",cls:"격파",attr:"전기",fac:"형사특수팀",acts:[
+{n:"Enchanted Blossoms",cat:"기본공격",sub:"탭-콤보",dmg:["전기데미지"],cc:["스턴"],fx:["경직저항증가"]},
+{n:"Penultimate",cat:"특수공격",sub:"EX특수공격",dmg:["전기데미지"],cc:["스턴"],fx:["무적판정","게이지회복"]},
+{n:"Swan Song",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Breach",cat:"회피",sub:"대시공격",dmg:["전기데미지"],cc:["스턴"],fx:[]}
+]},
+{id:9,name:"제인",cls:"이상",attr:"물리",fac:"형사특수팀",acts:[
+{n:"Anomaly Combo",cat:"기본공격",sub:"탭-콤보",dmg:["물리데미지"],cc:[],fx:["이상축적","경직저항증가"]}
+]},
+{id:10,name:"주연",cls:"강공",attr:"에테르",fac:"형사특수팀",acts:[
+{n:"Tactical Coordination",cat:"기본공격",sub:"탭-콤보",dmg:["에테르데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Covering Shot",cat:"지원",sub:"빠른지원",dmg:["에테르데미지"],cc:[],fx:[]},
+{n:"Guarded Backup",cat:"지원",sub:"패링지원",dmg:[],cc:[],fx:["무적판정","카운터"]},
+{n:"Defensive Counter",cat:"회피",sub:"회피반격",dmg:["에테르데미지"],cc:[],fx:["카운터"]},
+{n:"Fire Blast",cat:"특수공격",sub:"EX특수공격",dmg:["에테르데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Tactical Detour",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Special Ops Ammo",cat:"코어스킬",sub:"코어패시브",dmg:[],cc:[],fx:["버프"]}
+]},
+{id:11,name:"세스",cls:"방어",attr:"전기",fac:"형사특수팀",acts:[
+{n:"Armed Support",cat:"지원",sub:"빠른지원",dmg:["전기데미지"],cc:[],fx:[]},
+{n:"Retreat to Advance",cat:"회피",sub:"회피반격",dmg:["전기데미지"],cc:[],fx:["카운터"]},
+{n:"Final Judgement",cat:"연쇄공격",sub:"연쇄공격",dmg:["전기데미지"],cc:[],fx:["무적판정"]}
+]},
+{id:12,name:"카이사르",cls:"방어",attr:"물리",fac:"칼리돈의 자손",acts:[
+{n:"Shield Counter",cat:"회피",sub:"회피반격",dmg:["물리데미지"],cc:[],fx:["카운터","무적판정"]},
+{n:"EX Shield",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:[],fx:["버프","경직저항증가"]}
+]},
+{id:13,name:"파이퍼",cls:"이상",attr:"물리",fac:"칼리돈의 자손",acts:[
+{n:"Power Spin",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:[],fx:["이상축적","버프","경직저항증가"]}
+]},
+{id:14,name:"라이터",cls:"격파",attr:"불",fac:"칼리돈의 자손",acts:[
+{n:"Morale Burst",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:["스턴"],fx:["경직저항증가"]},
+{n:"Collapse",cat:"특수공격",sub:"EX특수공격",dmg:["불데미지"],cc:["스턴"],fx:["버프"]}
+]},
+{id:15,name:"루시",cls:"지원",attr:"불",fac:"칼리돈의 자손",acts:[
+{n:"Cheer On",cat:"특수공격",sub:"EX특수공격",dmg:["불데미지"],cc:[],fx:["버프","게이지회복"]}
+]},
+{id:16,name:"펄크라",cls:"격파",attr:"물리",fac:"칼리돈의 자손",acts:[
+{n:"Hunter's Gait",cat:"기본공격",sub:"탭-콤보",dmg:["물리데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Aftershock",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:["스턴"],fx:[]}
+]},
+{id:17,name:"버니스",cls:"이상",attr:"불",fac:"칼리돈의 자손",acts:[
+{n:"Fire Anomaly",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:[],fx:["이상축적"]}
+]},
+{id:18,name:"리카온",cls:"격파",attr:"얼음",fac:"빅토리아 하우스키핑",acts:[
+{n:"Ice Claw",cat:"기본공격",sub:"탭-콤보",dmg:["얼음데미지"],cc:["스턴"],fx:["게이지회복"]}
+]},
+{id:19,name:"엘렌",cls:"강공",attr:"얼음",fac:"빅토리아 하우스키핑",acts:[
+{n:"Ice Slash",cat:"기본공격",sub:"탭-콤보",dmg:["얼음데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Flash Freeze",cat:"특수공격",sub:"EX특수공격",dmg:["얼음데미지"],cc:[],fx:["무적판정"]}
+]},
+{id:20,name:"코린",cls:"강공",attr:"물리",fac:"빅토리아 하우스키핑",acts:[
+{n:"Maid Combo",cat:"기본공격",sub:"탭-콤보",dmg:["물리데미지"],cc:[],fx:[]},
+{n:"Clean Sweep",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:[],fx:["경직저항증가"]}
+]},
+{id:21,name:"리나",cls:"지원",attr:"전기",fac:"빅토리아 하우스키핑",acts:[
+{n:"Electric Support",cat:"지원",sub:"빠른지원",dmg:["전기데미지"],cc:[],fx:["버프","게이지회복"]}
+]},
+{id:22,name:"이블린",cls:"강공",attr:"불",fac:"스타즈 오브 리라",acts:[
+{n:"Burning Embers",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Garrote",cat:"특수공격",sub:"EX특수공격",dmg:["불데미지"],cc:[],fx:["무적판정","경직저항증가"]}
+]},
+{id:23,name:"아스트라",cls:"지원",attr:"에테르",fac:"스타즈 오브 리라",acts:[
+{n:"Capriccio",cat:"기본공격",sub:"탭-콤보",dmg:["에테르데미지"],cc:[],fx:["버프"]},
+{n:"Mini Waltz",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Chorus",cat:"지원",sub:"빠른지원",dmg:["에테르데미지"],cc:[],fx:["버프"]},
+{n:"Moonlit Frenzy",cat:"특수공격",sub:"EX특수공격",dmg:["에테르데미지"],cc:[],fx:["버프","무적판정"]},
+{n:"Fantasian Sonata",cat:"연쇄공격",sub:"연쇄공격",dmg:["에테르데미지"],cc:[],fx:["무적판정","버프"]},
+{n:"Finale",cat:"연쇄공격",sub:"궁극기",dmg:["에테르데미지"],cc:[],fx:["무적판정"]},
+{n:"Two Hearts",cat:"코어스킬",sub:"코어패시브",dmg:[],cc:[],fx:["버프","게이지회복"]},
+{n:"Windchimes",cat:"코어스킬",sub:"추가능력",dmg:[],cc:[],fx:["버프"]}
+]},
+{id:24,name:"하루마사",cls:"강공",attr:"전기",fac:"대공동 6과",acts:[
+{n:"Yugamae",cat:"기본공격",sub:"탭-콤보",dmg:["전기데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Cloud Piercer",cat:"회피",sub:"대시공격",dmg:["전기데미지"],cc:[],fx:[]},
+{n:"Quick Flash",cat:"회피",sub:"회피반격",dmg:["전기데미지"],cc:[],fx:["무적판정"]},
+{n:"Hidden Edge",cat:"특수공격",sub:"EX특수공격",dmg:["전기데미지"],cc:[],fx:["경직저항증가","무적판정"]},
+{n:"Zanshin",cat:"연쇄공격",sub:"연쇄공격",dmg:["전기데미지"],cc:[],fx:["무적판정"]},
+{n:"Kai - Hanare",cat:"연쇄공격",sub:"궁극기",dmg:["전기데미지"],cc:[],fx:["무적판정"]}
+]},
+{id:25,name:"야나기",cls:"이상",attr:"전기",fac:"대공동 6과",acts:[
+{n:"Wandering Breeze",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Anomaly Buildup",cat:"기본공격",sub:"탭-콤보",dmg:["전기데미지"],cc:[],fx:["이상축적"]}
+]},
+{id:26,name:"미야비",cls:"이상",attr:"얼음",fac:"대공동 6과",acts:[
+{n:"Ice Anomaly",cat:"기본공격",sub:"탭-콤보",dmg:["얼음데미지"],cc:[],fx:["이상축적"]},
+{n:"Frost EX",cat:"특수공격",sub:"EX특수공격",dmg:["얼음데미지"],cc:[],fx:["이상축적","경직저항증가"]}
+]},
+{id:27,name:"소우카쿠",cls:"지원",attr:"얼음",fac:"대공동 6과",acts:[
+{n:"Ice Support",cat:"지원",sub:"빠른지원",dmg:["얼음데미지"],cc:[],fx:["버프","게이지회복"]}
+]},
+{id:28,name:"휴고",cls:"강공",attr:"얼음",fac:"모킹버드",acts:[
+{n:"Phantasm",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Trick of Fate",cat:"연쇄공격",sub:"연쇄공격",dmg:["빙데미지"],cc:[],fx:["무적판정"]}
+]},
+{id:29,name:"비비안",cls:"이상",attr:"에테르",fac:"모킹버드",acts:[
+{n:"Featherbloom",cat:"기본공격",sub:"탭-콤보",dmg:["에테르데미지"],cc:[],fx:["이상축적"]},
+{n:"Lightstream",cat:"특수공격",sub:"EX특수공격",dmg:["에테르데미지"],cc:[],fx:["이상축적","버프"]}
+]},
+{id:30,name:"의현",cls:"명파",attr:"에테르",fac:"운규산",acts:[
+{n:"Core Passive",cat:"코어스킬",sub:"코어패시브",dmg:[],cc:[],fx:["버프","게이지회복"]}
+]},
+{id:31,name:"귤복복",cls:"격파",attr:"불",fac:"운규산",acts:[
+{n:"Stun Attack",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:["스턴","넉백"],fx:[]}
+]},
+{id:32,name:"반인호",cls:"방어",attr:"물리",fac:"운규산",acts:[
+{n:"Break Force",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:[],fx:["카운터","버프","경직저항증가"]}
+]},
+{id:33,name:"엽빛나",cls:"강공",attr:"물리",fac:"운규산",acts:[
+{n:"Enlightened Mind",cat:"기본공격",sub:"탭-콤보",dmg:["물리데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Qingming Sword",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:[],fx:["경직저항증가","디버프"]}
+]},
+{id:34,name:"0호 엔비",cls:"강공",attr:"전기",fac:"실버 소대",acts:[
+{n:"EX Attack",cat:"특수공격",sub:"EX특수공격",dmg:["전기데미지"],cc:[],fx:["경직저항증가","무적판정"]}
+]},
+{id:35,name:"트리거",cls:"격파",attr:"전기",fac:"오블로스 소대",acts:[
+{n:"Phantom Concealment",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Cold-Bore Cover Fire",cat:"특수공격",sub:"EX특수공격",dmg:["전기데미지"],cc:["스턴"],fx:["무적판정"]},
+{n:"Condemned Soul",cat:"연쇄공격",sub:"연쇄공격",dmg:["전기데미지"],cc:[],fx:["무적판정","디버프"]},
+{n:"Delaying Demise",cat:"연쇄공격",sub:"궁극기",dmg:["전기데미지"],cc:[],fx:["무적판정"]},
+{n:"Soul-Searching Gaze",cat:"코어스킬",sub:"코어패시브",dmg:[],cc:[],fx:["디버프"]}
+]},
+{id:36,name:"시드",cls:"강공",attr:"전기",fac:"오블로스 소대",acts:[
+{n:"Vanguard Strike",cat:"기본공격",sub:"탭-콤보",dmg:["전기데미지"],cc:[],fx:["버프","경직저항증가"]}
+]},
+{id:37,name:"11호",cls:"강공",attr:"불",fac:"오블로스 소대",acts:[
+{n:"Fire Slash",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Fire EX",cat:"특수공격",sub:"EX특수공격",dmg:["불데미지"],cc:[],fx:["무적판정"]}
+]},
+{id:38,name:"오피 & 도깨비불",cls:"강공",attr:"불",fac:"오블로스 소대",acts:[
+{n:"Bottled Heat",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Aftershock",cat:"특수공격",sub:"EX특수공격",dmg:["불데미지"],cc:[],fx:["버프"]}
+]},
+{id:39,name:"다이아린",cls:"격파",attr:"물리",fac:"크람푸스의 검은 가지",acts:[
+{n:"Malicious Complaint",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:["스턴","넉백"],fx:[]}
+]},
+{id:40,name:"자오",cls:"방어",attr:"얼음",fac:"크람푸스의 검은 가지",acts:[
+{n:"Counter",cat:"회피",sub:"회피반격",dmg:["빙데미지"],cc:[],fx:["카운터","경직저항증가"]}
+]},
+{id:41,name:"반악",cls:"강공",attr:"불",fac:"크람푸스의 검은 가지",acts:[
+{n:"Wrath Strike",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Mountain's Might",cat:"특수공격",sub:"EX특수공격",dmg:["불데미지"],cc:[],fx:["무적판정","경직저항증가"]}
+]},
+{id:42,name:"앨리스",cls:"이상",attr:"물리",fac:"괴담방",acts:[
+{n:"Anomaly Attack",cat:"기본공격",sub:"탭-콤보",dmg:["물리데미지"],cc:[],fx:["이상축적","디버프"]}
+]},
+{id:43,name:"마나토",cls:"이상",attr:"불",fac:"괴담방",acts:[
+{n:"Blazing Heart",cat:"기본공격",sub:"탭-콤보",dmg:["불데미지"],cc:[],fx:["이상축적","경직저항증가"]}
+]},
+{id:44,name:"유즈하",cls:"지원",attr:"물리",fac:"괴담방",acts:[
+{n:"Sugar Points",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:[],fx:["디버프","이상축적","버프"]}
+]},
+{id:45,name:"루시아",cls:"지원",attr:"에테르",fac:"괴담방",acts:[
+{n:"Dream Points",cat:"특수공격",sub:"EX특수공격",dmg:["에테르데미지"],cc:[],fx:["버프","게이지회복"]}
+]},
+{id:46,name:"이드하리",cls:"강공",attr:"얼음",fac:"괴담방",acts:[
+{n:"Adrenaline Rush",cat:"기본공격",sub:"홀드",dmg:["얼음데미지"],cc:[],fx:["경직저항증가"]},
+{n:"Sheer Force",cat:"특수공격",sub:"EX특수공격",dmg:["얼음데미지"],cc:[],fx:["경직저항증가","무적판정"]}
+]},
+{id:47,name:"수나",cls:"지원",attr:"물리",fac:"AOD",acts:[
+{n:"Sonic Beatdown",cat:"기본공격",sub:"탭-콤보",dmg:["물리데미지"],cc:[],fx:["디버프"]},
+{n:"Can't Hit Me",cat:"회피",sub:null,dmg:[],cc:[],fx:["무적판정"]},
+{n:"Counterpoint",cat:"특수공격",sub:"EX특수공격",dmg:["물리데미지"],cc:[],fx:["버프","디버프"]},
+{n:"Delusion Strikeout",cat:"연쇄공격",sub:"연쇄공격",dmg:["물리데미지"],cc:[],fx:["무적판정"]}
+]},
+{id:48,name:"아리아",cls:"이상",attr:"에테르",fac:"AOD",acts:[
+{n:"Silky-Smooth Combo",cat:"기본공격",sub:"탭-콤보",dmg:["에테르데미지"],cc:[],fx:["이상축적"]},
+{n:"On-Beat Precision",cat:"특수공격",sub:"EX특수공격",dmg:["에테르데미지"],cc:[],fx:["이상축적","경직저항증가"]},
+{n:"Slide-Shift",cat:"회피",sub:"대시공격",dmg:["에테르데미지"],cc:[],fx:[]}
+]}
 ];
 
-const clsColors = {명파:"#BA7517",강공:"#D85A30",격파:"#E24B4A",지원:"#378ADD",방어:"#1D9E75",이상:"#7F77DD"};
-const attrColors = {불:"#D85A30",얼음:"#378ADD",전기:"#EF9F27",에테르:"#7F77DD",물리:"#888780"};
-const tagColors = {무적판정:"#E24B4A",경직저항증가:"#BA7517",게이지회복:"#1D9E75",디버프:"#534AB7",버프:"#639922",넉백:"#D85A30",이상축적:"#7F77DD",스턴:"#E24B4A",카운터:"#378ADD",에어리얼:"#378ADD"};
+const CLS_C={명파:"#BA7517",강공:"#D85A30",격파:"#E24B4A",지원:"#378ADD",방어:"#1D9E75",이상:"#7F77DD"};
+const CAT_C={기본공격:"#888780",회피:"#1D9E75",지원:"#378ADD",특수공격:"#D85A30",연쇄공격:"#D4537E",코어스킬:"#BA7517"};
+const TAG_C={무적판정:"#E24B4A",경직저항증가:"#BA7517",카운터:"#378ADD",게이지회복:"#1D9E75",버프:"#639922",디버프:"#534AB7",이상축적:"#7F77DD",스턴:"#E24B4A",넉백:"#D85A30",에어리얼:"#378ADD",슬로우:"#888780",풀업:"#EF9F27",전기데미지:"#EF9F27",에테르데미지:"#7F77DD",물리데미지:"#888780",불데미지:"#D85A30",빙데미지:"#378ADD",얼음데미지:"#378ADD",고정데미지:"#D4537E"};
+const ATTR_C={불:"#D85A30",얼음:"#378ADD",전기:"#EF9F27",에테르:"#7F77DD",물리:"#888780"};
 
-const allAttrs = [...new Set(agents.map(a=>a.attr))];
-const allCls = [...new Set(agents.map(a=>a.cls))];
-const allTags = [...new Set(agents.flatMap(a=>a.tags))];
+let filter='all';
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+const tip=document.getElementById('tooltip');
+let W,H,dpr;
+function resize(){const r=canvas.getBoundingClientRect();dpr=devicePixelRatio||1;W=r.width;H=Math.max(600,W*0.7);canvas.style.height=H+'px';canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+resize();
 
-let activeFilter = 'all';
-const filtersDiv = document.getElementById('tag-filters');
-const filterItems = ['all','─',...allAttrs,'─',...allCls,'─',...allTags];
-filterItems.forEach(f => {
-  if (f === '─') { filtersDiv.appendChild(Object.assign(document.createElement('span'),{style:'width:1px;background:var(--color-border-tertiary);align-self:stretch;margin:0 2px'})); return; }
-  const btn = document.createElement('button');
-  btn.textContent = f === 'all' ? '전체' : f;
-  const c = attrColors[f]||clsColors[f]||tagColors[f]||'var(--color-border-tertiary)';
-  btn.style.cssText = `font-size:11px;padding:3px 10px;border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid ${c};background:${f==='all'?'var(--color-background-secondary)':'transparent'};color:var(--color-text-primary);white-space:nowrap;`;
-  btn.onclick = () => {
-    activeFilter = f;
-    document.querySelectorAll('#tag-filters button').forEach(b=>b.style.background='transparent');
-    btn.style.background='var(--color-background-secondary)';
-    buildGraph();
-  };
-  filtersDiv.appendChild(btn);
-});
+let nodes=[],links=[],sim=null,dragging=null,hovered=null;
 
-const legendDiv = document.getElementById('legend');
-const legendItems = [
-  {label:'명파',c:clsColors['명파']},{label:'강공',c:clsColors['강공']},{label:'격파',c:clsColors['격파']},
-  {label:'지원',c:clsColors['지원']},{label:'방어',c:clsColors['방어']},{label:'이상',c:clsColors['이상']},
-  {label:'속성 노드',c:'#555',shape:'rect'},{label:'태그 노드',c:'#555',shape:'diamond'}
-];
-legendItems.forEach(li => {
-  const s = document.createElement('span');
-  s.style.cssText = 'display:flex;align-items:center;gap:4px;';
-  const dot = document.createElement('span');
-  if (li.shape === 'rect') dot.style.cssText = `width:12px;height:12px;border-radius:2px;border:1.5px solid ${li.c};background:transparent;`;
-  else if (li.shape === 'diamond') dot.style.cssText = `width:10px;height:10px;border:1.5px solid ${li.c};background:transparent;transform:rotate(45deg);`;
-  else dot.style.cssText = `width:10px;height:10px;border-radius:50%;background:${li.c};`;
-  s.appendChild(dot);
-  s.appendChild(document.createTextNode(li.label));
-  legendDiv.appendChild(s);
-});
+function build(){
+  const fa=filter==='all'?A:A.filter(a=>a.attr===filter||a.cls===filter);
+  const edgeMap=new Map();
+  fa.forEach(a=>a.acts.forEach(ac=>[...ac.fx,...ac.cc,...ac.dmg].forEach(t=>{
+    const k=a.id+'|'+t;edgeMap.set(k,(edgeMap.get(k)||0)+1);
+  })));
+  const usedTags=new Set();edgeMap.forEach((v,k)=>usedTags.add(k.split('|')[1]));
+  const tN=[...usedTags].map(t=>({type:'tag',label:t,color:TAG_C[t]||'#888',x:W/2+(Math.random()-.5)*W*.35,y:H/2+(Math.random()-.5)*H*.35,vx:0,vy:0,r:0}));
+  const aN=fa.map(a=>({type:'agent',id:a.id,label:a.name,cls:a.cls,attr:a.attr,fac:a.fac,color:CLS_C[a.cls],x:W/2+(Math.random()-.5)*W*.7,y:H/2+(Math.random()-.5)*H*.7,vx:0,vy:0,r:13,acts:a.acts}));
+  nodes=[...tN,...aN];
+  links=[];
+  edgeMap.forEach((w,k)=>{const[aid,tag]=k.split('|');const si=nodes.findIndex(n=>n.type==='tag'&&n.label===tag);const ti=nodes.findIndex(n=>n.type==='agent'&&n.id===+aid);if(si>=0&&ti>=0)links.push({source:si,target:ti,weight:w});});
+  tN.forEach((t,i)=>{const idx=nodes.indexOf(t);const cnt=links.filter(l=>l.source===idx||l.target===idx);t.r=10+cnt.reduce((s,l)=>s+l.weight,0)*1.2;});
+  const st=document.getElementById('stats');
+  st.innerHTML=[{l:'에이전트',v:fa.length},{l:'태그 노드',v:usedTags.size},{l:'연결선',v:links.length},{l:'액션 총수',v:fa.reduce((s,a)=>s+a.acts.length,0)}].map(s=>`<div class="stat-card"><div class="label">${s.l}</div><div class="val">${s.v}</div></div>`).join('');
+  if(sim)cancelAnimationFrame(sim);
+  run();
+}
 
-const container = document.getElementById('graph-container');
-const tooltip = document.getElementById('tooltip');
-const W = container.clientWidth || 700;
-const H = 640;
-
-function buildGraph() {
-  container.innerHTML = '';
-  const svg = d3.select(container).append('svg').attr('width',W).attr('height',H);
-  const g = svg.append('g');
-
-  const zoom = d3.zoom().scaleExtent([0.3,3]).on('zoom', e => g.attr('transform',e.transform));
-  svg.call(zoom);
-
-  const nodes = [];
-  const links = [];
-  const nodeMap = {};
-
-  function getOrCreate(id,type,label,color) {
-    if (!nodeMap[id]) {
-      const n = {id,type,label,color,r: type==='agent'?18 : type==='attr'?14 : type==='cls'?14 : 12};
-      nodeMap[id] = n;
-      nodes.push(n);
+function run(){
+  for(let it=0;it<2;it++){
+    for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
+      let dx=nodes[j].x-nodes[i].x,dy=nodes[j].y-nodes[i].y,d=Math.sqrt(dx*dx+dy*dy)||1;
+      let rep=nodes[i].type==='tag'&&nodes[j].type==='tag'?1400:500;
+      let f=rep/(d*d);nodes[i].vx-=dx/d*f;nodes[i].vy-=dy/d*f;nodes[j].vx+=dx/d*f;nodes[j].vy+=dy/d*f;
     }
-    return nodeMap[id];
+    links.forEach(l=>{const a=nodes[l.source],b=nodes[l.target];let dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1;let f=(d-110)*0.003*l.weight;a.vx+=dx/d*f;a.vy+=dy/d*f;b.vx-=dx/d*f;b.vy-=dy/d*f;});
+    nodes.forEach(n=>{n.vx+=(W/2-n.x)*0.0006;n.vy+=(H/2-n.y)*0.0006;n.vx*=0.8;n.vy*=0.8;if(n!==dragging){n.x+=n.vx;n.y+=n.vy;}n.x=Math.max(n.r+4,Math.min(W-n.r-4,n.x));n.y=Math.max(n.r+4,Math.min(H-n.r-4,n.y));});
   }
+  draw();sim=requestAnimationFrame(run);
+}
 
-  const filtered = activeFilter === 'all' ? agents : agents.filter(a =>
-    a.attr === activeFilter || a.cls === activeFilter || a.tags.includes(activeFilter)
-  );
-
-  filtered.forEach(a => {
-    const agentNode = getOrCreate('agent:'+a.id,'agent',a.id,clsColors[a.cls]);
-    const attrNode = getOrCreate('attr:'+a.attr,'attr',a.attr,attrColors[a.attr]);
-    const clsNode = getOrCreate('cls:'+a.cls,'cls',a.cls,clsColors[a.cls]);
-    links.push({source:agentNode.id,target:attrNode.id,type:'attr'});
-    links.push({source:agentNode.id,target:clsNode.id,type:'cls'});
-    a.tags.forEach(t => {
-      const tagNode = getOrCreate('tag:'+t,'tag',t,tagColors[t]||'#888780');
-      links.push({source:agentNode.id,target:tagNode.id,type:'tag'});
-    });
-  });
-
-  const sim = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d=>d.id).distance(d => d.type==='tag'?90:70).strength(0.4))
-    .force('charge', d3.forceManyBody().strength(-200))
-    .force('center', d3.forceCenter(W/2, H/2))
-    .force('collision', d3.forceCollide().radius(d=>d.r+6));
-
-  const link = g.append('g').selectAll('line').data(links).join('line')
-    .attr('stroke', isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)')
-    .attr('stroke-width', 0.8);
-
-  const node = g.append('g').selectAll('g').data(nodes).join('g')
-    .call(d3.drag()
-      .on('start', (e,d) => { if(!e.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
-      .on('drag', (e,d) => { d.fx=e.x; d.fy=e.y; })
-      .on('end', (e,d) => { if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; })
-    );
-
-  node.each(function(d) {
-    const el = d3.select(this);
-    if (d.type === 'agent') {
-      el.append('circle').attr('r',d.r).attr('fill',d.color).attr('stroke',isDark?'rgba(255,255,255,0.15)':'#fff').attr('stroke-width',2);
-    } else if (d.type === 'attr') {
-      el.append('rect').attr('x',-d.r).attr('y',-d.r).attr('width',d.r*2).attr('height',d.r*2).attr('rx',3)
-        .attr('fill',isDark?d.color+'33':d.color+'22').attr('stroke',d.color).attr('stroke-width',1.5);
-    } else if (d.type === 'cls') {
-      el.append('rect').attr('x',-d.r).attr('y',-d.r).attr('width',d.r*2).attr('height',d.r*2).attr('rx',d.r)
-        .attr('fill',isDark?d.color+'33':d.color+'22').attr('stroke',d.color).attr('stroke-width',1.5);
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const hi=hovered;const cs=new Set();
+  if(hi!==null)links.forEach(l=>{if(l.source===hi||l.target===hi){cs.add(l.source);cs.add(l.target);}});
+  links.forEach(l=>{const a=nodes[l.source],b=nodes[l.target];const hl=hi!==null&&(l.source===hi||l.target===hi);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=hl?'rgba(255,255,255,0.35)':'rgba(255,255,255,0.04)';ctx.lineWidth=hl?Math.min(l.weight*.6,3):0.4;ctx.stroke();});
+  nodes.forEach((n,i)=>{
+    const hl=hi===i;const dim=hi!==null&&!cs.has(i)&&hi!==i;ctx.globalAlpha=dim?0.12:hl?1:0.85;
+    if(n.type==='tag'){
+      const s=n.r;ctx.save();ctx.translate(n.x,n.y);ctx.rotate(Math.PI/4);ctx.beginPath();ctx.rect(-s/2,-s/2,s,s);ctx.fillStyle=n.color+'33';ctx.fill();ctx.strokeStyle=n.color+'99';ctx.lineWidth=hl?2:1;ctx.stroke();ctx.restore();
+      ctx.fillStyle='#fff';ctx.font='600 '+(n.r>18?'10':'9')+'px "Noto Sans KR",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(n.label,n.x,n.y);
     } else {
-      el.append('rect').attr('x',-d.r*0.85).attr('y',-d.r*0.85).attr('width',d.r*1.7).attr('height',d.r*1.7)
-        .attr('transform','rotate(45)')
-        .attr('fill',isDark?d.color+'33':d.color+'22').attr('stroke',d.color).attr('stroke-width',1);
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r+(hl?3:0),0,Math.PI*2);ctx.fillStyle=n.color+(hl?'':'bb');ctx.fill();
+      if(hl){ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();}
+      ctx.beginPath();ctx.arc(n.x+n.r*.6,n.y-n.r*.6,3,0,Math.PI*2);ctx.fillStyle=ATTR_C[n.attr];ctx.fill();
+      ctx.fillStyle='#fff';ctx.font='500 9px "Noto Sans KR",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      const nm=n.label.length>5?n.label.slice(0,5)+'…':n.label;ctx.fillText(nm,n.x,n.y);
     }
-    el.append('text').text(d.label)
-      .attr('text-anchor','middle').attr('dy', d.type==='agent' ? d.r+14 : d.r+13)
-      .attr('fill',isDark?'#ccc':'#444').attr('font-size', d.type==='agent'?'11px':'10px')
-      .attr('font-weight', d.type==='agent'?'500':'400');
-  });
-
-  node.on('mouseover', function(e,d) {
-    const connected = new Set();
-    links.forEach(l => {
-      const sId = typeof l.source === 'object' ? l.source.id : l.source;
-      const tId = typeof l.target === 'object' ? l.target.id : l.target;
-      if (sId === d.id) connected.add(tId);
-      if (tId === d.id) connected.add(sId);
-    });
-    connected.add(d.id);
-    node.style('opacity', n => connected.has(n.id)?1:0.12);
-    link.style('opacity', l => {
-      const sId = typeof l.source === 'object' ? l.source.id : l.source;
-      const tId = typeof l.target === 'object' ? l.target.id : l.target;
-      return (sId===d.id||tId===d.id)?1:0.03;
-    }).attr('stroke-width', l => {
-      const sId = typeof l.source === 'object' ? l.source.id : l.source;
-      const tId = typeof l.target === 'object' ? l.target.id : l.target;
-      return (sId===d.id||tId===d.id)?2:0.8;
-    });
-
-    let html = `<div style="font-weight:500;margin-bottom:4px;">${d.label}</div>`;
-    if (d.type === 'agent') {
-      const a = agents.find(x=>x.id===d.label);
-      if (a) html += `<span style="font-size:12px;color:var(--color-text-secondary);">${a.cls} · ${a.attr} · ${a.faction}</span><br><span style="font-size:11px;color:var(--color-text-tertiary);margin-top:2px;display:inline-block;">${a.tags.join(', ')}</span>`;
-    } else {
-      const connAgents = [];
-      links.forEach(l => {
-        const sId = typeof l.source==='object'?l.source.id:l.source;
-        const tId = typeof l.target==='object'?l.target.id:l.target;
-        if (tId===d.id && sId.startsWith('agent:')) connAgents.push(sId.replace('agent:',''));
-        if (sId===d.id && tId.startsWith('agent:')) connAgents.push(tId.replace('agent:',''));
-      });
-      html += `<span style="font-size:12px;color:var(--color-text-secondary);">연결: ${connAgents.join(', ')}</span>`;
-    }
-    tooltip.innerHTML = html;
-    tooltip.style.display = 'block';
-    tooltip.style.left = (e.pageX+12)+'px';
-    tooltip.style.top = (e.pageY-10)+'px';
-  }).on('mousemove', function(e) {
-    tooltip.style.left = (e.pageX+12)+'px';
-    tooltip.style.top = (e.pageY-10)+'px';
-  }).on('mouseout', function() {
-    node.style('opacity',1);
-    link.style('opacity',1).attr('stroke-width',0.8);
-    tooltip.style.display='none';
-  });
-
-  sim.on('tick', () => {
-    link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
-    node.attr('transform',d=>`translate(${d.x},${d.y})`);
+    ctx.globalAlpha=1;
   });
 }
 
-buildGraph();
+function getN(x,y){return nodes.findIndex(n=>Math.hypot(n.x-x,n.y-y)<=n.r+5);}
+canvas.addEventListener('mousemove',e=>{
+  const r=canvas.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  if(dragging){dragging.x=mx;dragging.y=my;tip.style.display='none';return;}
+  const idx=getN(mx,my);hovered=idx>=0?idx:null;canvas.style.cursor=hovered!==null?'pointer':'grab';
+  if(hovered!==null){
+    const n=nodes[hovered],conns=links.filter(l=>l.source===hovered||l.target===hovered);
+    if(n.type==='tag'){const ags=conns.map(l=>{const o=nodes[l.source===hovered?l.target:l.source];return o.label;});tip.innerHTML=`<div style="font-weight:500;color:${n.color}">${n.label}</div><div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">연결 ${ags.length}명: ${ags.join(', ')}</div>`;}
+    else{const tags=conns.map(l=>{const o=nodes[l.source===hovered?l.target:l.source];return o.label;});tip.innerHTML=`<div style="font-weight:500">${n.label}</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">${n.cls} · ${n.attr} · ${n.fac}</div><div style="font-size:11px;margin-top:2px">태그: ${tags.join(', ')}</div>`;}
+    tip.style.display='block';tip.style.left=Math.min(e.clientX+14,innerWidth-320)+'px';tip.style.top=(e.clientY-12)+'px';
+  } else tip.style.display='none';
+});
+canvas.addEventListener('mousedown',e=>{const r=canvas.getBoundingClientRect();const idx=getN(e.clientX-r.left,e.clientY-r.top);if(idx>=0){dragging=nodes[idx];canvas.style.cursor='grabbing';}});
+canvas.addEventListener('mouseup',()=>{dragging=null;canvas.style.cursor='grab';});
+canvas.addEventListener('mouseleave',()=>{dragging=null;hovered=null;tip.style.display='none';});
+canvas.addEventListener('click',e=>{
+  const r=canvas.getBoundingClientRect(),idx=getN(e.clientX-r.left,e.clientY-r.top);
+  if(idx<0)return;const n=nodes[idx],conns=links.filter(l=>l.source===idx||l.target===idx).sort((a,b)=>b.weight-a.weight);
+  const p=document.getElementById('detail');
+  if(n.type==='agent'){
+    const tags=conns.map(l=>{const o=nodes[l.source===idx?l.target:l.source];return{label:o.label,color:o.color,w:l.weight};});
+    p.innerHTML=`<div class="detail-card"><h3>${n.label}</h3><div class="meta">${n.cls} · ${n.attr} · ${n.fac} · 액션 ${n.acts.length}개</div><div class="tag-list">${tags.map(t=>`<span style="background:${t.color}22;color:${t.color};border:1px solid ${t.color}44">${t.label} ×${t.w}</span>`).join('')}</div><p style="font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:8px">액션 목록</p><div class="conn-grid">${n.acts.map(a=>`<div class="conn-item"><span class="conn-dot" style="background:${CAT_C[a.cat]}"></span><div><span style="font-weight:500">${a.n}</span><br><span style="font-size:11px;color:rgba(255,255,255,0.4)">${a.cat}${a.sub?' · '+a.sub:''}</span></div></div>`).join('')}</div></div>`;
+  } else {
+    const ags=conns.map(l=>{const o=nodes[l.source===idx?l.target:l.source];return{label:o.label,cls:o.cls,attr:o.attr,color:o.color,w:l.weight};});
+    p.innerHTML=`<div class="detail-card"><h3 style="color:${n.color}">${n.label}</h3><div class="meta">태그 노드 · 연결 에이전트 ${ags.length}명</div><div class="conn-grid">${ags.map(a=>`<div class="conn-item"><span class="conn-dot" style="background:${ATTR_C[a.attr]}"></span><div><span style="font-weight:500">${a.label}</span><span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:4px">${a.cls}</span></div><span style="margin-left:auto;font-size:11px;color:${n.color};font-weight:500">×${a.w}</span></div>`).join('')}</div></div>`;
+  }
+});
+
+// controls
+const ac=document.getElementById('attr-ctrl');
+['all','불','얼음','전기','에테르','물리'].forEach(f=>{const b=document.createElement('button');b.textContent=f==='all'?'전체':f;if(f==='all')b.classList.add('active');if(ATTR_C[f])b.style.borderColor=ATTR_C[f]+'88';b.onclick=()=>{filter=f;ac.querySelectorAll('button').forEach(x=>x.classList.remove('active'));cc.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('detail').innerHTML='';build();};ac.appendChild(b);});
+const cc=document.getElementById('cls-ctrl');
+['명파','강공','격파','지원','방어','이상'].forEach(c=>{const b=document.createElement('button');b.textContent=c;b.style.borderColor=CLS_C[c]+'88';b.onclick=()=>{filter=c;ac.querySelectorAll('button').forEach(x=>x.classList.remove('active'));cc.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('detail').innerHTML='';build();};cc.appendChild(b);});
+
+document.getElementById('legend').innerHTML=[
+  ...Object.entries(CLS_C).map(([k,v])=>`<span><span class="dot" style="background:${v}"></span>${k}</span>`),
+  `<span><span class="dia" style="background:transparent;border-color:rgba(255,255,255,0.4)"></span>태그 노드</span>`
+].join('');
+
+window.addEventListener('resize',()=>{resize();build();});
+build();
 </script>
+</body>
+</html>
