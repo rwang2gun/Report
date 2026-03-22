@@ -1,0 +1,250 @@
+<!-- 1) 다크 테마 CSS 변수 정의 -->
+<style>
+  :root {
+    --color-background-secondary: #1a1a19;
+    --color-background-primary: #2C2C2A;
+    --color-border-tertiary: rgba(255,255,255,0.1);
+    --color-border-secondary: rgba(255,255,255,0.2);
+    --color-text-primary: #e0dfda;
+    --color-text-secondary: rgba(255,255,255,0.55);
+    --color-text-tertiary: rgba(255,255,255,0.35);
+    --color-text-info: #85B7EB;
+    --color-background-info: rgba(55,138,221,0.15);
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+  }
+  body { background: #1a1a19; margin: 0; padding: 16px; }
+  * { color: #e0dfda; }
+</style>
+
+<!-- 2) 가운데 정렬 wrapper -->
+<div style="max-width: 900px; margin: 0 auto;">
+
+  <!-- 3) 기존 코드 그대로 -->
+  <div style="padding:0.5rem 0;">
+    <div id="tag-filters">...</div>
+    <div id="graph-container">...</div>
+    <div id="tooltip">...</div>
+    <div id="legend">...</div>
+  </div>
+
+</div> <!-- wrapper 닫기 -->
+
+<div style="padding:0.5rem 0;">
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;" id="tag-filters"></div>
+  <div id="graph-container" style="width:100%;height:640px;position:relative;overflow:hidden;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);background:var(--color-background-secondary);"></div>
+  <div id="tooltip" style="display:none;position:absolute;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px 14px;font-size:13px;pointer-events:none;z-index:10;max-width:260px;box-shadow:0 2px 8px rgba(0,0,0,0.08);"></div>
+  <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:12px;color:var(--color-text-secondary);" id="legend"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme:dark)').matches;
+
+const agents = [
+  {id:"비비안",cls:"이상",attr:"에테르",faction:"모킹버드",tags:["무적판정","이상축적","버프"]},
+  {id:"트리거",cls:"격파",attr:"전기",faction:"오블로스 소대",tags:["무적판정","경직저항증가","디버프","이상축적"]},
+  {id:"안톤",cls:"강공",attr:"전기",faction:"벨로보그 중공업",tags:["경직저항증가","게이지회복","버프"]},
+  {id:"다이아린",cls:"격파",attr:"물리",faction:"크람푸스의 검은 가지",tags:["스턴","무적판정","디버프"]},
+  {id:"청의",cls:"격파",attr:"전기",faction:"형사특수팀",tags:["스턴","무적판정","경직저항증가"]},
+  {id:"파이퍼",cls:"이상",attr:"물리",faction:"칼리돈의 자손",tags:["이상축적","버프","경직저항증가"]},
+  {id:"시드",cls:"강공",attr:"전기",faction:"오블로스 소대",tags:["무적판정","버프","경직저항증가"]},
+  {id:"니콜 데마라",cls:"지원",attr:"에테르",faction:"교활한 토끼굴",tags:["디버프","넉백","무적판정"]},
+  {id:"의현",cls:"명파",attr:"에테르",faction:"운규산",tags:["무적판정","버프","이상축적"]},
+  {id:"이블린",cls:"강공",attr:"불",faction:"스타즈 오브 리라",tags:["무적판정","경직저항증가","이상축적"]},
+  {id:"그레이스",cls:"이상",attr:"전기",faction:"벨로보그 중공업",tags:["이상축적","디버프"]},
+  {id:"라이터",cls:"격파",attr:"불",faction:"칼리돈의 자손",tags:["스턴","무적판정","버프","경직저항증가"]},
+  {id:"엔비",cls:"격파",attr:"전기",faction:"교활한 토끼굴",tags:["무적판정","게이지회복"]},
+  {id:"앨리스",cls:"이상",attr:"물리",faction:"괴담방",tags:["이상축적","디버프"]},
+  {id:"귤복복",cls:"격파",attr:"불",faction:"운규산",tags:["스턴","무적판정","넉백"]},
+  {id:"0호 엔비",cls:"강공",attr:"전기",faction:"실버 소대",tags:["무적판정","경직저항증가","버프"]},
+  {id:"제인",cls:"이상",attr:"물리",faction:"형사특수팀",tags:["이상축적","무적판정","경직저항증가"]},
+  {id:"리카온",cls:"격파",attr:"얼음",faction:"빅토리아 하우스키핑",tags:["스턴","버프","무적판정"]},
+  {id:"유즈하",cls:"지원",attr:"물리",faction:"괴담방",tags:["디버프","이상축적","버프"]},
+  {id:"반인호",cls:"방어",attr:"물리",faction:"운규산",tags:["무적판정","버프","경직저항증가"]},
+  {id:"콜레다",cls:"격파",attr:"불",faction:"벨로보그 중공업",tags:["스턴","무적판정","경직저항증가"]},
+  {id:"마나토",cls:"이상",attr:"불",faction:"괴담방",tags:["이상축적","경직저항증가","무적판정"]},
+  {id:"카이사르",cls:"방어",attr:"물리",faction:"칼리돈의 자손",tags:["무적판정","카운터","버프"]},
+  {id:"루시아",cls:"지원",attr:"에테르",faction:"괴담방",tags:["버프","게이지회복","무적판정"]},
+  {id:"자오",cls:"방어",attr:"얼음",faction:"크람푸스의 검은 가지",tags:["무적판정","카운터","경직저항증가"]}
+];
+
+const clsColors = {명파:"#BA7517",강공:"#D85A30",격파:"#E24B4A",지원:"#378ADD",방어:"#1D9E75",이상:"#7F77DD"};
+const attrColors = {불:"#D85A30",얼음:"#378ADD",전기:"#EF9F27",에테르:"#7F77DD",물리:"#888780"};
+const tagColors = {무적판정:"#E24B4A",경직저항증가:"#BA7517",게이지회복:"#1D9E75",디버프:"#534AB7",버프:"#639922",넉백:"#D85A30",이상축적:"#7F77DD",스턴:"#E24B4A",카운터:"#378ADD",에어리얼:"#378ADD"};
+
+const allAttrs = [...new Set(agents.map(a=>a.attr))];
+const allCls = [...new Set(agents.map(a=>a.cls))];
+const allTags = [...new Set(agents.flatMap(a=>a.tags))];
+
+let activeFilter = 'all';
+const filtersDiv = document.getElementById('tag-filters');
+const filterItems = ['all','─',...allAttrs,'─',...allCls,'─',...allTags];
+filterItems.forEach(f => {
+  if (f === '─') { filtersDiv.appendChild(Object.assign(document.createElement('span'),{style:'width:1px;background:var(--color-border-tertiary);align-self:stretch;margin:0 2px'})); return; }
+  const btn = document.createElement('button');
+  btn.textContent = f === 'all' ? '전체' : f;
+  const c = attrColors[f]||clsColors[f]||tagColors[f]||'var(--color-border-tertiary)';
+  btn.style.cssText = `font-size:11px;padding:3px 10px;border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid ${c};background:${f==='all'?'var(--color-background-secondary)':'transparent'};color:var(--color-text-primary);white-space:nowrap;`;
+  btn.onclick = () => {
+    activeFilter = f;
+    document.querySelectorAll('#tag-filters button').forEach(b=>b.style.background='transparent');
+    btn.style.background='var(--color-background-secondary)';
+    buildGraph();
+  };
+  filtersDiv.appendChild(btn);
+});
+
+const legendDiv = document.getElementById('legend');
+const legendItems = [
+  {label:'명파',c:clsColors['명파']},{label:'강공',c:clsColors['강공']},{label:'격파',c:clsColors['격파']},
+  {label:'지원',c:clsColors['지원']},{label:'방어',c:clsColors['방어']},{label:'이상',c:clsColors['이상']},
+  {label:'속성 노드',c:'#555',shape:'rect'},{label:'태그 노드',c:'#555',shape:'diamond'}
+];
+legendItems.forEach(li => {
+  const s = document.createElement('span');
+  s.style.cssText = 'display:flex;align-items:center;gap:4px;';
+  const dot = document.createElement('span');
+  if (li.shape === 'rect') dot.style.cssText = `width:12px;height:12px;border-radius:2px;border:1.5px solid ${li.c};background:transparent;`;
+  else if (li.shape === 'diamond') dot.style.cssText = `width:10px;height:10px;border:1.5px solid ${li.c};background:transparent;transform:rotate(45deg);`;
+  else dot.style.cssText = `width:10px;height:10px;border-radius:50%;background:${li.c};`;
+  s.appendChild(dot);
+  s.appendChild(document.createTextNode(li.label));
+  legendDiv.appendChild(s);
+});
+
+const container = document.getElementById('graph-container');
+const tooltip = document.getElementById('tooltip');
+const W = container.clientWidth || 700;
+const H = 640;
+
+function buildGraph() {
+  container.innerHTML = '';
+  const svg = d3.select(container).append('svg').attr('width',W).attr('height',H);
+  const g = svg.append('g');
+
+  const zoom = d3.zoom().scaleExtent([0.3,3]).on('zoom', e => g.attr('transform',e.transform));
+  svg.call(zoom);
+
+  const nodes = [];
+  const links = [];
+  const nodeMap = {};
+
+  function getOrCreate(id,type,label,color) {
+    if (!nodeMap[id]) {
+      const n = {id,type,label,color,r: type==='agent'?18 : type==='attr'?14 : type==='cls'?14 : 12};
+      nodeMap[id] = n;
+      nodes.push(n);
+    }
+    return nodeMap[id];
+  }
+
+  const filtered = activeFilter === 'all' ? agents : agents.filter(a =>
+    a.attr === activeFilter || a.cls === activeFilter || a.tags.includes(activeFilter)
+  );
+
+  filtered.forEach(a => {
+    const agentNode = getOrCreate('agent:'+a.id,'agent',a.id,clsColors[a.cls]);
+    const attrNode = getOrCreate('attr:'+a.attr,'attr',a.attr,attrColors[a.attr]);
+    const clsNode = getOrCreate('cls:'+a.cls,'cls',a.cls,clsColors[a.cls]);
+    links.push({source:agentNode.id,target:attrNode.id,type:'attr'});
+    links.push({source:agentNode.id,target:clsNode.id,type:'cls'});
+    a.tags.forEach(t => {
+      const tagNode = getOrCreate('tag:'+t,'tag',t,tagColors[t]||'#888780');
+      links.push({source:agentNode.id,target:tagNode.id,type:'tag'});
+    });
+  });
+
+  const sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d=>d.id).distance(d => d.type==='tag'?90:70).strength(0.4))
+    .force('charge', d3.forceManyBody().strength(-200))
+    .force('center', d3.forceCenter(W/2, H/2))
+    .force('collision', d3.forceCollide().radius(d=>d.r+6));
+
+  const link = g.append('g').selectAll('line').data(links).join('line')
+    .attr('stroke', isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)')
+    .attr('stroke-width', 0.8);
+
+  const node = g.append('g').selectAll('g').data(nodes).join('g')
+    .call(d3.drag()
+      .on('start', (e,d) => { if(!e.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+      .on('drag', (e,d) => { d.fx=e.x; d.fy=e.y; })
+      .on('end', (e,d) => { if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; })
+    );
+
+  node.each(function(d) {
+    const el = d3.select(this);
+    if (d.type === 'agent') {
+      el.append('circle').attr('r',d.r).attr('fill',d.color).attr('stroke',isDark?'rgba(255,255,255,0.15)':'#fff').attr('stroke-width',2);
+    } else if (d.type === 'attr') {
+      el.append('rect').attr('x',-d.r).attr('y',-d.r).attr('width',d.r*2).attr('height',d.r*2).attr('rx',3)
+        .attr('fill',isDark?d.color+'33':d.color+'22').attr('stroke',d.color).attr('stroke-width',1.5);
+    } else if (d.type === 'cls') {
+      el.append('rect').attr('x',-d.r).attr('y',-d.r).attr('width',d.r*2).attr('height',d.r*2).attr('rx',d.r)
+        .attr('fill',isDark?d.color+'33':d.color+'22').attr('stroke',d.color).attr('stroke-width',1.5);
+    } else {
+      el.append('rect').attr('x',-d.r*0.85).attr('y',-d.r*0.85).attr('width',d.r*1.7).attr('height',d.r*1.7)
+        .attr('transform','rotate(45)')
+        .attr('fill',isDark?d.color+'33':d.color+'22').attr('stroke',d.color).attr('stroke-width',1);
+    }
+    el.append('text').text(d.label)
+      .attr('text-anchor','middle').attr('dy', d.type==='agent' ? d.r+14 : d.r+13)
+      .attr('fill',isDark?'#ccc':'#444').attr('font-size', d.type==='agent'?'11px':'10px')
+      .attr('font-weight', d.type==='agent'?'500':'400');
+  });
+
+  node.on('mouseover', function(e,d) {
+    const connected = new Set();
+    links.forEach(l => {
+      const sId = typeof l.source === 'object' ? l.source.id : l.source;
+      const tId = typeof l.target === 'object' ? l.target.id : l.target;
+      if (sId === d.id) connected.add(tId);
+      if (tId === d.id) connected.add(sId);
+    });
+    connected.add(d.id);
+    node.style('opacity', n => connected.has(n.id)?1:0.12);
+    link.style('opacity', l => {
+      const sId = typeof l.source === 'object' ? l.source.id : l.source;
+      const tId = typeof l.target === 'object' ? l.target.id : l.target;
+      return (sId===d.id||tId===d.id)?1:0.03;
+    }).attr('stroke-width', l => {
+      const sId = typeof l.source === 'object' ? l.source.id : l.source;
+      const tId = typeof l.target === 'object' ? l.target.id : l.target;
+      return (sId===d.id||tId===d.id)?2:0.8;
+    });
+
+    let html = `<div style="font-weight:500;margin-bottom:4px;">${d.label}</div>`;
+    if (d.type === 'agent') {
+      const a = agents.find(x=>x.id===d.label);
+      if (a) html += `<span style="font-size:12px;color:var(--color-text-secondary);">${a.cls} · ${a.attr} · ${a.faction}</span><br><span style="font-size:11px;color:var(--color-text-tertiary);margin-top:2px;display:inline-block;">${a.tags.join(', ')}</span>`;
+    } else {
+      const connAgents = [];
+      links.forEach(l => {
+        const sId = typeof l.source==='object'?l.source.id:l.source;
+        const tId = typeof l.target==='object'?l.target.id:l.target;
+        if (tId===d.id && sId.startsWith('agent:')) connAgents.push(sId.replace('agent:',''));
+        if (sId===d.id && tId.startsWith('agent:')) connAgents.push(tId.replace('agent:',''));
+      });
+      html += `<span style="font-size:12px;color:var(--color-text-secondary);">연결: ${connAgents.join(', ')}</span>`;
+    }
+    tooltip.innerHTML = html;
+    tooltip.style.display = 'block';
+    tooltip.style.left = (e.pageX+12)+'px';
+    tooltip.style.top = (e.pageY-10)+'px';
+  }).on('mousemove', function(e) {
+    tooltip.style.left = (e.pageX+12)+'px';
+    tooltip.style.top = (e.pageY-10)+'px';
+  }).on('mouseout', function() {
+    node.style('opacity',1);
+    link.style('opacity',1).attr('stroke-width',0.8);
+    tooltip.style.display='none';
+  });
+
+  sim.on('tick', () => {
+    link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    node.attr('transform',d=>`translate(${d.x},${d.y})`);
+  });
+}
+
+buildGraph();
+</script>
