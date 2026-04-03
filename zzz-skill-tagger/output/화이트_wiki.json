@@ -1,0 +1,104 @@
+{
+  "agent": {
+    "fullName": "버니스 화이트",
+    "shortName": "화이트",
+    "attr": "불",
+    "cls": "이상",
+    "faction": "칼리돈의 자손",
+    "grade": "A",
+    "version": ""
+  },
+  "skills": [
+    {
+      "name": "기본공격: 활활 빌딩",
+      "major": "일반공격",
+      "minor": "기본공격",
+      "description": "활활 빌딩\n을 짧게 탭하여 시전:전방을 향해 최대 5단까지 공격을 펼쳐 물리 피해 및 불 속성 피해를 준다.\n1단 / 2단 / 3단 / 4단 / 5단 피해 배율\n1단 / 2단 / 3단 / 4단 / 5단 그로기 배율\n<table class='XHCLabS-' style='background-color:#fff; color:#000; width:100%; border:2px solid #222;' data-dark-style='background-color:#222; color:"
+    },
+    {
+      "name": "차지공격: 활활 스티어링",
+      "major": "일반공격",
+      "minor": "차지공격",
+      "description": "활활 스티어링\n[특제 연료] 상태에서 을 홀드해 시전:지속적으로 회전하며 주변에 화염을 방사한 후, 종결의 일격으로 불 속성 피해를 준다. 홀드를 유지하면 방사 지속 시간을 연장할 수 있다.스킬 시전 시, [발화점]을 20pt 소모한다.스킬을 시전하는 동안 경직 저항 레벨이 증가한다.종결의 일격 시전 후 을 짧게 탭하면 [강화 특수 스킬: 이글이글 쉐이킹·더블]을 바로 이어서 시전할 수 있다.\n지속 방사 피해 배율\n종결의 일격 피해 배율\n지속 방사 그로기 배율\n종결의 일격 그로기 배율\n<td style='text-alig"
+    },
+    {
+      "name": "회피: 불타는 그림자",
+      "major": "회피스킬",
+      "minor": "회피",
+      "description": "불타는 그림자\n을 짧게 탭하여 시전:빠른 대시로 회피한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n불타는 그림자"
+    },
+    {
+      "name": "대시공격: 위험한 발효",
+      "major": "회피스킬",
+      "minor": "대시공격",
+      "description": "위험한 발효\n회피 시 을 짧게 탭하여 시전:방사기를 휘두르며 전방 돌진 공격으로 불 속성 피해를 준다.\n<img class='V0NZnDRF' width='100%' src='//i.nam"
+    },
+    {
+      "name": "회피반격: 흔들흔들 스텝",
+      "major": "회피스킬",
+      "minor": "회피반격",
+      "description": "흔들흔들 스텝\n[극한 회피] 발동 후 을 짧게 탭하여 시전:전방의 적에게 연속 공격과 화염 방사로 물리 피해 및 불 속성 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='20592982' data-src='//i.namu.wiki/i/_nDLwzgZaSIJGf6Nvyd91M4ZQMDcyxjDspPk43MyxynTlcoz-D_kYQND9Dr83zFsclxSYEbY9R7XCAlDAWa7aA.gif' alt='버니스 회피 반격' data-video-src='//i.namu.wiki/i/cWuHKUWkjkJ7Lc4vWAW3Se9ksG8GRTlASxgO-WS00sa0S0SstG-GXmgotHAe1eKt3eiHtPZ5bBDiGwQciOetlg.mp4' data-video-filesize='885103' data-doc="
+    },
+    {
+      "name": "빠른지원: 특제 에너지 음료",
+      "major": "지원스킬",
+      "minor": "빠른지원",
+      "description": "특제 에너지 음료\n출전 캐릭터가 넉업되면 을 짧게 탭하여 시전:전방의 적에게 연속 공격과 화염 방사로 물리 피해 및 불 속성 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='20699124' data-src='//i.namu.wiki/i/lCNLqUc1XK4p0hUsy3KTkMvoUstterPtqpa50X0Be-kSkvBdfeqSrIe6RdAkCVN95Pust3VyuPi4uXaWdbXeBg.gif' alt='버니스 빠른 지원' data-video-src='//i.namu.wiki/i/nt7MFaYzjFVFI8lyrpdNNwI9yKVHz6gBvnoU3Zm_exZYV9taTYVorOqfSpzhUgDx5HureGJ6deV33CrvNiWcsw.mp4' data-video-filesize='1789083' data-doc='/ju"
+    },
+    {
+      "name": "패링지원: 스모키 퓨엘",
+      "major": "지원스킬",
+      "minor": "패링지원",
+      "description": "스모키 퓨엘\n출전 캐릭터 피격 직전에 을 짧게 탭하여 시전:적의 공격을 패링하고 대량의 그로기 수치를 누적한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n가벼운 패링 그로기 배율\n강한 패링 그로기 배율\n연속 패링 그로기 배율\n<div class='iR1C9VHd' data-v-f4"
+    },
+    {
+      "name": "지원돌격: 후끈한 감로",
+      "major": "지원스킬",
+      "minor": "지원돌격",
+      "description": "후끈한 감로\n[패링 지원] 시전 후 을 짧게 탭하여 시전:공중으로 뛰어올라 빠르게 앞으로 회전하며 주위에 화염을 방사해 불 속성 피해를 준다.스킬 시전 후 을 짧게 탭하면 [강화 특수 스킬: 이글이글 쉐이킹·더블]을 바로 이어서 시전할 수 있다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<td class='"
+    },
+    {
+      "name": "특수스킬: 이글이글 에이징",
+      "major": "특수스킬",
+      "minor": "특수스킬",
+      "description": "이글이글 에이징\n을 짧게 탭하여 시전:전방에 화염 폭발을 1회 시전해 불 속성 피해를 준다.을 홀드하면 차지를 진행해 스킬의 위력을 높일 수 있다.스킬을 시전하는 동안 경직 저항 레벨이 증가한다.\n차지 피해 배율\n차지 그로기 배율\n<td style='text-align:center;' dat"
+    },
+    {
+      "name": "강화특수스킬: 이글이글 쉐이킹",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "이글이글 쉐이킹\n에너지가 충분한 상태에서 을 짧게 탭하여 시전:한 손으로 방사기를 사용해 지속적으로 화염을 방사한 후, 전방 직선 범위에 화염 폭발 1회로 대량의 불 속성 피해를 준다. 홀드를 유지하면 지속적으로 에너지를 소모하고 방사의 지속 시간을 연장할 수 있다.지속 방사 기간 동안 방향키를 움직이면 측면 회피를 통해 상응하는 방향으로 이동할 수 있다.지속 방사 기간 동안 경직 저항 레벨이 증가하고, 받는 피해가 40% 감소한다.측면 회피 및 화염 폭발 시전 기간에는 무적 효과를 보유한다.\n지속 방사 / 화염 폭발 피해 배율\n지속 방사 / 화염 폭발 그로기 배율\n시전에 필요한 에너지\n지속 방사 / 화염 폭발 에너지 소모\n40pt\n12.5pt/초 / 5pt"
+    },
+    {
+      "name": "강화특수스킬: 이글이글 쉐이킹·더블",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "이글이글 쉐이킹·더블\n[강화 특수 스킬: 이글이글 쉐이킹] 시전 중 에너지가 충분한 상태에서 을 짧게 탭하여 시전:양손으로 방사기를 사용해 지속적으로 화염을 방사한 후, 전방 직선 범위에 강력한 화염 폭발 1회로 대량의 불 속성 피해를 준다. 홀드를 유지하면 지속적으로 에너지를 소모하고 방사의 지속 시간을 연장할 수 있다.방사 시전 순간 및 화염 폭발 시전 기간에 무적 효과를 보유한다.지속 방사 기간 동안 경직 저항 레벨이 증가하고, 받는 피해가 40% 감소한다.\n지속 방사 / 화염 폭발 피해 배율\n지속 방사 / 화염 폭발 그로기 배율\n시전에 필요한 에너지\n지속 방사 / 화염 폭발 에너지 소모\n10pt\n25pt/초 / 10pt\n<t"
+    },
+    {
+      "name": "콤보스킬: 연료를 태우는 불꽃",
+      "major": "콤보공격",
+      "minor": "콤보스킬",
+      "description": "연료를 태우는 불꽃\n[콤보 스킬] 발동 시 해당 캐릭터를 선택해 시전:빠르게 돌진하며 주위에 화염을 방사한 후, 전방 부채꼴 범위에 화염 폭발 1회로 대량의 불 속성 피해를 준다.스킬 시전 후 을 짧게 탭하면 [강화 특수 스킬: 이글이글 쉐이킹·더블]을 바로 이어서 시전할 수 있다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='20924827' data-src='//i.namu.wiki/i/XfrA1kobQTgTD4PRd6ik804lOmkry82uijeMDTkMU1F2na3QCXFVrdYEet3bFSqeD1b4neypUUJo0OjRjxpZpw.gif' alt='버니스 콤보 스킬' data-video-src='//i.namu.wiki/i/ee9xoGDaZQ_qA0_4bx5XKr0P5VtgQ8rysYFON3NmnaJFnyTzj94nLFZmFr-gOJqgOQxMCjbaL_f5PvGuFcyKxg.mp4' data-video-filesize='56"
+    },
+    {
+      "name": "궁극기: 타오르는 불꽃을 느껴봐",
+      "major": "궁극기",
+      "minor": "궁극기",
+      "description": "타오르는 불꽃을 느껴봐\n데시벨 레벨 [Maximum] 달성 시 을 짧게 탭하여 시전:빠르게 돌진 후 공중으로 뛰어올라 전방 넓은 범위 구역에 지속적으로 화염을 방사해 대량의 불 속성 피해를 준다.공중으로 도약 시 [빠른 지원]을 발동하며, [빠른 지원] 사용 시 버니스의 화염 방사 지속 시간이 연장된다.스킬 시전 시 [발화점]을 50pt 회복하며, 스킬을 시전하는 동안 무적 효과를 보유한다.\n최대 피해 배율\n최대 그로기 배율\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='20765536' data-src='//i.namu.wiki/i/6XEyYlgsLkMF9JvJ9IPTRoE-2GwNEtgW2YXzVE13p0IkqP8lmmZX2_jwgWZk3y2D5ntkMI7N2vJm_AK1bAT-zg.gif' alt='버니스 궁극기' data-video-src='//i.namu.wiki/i/IZpjyQGg17jsEUPtInCMQlJcF38QA"
+    },
+    {
+      "name": "핵심패시브: 특제 연료",
+      "major": "핵심스킬",
+      "minor": "핵심패시브",
+      "description": "특제 연료\n버니스가 에너지를 소모할 시 자신에게 [발화점]을 누적한다. 최대 누적: 100pt. 에너지를 1pt 소모할 때마다 [발화점]을 1.4pt 누적할 수 있다. [발화점]을 50pt까지 누적하면 버니스는 [특제 연료] 상태에 진입하며, 해당 상태는 [발화점]이 소진될 때까지 지속된다. 전장 진입 시, 버니스는 즉시 [발화점]을 100pt 누적한다.[특제 연료] 상태에서 버니스가 시전한 [일반 공격: 활활 스티어링], [강화 특수 스킬], [콤보 스킬] 혹은 [궁극기]가 적에게 명중 시, 타깃에게 [열상] 효과를 부여한다. 해당 효과는 버니스가 [특제 연료] 상태에서 벗어날 때까지 지속된다. 파티 내 다른 캐릭터의 공격이 [열상] 상태인 적에게 명중 시, [잿불] 효과를 발동하고 [발화점]을 8pt 소모해 타깃에게 버니스 공격력의 n%에 해당하는 불 속성 피해를 주고, 불 속성 이상 축적치를 누적한다. 1.5초 동안 최대 1회 발동한다. 보유한 이상 마스터리 10pt당 [잿불] 효과로 주는 피해가 1% 증가한다. 최대 증가: 30%. [잿불] 효과로 주는 피해는 [지원 공격] 피해로 간주된다.\n버니스 공격력의 175%\n-\n버니스 공격력의 205%\n기본 에너지 자동 회복 0.12pt/초 증가\n버니스 공격력의 235%\n기본 공격력 25pt 증가\n버니스 공격력의 262%\n기본 에너지 자동 회복 0.12pt/초 증가\n버니스 공격력의 290%\n기본 공격력 25pt 증가\n버니스 공격력의 320%\n기본 에너지 자동 회복 0.12pt/초 증가\n버니스 공격력의 350%\n기본 공격력 25pt 증가\n버니스가 오프필드 이상 "
+    },
+    {
+      "name": "추가능력: 요원의 불길",
+      "major": "핵심스킬",
+      "minor": "추가능력",
+      "description": "요원의 불길\n파티에 다른 [이상] 캐릭터 혹은 자신과 진영이 같은 캐릭터가 존재할 시 발동:버니스의 [일반 공격: 활활 스티어링], [강화 특수 스킬: 이글이글 쉐이킹], [강화 특수 스킬: 이글이글 쉐이킹·더블]이 적에게 명중하거나 [잿불] 효과 발동 시, 스킬로 누적하는 불 속성 이상 축적치가 65% 증가한다. 파티 내 임의의 캐릭터가 적에게 [연소] 효과 부여 시 해당 효과의 지속 시간이 3초 증가한다.\n강화: [일반 공격: 활활 스티어링]\n변경점 1\n강화 전\n지속적으로 회전하며 주변에 화염을 방사한 후, 종결의 일격으로 불 속성 피해를 준다.\n강화 후\n지속적으로 회전하며 주변에 화염을 방사한 후 종결의 일격을 시전하며, [발화점]을 소모하지 않는 [잿불]을 한 번 추가로 발동해 불 속성 피해를 준다.\n변경점 2\n신규\n스킬로 주는 피해는 동시에 [지원 공격] 피해로 간주된다.\n<img width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTk4IiBoZWlnaHQ9IjE5OCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnL"
+    }
+  ],
+  "extractedAt": "2026-03-26T23:06:44.118Z"
+}

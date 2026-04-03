@@ -1,0 +1,110 @@
+{
+  "agent": {
+    "fullName": "비비안 밴시",
+    "shortName": "밴시",
+    "attr": "에테르",
+    "cls": "이상",
+    "faction": "등장하는 모킹버드",
+    "grade": "S",
+    "version": ""
+  },
+  "skills": [
+    {
+      "name": "기본공격: 깃털의 쓸림",
+      "major": "일반공격",
+      "minor": "기본공격",
+      "description": "깃털의 쓸림\n을 짧게 탭하여 시전:전방으로 최대 4단까지 공격을 발동하여 물리 피해 및 에테르 피해를 준다.4단계 공격 발동 시 [숙녀의 예법] 상태에 진입한다.[비상의 깃]을 보유할 때 4단계 공격 중 을 누르고 있으면 [떠오르는 치맛자락] 상태에 진입할 수 있다.\n1단 / 2단 / 3단 / 4단 피해 배율\n1단 / 2단 / 3단 / 4단 그로기 배율"
+    },
+    {
+      "name": "차지공격: 숙녀의 예법·스텝",
+      "major": "일반공격",
+      "minor": "차지공격",
+      "description": "숙녀의 예법·스텝\n[숙녀의 예법] 상태에서 을 짧게 탭하여 시전:전방으로 돌진하여 에테르 피해를 주고 명중한 타깃에 [비상의 깃]을 1pt 회복한다.스킬을 발동하는 동안 무적 효과를 획득한다.돌진 중 극한 회피가 발동하면 추가로 [비상의 깃]을 1pt 회복한다.스킬 발동 후 [비상의 깃]을 보유하고 있을 경우 [떠오르는 치맛자락] 상태에 진입하고, 스킬 발동 시 홀드 을 취소할 수 있다.\n<tbody data"
+    },
+    {
+      "name": "강화차지공격: 떠오르는 치맛자락·낙하",
+      "major": "일반공격",
+      "minor": "강화차지공격",
+      "description": "떠오르는 치맛자락·낙하\n[떠오르는 치맛자락] 상태에서 을 짧게 탭하여 시전:전방에 범위 공격을 발동하여 에테르 피해를 준다.스킬 발동 시 모든 [비상의 깃]을 소모하며, [비상의 깃]을 1pt 소모할 때마다 [수호의 깃]를 1pt 획득한다.스킬을 발동하는 동안 무적 효과를 획득한다.[떠오르는 치맛자락] 상태에서 캐릭터를 교체하면 비비안이 [일반 공격: 떠오르는 치맛자락·낙하]를 자동으로 발동한다.[떠오르는 치맛자락] 상태에서 을 탭하면 [떠오르는 치맛자락] 상태를 종료한다.\n<table class='XHCLabS-' style='background-color:#fff; color:#000; width:100%; border:2px solid #"
+    },
+    {
+      "name": "일반공격: 흩날리는 깃과 꽃",
+      "major": "일반 공격",
+      "minor": "일반공격",
+      "description": "흩날리는 깃과 꽃\n파티 내 임의의 캐릭터의 [강화 특수 스킬]이 목표에 명중하면 비비안은 [수호의 깃]를 1pt 소모하고 목표에게 [일반 공격: 흩날리는 깃과 꽃]을 1회 발동하여 에테르 피해를 준다. 이 효과는 비비안이 대기 상태일 때도 발동할 수 있다.[수호의 깃]는 최대 5pt까지 보유할 수 있다.\n흩날리는 깃과 꽃\n<div class"
+    },
+    {
+      "name": "회피: 유광",
+      "major": "회피스킬",
+      "minor": "회피",
+      "description": "유광\n을 짧게 탭하여 시전:빠른 대시로 회피한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n유광"
+    },
+    {
+      "name": "대시공격: 은색 가시의 무곡",
+      "major": "회피스킬",
+      "minor": "대시공격",
+      "description": "은색 가시의 무곡\n회피 시 을 짧게 탭하여 시전:돌진하여 전방의 적에게 물리 피해를 준다.\n<img class='V0NZnDRF' width='100%' src='//i.namu.wiki/i/unS2xfg_"
+    },
+    {
+      "name": "회피반격: 깃날의 반동",
+      "major": "회피스킬",
+      "minor": "회피반격",
+      "description": "깃날의 반동\n[극한 회피] 발동 후 을 짧게 탭하여 시전:전방의 적에게 공격을 가하여 물리 피해와 에테르 피해를 준다.스킬을 발동하는 동안 무적 효과를 획득한다.스킬 발동 시 [숙녀의 예법] 상태에 돌입한다.[비상의 깃]을 보유할 때 을 누르고 있으면 [떠오르는 치맛자락] 상태에 돌입한다.\n<table class='XHCLabS-' style='background-color:#fff; color:#000; width:100%; border:2px solid #222;' data-dark-style='background-color:#222; color:#B6B0"
+    },
+    {
+      "name": "빠른지원: 늠름한 깃털의 수호",
+      "major": "지원스킬",
+      "minor": "빠른지원",
+      "description": "늠름한 깃털의 수호\n현재 조작 중인 캐릭터가 넉업되면 을 짧게 탭하여 시전:전방의 적에게 공격을 발동하여 물리 피해와 에테르 피해를 준다.스킬을 발동하는 동안 무적 효과를 획득한다.스킬 발동 시 [숙녀의 예법] 상태에 진입한다.[비상의 깃]을 보유할 때 을 누르고 있으면 [떠오르는 치맛자락] 상태에 진입할 수 있다.\n<table class='XHCLabS-' style='background-color:#fff; color:#000; width:100%; border:2px solid #222;' data-dark-style='background-color:#222; color:#B6B0A6; bord"
+    },
+    {
+      "name": "패링지원: 은빛 양산 대열",
+      "major": "지원스킬",
+      "minor": "패링지원",
+      "description": "은빛 양산 대열\n출전 캐릭터 피격 직전에 을 짧게 탭하여 시전:적의 공격을 패링하면 대량의 그로기 수치를 누적한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n가벼운 패링 그로기 배율\n강한 패링 그로기 배율\n연속 패링 그로기 배율\n<div class='iR1C9VHd' data-v-f43"
+    },
+    {
+      "name": "지원돌격: 심판의 깃날",
+      "major": "지원스킬",
+      "minor": "지원돌격",
+      "description": "심판의 깃날\n[패링 지원] 시전 후 을 짧게 탭하여 시전:전방의 적을 공격하여 에테르 피해를 주고 [깃털]을 2pt 회복한다.스킬을 발동하는 동안 무적 효과를 가진다.스킬 발동 시 [떠오르는 치맛자락] 상태에 돌입하며, 스킬 발동 시 을 홀드하면 취소할 수 있다.\n<td class='VhFaTm3S' sty"
+    },
+    {
+      "name": "특수스킬: 은색 깃털의 노래",
+      "major": "특수스킬",
+      "minor": "특수스킬",
+      "description": "은색 깃털의 노래\n을 짧게 탭하여 시전:전방을 향해 공격해 물리 피해와 에테르 피해를 준다.스킬을 발동하는 동안 경직 저항 레벨이 증가한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='19917552' data-src='//i.namu.wiki/i/2CHPlhYms-46MjvPq9cgPDxnLX_1tRdrzIYr0GDfbioZin3aRcIReH2xjgxlaBitZbdrq33tCZSXcW4rxRD99g.gif' alt='비비안 특수 스킬' data-video-src='//i.namu.wiki/i/ouB7Z3SME6Ss8V33k9PGuUR9r9k4V8305bEVyr5tim-x29rnWRkQ7kyeTuxMwb4b1F4p659wqfuGE0gcmfeo6Q.mp4' data-video-filesize='563628' data-doc='/jump/4YWgAXw1VqNevTzSa9d2pEYmqhhEpz0um6Qo"
+    },
+    {
+      "name": "강화특수스킬: 제비꽃의 애도",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "제비꽃의 애도\n에너지가 충분한 상태에서 을 짧게 탭하여 시전:전방에 강력한 공격을 발동하여 대량의 에테르 피해를 주고 [비상의 깃]을 3pt 회복한다.스킬을 발동하는 동안 무적 효과를 가진다.스킬 발동 시 [떠오르는 치맛자락] 상태에 진입하고, 스킬 발동 시 을 홀드하면 [숙녀의 예법] 상태에 진입한다.\n60pt\n<table class='XHCLabS-' style='b"
+    },
+    {
+      "name": "콤보스킬: 별과 깃털의 화음",
+      "major": "콤보공격",
+      "minor": "콤보스킬",
+      "description": "별과 깃털의 화음\n[콤보 스킬] 발동 시 해당 캐릭터를 선택해 시전:전방 큰 범위의 적에게 강력한 공격을 발동하여 대량의 에테르 피해를 주고 [깃털]을 2pt 회복한다.스킬 발동 시 무적 효과를 가진다.스킬 발동 시 [떠오르는 치맛자락] 상태에 진입하며, 스킬 발동 시 을 홀드하고 있는 상태를 유지하여 발동을 취소할 수 있다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='20874575' data-src='//i.namu.wiki/i/9x9ne8IYFl5L1SLOV8v2hy-qZ9EgUOTi5aSHqVTBsRNuGvJdH2JAxypZfpVZH2M9_iaHFb0RfXwKKt72a1PQsw.gif' alt='비비안 콤보 스킬' data-video-src='//i.namu.wiki/i/5q7ySzV0MMunYhWv7ataFuIQv003ji6OqXqsNdcHIWEQgUKzOWptXKV9wV1d8O-OmRWPNLeLVWkp5gu1VBuahg.mp4' data-video-filesize='4610433' data-"
+    },
+    {
+      "name": "궁극기: 비조의 송가",
+      "major": "궁극기",
+      "minor": "궁극기",
+      "description": "비조의 송가\n데시벨 레벨 [Maximum] 달성 시 을 짧게 탭하여 시전:전방 큰 범위의 적에게 강력한 공격을 가하여 대량의 에테르 피해를 주고 [비상의 깃]을 5pt 회복한다.스킬을 발동하는 동안 무적 효과를 가진다.스킬 발동 시 [떠오르는 치맛자락] 상태에 진입하며, 스킬 발동 시 홀드 을 취소할 수 있다.\n<td class"
+    },
+    {
+      "name": "핵심패시브: 운명의 비가",
+      "major": "핵심스킬",
+      "minor": "핵심패시브",
+      "description": "운명의 비가\n[일반 공격: 흩날리는 깃과 꽃]이 에테르 이상 상태, 전기 속성 이상 상태, 불 속성 이상 상태, 물리 속성 이상 상태, 얼음 속성 이상 상태의 타깃에게 명중 시 [난개]를 1회 발동하여 추가로 속성 이상 피해를 1회 결산한다. 추가 속성 이상 피해는 이상 마스터리 10pt당 기존 속성 이상 피해의 n%/n%/n%/n%/n%이다.[일반 공격: 떠오르는 치맛자락·낙하] 혹은 [일반 공격: 흩날리는 깃과 꽃]이 임의의 속성 이상 상태 의 타깃에게 명중 시 타깃이 [비비안의 예언] 상태에 진입하고, 0.55초마다 비비안 공격력 55%만큼 에테르 피해를 받는다. 해당 피해는 속성 이상 효과의 추가 피해를 발동할 수 있다. 타깃이 더 이상 속성 이상 상태가 아닐 시 [비비안의 예언]이 종료된다. 전장 진입 시, 비비안이 [비상의 깃]을 2pt 획득한다.\n[난개] 결산 피해 계수(이상 마스터리 10pt당)\n-\n이상 장악력 12pt 증가\n기본 공격력 25pt 증가\n이상 장악력 12pt 증가\n기본 공격력 25pt 증가\n이상 장악력 12pt 증가\n기본 공격력 25pt 증가\n<div class=\"LqISFmE6 vvHN"
+    },
+    {
+      "name": "추가능력: 예언의 눈물",
+      "major": "핵심스킬",
+      "minor": "추가능력",
+      "description": "예언의 눈물\n파티에 다른 [이상] 캐릭터 혹은 자신과 속성이 같은 캐릭터가 존재할 시 발동:파티 내 임의의 캐릭터가 적에게 속성 이상 효과 부여 시 비비안이 [수호의 깃]를 1pt 소모하고 목표에게 [일반 공격: 흩날리는 깃과 꽃]을 1회 발동한다. 0.5초마다 최대 1회 발동한다.파티 전체가 가하는 [침식] 피해와 결산 시 결산되는 [혼돈] 피해가 12% 증가한다.\n[ 01 ~ 03 활성화 ]\n[ 04 ~ 06 활성화 ]\n01</stro"
+    }
+  ],
+  "extractedAt": "2026-03-29T06:37:05.263Z"
+}

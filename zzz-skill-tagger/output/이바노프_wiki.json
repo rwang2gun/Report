@@ -1,0 +1,104 @@
+{
+  "agent": {
+    "fullName": "앤톤 이바노프",
+    "shortName": "이바노프",
+    "attr": "전기",
+    "cls": "강공",
+    "faction": "벨로보그 중공업",
+    "grade": "A",
+    "version": ""
+  },
+  "skills": [
+    {
+      "name": "회피: 움직이자고",
+      "major": "회피스킬",
+      "minor": "회피",
+      "description": "움직이자고\n을 짧게 탭하여 시전:빠른 대시로 회피한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n움직이자고"
+    },
+    {
+      "name": "대시공격: 강경 대응",
+      "major": "회피스킬",
+      "minor": "대시공격",
+      "description": "강경 대응\n회피 시 을 짧게 탭하여 시전:전방으로 충돌해 물리 피해를 준다.\n강경 대응\n<div class='iR1C9VHd'"
+    },
+    {
+      "name": "회피반격: 답례 펀치",
+      "major": "회피스킬",
+      "minor": "회피반격",
+      "description": "답례 펀치\n[극한 회피] 발동 후 을 짧게 탭하여 시전:전방의 적에게 연속 펀치를 날려 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<strong"
+    },
+    {
+      "name": "회피반격: 과부하 드릴(폭발 상태)",
+      "major": "회피스킬",
+      "minor": "회피반격",
+      "description": "과부하 드릴(폭발 상태)\n[폭발 상태]에서 [극한 회피] 발동 후 을 짧게 탭하여 시전:전방의 적에게 [드릴 공격]으로 대량의 전기 속성 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<td style='background-color:#d7be71; text-align:center;' data-dark-style='background-color:#5E4D1A; color:#CEC9C3;' d"
+    },
+    {
+      "name": "빠른지원: 함께 싸우는 거야",
+      "major": "지원스킬",
+      "minor": "빠른지원",
+      "description": "함께 싸우는 거야\n출전 캐릭터가 넉업되면 을 짧게 탭하여 시전:전방의 적에게 연속 펀치를 날려 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<div class='iR1C9VHd' data-"
+    },
+    {
+      "name": "패링지원: 지원 드릴(폭발 상태)",
+      "major": "지원스킬",
+      "minor": "패링지원",
+      "description": "지원 드릴(폭발 상태)\n출전 캐릭터가 넉업되면 을 짧게 탭하여 시전:전방의 적에게 [드릴 공격]으로 대량의 전기 속성 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<div"
+    },
+    {
+      "name": "지원돌격: 강철 손목",
+      "major": "지원스킬",
+      "minor": "지원돌격",
+      "description": "강철 손목\n출전 캐릭터 피격 직전에 을 짧게 탭하여 시전:적의 공격을 패링하고 대량의 그로기 수치를 누적한다.우수한 패링 능력을 갖추고 있어 고강도 공격 패링 시 [지원 포인트]의 소모량이 감소한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n가벼운 패링 그로기 배율\n강한 패링 그로기 배율\n연속 패링 그로기 배율\n<div class="
+    },
+    {
+      "name": "지원돌격: 극한 돌진",
+      "major": "지원스킬",
+      "minor": "지원돌격",
+      "description": "극한 돌진\n[패링 지원] 시전 후 을 짧게 탭하여 시전:전방의 적에게 [드릴 공격]을 시전하고 [스파이크 공격]으로 마무리하여 전기 속성 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<td style='background-color:#d7be71; text-align:center;' data-dark-style='background-color:#5E4D1A; color:#CEC9C3;' data-v-f43ef"
+    },
+    {
+      "name": "특수스킬: 돌아보자고, 친구!",
+      "major": "특수스킬",
+      "minor": "특수스킬",
+      "description": "돌아보자고, 친구!\n을 짧게 탭하여 시전:전방 직선 구역 내 적에게 [스파이크 공격]을 시전해 전기 속성 피해를 준다.스킬을 시전하는 동안 경직 저항 레벨이 증가한다.\n<stro"
+    },
+    {
+      "name": "강화특수스킬: 하늘 높이 오르자고, 친구!",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "하늘 높이 오르자고, 친구!\n에너지가 충분한 상태에서 을 짧게 탭하여 시전:전방 직선 구역 내 적에게 다단 [스파이크 공격]으로 대량의 전기 속성 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.스킬 시전 후 앤톤은 [폭발 상태]에 진입한다. [폭발 상태]에서 앤톤은 더욱 강력한 스킬로 대량의 전기 속성 피해를 주고, 스킬이 타깃에게 명중함에 따라 에너지를 점차 소모한다. 에너지가 소진될 때까지 지속된다.\n40pt\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='6085689' data-src='//i.namu.wiki/i/Olc-KJ6LAEdlemHLe0wmcaXaE4uXCIVsAE4OaipLTMppGvumWNDcTVHMdXeK1EroNGdYBAqO1cUnE3uGLKHAJQ.gif' alt='앤톤 강화 특수 스킬' data-video-src='//i.namu.wiki/i/Vj5s1WtWh2xHe8q6MUNoNFWIkFjyJuvRL9_37rRXujdjsIPatDPyN1K3sVyfIyOVZzcDW860_x3b_89To2Pmng.mp4' data-video-filesize='348731' data-doc='/jump/ekuv7HJFPAasDDp3d9H85koJPGP4W7RfMNK%2"
+    },
+    {
+      "name": "특수스킬: 폭발 드릴(폭발 상태)",
+      "major": "특수스킬",
+      "minor": "특수스킬",
+      "description": "폭발 드릴(폭발 상태)\n[폭발 상태]에서 을 짧게 탭하여 시전:전방의 적에게 [스파이크 공격]을 시전해 전기 속성 피해를 준다.스킬을 시전하는 동안 경직 저항 레벨이 증가한다.\n<d"
+    },
+    {
+      "name": "콤보스킬: 빙글빙글!",
+      "major": "콤보공격",
+      "minor": "콤보스킬",
+      "description": "빙글빙글!\n[콤보 스킬] 발동 시 해당 캐릭터를 선택해 시전:전방의 지면에 넓은 범위의 [스파이크 공격]을 시전해 구역 내 적에게 대량의 전기 속성 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n빙글빙글!\n가장 깊은 곳으로! / 받을 수 있겠어?! / 간다, 친구!\n<div class=\"LIVgVy+"
+    },
+    {
+      "name": "궁극기: 빙글빙글 돌아라!",
+      "major": "궁극기",
+      "minor": "궁극기",
+      "description": "빙글빙글 돌아라!\n데시벨 레벨 [Maximum] 달성 시 을 짧게 탭하여 시전:전방의 지면에 넓은 범위의 [스파이크 공격]을 시전해 구역 내 적에게 대량의 전기 속성 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<td style='background-color:#d7be71; text-align:center;' data-dark-style='background-color:#5E4D1A; color:#CEC9C3;' da"
+    },
+    {
+      "name": "핵심패시브: 형제 단합!",
+      "major": "핵심스킬",
+      "minor": "핵심패시브",
+      "description": "형제 단합!\n앤톤이 [스파이크 공격] 시전 시 스킬로 주는 피해가 n% 증가하고, [드릴 공격] 시전 시 스킬로 주는 피해가 n% 증가한다.\n[스파이크 공격] 피해 증가\n[드릴 공격] 피해 증가\n-\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가"
+    },
+    {
+      "name": "추가능력: 한마음 한뜻",
+      "major": "핵심스킬",
+      "minor": "추가능력",
+      "description": "한마음 한뜻\n파티에 자신과 속성 혹은 진영이 같은 캐릭터가 존재할 시 발동:앤톤이 [폭발 상태] 진입 후 치명타를 4회 발동할 때마다, 다음번 공격이 [감전] 상태인 적에게 명중 시 기존의 45%만큼 [감전] 피해를 추가로 1회 더 결산한다. 0.5초 동안 최대 1회 발동한다.\n[ 01 ~ 03 활성화 ]\n[ 04 ~ 06 활성화 ]\n워밍업\n[드릴 공격]이 적에게 명중 시 에너지를 추가로 회복할 수 있다.동일한 공격 한 번에 해당 효과로 앤톤이 에너지를 최대 5pt 회복한다.「깼어? 움직이자, 친구!」「리듬에 몸을 맡겨. 지금은 아침 체조 시간이야!」\n기세등등\n<div class='iR1C9VHd"
+    }
+  ],
+  "extractedAt": "2026-03-27T00:50:04.937Z"
+}

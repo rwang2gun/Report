@@ -1,0 +1,98 @@
+{
+  "agent": {
+    "fullName": "네코미야 마나",
+    "shortName": "마나",
+    "attr": "물리",
+    "cls": "강공",
+    "faction": "교활한 토끼굴",
+    "grade": "S",
+    "version": ""
+  },
+  "skills": [
+    {
+      "name": "기본공격: 냥냥 할퀴기",
+      "major": "일반공격",
+      "minor": "기본공격",
+      "description": "냥냥 할퀴기\n을 짧게 탭하여 시전:전방을 향해 최대 5단까지 베기를 펼쳐 물리 피해를 준다.마지막 다섯 번째 베기 시전 시 33.33% 확률로 공격을 3회 반복한다.\n1단 / 2단 / 3단 / 4단 / 5단 피해 배율\n1단 / 2단 / 3단 / 4단 / 5단 그로기 배율\n<table class='XHCLabS-' style='background-color:#fff; color:#fff; width:100%; border:2px solid #222;' data-dark-style='background-color:#22"
+    },
+    {
+      "name": "차지공격: 적색 칼날",
+      "major": "일반공격",
+      "minor": "차지공격",
+      "description": "적색 칼날\n초반 3단 [일반 공격] 중에 을 홀드하여 시전:전방을 베어 전방의 적을 꿰뚫고 물리 피해를 준다.스킬 시전 시 33.33% 확률로 공격을 3회 반복한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjI4MSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='6534215' data-src='//i.namu.wiki/i/9JgladR5OD1eiRjNba3dFaswcZe7vOYDInnstVOXj66gtUSkUDxW2GQJ-sd_uNSkObtHB22LMIpI_pQRu4Ld-Q.gif' alt='네코마타 일반 공격2' data-video-src='//i.namu.wiki/i/T7A8rWi9txrz-ZUKBZwRJOaFIHRyULFYmhmr2oKI_OvICtZ82vHrIcbyeHSGU8kq2JwTQECZ-DZ7T7q_Hb7U9A.mp4' data-video-filesize='486765' data-doc='/jump/kcmZdgN7pu8Z%2B5enGLtNCgyzQsNTDZYQNz0S1LQygikPYPgn7r5vVljNkP1bw2FIOa6K%2FIAxUWyQZoStiijttg%3D%3D' data-v-f43efd34"
+    },
+    {
+      "name": "회피: 안 맞지옹~",
+      "major": "회피스킬",
+      "minor": "회피",
+      "description": "안 맞지옹~\n을 짧게 탭하여 시전:빠른 대시로 회피한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n안 맞지옹~"
+    },
+    {
+      "name": "대시공격: 어디 보는 거냐?",
+      "major": "회피스킬",
+      "minor": "대시공격",
+      "description": "어디 보는 거냐?\n회피 시 을 짧게 탭하여 시전:전방을 베어 물리 피해를 준다.\n<img class='V0NZnDRF' width='100%' src='//i.namu.wiki/i/Nd1quvolz"
+    },
+    {
+      "name": "회피반격: 허영의 발톱",
+      "major": "회피스킬",
+      "minor": "회피반격",
+      "description": "허영의 발톱\n[극한 회피] 발동 후 을 짧게 탭하여 시전:전방의 적을 베어 물리 피해를 준다. 스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjI4MSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='6532187' data-src='//i.namu.wiki/i/H-pGz60BWTYP7KFYaczKAEee-sy6MCt25zcohki3X5Z0oaEhcEhDEUp8hBQ0sq0TsBh-O9nUbvARVBxvwuk-_Q.gif' alt='네코마타 회피 반격' data-video-src='//i.namu.wiki/i/erAWJRuz5YxUAOYyb5Kh6-oaRmzl_rjlEUQ74GT0yB2tv5G4oGpnLKxnPb0qLIeDuCCCMShpriHe2Ow5QPxMog.mp4' data-video-filesize='374423' data-doc='/jump/c3ZFc5Zvqmag510VF3S%2FpKSG78xAmYc%2FnIF3XM2xU1KmrqwW%2FzTNiWmZG%2BEP1UABPYu5%2FbK%2BLyth8aRGG91b8A%3D%3D'"
+    },
+    {
+      "name": "빠른지원: 발톱 좀 빌릴게",
+      "major": "지원스킬",
+      "minor": "빠른지원",
+      "description": "발톱 좀 빌릴게\n출전 캐릭터가 넉업되면 을 짧게 탭하여 시전:전방의 적을 베어 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='7950619' data-src='//i.namu.wiki/i/Ewa5uSRY5xiV-Xh3gD2ZYqXHzlCpka3B19QkVZ0dngMRg3HR0B-Hf-NM7HsJvEsgoefpw1cy64CzN0hlyAXdiA.gif' alt='네코마타 빠른 지원' data-video-src='//i.namu.wiki/i/dspkmADyW_3vuttUK6tEbC5z9eETsuNyLpdt0_zQW8WCIcX5pGNP_wCEcCZmHvuJWORD43uBqEyMtwrCzDvEdg.mp4' data-video-filesize='778993' data-doc='/jump/c3ZFc5Zvqmag510VF3S%2FpKSG78xAmYc%2FnIF3XM2xU1JVJOZpJcmAT0jFWnv0KsJ%2FaG7kVQcf3MniZIQEEney3Q%3D%3D"
+    },
+    {
+      "name": "패링지원: 스트레스 방어",
+      "major": "지원스킬",
+      "minor": "패링지원",
+      "description": "스트레스 방어\n출전 캐릭터 피격 직전에 을 짧게 탭하여 시전:적의 공격을 패링하고 대량의 그로기 수치를 누적한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n가벼운 패링 그로기 배율\n강한 패링 그로기 배율\n연속 패링 그로기 배율\n<div class='iR1C9VHd'"
+    },
+    {
+      "name": "지원돌격: 재빠른 그림자",
+      "major": "지원스킬",
+      "minor": "지원돌격",
+      "description": "재빠른 그림자\n[패링 지원] 시전 후 을 짧게 탭하여 시전:전방의 적에게 돌진 베기로 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjI4MiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='6072202' data-src='//i.namu.wiki/i/gwMLLFldBpldJG9dV_7UTHNcKY8sfn2PBXkntnrCmfHydG_4eGewHAlBNA7FW72KPX3EyHngQHOF44l-zmfXaw.gif' alt='네코마타 지원 돌격' data-video-src='//i.namu.wiki/i/ICQMEzkm_M5S37OKwJgn5yAdVeDr40sKQJb8mlb9qHOiLpgQHTUW_SJsFcCVLzTl4ZG26ykhI4x_mzMgpi7LuA.mp4' data-video-filesize='445785' data-doc='/jump/c3ZFc5Zvqmag510VF3S%2FpKSG78xAmYc%2FnIF3XM2xU1JbzrYN4eRadXXFJQfA1ZHbT1lQBkNoOsrTebc7UMy"
+    },
+    {
+      "name": "특수스킬: 기습",
+      "major": "특수스킬",
+      "minor": "특수스킬",
+      "description": "기습\n을 짧게 탭하여 시전:전방 낙하 타격으로 물리 피해를 준다.스킬을 시전하는 동안 경직 저항 레벨이 증가한다.\n<img class='V0NZnDR"
+    },
+    {
+      "name": "강화특수스킬: 앙~칼진 기습!",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "앙~칼진 기습!\n에너지가 충분한 상태에서 을 짧게 탭하여 시전:전방에 강력한 낙하 베기로 대량의 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n40pt\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjI4MSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='4667449' data-src='//i.namu.wiki/i/rvFduBfj9K7AP4C-kr8LkoBeGMKk19elSkEdCg4k3GaOgbb9nqlVbh69D7Unq-TMVuSSdKAon5b45B7Vq6FsLw.gif' alt='네코마타 강화 특수 스킬' data-video-src='//i.namu"
+    },
+    {
+      "name": "콤보스킬: 발톱 휘두르기",
+      "major": "콤보공격",
+      "minor": "콤보스킬",
+      "description": "발톱 휘두르기\n[콤보 스킬] 발동 시 해당 캐릭터를 선택해 시전:전방 넓은 범위 내 적을 강력하게 베어 대량의 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n발톱 휘두르기\n걱정 마, 엄청 아프니까! / 아직은 멀었어~ / 내 스크래쳐가 되라!\n<div class=\"LIVgVy+x"
+    },
+    {
+      "name": "궁극기: 발톱 강습",
+      "major": "궁극기",
+      "minor": "궁극기",
+      "description": "발톱 강습\n데시벨 레벨 [Maximum] 달성 시 을 짧게 탭하여 시전:전방 넓은 범위 내 적을 강력하게 베어 대량의 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjIzNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='7140512' data-src='//i.namu.wiki/i/mS86URT5TDQxgXORoRca6VSfbtNEsnPdkraq8EmYKDhFpwUO9pGwqOpPzT6JcU2heNtj49Ap_pPb8BSXdhH4Ew.gif' alt='네코마타 궁극기' data-video-src='//i.namu.wiki/i/Rx-sk0kOtF2wMys62U4Uh1NZx630zC28dkAUIc9F7THmLGI9OgSa7OPzthlOIHmtP73HWEatJ4cSF3ZI3O_57A.mp4' data-video-filesize='566120' data-doc='/jump/tUtr6ll12F4CWqeHnDrMlmzRjR1AB%2BKX%2BAQXeBsu2Qg1VDVyj%2B%2FRAKJexfWFjKbAIzaCUij"
+    },
+    {
+      "name": "핵심패시브: 살금살금 고양이 걸음",
+      "major": "핵심스킬",
+      "minor": "핵심패시브",
+      "description": "살금살금 고양이 걸음\n네코마타의 [회피 반격] 혹은 [빠른 지원]이 적에게 명중 시 자신이 주는 피해가 n% 증가한다. 지속 시간: 6초\n피해 증가\n-\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가"
+    },
+    {
+      "name": "추가능력: 캣워크",
+      "major": "핵심스킬",
+      "minor": "추가능력",
+      "description": "캣워크\n파티에 자신과 속성 혹은 진영이 같은 캐릭터가 존재할 시 발동:파티 내 임의의 캐릭터가 적에게 [강타] 효과 부여 후, 네코마타가 다음번 [강화 특수 스킬] 시전 시 스킬로 주는 피해가 35% 증가한다. 최대 중첩: 2스택\n[ 01 ~ 03 활성화 ]\n[ 04 ~ 06 활성화 ]\n<td style='color:#fff; background-color:#222; text-align:left;' data-dark-style='background-color:#000; color:#fff;' data-"
+    }
+  ],
+  "extractedAt": "2026-03-26T14:03:08.666Z"
+}

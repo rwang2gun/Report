@@ -1,0 +1,182 @@
+{
+  "agent": {
+    "fullName": "엽빛나",
+    "shortName": "엽빛나",
+    "attr": "서슬",
+    "cls": "강공",
+    "faction": "등장하는 운규산",
+    "grade": "S",
+    "version": ""
+  },
+  "skills": [
+    {
+      "name": "기본공격: 빠른 검",
+      "major": "일반공격",
+      "minor": "기본공격",
+      "description": "빠른 검\n을 짧게 탭하여 시전:전방을 향해 최대 4단까지 베기를 펼쳐 물리 피해를 준다.네 번째 공격 시전 후 [대시 공격: 그림자 같은 질주]를 이어서 시전할 수 있다.\n1단 / 2단 / 3단 / 4단 피해 배율\n1단 / 2단 / 3단 / 4단 그로기 배율\n<img class='V0NZnDRF' width='100%' src='//i.namu.wiki/i/Z5NoGP0DknrQ83AyMaYTgyd1r4Ie10dXxxUp2uF62HHhnpxcmQ1JRHfqJni2mWhMtIT9M7ASiQ2Iw5NDHV0nDwiXBKApuBHuY-UgHeBClSUuOYXhLwygxT5niK9AWFKytTARz3BpY7WqBS3QP6RBBg.svg' al"
+    },
+    {
+      "name": "차지공격: 구름의 검의",
+      "major": "일반공격",
+      "minor": "차지공격",
+      "description": "구름의 검의\n을 홀드하여 시전:빠르게 검기를 날려 물리 피해를 준다. 홀드하여 공격 시간을 연장할 수 있다.스킬을 시전하는 동안 경직 저항 레벨이 증가한다.\n검기 1회당 피해 배율\n검기 1회당 그로기 배율\n구름의 검의"
+    },
+    {
+      "name": "강화차지공격: 명심경·갈라지는 물줄기",
+      "major": "일반공격",
+      "minor": "강화차지공격",
+      "description": "명심경·갈라지는 물줄기\n[명심경] 상태이며 지면에 있을 때 을 짧게 탭하여 시전:전방으로 최대 3단까지 베기를 펼쳐 물리 피해를 준다.세 번째 공격 시전 시 적의 공격을 받으면 가드 효과를 발동하고 해당 피해에 면역될 수 있다.[청명검세]를 보유한 경우, 세 번째 공격이 [일반공격: 명심경·솟구치는 기세]로 변경된다.\n1단 / 2단 / 3단 피해 배율\n1단 / 2단 / 3단 그로기 배율\n<td style='background-color:#db3c2f;"
+    },
+    {
+      "name": "일반공격: 명심경·솟구치는 기세",
+      "major": "일반 공격",
+      "minor": "일반공격",
+      "description": "명심경·솟구치는 기세\n[명심경] 상태에서 [청명검세]를 보유한 채로 두 번째 [일반공격: 명심경·갈라진 물줄기] 후 을 짧게 탭하여 시전:빠르게 공중 공격을 시전하여 적에게 물리 피해를 주고 공중 상태에 진입한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n명심경·솟구치는 기세"
+    },
+    {
+      "name": "일반공격: 명심경·참광·극",
+      "major": "일반 공격",
+      "minor": "일반공격",
+      "description": "명심경·참광·극\n[일반 공격: 명심경·참광·멸] 시전 후 [청명검세]를 보유한 상태에서 을 짧게 탭하여 시전:전방 넓은 범위를 베어 대량의 물리 피해를 주며, 적 명중 시 [청명검세]를 1pt 소모한다.스킬 시전 시 적의 공격을 받으면 가드 효과가 발동되어 해당 피해에 면역되고 스킬의 경직 레벨이 증가한다.스킬 시전 후 [청명검세]를 보유한 상태에서 을 짧게 탭하면 [청명검세]를 1pt 소모하고 [강화 특수 스킬: 명심경·참광]을 시전할 수 있다. 시전 후 자동으로 [일반 공격: 명심경·솟구치는 기세]로 이어지며 공중 상태에 진입한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTk1IiBoZWlnaHQ9IjU1OSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='3684' data-src='//i.namu.wiki/i/Z5NoGP0DknrQ83AyMaYTgyd1r4Ie10dXxxUp2uF62HHhnpxcmQ1JRHfqJni2mWhMtIT9M7ASiQ2Iw5NDHV0nDwiXBKApuBHuY-UgHeBClSUuOYXhLwygxT5niK9AWFKytTARz3BpY7WqBS3QP6RBB"
+    },
+    {
+      "name": "일반공격: 명심경·참광",
+      "major": "일반 공격",
+      "minor": "일반공격",
+      "description": "명심경·참광\n[명심경] 상태에서 공중에 있을 때 을 짧게 탭하여 시전:전방 아래쪽으로 최대 2단까지 베기를 펼쳐 물리 피해를 준다.시전 중에는 [명심경] 상태가 종료되지 않는다. 혹은 을 눌러 [일반 공격: 명심경·참광·멸]을 바로 시전할 수 있다.스킬을 시전하는 동안 무적 효과를 보유한다.\n1단 / 2단 피해 배율\n1단 / 2단 그로기 배율\n<table class='XHCLabS-' style='background-color:#fff; color:#f0f0f0; width:100%; border:2px solid #222;' data-dark-style='background-color:#222;"
+    },
+    {
+      "name": "일반공격: 명심경·참광·멸",
+      "major": "일반 공격",
+      "minor": "일반공격",
+      "description": "명심경·참광·멸\n두 번째 [일반 공격: 명심경·참광] 시전 후 을 짧게 탭하여 시전:전방 아래로 낙하 공격을 하고 지면 상태에 진입해 물리 피해를 준다.시전 시 자신이 2pt 이상의 [청명검세]를 보유하고 있다면, 전방 아래로 넓은 범위의 낙하 공격을 시전하여 대량의 물리 피해를 주며, 적 명중 시 [청명검세]를 2pt 소모하고 [극치] 효과를 획득한다. 스킬 시전 후 [청명검세]를 보유한 상태라면 을 눌러 [청명검세]를 1pt 소모하고 [강화 특수 스킬: 명심경·섬광]을 시전할 수 있으며, 시전 후 [일반 공격: 명심경·참광·극]을 빠르게 이어서 시전할 수 있다.시전 중에는 [명심경] 상태가 종료되지 않는다.스킬 시전 시 적의 공격을 받으면 가드 효과를 발동하고 해당 피해에 면역될 수 있다.스킬을 시전하는 동안 무적 효과를 보유한다.\n청명검세 보유 시\n청명검세 미보유 시\n<div clas"
+    },
+    {
+      "name": "회피: 흔적 없는 걸음",
+      "major": "회피스킬",
+      "minor": "회피",
+      "description": "흔적 없는 걸음\n을 짧게 탭하여 시전:빠른 대시로 회피한다.스킬을 시전하는 동안 무적 효과를 보유한다.[명심경] 상태에서 [극한 회피] 발동 시 을 눌러 [일반 공격: 명심경·솟구치는 기세]를 시전할 수 있다.\n흔적 없는 걸음"
+    },
+    {
+      "name": "대시공격: 구름의 종적",
+      "major": "회피스킬",
+      "minor": "대시공격",
+      "description": "흔적 없는 걸음\n스틱을/방향키를 움직이며 을 홀드하여 시전:고속 이동 상태에 진입한다. 스틱으로/방향키로 방향을 조작할 수 있으며, 스틱/방향키에서 손을 떼면 멈춘다.\n구름의 종적\n바람을 타고! / 천지를 자유롭게!\n사부의 것과 비슷한 고속이동 기술. 납도 상태의 청명검 칼집 위에 옆안장으로 타고 이동한다. 답사 모드에서도 사용할 수 있으며, 접촉시 파괴가능한 오브젝트(나무상자 등)을 파괴한다."
+    },
+    {
+      "name": "회피반격: 그림자 같은 질주",
+      "major": "회피스킬",
+      "minor": "회피반격",
+      "description": "그림자 같은 질주\n회피 시 을 짧게 탭하여 시전:전방을 베어 물리 피해를 준다.\n그림자 같은 질주"
+    },
+    {
+      "name": "회피반격: 제비 같은 민첩함",
+      "major": "회피스킬",
+      "minor": "회피반격",
+      "description": "제비 같은 민첩함\n[극한 회피] 발동 후 을 짧게 탭하여 시전:뛰어오르며 전방을 찔러 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n제비 같은 민첩함"
+    },
+    {
+      "name": "빠른지원: 비춰진 그림자",
+      "major": "지원스킬",
+      "minor": "빠른지원",
+      "description": "비춰진 그림자\n[청명검세]를 6pt 보유하고 [명심경] 상태가 아닐 때 을 홀드하거나, 교전 상태에서 을 짧게 탭하여 대기 캐릭터에서 교체 출전하여 시전:[명심경]에 진입하고 [에테르 장막·결단]을 발동한다.전방 넓은 범위 내 적에게 물리 피해를 준다.스킬 시전 시 [빠른 지원]을 시전한 것으로 간주한다.스킬 시전 후 공중 상태가 된다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTk1IiBoZWlnaHQ9IjU1OSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='3684' data-src='"
+    },
+    {
+      "name": "패링지원: 수비 지원",
+      "major": "지원스킬",
+      "minor": "패링지원",
+      "description": "수비 지원\n현재 조작 중인 캐릭터가 넉업되면 을 짧게 탭하여 시전:뛰어올라 전방을 찔러 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n수비 지원"
+    },
+    {
+      "name": "지원돌격: 다툼 종결",
+      "major": "지원스킬",
+      "minor": "지원돌격",
+      "description": "다툼 종결\n[패링 지원] 시전 후 을 짧게 탭하여 시전:대량의 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n다툼 종결"
+    },
+    {
+      "name": "패링지원: 돌아갈 때",
+      "major": "지원스킬",
+      "minor": "패링지원",
+      "description": "돌아갈 때\n출전 캐릭터 피격 직전에 을 짧게 탭하여 시전:적의 공격을 패링하면 대량의 그로기 수치를 누적한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n가벼운 패링 그로기 배율\n강한 패링 그로기 배율\n연속 패링 그로기 배율\n<img width='100%' src='data:image/svg+xml;base64,PH"
+    },
+    {
+      "name": "빠른지원: 명심경·응전",
+      "major": "지원스킬",
+      "minor": "빠른지원",
+      "description": "명심경·응전\n[명심경] 상태에서 현재 조작 중인 캐릭터가 넉업되면 을 짧게 탭하여 시전:전방을 1회 베어 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n명심경·응전"
+    },
+    {
+      "name": "지원돌격: 명심경·통합",
+      "major": "지원스킬",
+      "minor": "지원돌격",
+      "description": "명심경·통합\n[명심경] 상태에서 [패링 지원] 시전 후 을 짧게 탭하여 시전:대량의 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n명심경·통합"
+    },
+    {
+      "name": "특수스킬: 파도를 인도하는 자",
+      "major": "특수스킬",
+      "minor": "특수스킬",
+      "description": "파도를 인도하는 자\n을 짧게 탭하여 시전:회피 횟수가 있다면 회피 횟수 1회를 소모하고 [회피]를 동시에 시전한 것으로 간주한다.회피 횟수가 없거나 [극한 회피]가 발동되지 않았다면, 적에게 빠른 검기 공격을 시전하여 물리 피해를 준다.이때 [극한 회피]가 발동되면 적에게 비검 공격을 시전하여 물리 피해를 주고, 두 번째 [일반 공격: 빠른 검]을 바로 이어서 사용할 수 있다.스킬을 시전하는 동안 짧은 무적 효과를 보유한다.\n일반\n극한회피\n<td style='text-align:center;' data-v-"
+    },
+    {
+      "name": "강화특수스킬: 파란 평정",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "파란 평정\n에너지가 충분한 상태에서 을 짧게 탭하여 시전:적에게 돌진 베기와 비검 공격으로 대량의 물리 피해를 준다.시전 시 적의 공격을 회피할 수 있다.시전 후 [청명검세]를 1pt 획득한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n60pt\n파란 평정\n<d"
+    },
+    {
+      "name": "특수스킬: 명심경·옷자락을 털고",
+      "major": "특수스킬",
+      "minor": "특수스킬",
+      "description": "명심경·옷자락을 털고\n[명심경] 상태에서 지면에 있을 때 을 짧게 탭하여 시전:빠른 후퇴 베기로 물리 피해를 준다.회피 횟수가 있다면 회피 횟수 1회를 소모하고 [회피]를 동시에 시전한 것으로 간주한다.이때 [극한 회피]가 발동되면 을 눌러 [일반 공격: 명심경·참광·극]을 빠르게 시전하고 [극한 시야]에 진입할 수 있다.또한 이번 [일반 공격: 명심경·참광·극] 시전 후 [일반 공격: 명심경·솟구치는 기세]를 바로 이어서 시전할 수 있다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTk1IiBoZWlnaHQ9IjU1OSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='3684' data-src='//i.namu.wiki/i/Z5NoGP0DknrQ83AyMaYTgyd1r4Ie10dXxxUp2uF62HHhnpxcmQ1JRHfqJni2mWhMtIT9M7ASiQ2Iw5NDHV0nDwiXBKApuBHuY-UgHeBClSUuOYXhLwygxT5niK9AWFKytTARz3BpY7WqBS3QP6RBBg.svg' alt='빈 가로 이미지' data-doc='/jump/MUdW6OK0"
+    },
+    {
+      "name": "강화특수스킬: 명심경·섬광",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "명심경·섬광\n[명심경] 상태에서 [청명검세]를 보유한 상태로 을 홀드하여 시전:빠른 베기로 대량의 물리 피해를 주고 [청명검세]가 소진될 때까지 지속적으로 빠르게 소모한다.[청명검세]가 부족하거나  홀드를 해제하면 스킬이 조기 종료된다.시전 중에는 [명심경] 상태가 종료되지 않는다.스킬을 시전하는 동안 무적 효과를 보유한다.\n청명검세 1pt 소모\n청명검세 6pt 소모[4]\n<di"
+    },
+    {
+      "name": "강화특수스킬: 명심경·귀결",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "명심경·귀결\n[명심경] 상태에서 을 짧은 탭하거나 [청명검세] 시간 소진 시 을 홀드하여 시전:넓은 범위의 적에게 대량의 물리 피해를 준다.시전 중에는 [명심경] 상태가 종료되지 않는다.스킬 시전 후 [에테르 장막·결단]이 해제되며 [명심경] 상태가 종료된다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTk1IiBoZWlnaHQ9IjU1OSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='3684' data-src='//i.namu.wiki/i/Z5NoGP0DknrQ83AyMaYTgyd1r4Ie10dXxxUp2uF62HHhnpxcmQ1JRHfqJni2mWhMtIT9M7ASiQ2Iw5NDHV0nDwiXBKApuBHuY-UgHeBClSUuOYXhLwygxT5niK9AWFKytTARz3BpY7WqBS3QP6RBBg.svg' alt='빈 가로 이미지' data-doc='/jump/ppFsOwc74F7Y9YerMi3%2BCZiOTmZ6yG7eoOKnbzDhTUa%2FzJfrUg9rF01NBZvtCPu8jlMdFo3Yz4UrGjI6bnyX3w%3D%3D' data-v-f43ef"
+    },
+    {
+      "name": "콤보스킬: 악을 베어내리",
+      "major": "콤보공격",
+      "minor": "콤보스킬",
+      "description": "악을 베어내리\n[콤보 스킬] 발동 시 해당 캐릭터를 선택해 시전:전방 넓은 범위 내 적을 강력하게 베어 대량의 물리 피해를 준다.스킬을 시전하는 동안 무적 효과를 보유한다.\n악을 베어내리"
+    },
+    {
+      "name": "궁극기: 운무를 흐리는 전격",
+      "major": "궁극기",
+      "minor": "궁극기",
+      "description": "운무를 흐리는 전격\n데시벨 레벨 [Maximum] 달성 시 을 짧게 탭하여 시전:검진을 소환하고 [명심경] 상태에 진입해 [에테르 장막·결단]을 발동하며, [청명검세]를 6pt 획득하고, 적에게 대량의 물리 피해를 준다.스킬 시전 시 데시벨을 소모했다면, 이번 [명심경] 상태에서 을 눌러 데시벨을 소모하지 않는 [궁극기: 망념을 베고 하늘을 열리]를 시전한다.스킬 시전 후 공중 상태가 된다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTk1IiBoZWlnaHQ9IjU1OSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='3684' data-src='//i.namu.wiki/i/Z5NoGP0DknrQ83AyMaYTgyd1r4Ie10dXxxUp2uF62HHhnpxcmQ1JRHfqJni2mWhMtIT9M7ASiQ2Iw5NDHV0nDwiXBKApuBHuY-UgHeBClSUuOYXhLwygxT5niK9AWFKytTARz3BpY7WqBS3QP6RBBg.svg' alt='빈 가로 이미지' data-doc='/jump/ppFsOwc74F7Y9YerMi3%2BCZiOTmZ6yG7eoOKnbzDhTUa%2FzJfrUg9rF01NBZvtCPu8jlMdFo3Yz4UrGjI6bnyX3w%3D%3D' data-v-f4"
+    },
+    {
+      "name": "콤보스킬: 명심경·거친 우레",
+      "major": "콤보공격",
+      "minor": "콤보스킬",
+      "description": "명심경·거친 우레\n[명심경] 상태에서 [콤보 스킬] 발동 시 해당 캐릭터를 선택해 시전:전방 넓은 범위 내 적을 강력하게 베어 대량의 물리 피해를 준다.시전 중에는 [명심경] 상태가 종료되지 않는다.스킬 시전 후 공중 상태가 된다.스킬을 시전하는 동안 무적 효과를 보유한다.\n명심경·거친 우레"
+    },
+    {
+      "name": "궁극기: 망념을 베고 하늘을 열리",
+      "major": "궁극기",
+      "minor": "궁극기",
+      "description": "망념을 베고 하늘을 열리\n데시벨을 소모하여 [궁극기: 운무를 흐리는 전격] 시전 후 [명심경] 상태에서 을 짧은 탭하거나 [청명검세]가 소진된 후 을 홀드하여 시전:거대한 검을 소환하여 적에게 대량의 물리 피해를 준다.시전 중에는 [명심경] 상태가 종료되지 않는다.스킬 시전 후 [명심경] 상태가 종료되고 [에테르 장막·결단]이 해제된다.본 스킬은 데시벨을 소모하지 않는다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTk1IiBoZWlnaHQ9IjU1OSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='3684' data-src='//i.namu.wiki/i/Z5NoGP0DknrQ83AyMaYTgyd1r4Ie10dXxxUp2uF62HHhnpxcmQ1JRHfqJni2mWhMtIT9M7ASiQ2Iw5NDHV0nDwiXBKApuBHuY-UgHeBClSUuOYXhLwygxT5niK9AWFKytTARz3BpY7WqBS3QP6RBBg.svg' alt='빈 가로 이미지' data-doc='/jump/ppFsOwc74F7Y9YerMi3%2BCZ"
+    },
+    {
+      "name": "핵심패시브: 무명 타파",
+      "major": "핵심스킬",
+      "minor": "핵심패시브",
+      "description": "무명 타파\n[명심경] 상태가 아니면서 보유한 [청명검세]가 6pt 미만일 때 일부 공격은 더디게 [청명검세]를 누적한다. 임의의 방식으로 [청명검세]를 획득할 시 초과한 [청명검세] 1pt당 [그릇] 효과 1스택으로 전환된다. 최대 중첩: 3스택, [명심경] 상태 종료 시 모든 [그릇]을 소모해 상응하는 스택의 [청명검세]를 획득한다.전장 진입 시 [합일] 효과를 획득하며, 치명타 확률이 n% 증가하고, 주는 피해가 n% 증가한다.[궁극기: 운무를 흐리는 전격] 혹은 [등장 스킬: 비춰진 그림자] 사용 후 엽빛나는 [명심경] 상태에 진입해 [에테르 장막·결단]을 발동한다. [에테르 장막·결단]과 [명심경]의 지속 시간은 동일하며 16초간 지속되고, 대기 캐릭터일 때 지속 시간이 줄어들지 않는다. [명심경] 상태에서 엽빛나는 더욱 강력한 스킬을 사용하며, 주는 물리 피해는 모두 서슬 피해이다.[에테르 장막·결단] 지속 기간 중 적이 [에테르 장막·결단]에 진입하면 해당 적의 현재 그로기 약체화 배율에 기반하여 해당 적에게 장막 약체화 효과를 부여한다. 지속 기간 중 엽빛나가 시전하는 스킬로 적에게 피해를 줄 시 적의 그로기 약체화 보너스를 계산하지 않고 장막 약체화 보너스를 계산하는 것으로 전환된다. 장막 약체화 보너스 최대치는 110%이며 [에테르 장막·결단] 종료 시 장막 약체화 효과가 사라진다.\n치명타 확률\n주는 피해 증가\n-\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가\n명심경 상태일 시, "
+    },
+    {
+      "name": "추가능력: 거스르는 빛",
+      "major": "핵심스킬",
+      "minor": "추가능력",
+      "description": "거스르는 빛\n파티에 [지원] 혹은 [방어] 캐릭터 존재 시 발동:파티원이 임의의 [에테르 장막] 발동 시 [청명검세]를 3pt 획득한다. 만약 자신이 이미 [명심경] 상태인 경우, [그릇] 효과를 3스택 획득하는 것으로 변경된다.\n[ 01 ~ 03 활성화 ]\n[ 04 ~ 06 활성화 ]\n꿈속의 나\n전장 진입 시 [청명검세]를 6pt 획득한다. 해당 효과는 답사 모드에서 180초 동안 최대 1회 발동한다.[핵심 패시브: 무명 타파] 중 [합일] 효과가 추가로 주는 피해를 10% 증가시키고, 타깃의 방어력을 20% 무시한다.한밤중 잠에서 깨어난 수없는 밤마다, 그녀는 그날을 떠올렸다-- 검이 진동하고 주인을 인정하며, 계약이 맺어졌던 그 순간. 그것은 과연 행운이었을까, 아니면 저주였을까? ...이 물음의 답을 아는 이는 아무도 없었다. 하지만 그날 이후로, 그녀의 운명은 이 검과 함께하게 되었다.\n빛과 그림자\n[그릇] 중첩 가능 스택이 6스택으로 증가하고, [극치]는 9스택까지 중첩할 수 있다. [명심경] 상태에서 [청명검세]를 1pt 소모할 때마다 [극치] 효과를 1스택 획득한다. [강화 특수 스킬: 명심경·섬광]과 [궁극기: 망념을 베고 하늘을 열리]로 주는 피해가 타깃의 방어력을 40% 무시한다.세월이 흐르고, 계절이 바뀌어 갔다. 그녀가 가진 세상은 운규산 위의 이 작은 한 구석뿐, 산속의 사계절이 볼 수 있는 전부였다. 끝없이 긴 고독과 그림자처럼 따라다니는 공포 속에서「또 다른 자아」가 조용히 태어났다. 「...나는 그 애의 일부야. 처음부터 끝까지, 단 한 순간도 떨어진 적 없지」「그 애가 빛이라면"
+    }
+  ],
+  "extractedAt": "2026-03-26T15:36:56.321Z"
+}

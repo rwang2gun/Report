@@ -1,0 +1,122 @@
+{
+  "agent": {
+    "fullName": "이블린 슈발리에",
+    "shortName": "슈발리에",
+    "attr": "불",
+    "cls": "강공",
+    "faction": "오브 리라",
+    "grade": "S",
+    "version": ""
+  },
+  "skills": [
+    {
+      "name": "기본공격: 끊어내는 현",
+      "major": "일반공격",
+      "minor": "기본공격",
+      "description": "끊어내는 현\n을 짧게 탭하여 시전:전방을 향해 최대 5단까지 공격을 펼쳐 물리 피해 및 불 속성 피해를 준다.다섯 번째 공격이 적에게 명중 시 이블린이 [달빛타래·현]을 사용해 주요 타깃을 연결하고 해당 적과 함께 [뒤엉킨 금제]에 진입한다.\n1단 / 2단 / 3단 / 4단 / 5단 피해 배율\n1단 / 2단 / 3단 / 4단 / 5단 그로기 배율\n<table"
+    },
+    {
+      "name": "차지공격: 포박",
+      "major": "일반공격",
+      "minor": "차지공격",
+      "description": "포박\n이블린이 시전한 스킬이 적에게 피해를 줄 시 [잉걸불]을 누적한다.이블린이 [잉걸불]을 소모해 [교살식]을 시전하거나, [데시벨]을 소모해 [궁극기] 시전 시 [화승점]을 1pt 누적한다.[화승점]을 3pt 보유한 상태에서 이블린이 다음번에 [교살식] 시전 시, 모든 [화승점]을 소모하고 스킬은 경직 레벨이 비교적 약한 [콤보 스킬: 달빛타래·올가미]로 변경된다.\n포박"
+    },
+    {
+      "name": "강화차지공격: 교살식·Ⅰ형",
+      "major": "일반공격",
+      "minor": "강화차지공격",
+      "description": "교살식·Ⅰ형\n[잉걸불]이 50% 이상일 때  혹은 을 홀드해 시전:[잉걸불]을 50% 소모하고 [달빛타래·현]으로 베어 불 속성 피해를 준다.스킬을 시전하는 동안 경직 저항 레벨이 증가하고, 받는 피해가 40% 감소한다.스킬 시전 후 [화승점]을 1pt 누적한다.\n<tr class='NVd-zTYb' data-v-f43efd"
+    },
+    {
+      "name": "일반공격: 교살식·Ⅱ형",
+      "major": "일반 공격",
+      "minor": "일반공격",
+      "description": "교살식·Ⅱ형\n[잉걸불]이 50% 이상일 때 [일반 공격: 교살식·Ⅰ형]을 시전한 후 계속  혹은 을 홀드해 시전:[잉걸불]을 50% 소모하고 [달빛타래·현]으로 추가 공격해 불 속성 피해를 준다.스킬을 시전하는 동안 경직 저항 레벨이 증가하고, 받는 피해가 40% 감소한다.스킬 시전 후 [화승점]을 1pt 누적한다.\n<tbody data-v-f43"
+    },
+    {
+      "name": "회피: 아크 스텝",
+      "major": "회피스킬",
+      "minor": "회피",
+      "description": "아크 스텝\n을 짧게 탭하여 시전:빠른 대시로 회피한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n아크 스텝"
+    },
+    {
+      "name": "대시공격: 잠행 습격",
+      "major": "회피스킬",
+      "minor": "대시공격",
+      "description": "잠행 습격\n회피 시 을 짧게 탭하여 시전:전방의 적을 발로 차 물리 피해를 준다.\n<img class='V0NZnDRF' width='100%' src='//i.namu.wiki/i/jbEdoBZ"
+    },
+    {
+      "name": "회피반격: 올가미 반격",
+      "major": "회피스킬",
+      "minor": "회피반격",
+      "description": "올가미 반격\n[극한 회피] 발동 후 을 짧게 탭하여 시전:[달빛타래·현]을 휘둘러 주변 적을 베고 불 속성 피해를 준다.공격이 적에게 명중 시 이블린은 [달빛타래·현]을 사용해 주요 타깃을 연결하고 해당 적과 함께 [뒤엉킨 금제]에 진입한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='19560245' data-src='//i.namu.wiki/i/j3dL6bKQs-La_Z0KA8723erd_6WwstcjjKRWAfSwL_bQ2ptsRjPacpC_gpKz-RlpxgX9kFMW4bLLTHzGYZefkw.gif' alt='이블린 회피 반격' data-video-src='//i.namu.wiki/i/7-ZYJZZ26DQqLAcY4Ihi48q3ExzAJzTtPSWDS6SpCHQcJIPALVnMfp6CW3m9nBYnDFaa2AML2yJMGP2kUhvzQQ.mp4' data-video-fil"
+    },
+    {
+      "name": "빠른지원: 뜨거운 칼날",
+      "major": "지원스킬",
+      "minor": "빠른지원",
+      "description": "뜨거운 칼날\n현재 조작 중인 캐릭터가 넉업되면 을 짧게 탭하여 시전:[달빛타래·현]을 휘둘러 주변 적을 베고 불 속성 피해를 준다.공격이 적에게 명중 시 이블린이 [달빛타래·현]을 사용해 주요 타깃을 연결하고 해당 적과 함께 [뒤엉킨 금제]에 진입한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='20339094' data-src='//i.namu.wiki/i/ey879E9Xr0C6sVmmB4_Cv_zsL-jXor1DztOMis_60uq2AzxevVrezKBNqAFhJFBjpuH8HO0H6y-eqnTZXACgZg.gif' alt='이블린 빠른 지원' data-video-src='//i.namu.wiki/i/XnR4C9C1x18m-1vdIuB2l4lz1a-BKcgTgVpab-Ec6Ts7vZt-gqmEsPl2qVK_pAhJ793FWeVkV1T8deCA58OzyA.mp4' data-video-"
+    },
+    {
+      "name": "패링지원: 고요한 엄호",
+      "major": "지원스킬",
+      "minor": "패링지원",
+      "description": "고요한 엄호\n출전 캐릭터 피격 직전에 을 짧게 탭하여 시전:적의 공격을 패링하면 대량의 그로기 수치를 누적한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n가벼운 패링 그로기 배율\n강한 패링 그로기 배율\n연속 패링 그로기 배율\n<div class='iR"
+    },
+    {
+      "name": "지원돌격: 궤적 교란",
+      "major": "지원스킬",
+      "minor": "지원돌격",
+      "description": "궤적 교란\n[패링 지원] 시전 후 을 짧게 탭하여 시전:[달빛타래·현]을 휘둘러 벤 후 전방에 폭발을 일으켜 불 속성 피해를 준다.공격이 적에게 명중 시 이블린이 [달빛타래·현]을 사용해 주요 타깃을 연결하고 해당 적과 함께 [뒤엉킨 금제]에 진입한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='19573273' data-src='//i.namu.wiki/i/f0l7dERQjHVOzyFGi_I61JfVps1hdefEPUsjZVcSCZKBWhPFN-oHnpgc86eMOF-TEY3JUracNm2-Jb6kNrr6lQ.gif' alt='이블린 지원 돌격' data-video-src='//i.namu.wiki/i/zoWrKCvLiakJQWqDpVWcbeshuoCXsNFirfF51h8-8ayaNuMbAo1Em1Qyo4RrvNm-mP_-0jnDJaelvBrrGDQ-2A.mp4' data-v"
+    },
+    {
+      "name": "특수스킬: 고정 포지션",
+      "major": "특수스킬",
+      "minor": "특수스킬",
+      "description": "고정 포지션\n[뒤엉킨 금제] 진입 전  혹은 을 탭하여 시전:[달빛타래·현]으로 적을 끌어모은 후 돌진해 발차기로 불 속성 피해를 준다.공격이 적에게 명중 시 이블린이 [달빛타래·현]을 사용해 주요 타깃을 연결하고 해당 적과 함께 [뒤엉킨 금제]에 진입한다.스킬을 시전하는 동안 경직 저항 레벨이 증가한다.\n1단 피해 배율\n1단 그로기 배율\n<tr class='NVd"
+    },
+    {
+      "name": "강화특수스킬: 속박식·Ⅰ형",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "속박식·Ⅰ형\n[뒤엉킨 금제] 진입 후 을 짧은 탭 혹은 홀드해 시전:[뒤엉킨 금제]에 진입한 타깃을 중심으로 주변 적을 끌어모은 후 기폭해 불 속성 피해를 준다. 기폭 후 [뒤엉킨 금제]가 종료된다.스킬 시전 시 적의 공격을 회피할 수 있으며 만약 [극한 회피]에 성공하면 추가로 [잉걸불]을 25% 누적한다.주변 적을 끌어모은 후 을 탭하면 기폭을 취소하고 세 번째 [일반 공격]을 바로 이어서 시전할 수 있다.스킬을 시전하는 동안 경직 저항 레벨이 증가한다.\n속박 / 기폭 피해 배율\n속박 / 기폭 그로기 배율\n<div class='iR1C9VHd' data-v"
+    },
+    {
+      "name": "강화특수스킬: 속박식·최종형",
+      "major": "특수스킬",
+      "minor": "강화특수스킬",
+      "description": "속박식·최종형\n[뒤엉킨 금제] 진입 후 에너지가 충분한 상태에서 을 짧은 탭 혹은 홀드해 시전:[뒤엉킨 금제]에 진입한 타깃을 중심으로 주변 적을 끌어모은 후 기폭해 대량의 불 속성 피해를 준다. 기폭 후 [뒤엉킨 금제]가 종료된다.스킬 시전 시 적의 공격을 회피할 수 있으며 만약 [극한 회피]에 성공하면 추가로 [잉걸불]을 25% 누적한다.주변 적을 끌어모은 후 을 탭하면 기폭을 취소하고 세 번째 [일반 공격]을 바로 이어서 시전할 수 있다.스킬을 시전하는 동안 무적 효과를 보유한다.\n속박 / 기폭 피해 배율\n속박 / 기폭 그로기 배율\n60pt\n<"
+    },
+    {
+      "name": "콤보스킬: 달빛타래·올가미",
+      "major": "콤보공격",
+      "minor": "콤보스킬",
+      "description": "달빛타래·올가미\n[콤보 스킬] 발동 시 해당 캐릭터를 선택해 시전:여러 개의 [달빛타래·현]을 사용해 연속으로 전방 범위 내 적을 베고 기폭해 대량의 불 속성 피해를 준다.공격이 적에게 명중 시 이블린이 [달빛타래·현]을 사용해 주요 타깃을 연결하고 해당 적과 함께 [뒤엉킨 금제]에 진입한다.스킬을 시전하는 동안 무적 효과를 보유한다.\n달빛타래·올가미"
+    },
+    {
+      "name": "궁극기: 달빛타래·현의 울림",
+      "major": "궁극기",
+      "minor": "궁극기",
+      "description": "달빛타래·현의 울림\n데시벨 레벨 [Maximum] 달성 시 을 짧게 탭하여 시전:여러 개의 [달빛타래·현]을 사용해 연속으로 전방 범위 내 적을 베고 기폭해 대량의 불 속성 피해를 준다.스킬 시전 시 이블린이 코트를 벗고 [염무 각성] 상태에 진입해 전투 종료까지 지속된다. [염무 각성] 상태에서 이블린이 [화승점]을 소모해 [콤보 스킬: 달빛타래·올가미] 시전 시 [화승점]을 1pt 보류한다.공격이 적에게 명중 시 이블린이 [달빛타래·현]을 사용해 주요 타깃을 연결하고 해당 적과 함께 [뒤엉킨 금제]에 진입한다.스킬을 시전하는 동안 무적 효과를 보유한다.스킬 시전 후 [화승점]을 1pt 누적한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-fil"
+    },
+    {
+      "name": "궁극기: 달빛타래·현의 그림자",
+      "major": "궁극기",
+      "minor": "궁극기",
+      "description": "달빛타래·현의 그림자\n[염무 각성] 상태에서 데시벨 레벨 [Maximum] 달성 시 을 짧게 탭하여 시전:여러 개의 [달빛타래·현]을 사용해 연속으로 전방 범위 내 적을 베고 기폭해 대량의 불 속성 피해를 준다.공격이 적에게 명중 시 이블린이 [달빛타래·현]을 사용해 주요 타깃을 연결하고 해당 적과 함께 [뒤엉킨 금제]에 진입한다.스킬을 시전하는 동안 무적 효과를 보유한다.스킬 시전 후 [화승점]을 1pt 누적한다.\n<img class='V0NZnDRF UEasJ5rN' width='100%' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48L3N2Zz4=' data-filesize='20078864' data-src='//i.namu.wiki/i/DnXujf8NTEfIAe_PHRat78rUb7q3HRasfJVgKq9sRuLXJvnQhb0bSJ5UiYaj1wRKc4pJMrOirKOB-0j0lB5CIA.gif' alt='이블린 궁극기 2' dat"
+    },
+    {
+      "name": "핵심패시브: 얽매는 줄",
+      "major": "핵심스킬",
+      "minor": "핵심패시브",
+      "description": "얽매는 줄\n[뒤엉킨 금제] 진입 시 이블린의 치명타 확률이 n% 증가한다. [뒤엉킨 금제] 종료 후에도 이블린은 계속 버프를 보유할 수 있다. 지속 시간: 10초. [뒤엉킨 금제] 기간 동안 다른 캐릭터로 교체 시 이블린이 자동으로 [특수 스킬: 속박식·Ⅰ형]을 이어서 시전한다.\n치명타 확률 증가\n-\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가\n치명타 확률 4.8% 증가\n기본 공격력 25pt 증가"
+    },
+    {
+      "name": "추가능력: 잠습 포인트",
+      "major": "핵심스킬",
+      "minor": "추가능력",
+      "description": "잠습 포인트\n파티에 [격파] 캐릭터 혹은 [지원] 캐릭터 존재 시 발동:이블린의 [콤보 스킬] 및 [궁극기]로 주는 피해가 30% 증가한다. 이블린의 치명타 확률이 80% 이상일 시 [콤보 스킬] 및 [궁극기]의 피해 배율이 기존의 125%까지 증가한다.\n[ 01 ~ 03 활성화 ]\n[ 04 ~ 06 활성화 ]\n<td style='color:#fff; background-color:#222; text-align:left;' data-dark-style='background-color:#000; color:#fff"
+    }
+  ],
+  "extractedAt": "2026-03-26T23:10:59.267Z"
+}
