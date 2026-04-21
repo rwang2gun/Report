@@ -1,0 +1,1481 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<title>경쟁작 캐릭터 트렌드 월간 보고서 — 2026.03</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root {
+  --bg: #FBF6EA; --section: #F3EAD3; --card: #FFFBF1; --card-2: #F6EDD7;
+  --line: #E2D6BA; --line-soft: #EDE3CA; --line-strong: #C4B594;
+  --fg: #2B241A; --fg-h: #1A140D; --fg-2: #5B503F; --fg-3: #8C7F66; --fg-4: #B0A386;
+  --info: #4A6FA5; --emph: #A0557B; --pos: #5E8A4A; --neg: #B54545; --warn: #C08A28;
+  --pk-f: #D88AA8; --pk-m: #6F93B8; --pk-r: #A89B82; --pk-x: #9A7BA8; --pk-u: #BEB39A;
+  --role-SS: #C25C8A; --role-S: #8B6BA8; --role-A: #4A6FA5; --role-T2: #B58A3A;
+  --h1: 32px; --h2: 24px; --h3: 18px; --body: 15px; --small: 13.5px; --caption: 12.5px;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+  font-family: "Pretendard", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: var(--body); line-height: 1.55; -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 1, "cv11" 1;
+}
+.mono { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-variant-numeric: tabular-nums; }
+.inter { font-family: "Inter", sans-serif; font-variant-numeric: tabular-nums; }
+.page { max-width: 1200px; margin: 0 auto; padding: 32px 40px 80px; }
+.rpt-header {
+  display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end;
+  padding-bottom: 20px; border-bottom: 1px solid var(--line-strong); margin-bottom: 28px;
+}
+.rpt-header .eyebrow { font-size: 12.5px; letter-spacing: 0.12em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 10px; }
+.rpt-header h1 { font-size: var(--h1); font-weight: 600; margin: 0; color: var(--fg-h); letter-spacing: -0.01em; }
+.rpt-header h1 .muted { color: var(--fg-3); font-weight: 400; }
+.meta-row { display: flex; gap: 28px; font-size: 12.5px; color: var(--fg-2); text-align: right; justify-content: flex-end; }
+.meta-row .k { color: var(--fg-4); display: block; margin-bottom: 3px; letter-spacing: 0.08em; }
+.meta-row .v { color: var(--fg); font-size: 14.5px; }
+.meta-row .v .hl { color: var(--info); }
+.toc {
+  display: flex; gap: 4px; margin-bottom: 32px; padding: 4px;
+  background: var(--section); border: 1px solid var(--line); border-radius: 6px; font-size: 12.5px;
+}
+.toc a { color: var(--fg-2); padding: 6px 10px; border-radius: 4px; text-decoration: none; transition: all 0.15s; white-space: nowrap; }
+.toc a:hover { color: var(--fg); background: var(--card); }
+.toc a .n { color: var(--fg-4); margin-right: 6px; }
+.summary {
+  background: var(--section); border: 1px solid var(--line);
+  border-left: 3px solid var(--emph); border-radius: 6px;
+  padding: 22px 26px; margin-bottom: 40px;
+}
+.summary .label { font-size: 12.5px; letter-spacing: 0.1em; color: var(--emph); text-transform: uppercase; margin-bottom: 14px; }
+.summary ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.summary ol li { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+.summary ol li .num { font-family: "Inter", sans-serif; font-size: 28px; font-weight: 700; color: var(--emph); line-height: 1; opacity: 0.35; }
+.summary ol li .txt { color: var(--fg); font-size: 15px; }
+.summary ol li .txt strong { color: var(--fg-h); font-weight: 600; display: block; margin-bottom: 3px; }
+.summary ol li .txt span { color: var(--fg-2); font-size: 14px; }
+.section-head {
+  display: flex; align-items: baseline; gap: 14px;
+  margin: 56px 0 20px; padding-bottom: 12px; border-bottom: 1px solid var(--line);
+}
+.section-head .sigil { font-size: var(--h2); font-weight: 600; color: var(--fg-3); letter-spacing: -0.005em; font-family: "Inter", sans-serif; font-variant-numeric: tabular-nums; }
+.section-head h2 { font-size: var(--h2); font-weight: 600; margin: 0; color: var(--fg-h); letter-spacing: -0.005em; }
+.section-head .hint { font-size: 12.5px; color: var(--fg-3); margin-left: auto; }
+.game-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 18px; overflow: hidden; }
+.gc-header { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center; padding: 16px 22px; border-bottom: 1px solid var(--line-soft); }
+.gc-header .gc-idx { font-size: 12.5px; color: var(--fg-4); width: 28px; }
+.gc-icon, .gcb-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  display: block;
+  object-fit: cover;
+  border: 1px solid var(--line-soft);
+  background: var(--card-2);
+  flex-shrink: 0;
+}
+.gcb-icon { width: 36px; height: 36px; border-radius: 8px; }
+.gc-header .gc-title { font-size: 18.5px; font-weight: 500; color: var(--fg-2); letter-spacing: -0.005em; }
+.gc-header .gc-studio { display: inline-block; margin-left: 10px; font-size: 12.5px; color: var(--fg-3); font-weight: 400; }
+.gc-header .gc-version { font-size: 12.5px; color: var(--fg-2); text-align: right; }
+.gc-header .gc-version .ver { color: var(--info); }
+.gc-metrics { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line-soft); }
+.gc-metrics .m { padding: 14px 22px; border-right: 1px solid var(--line-soft); }
+.gc-metrics .m:last-child { border-right: 0; }
+.gc-metrics .m-k { font-size: 12px; color: var(--fg-4); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.gc-metrics .m-v { font-family: "Inter", sans-serif; font-size: 16.5px; font-weight: 500; color: var(--fg); }
+.gc-metrics .m-v.pos { color: var(--pos); }
+.gc-metrics .m-v.neg { color: var(--neg); }
+.gc-metrics .m-v.warn { color: var(--warn); }
+.gc-metrics .m-v .trend { font-size: 12.5px; color: var(--fg-3); margin-left: 6px; }
+
+/* Trend section — chart + metrics explanation (overlay only) */
+.trend-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 24px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--card-2);
+}
+@media (max-width: 760px) { .trend-section { grid-template-columns: 1fr; } }
+.trend-chart-wrap { }
+.trend-chart-label {
+  font-size: 12px;
+  color: var(--fg-4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.trend-chart-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+}
+.trend-chart-foot {
+  font-size: 12px;
+  color: var(--fg-4);
+  margin-top: 6px;
+  font-style: italic;
+}
+.trend-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tm-row {
+  background: var(--card);
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.tm-k {
+  font-size: 11.5px;
+  color: var(--fg-4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.tm-v {
+  font-family: "Inter", sans-serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--fg-h);
+  margin-bottom: 3px;
+}
+.tm-v.pos { color: var(--pos); }
+.tm-v.neg { color: var(--neg); }
+.tm-v.warn { color: var(--warn); }
+.tm-trend {
+  font-size: 13px;
+  color: var(--fg-2);
+  line-height: 1.45;
+}
+.pickup-timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.pickup-cell { background: var(--card); padding: 14px 18px; position: relative; min-height: 96px; }
+.pickup-cell .month { font-size: 11.5px; color: var(--fg-4); letter-spacing: 0.1em; margin-bottom: 8px; display: flex; justify-content: space-between; }
+.pickup-cell .stars { color: var(--warn); font-size: 11.5px; letter-spacing: 1px; }
+.pickup-cell .stars .off { color: var(--fg-4); }
+.pickup-cell .swatch-row { display: flex; gap: 4px; align-items: center; margin-bottom: 6px; }
+.pickup-cell .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.pickup-cell .char-names { font-size: 14px; color: var(--fg); font-weight: 500; margin-bottom: 4px; }
+.pickup-cell .tag { font-size: 11.5px; color: var(--fg-3); margin-left: 6px; font-weight: 400; }
+.pickup-cell .note { font-size: 13px; color: var(--fg-2); line-height: 1.45; }
+.pickup-cell.unknown { opacity: 0.55; }
+.pickup-cell.unknown .char-names { color: var(--fg-3); font-style: italic; }
+body.palette-off .pickup-cell .swatch { background: var(--fg-4) !important; opacity: 0.5; }
+.char-list { padding: 4px 0; }
+.char-accordion { border-top: 1px solid var(--line-soft); }
+.char-accordion:first-child { border-top: 0; }
+.char-head { display: grid; grid-template-columns: 20px 1fr auto auto; gap: 14px; align-items: center; padding: 14px 22px; cursor: pointer; user-select: none; transition: background 0.12s; }
+.char-head:hover { background: var(--card-2); }
+.char-head .chev { width: 10px; height: 10px; border-right: 1.5px solid var(--fg-3); border-bottom: 1.5px solid var(--fg-3); transform: rotate(-45deg); transition: transform 0.2s; margin-left: 4px; }
+.char-accordion.open .char-head .chev { transform: rotate(45deg); }
+.char-head .c-name { font-size: 16px; font-weight: 600; color: var(--fg-h); }
+.char-head .c-name .c-alt { color: var(--fg-3); font-weight: 400; font-size: 13.5px; margin-left: 8px; font-family: "Inter", sans-serif; }
+.char-head .c-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.char-head .tag { font-size: 12px; color: var(--fg-2); padding: 2px 7px; border: 1px solid var(--line-strong); border-radius: 3px; background: var(--bg); }
+.role-badge { font-family: "Inter", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 3px; color: #FBF6EA; }
+.role-badge.SS { background: var(--role-SS); }
+.role-badge.S  { background: var(--role-S); }
+.role-badge.A  { background: var(--role-A); }
+.role-badge.T2 { background: var(--role-T2); }
+.char-body { padding: 0 22px 22px 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+.char-splash {
+  grid-column: span 2;
+  width: 100%;
+  max-height: 520px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, #1a1a24 0%, #2a2438 100%);
+  display: block;
+  padding: 12px 0;
+}
+.char-splash-fallback {
+  grid-column: span 2;
+  width: 100%;
+  height: 120px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 6px;
+  background: repeating-linear-gradient(
+    45deg, var(--line-soft), var(--line-soft) 6px,
+    var(--card-2) 6px, var(--card-2) 12px
+  );
+  color: var(--fg-4);
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+}
+.char-body .f-label { font-size: 11.5px; color: var(--fg-4); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.char-body .f-val { font-size: 14px; color: var(--fg); line-height: 1.55; }
+.char-body .f-val.placeholder { color: var(--fg-4); font-style: italic; }
+.user-eval { grid-column: span 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 4px; }
+.eval-col { background: var(--bg); border-left: 3px solid; padding: 10px 12px 10px 13px; border-radius: 2px; min-height: 80px; }
+.eval-col.pos { border-color: var(--pos); }
+.eval-col.neg { border-color: var(--neg); }
+.eval-col.con { border-color: var(--warn); }
+.eval-col .e-label { font-size: 11.5px; letter-spacing: 0.08em; margin-bottom: 6px; text-transform: uppercase; }
+.eval-col.pos .e-label { color: var(--pos); }
+.eval-col.neg .e-label { color: var(--neg); }
+.eval-col.con .e-label { color: var(--warn); }
+.eval-col .e-val { font-size: 13.5px; color: var(--fg-2); line-height: 1.5; }
+.eval-col .e-val.placeholder { color: var(--fg-4); font-style: italic; }
+.insight-box { grid-column: span 2; background: var(--card-2); border-left: 3px solid var(--info); padding: 12px 16px; border-radius: 2px; margin-top: 4px; }
+.insight-box .i-label { font-size: 11.5px; letter-spacing: 0.1em; color: var(--info); margin-bottom: 6px; text-transform: uppercase; }
+.insight-box .i-val { font-size: 14px; color: var(--fg); line-height: 1.6; }
+.insight-box .i-val.placeholder { color: var(--fg-4); font-style: italic; }
+.wiki-btn { grid-column: span 2; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; margin-top: 4px; border: 1px solid var(--line-strong); background: transparent; color: var(--fg-2); font-size: 12.5px; border-radius: 3px; cursor: pointer; text-decoration: none; transition: all 0.15s; width: fit-content; justify-self: start; }
+.wiki-btn:hover { color: var(--fg); border-color: var(--fg-3); }
+.wiki-btn .glyph { opacity: 0.7; }
+.insight-cards { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.insight-card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 18px 22px; display: grid; grid-template-columns: 40px 1fr auto; gap: 18px; align-items: start; }
+.insight-card .idx { font-family: "Inter", sans-serif; font-size: 22px; font-weight: 700; color: var(--fg-4); line-height: 1; padding-top: 2px; }
+.insight-card h3 { font-size: var(--h3); font-weight: 600; margin: 0 0 6px; color: var(--fg-h); }
+.insight-card p { margin: 0; font-size: 14px; color: var(--fg-2); line-height: 1.6; }
+.insight-card .sources { font-size: 11.5px; color: var(--fg-4); letter-spacing: 0.06em; text-align: right; line-height: 1.7; min-width: 140px; }
+.matrix-wrap { background: var(--card); border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.matrix thead th { background: var(--card-2); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-3); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line-strong); font-weight: 500; }
+.matrix tbody td { padding: 12px 14px; border-bottom: 1px solid var(--line-soft); color: var(--fg-2); vertical-align: top; }
+.matrix tbody tr:last-child td { border-bottom: 0; }
+.matrix tbody td.row-label { color: var(--fg-h); font-weight: 500; font-size: 14px; }
+.matrix tbody tr:hover td { background: rgba(43, 36, 26, 0.03); }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.dot.full { background: var(--pos); }
+.dot.half { background: var(--warn); }
+.dot.none { background: var(--line-strong); }
+.dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.dodont .col { background: var(--card); border: 1px solid; border-radius: 6px; padding: 18px 22px; }
+.dodont .col.do   { border-color: rgba(94, 138, 74, 0.35); }
+.dodont .col.dont { border-color: rgba(181, 69, 69, 0.35); }
+.dodont .col h3 { font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 14px; }
+.dodont .col.do h3 { color: var(--pos); }
+.dodont .col.dont h3 { color: var(--neg); }
+.dodont ul { margin: 0; padding: 0; list-style: none; }
+.dodont ul li { padding: 8px 0 8px 22px; border-top: 1px solid var(--line-soft); font-size: 14px; color: var(--fg-2); line-height: 1.55; position: relative; }
+.dodont ul li:first-child { border-top: 0; }
+.dodont ul li::before { position: absolute; left: 0; top: 8px; font-size: 14.5px; line-height: 1.55; }
+.dodont .col.do ul li::before { content: "+"; color: var(--pos); }
+.dodont .col.dont ul li::before { content: "−"; color: var(--neg); }
+.dodont ul li strong { color: var(--fg); font-weight: 500; }
+.watchlist { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 8px 0; }
+.watch-item { display: grid; grid-template-columns: 60px 32px 1fr; gap: 14px; align-items: center; padding: 12px 22px; border-top: 1px solid var(--line-soft); }
+.watch-icon { width: 32px; height: 32px; border-radius: 7px; object-fit: cover; border: 1px solid var(--line-soft); background: var(--card-2); display: block; }
+.watch-icon-fallback {
+  width: 32px; height: 32px; border-radius: 7px;
+  border: 1px dashed var(--line-strong);
+  background: var(--card-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12.5px; color: var(--fg-4); font-weight: 600;
+}
+.watch-item:first-child { border-top: 0; }
+.watch-item .w-main .w-name { font-size: 15px; font-weight: 600; color: var(--fg-h); }
+.watch-item .w-main .w-game { font-size: 12px; color: var(--fg-3); margin-left: 8px; }
+.watch-item .w-main .w-why { font-size: 13.5px; color: var(--fg-2); margin-top: 3px; }
+.watch-item .w-when {
+  font-family: "Inter", sans-serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--info);
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.rpt-footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 2fr 1fr; gap: 40px; font-size: 13px; color: var(--fg-3); line-height: 1.7; }
+.rpt-footer h4 { font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-4); margin: 0 0 10px; font-weight: 500; }
+.rpt-footer ul { margin: 0; padding: 0 0 0 16px; }
+.rpt-footer ul li { margin-bottom: 4px; }
+.rpt-footer .sources-list span { color: var(--fg-2); }
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 18px;
+  margin-top: 4px;
+}
+.sources-grid .cat {
+  background: var(--card);
+  border: 1px solid var(--line-soft);
+  border-radius: 5px;
+  padding: 10px 12px;
+}
+.sources-grid .cat .cat-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-4);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.sources-grid .cat .cat-item {
+  font-size: 13px;
+  color: var(--fg-2);
+  line-height: 1.55;
+}
+.legend-bar { display: flex; align-items: center; gap: 18px; padding: 10px 16px; background: var(--section); border: 1px solid var(--line); border-radius: 6px; margin-bottom: 18px; font-size: 12.5px; color: var(--fg-3); flex-wrap: wrap; }
+.legend-bar .lbl { color: var(--fg-4); letter-spacing: 0.1em; text-transform: uppercase; margin-right: 4px; }
+.legend-bar .item { display: inline-flex; align-items: center; gap: 6px; color: var(--fg-2); }
+.legend-bar .item .sw { width: 10px; height: 10px; border-radius: 2px; }
+.tweaks { position: fixed; right: 24px; bottom: 24px; width: 260px; background: var(--card); border: 1px solid var(--line-strong); border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); padding: 14px 16px; z-index: 50; font-size: 13.5px; display: block; }
+.tweaks h5 { font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3); margin: 0 0 12px; display: flex; justify-content: space-between; }
+.tweaks h5 .close { color: var(--fg-4); cursor: pointer; }
+.tweaks .tw-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-top: 1px solid var(--line-soft); }
+.tweaks .tw-row:first-of-type { border-top: 0; }
+.tweaks .tw-row label { color: var(--fg); font-size: 13.5px; }
+.tweaks .tw-row .desc { color: var(--fg-4); font-size: 12px; margin-top: 2px; }
+.switch { position: relative; width: 34px; height: 18px; background: var(--line-strong); border-radius: 10px; cursor: pointer; transition: background 0.15s; flex-shrink: 0; }
+.switch.on { background: var(--info); }
+.switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; background: #fff; border-radius: 50%; transition: transform 0.15s; }
+.switch.on::after { transform: translateX(16px); }
+.game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.gcb { text-align: left; width: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 0; cursor: pointer; color: inherit; font-family: inherit; transition: border-color 0.15s, transform 0.15s, background 0.15s; display: flex; flex-direction: column; }
+.gcb:hover { border-color: var(--info); background: var(--card-2); }
+.gcb:hover .gcb-arrow { color: var(--info); transform: translateX(2px); }
+.gcb-top { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 16px 20px 14px; border-bottom: 1px solid var(--line-soft); }
+.gcb-idx { font-size: 12px; color: var(--fg-4); letter-spacing: 0.08em; }
+.gcb-title-wrap .gcb-title { font-size: 16px; font-weight: 500; color: var(--fg-2); letter-spacing: -0.005em; }
+.gcb-title-wrap .gcb-studio { font-size: 12px; color: var(--fg-3); margin-top: 3px; }
+.gcb-arrow { color: var(--fg-3); font-size: 18px; transition: color 0.15s, transform 0.15s; }
+.gcb-metrics { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line-soft); }
+.gcb-m { padding: 12px 20px; border-right: 1px solid var(--line-soft); }
+.gcb-m:last-child { border-right: 0; }
+.gcb-m-k { font-size: 11px; color: var(--fg-4); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.gcb-m-v { font-family: "Inter", sans-serif; font-size: 15px; font-weight: 500; color: var(--fg); font-variant-numeric: tabular-nums; }
+.gcb-m-v.pos { color: var(--pos); }
+.gcb-m-v.neg { color: var(--neg); }
+.gcb-m-v.warn { color: var(--warn); }
+.gcb-timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-soft); }
+.gcb-tl { background: var(--card); padding: 10px 14px 11px; min-height: 60px; }
+.gcb:hover .gcb-tl { background: var(--card-2); }
+.gcb-tl.unknown { opacity: 0.5; }
+.gcb-tl-m { font-size: 11px; color: var(--fg-4); letter-spacing: 0.1em; margin-bottom: 5px; }
+.gcb-tl-sw { display: flex; gap: 3px; margin-bottom: 4px; }
+.gcb-tl-sw .sw { width: 9px; height: 9px; border-radius: 2px; }
+body.palette-off .gcb-tl-sw .sw { background: var(--fg-4) !important; opacity: 0.5; }
+.gcb-tl-n { font-size: 13px; color: var(--fg-2); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.gcb-foot { display: flex; justify-content: space-between; align-items: center; padding: 11px 20px; font-size: 12px; color: var(--fg-3); border-top: 1px solid var(--line-soft); }
+.gcb-foot .gcb-cta { color: var(--info); letter-spacing: 0.04em; }
+.detail-overlay { position: fixed; inset: 0; background: rgba(5, 8, 13, 0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 100; display: flex; justify-content: center; padding: 40px 20px; animation: fadeIn 0.15s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.detail-panel { width: 100%; max-width: 1120px; max-height: calc(100vh - 80px); background: var(--bg); border: 1px solid var(--line-strong); border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+.detail-topbar { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px; border-bottom: 1px solid var(--line); background: var(--section); flex-shrink: 0; }
+.detail-breadcrumb { font-size: 12.5px; letter-spacing: 0.08em; }
+.detail-nav { display: flex; gap: 6px; }
+.dn-btn { background: transparent; color: var(--fg-2); border: 1px solid var(--line-strong); padding: 6px 12px; font-size: 12.5px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+.dn-btn:hover { color: var(--fg); border-color: var(--fg-3); background: var(--card); }
+.dn-btn.dn-close { margin-left: 8px; }
+.dn-btn.dn-close:hover { color: var(--neg); border-color: var(--neg); }
+.detail-scroll { overflow-y: auto; flex: 1; scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+.detail-scroll::-webkit-scrollbar { width: 10px; }
+.detail-scroll::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 5px; }
+.detail-inner { padding: 28px 32px 40px; }
+.detail-inner .game-card { margin-bottom: 0; border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script type="text/babel" data-presets="react">
+
+/* =========================================================
+   DATA — 2026.03 실데이터 기준
+   ========================================================= */
+
+const REPORT_META = {
+  month: "2026.03", issued: "2026.04.21",
+  gamesAnalyzed: 6, charactersAnalyzed: 11,
+  issue: "VOL.01",
+};
+
+const TOP_TRENDS = [
+  {
+    title: "픽업 성별·신규·복각 구성 = 월간 매출의 1차 변수",
+    detail: "원신 −27.5%(남캐 2연속+복각 구간) vs 젠레스 +24%(여캐 신규 + 엔젤디 팩션 완성 이중 동력)가 같은 퍼블리셔(호요버스) 내부에서 극명히 갈림. 다만 스타레일 +50%는 여1·남1 혼합이면서도 신메카닉 2종(환락 운명·추공) 효과가 성별 구성을 덮은 케이스 — 성별만으로 환원되지 않는 복합 변수임을 확인.",
+  },
+  {
+    title: "자원 관리 서브 레이어 경쟁의 표준화",
+    detail: "달 반응(콜롬비나)·웃음 포인트(스파키)·미끼 추공(애쉬베일)·룬 3단(시그리카)·취약 스택(로시) — 캐릭터당 전용 자원 레이어 1~2개 탑재가 신작 공식. 학습 비용 누적이 온보딩 과제.",
+  },
+  {
+    title: "기존 IP Alter Ego / 이격 경제학의 동시 등장",
+    detail: "스파키(스파클의 가면 자아), 아르카나: 포츈 메이트(이격 스킨), 스노우 화이트 이격 — 원본 인기 캐릭터의 파생 SKU 전략이 3종 이상 동시 발생. 재고 확장과 비용 절감의 표준 수단화.",
+  },
+];
+
+const PICKUP_LEGEND = [
+  { key: "f",  color: "#FF9FC9", label: "여캐 신규" },
+  { key: "m",  color: "#7DCFFF", label: "남캐 신규" },
+  { key: "r",  color: "#8B95A3", label: "복각" },
+  { key: "x",  color: "#BB9AF7", label: "혼합" },
+  { key: "u",  color: "#3A3A3A", label: "자료 미확보" },
+];
+
+const PK = { f: "#FF9FC9", m: "#7DCFFF", r: "#8B95A3", x: "#BB9AF7", u: "#3A3A3A" };
+
+const GAMES = [
+  /* ============ 원신 ============ */
+  {
+    idx: "G1",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/19/a7/21/19a72154-655e-aeab-0ba8-77e2320d1dc1/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg",
+    title: "원신 (Genshin Impact)",
+    studio: "HoYoverse",
+    version: "v6.4 (전반 2/25–3/17, 후반 3/17–4/7)",
+    period: "2026.03 대상",
+    revenueTrend: [
+      { month: "JAN", value: 42.0, label: "콜롬비나" },
+      { month: "FEB", value: 55.3, label: "자백" },
+      { month: "MAR", value: 40.1, label: "바르카+복각" },
+    ],
+    metrics: [
+      { k: "신규 출시", v: "1", trend: "(남1 · 바르카)", tone: "" },
+      { k: "매출 추세", v: "▽ −27.5%", trend: "$55.3M → $40.1M (2→2위)", tone: "neg" },
+      { k: "메타 변화", v: "높음", trend: "이도류 원소 전환 신설", tone: "warn" },
+    ],
+    pickup: [
+      { month: "JAN (v6.3 전)", stars: 4, tags: [PK.f, PK.r], chars: "콜롬비나 신규 · 이네파 복각", tag: "여캐+복각", note: "콜롬비나(물/달 법구, 집정관급) 1/14 출시. 루머 누적 3년의 페이오프. 강력한 여캐 신규 동력." },
+      { month: "FEB (v6.3 후)", stars: 5, tags: [PK.f, PK.r], chars: "자백 신규 · 느비예트 복각", tag: "여캐+복각", note: "자백(여 · 바위 한손검) 2/3 출시 + 일루가 4성(바위) + 느비예트 복각. 3개월 중 매출 정점($55.3M) — 여캐 신규 + 인기 캐릭터 복각의 이중 동력." },
+      { month: "MAR (v6.4)",   stars: 3, tags: [PK.m, PK.r], chars: "바르카 신규 → 스커크·에스코피에 복각", tag: "남캐+복각2", note: "바르카(남 · 바람 양손검, 대단장) 출시. T2 성능 논란 + 후반 복각 2종만 배치로 매출 −27.5% 하락. 2월 여캐 정점에서의 구조적 하락." },
+    ],
+    characters: [
+      {
+        name: "Varka", nameKo: "바르카",
+        tags: ["신규", "남성", "바람", "양손검"], role: "T2",
+        fields: {
+          설정: "몬드 페보니우스 기사단 대단장. 기존 대단장은 남풍 칭호지만 바르카는 북풍 칭호의 예외 사례. 여행자 도착 반 년 전 기사단 최정예를 이끌고 대원정 떠났다가 2026년 3월 귀환. 진(Jean)에게 사실상 단장 업무 위임. 호탕하고 털털한 리더십.",
+          속성: "바람(Anemo) · 양손검 · 필드 딜러. 이도류 시스템.",
+          전투: "왼손은 바람 원소 검 고정, 오른손은 파티 내 다른 캐릭터의 원소로 실시간 전환되는 검. 2풍 2화염 조합에서 220% 시너지 최적. 원소 스킬 278.4% / 폭발 337.0%.",
+          연출: "북풍 대단장 거한형 실루엣. 양손검 교차 스윙, 오른손 검이 파티 구성에 따라 색상·이펙트 변화. 궁극기는 대원정 귀환 서사 반영한 컷씬.",
+          성능: "T2(A) 평가. C0 기준 조합 제한적, C2 이상 투자 시 DPM +25~30% 상승. 돌파 의존도 높음.",
+          매출: "v6.4 전반 픽업으로 3월 매출에 부분 기여했으나 −27.5% 하락 방어 실패. 원인은 성능보다 픽업 로테이션 구조.",
+        },
+        eval: {
+          pos: "오랜 대단장 NPC의 실장 감동, 이도류 원소 전환 메커니즘의 참신함, 몬드 스토리 확장",
+          neg: "T2 성능 논란, 복각 스커크가 더 강하다는 지적, C2 이상 의존으로 무과금 유저 외면",
+          con: "조합 제약이 심하다 — 2풍 2화염 외 편성 성능 급락, 설정상 위상(대단장=최강 인식) 대비 성능 기대치 미달",
+        },
+        insight: "아이코닉 NPC 실장 시 성능은 최소 T1급 보장 필수. '파티 구성 가변형 메커니즘'은 최적해가 좁으면 다양성이 아닌 제약으로 역효과. 캐릭터 내부 위상과 성능의 괴리는 유저 기대치 관리에 치명적.",
+        wiki: "https://genshin-impact.fandom.com/wiki/Varka",
+        image: "https://static.wikia.nocookie.net/gensin-impact/images/3/3e/Character_Varka_Full_Wish.png/revision/latest?cb=20260302193620",
+      },
+    ],
+  },
+
+  /* ============ 붕괴: 스타레일 ============ */
+  {
+    idx: "G2",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/9f/66/c8/9f66c8e9-22ea-9403-6329-2e02e63b8240/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
+    title: "붕괴: 스타레일 (Honkai: Star Rail)",
+    studio: "HoYoverse",
+    version: "v4.0 후반 (3/3~), v4.1 (3/25~4/21)",
+    period: "2026.03 대상",
+    revenueTrend: [
+      { month: "JAN", value: 18.0, label: "복각" },
+      { month: "FEB", value: 21.1, label: "효광" },
+      { month: "MAR", value: 31.7, label: "스파키+애쉬베일" },
+    ],
+    metrics: [
+      { k: "신규 출시", v: "2", trend: "(여1·남1 · 스파키·애쉬베일)", tone: "" },
+      { k: "매출 추세", v: "△ +50.2%", trend: "$21.1M → $31.7M (9→4위)", tone: "pos" },
+      { k: "메타 변화", v: "매우 높음", trend: "환락 운명 + 추공 메타 확립", tone: "warn" },
+    ],
+    pickup: [
+      { month: "JAN (v3.7 후)", stars: 2, tags: [PK.r],       chars: "키레네 복각 계열",  tag: "복각",      note: "v3.7 후반~v4.0 전 대기 구간. 신규 없이 복각 중심, 3개월 중 매출 최저($18M)." },
+      { month: "FEB (v4.0 전)", stars: 3, tags: [PK.f],       chars: "효광 신규",         tag: "여캐 신규",  note: "2/13 v4.0 런칭. 효광(여 · 물리·환락, 선주의 융도 장군 / 웃음 포인트 특화) 출시. 환락 운명 도입으로 메타 전환 신호, 매출 회복 시작($21.1M)." },
+      { month: "MAR (v4.0 후 / v4.1)", stars: 5, tags: [PK.f, PK.m], chars: "스파키 + 애쉬베일", tag: "혼합 연속", note: "3/3 스파키(여 · 화염·환락, 스파클의 가면 자아). 3/25 애쉬베일(남 · 번개·수렵, 미끼 추공). 여1·남1 연속 신규 + 신메카닉 2종이 3개월 매출 정점($31.7M, +50.2%) 견인 — 성별보다 메커니즘 신선도가 주 동력." },
+    ],
+    characters: [
+      {
+        name: "Sparky", nameKo: "스파키",
+        tags: ["신규", "여성형", "화염", "환락"], role: "S",
+        fields: {
+          설정: "스파클이 쓰던 가면이 팬덤의 염원으로 독립 자아를 형성한 존재. 이상 낙원 스트리머. 휴대폰 화면 속에 원본 스파클의 얼굴을 숨긴 '분신(分身)' 설정 — 동일 인물의 파생 인격이라는 내러티브.",
+          속성: "5성 화염 · 환락 운명 · 명목상 메인 딜러, 실제는 서포터+서브딜러 하이브리드",
+          전투: "'웃음 포인트' 자원 관리 — 전투 스킬 포인트를 연속 소모해 파티 전원에 웃음 포인트 생성. 아하 타임(Aha Time) 발동 시 광역 피해 + 다단 바운스. 스파클의 자원 흐름 반전 구조.",
+          연출: "앨리스 모티프 카드 투척, 스트리머 페르소나 포즈(셀피·브이로그 제스처), 가면 뒤 웃음소리. 일반 공격 시 트럼프 카드 공중 부양.",
+          성능: "S급 / 환락 파티 필수는 아니나 유연성 높음. 점유율 +14%p.",
+          매출: "v4.0 후반 픽업이 3월 매출 +50% 급등의 공동 기여자. 출시 주 매출 상위 3주 연속 체류.",
+        },
+        eval: {
+          pos: "스파클 IP 재활용 성공, 자원 교환 방향 반전 참신, 환락 운명 확장의 핵심",
+          neg: "기존 스파클과 역할 중복 우려, 포지셔닝 애매(명목상 딜러지만 실제는 서포터)",
+          con: "헤르타·클라라 실루엣 유사성 지적, 서포터·딜러 분류 혼선으로 티어표 논쟁",
+        },
+        insight: "Alter Ego 파생 캐릭터는 원본 메커니즘의 대칭 반전(자원 소모 → 생성)으로 설계할 때 '재활용' 비판을 피할 수 있음. 원본과의 역할 차별화 명확성이 성패를 가름.",
+        wiki: "https://honkai-star-rail.fandom.com/wiki/Sparxie",
+        image: "https://static.wikia.nocookie.net/houkai-star-rail/images/a/ab/Character_Sparxie_Splash_Art.png/revision/latest?cb=20260206131556",
+      },
+      {
+        name: "Ashveil", nameKo: "애쉬베일",
+        tags: ["신규", "남성", "번개", "수렵"], role: "SS",
+        fields: {
+          설정: "번개·수렵. 명탐정 자칭이지만 추리가 다 빗나가는 허당 개그캐. 대식가, 자칭 괴수. 오른팔 전체가 의수, 팔찌 모양 장식은 '그림자'를 억누르기 위한 못.",
+          속성: "5성 번개 · 수렵 · 추격공격 하이퍼캐리",
+          전투: "'미끼(Bait)' 배치 → 추격 공격(추공) 빈번 유도. 미끼 부착 시 아군 행동 확률적 추공 트리거. 스킬1 설치, 스킬2 연쇄 증폭, 궁극기 맵 전체 폭발. 아군 버프+적 디버프 복합.",
+          연출: "오른팔 의수에서 그림자를 꺼내 미끼 투척. 탐정 포즈(돋보기·수첩) 후 빗나가는 추리 더빙. 먹방 애니메이션 대기 모션 — '허당+강함' 갭을 애니메이션에 반영.",
+          성능: "SS급 / 추공 메타 신설의 축. v4.1 픽업 이후 추공 파티 범용화.",
+          매출: "3월 +50% 매출 급등의 핵심 동력. v4.1 출시 주간 매출 스파이크 관측.",
+        },
+        eval: {
+          pos: "의수=봉인 장치 서사와 미끼 메커니즘의 일체화 호평, 개그톤-전투력 갭모에, 코스프레 바이럴",
+          neg: "추공 파티 특화로 범용 편성 어려움, 진입 장벽 상승",
+          con: "'추공'이 기존 보편 시스템과 자원 경쟁 → 기존 유저의 파티 리셋 비용",
+        },
+        insight: "신체 징표(의수)와 고유 메커니즘(미끼)이 설정·시스템을 공유하면 학습 비용 급감. '도구 = 봉인 장치 = 스킬 사출구'의 3중 연결은 스토리·게임플레이·디자인 통합의 교과서 모델.",
+        wiki: "https://honkai-star-rail.fandom.com/wiki/Ashveil",
+        image: "https://static.wikia.nocookie.net/houkai-star-rail/images/d/d4/Character_Ashveil_Splash_Art.png/revision/latest?cb=20260313174406",
+      },
+    ],
+  },
+
+  /* ============ 젠레스 존 제로 ============ */
+  {
+    idx: "G3",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f1/9e/7c/f19e7c6e-cb97-3572-4514-28b50fe7b7ba/AppIcon-1x_U007emarketing-0-8-0-85-220-0.png/512x512bb.jpg",
+    title: "젠레스 존 제로 (Zenless Zone Zero)",
+    studio: "HoYoverse",
+    version: "v2.7 전반 (3/24–4/14)",
+    period: "2026.03 대상",
+    revenueTrend: [
+      { month: "JAN", value: 12.0, label: "엽빛나+자오" },
+      { month: "FEB", value: 13.4, label: "수나+아리아" },
+      { month: "MAR", value: 16.6, label: "남궁우" },
+    ],
+    metrics: [
+      { k: "신규 출시", v: "1", trend: "(여1 · 남궁우)", tone: "" },
+      { k: "매출 추세", v: "△ +23.9%", trend: "$13.4M → $16.6M (권외→8위)", tone: "pos" },
+      { k: "메타 변화", v: "중간", trend: "엔젤디(AOD) 아이돌 3인 완성", tone: "warn" },
+    ],
+    pickup: [
+      { month: "JAN (v2.5)", stars: 3, tags: [PK.f, PK.m], chars: "엽빛나 신규 · 자오 무료 배포", tag: "혼합", note: "엽빛나(S급 물리, 청명검 공명→백발 변신, 공허 사냥꾼) 12/30 출시, 2026/2/5까지 운영. 자오는 무료 배포 편성 — 런칭 이후 최대 규모 재유입 시도. 매출 $12M." },
+      { month: "FEB (v2.6)", stars: 4, tags: [PK.f, PK.f], chars: "수나 · 아리아 신규", tag: "여캐 연속 2종", note: "2/6 업데이트. 수나(여 · S급 물리 지원, 방울이 표식·기폭, 대형 망치 궁극기) + 아리아(여 · 에테르 이상, 구조체/아이돌 홀로그램 2형태, 엔젤디 메인보컬). 엔젤디 3인 중 2인 선출시, 매출 $13.4M." },
+      { month: "MAR (v2.7 전)", stars: 5, tags: [PK.f],    chars: "남궁우 신규",  tag: "여캐 신규", note: "3/24 '영웅은 과거에 스러지지 않는다' 업데이트. 남궁우(여 · 에테르·격파, 엔젤디 리더)로 엔젤디(AOD) 아이돌 3인 완성형 파티 성사. 여캐 신규 + 팩션 완성 더블 동력으로 3개월 매출 정점($16.6M, +24%)." },
+    ],
+    characters: [
+      {
+        name: "Nangong Yu", nameKo: "남궁우",
+        tags: ["신규", "여성", "에테르", "격파"], role: "S",
+        fields: {
+          설정: "지하 아이돌 그룹 '엔젤디(AOD, Angels of Delusion)'의 리더이자 리드 댄서. 중화 무협 계열 검객·도사 이미지. 수나(물리 서포트)·아리아(에테르 이상, 메인보컬)와 함께 엔젤디 3인 완전체 파티를 구성하는 '완성 키스톤'.",
+          속성: "에테르 속성 · 격파(Break) 특성 · 하이브리드 딜러",
+          전투: "격파 게이지 고속 축적 + 상태이상 누적 동시 수행. 그로기 상태 적에 대한 파티원 전원 이상 축적 효율 증가 패시브 — 격파→그로기→팀 이상 누적 가속의 '팀 윤활유' 역할.",
+          연출: "전통 중화 검술 모션 + 에테르 광휘(보라색) 이펙트. 도교적 주술 패턴 시전, 기합 대사 삽입. 아이돌 퍼포먼스와 무협 검술의 이질적 결합이 캐릭터 아이덴티티.",
+          성능: "S급 / 젠레스에서 드문 격파 전문 포지션. 엔젤디 3인 편성 시 시너지 폭발.",
+          매출: "젠레스 3월 +24% 성장의 직접 동력. 여캐 신규 + 팩션 완성감이 이중으로 매출 견인.",
+        },
+        eval: {
+          pos: "격파 전문 희소성, 엔젤디 3인 완성 쾌감, 아이돌×무협 미학의 참신한 결합",
+          neg: "엔젤디 조합 아니면 성능 하락, 에테르 타겟 편중 적 타입 제한, 콘텐츠 편중",
+          con: "팩션 특화 강화 = 범용성 약화 → 모집 경제상 '사실상 세트 강매' 비판",
+        },
+        insight: "팩션 완성형 파티는 '모으는 맛' + 세트 완결감으로 매출 동력이 강하지만, 팩션 외 조합 범용 가치 미확보 시 픽업 이월 후 급격한 가치 하락. 팩션 공통 패시브 + 개별 범용 옵션의 2중 설계로 반감기 관리 필요. 특히 아이돌·유닛형 팩션은 정체성 강도가 높은 만큼 외부 조합 설계가 더 까다로움.",
+        wiki: "https://zenless-zone-zero.fandom.com/wiki/Nangong_Yu",
+        image: "https://static.wikia.nocookie.net/zenless-zone-zero/images/2/27/Agent_Nangong_Yu_Portrait.png/revision/latest?cb=20260306125628",
+      },
+    ],
+  },
+
+  /* ============ 명조 ============ */
+  {
+    idx: "G4",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7b/26/65/7b26657c-c08c-30c3-6b83-2bd22c53da6f/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
+    title: "명조: 워더링 웨이브 (Wuthering Waves)",
+    studio: "쿠로 게임즈 (Kuro Games)",
+    version: "v3.2 전반 (3/19~)",
+    period: "2026.03 대상",
+    revenueTrend: [
+      { month: "JAN", value: 25.0, label: "라하이 로이" },
+      { month: "FEB", value: 42.0, label: "에이메스 (2위)" },
+      { month: "MAR", value: 22.0, label: "시그리카+구원" },
+    ],
+    metrics: [
+      { k: "신규 출시", v: "1", trend: "(여1 · 시그리카) + 복각 구원", tone: "" },
+      { k: "매출 추세", v: "▽ 권외", trend: "2월 2위 → 3월 TOP 10 이탈", tone: "neg" },
+      { k: "메타 변화", v: "매우 높음", trend: "에코 어빌리티 피해 메타 신설", tone: "warn" },
+    ],
+    pickup: [
+      { month: "JAN (v3.0)", stars: 3, tags: [PK.x], chars: "라하이 로이 지역 런칭 라인업", tag: "지역 확장", note: "2025/12 말 v3.0 라하이 로이 업데이트. SF 풍 신규 지역 도입, 관련 캐릭터 픽업 (세부 자료 미확보). 매출 $25M." },
+      { month: "FEB (v3.1)", stars: 5, tags: [PK.f], chars: "에이메스 신규",  tag: "여캐 신규", note: "2/5 업데이트. 에이메스(여 · 용융·직검, SF 메카닉 걸 · 공중전 가능). 3개월 매출 정점($42M) — 글로벌 2위 견인." },
+      { month: "MAR (v3.2 전)", stars: 2, tags: [PK.f, PK.r], chars: "시그리카 신규 · 구원 복각", tag: "여캐+복각", note: "3/19 업데이트. 시그리카는 구원 없이는 성능 급락으로 '2연속 강매' 인식 확산 → 매출 $22M로 급락, TOP 10 이탈." },
+    ],
+    characters: [
+      {
+        name: "Sigrica", nameKo: "시그리카",
+        tags: ["신규", "여성", "5성", "공명자"], role: "SS",
+        fields: {
+          설정: "스타토치 아카데미 학생, 로야 룬 공명자. 룬 문자를 매개로 한 고전 마법 학문 계열. 아카데미 설정으로 젊은 학생·학자 캐릭터군 확장.",
+          속성: "5성 공명자 · 에코 어빌리티 피해 메인 딜러",
+          전투: "룬 3단 자원 사이클 — 기본 공격 룬 획득 → 강공격 룬 소모 → 소모 시 피해 배율 증폭 버프 → 강력한 기술에 버프를 담는 구조. 고유 스킬 버프는 '에코 어빌리티 6회 발동 시 피해 +66%'로, 시너지 서포터(구원) 없이는 카운트 누적 어려움.",
+          연출: "공중 룬 문양 전개, 마법서 펼침 모션, 학원 제복 + 주술사 혼합 제스처. 강공격 시 룬 문자 폭발 + 은빛 발광.",
+          성능: "구원 조합 시 SS / 단독 A- 하락. 3.2 에코 어빌리티 메타에선 SS지만 파트너 종속.",
+          매출: "3월 TOP 10 이탈 주 원인. 시그리카+구원 2연속 강매 인식으로 신규·복각 양쪽 매출 동반 하락.",
+        },
+        eval: {
+          pos: "에코 어빌리티 피해 새 메타 제시, 룬 자원 관리 전투 유니크, 학원물 감성",
+          neg: "'구원 없으면 과감하게 패스'(게임톡) — 파트너 없이 성능 급락으로 독립 가치 부족",
+          con: "특정 서포터 전제 설계가 '픽업 2연속 강매' 의도로 해석됨, 복각 놓친 유저는 시그리카 가치 반토막",
+        },
+        insight: "복합 파티 의존 설계는 매출·평판 이중 부담. 특정 파트너 전제 설계는 '모으는 맛'보다 '강매 피로도'로 인식됨. 사내 룰로 '스탠드얼론 70% + 시너지 30%' 밸런싱 가이드 권장.",
+        wiki: "https://wutheringwaves.fandom.com/wiki/Sigrika",
+        image: "https://static.wikia.nocookie.net/wutheringwaves/images/7/7c/Sigrika_Full_Sprite.png/revision/latest?cb=20260314162517",
+      },
+      {
+        name: "Qiuyuan (Rerun)", nameKo: "구원",
+        tags: ["복각", "남성", "5성", "검객"], role: "S",
+        fields: {
+          설정: "황룡 각지를 떠도는 고독한 검객. 소박한 옷차림. 명조 초기 리미티드 계열. v3.2에서 시그리카 전반과 함께 '끝없는 여정 속 지친 검객' 배너로 복각 (~4/9).",
+          속성: "5성 공명자 · 에코 어빌리티 피해 특화 버퍼/서브 딜러",
+          전투: "아군 에코 어빌리티 피해를 대폭 강화하는 유일한 버퍼. 에코 어빌리티 피해 증가 효과가 메인인 전용 서포터 세트 존재. 3.1부터 전용 세트 추가.",
+          연출: "검객 모션 기반, 떠돌이 서사 반영한 절제된 포즈. 시그리카와 대비되는 고전 무협 톤.",
+          성능: "S / 에코 어빌리티 메타에서 사실상 대체 불가 서포터.",
+          매출: "시그리카와의 필수 파트너 관계로 수요 발생했으나, 강매 인식으로 복각 매출도 기대치 하회.",
+        },
+        eval: {
+          pos: "에코 어빌리티 메타 유일 버퍼, 고독한 검객 서사의 재조명, 전용 세트 도입",
+          neg: "시그리카 강제 동반 구매 구조에 대한 반발",
+          con: "신규·복각 2연속 편성이 '기획 의도 뻔히 보인다'는 유저 냉소",
+        },
+        insight: "복각 캐릭터를 신규 성능의 전제 조건으로 두는 설계는 단기 매출은 올리지만 장기 신뢰 훼손. 복각은 '있으면 좋음' 포지션, 신규는 '혼자서도 됨' 포지션이 기본값.",
+        wiki: "https://wutheringwaves.fandom.com/wiki/Qiuyuan",
+        image: "https://static.wikia.nocookie.net/wutheringwaves/images/1/14/Qiuyuan_Full_Sprite.png/revision/latest?cb=20251008040539",
+      },
+    ],
+  },
+
+  /* ============ 엔드필드 ============ */
+  {
+    idx: "G5",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/6d/a6/e0/6da6e0eb-c4fa-4dc0-aa55-64eff735eb22/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
+    title: "명일방주: 엔드필드 (Arknights: Endfield)",
+    studio: "하이퍼그리프 (Hypergryph)",
+    version: "v1.1 (3/12–4/14)",
+    period: "2026.03 대상",
+    revenueTrend: [
+      { month: "JAN", value: 18.0, label: "1/22 런칭 (부분)" },
+      { month: "FEB", value: 35.0, label: "런칭 연장" },
+      { month: "MAR", value: 32.0, label: "탕탕+로시" },
+    ],
+    metrics: [
+      { k: "신규 출시", v: "2", trend: "(여2 · 탕탕·로시)", tone: "" },
+      { k: "매출 추세", v: "△ 안정", trend: "출시 3개월차 TOP 6~7 유지", tone: "pos" },
+      { k: "메타 변화", v: "중간", trend: "무릉(2장) 청파채 + 울프팀 2팩션 확장", tone: "warn" },
+    ],
+    pickup: [
+      { month: "JAN (v1.0 출시)", stars: 3, tags: [PK.x], chars: "1/22 글로벌 런칭 (레바테인 중심)", tag: "런칭 (부분)", note: "1/22 글로벌 정식 출시 (월 후반 9일만 커버). 레바테인(여 · 마그마·열, 4스택 연소 폭발) 중심 런칭 라인업. 1/23 기준 일본 1위·한국 3위. 부분 월 매출 $18M." },
+      { month: "FEB (v1.0 후속)", stars: 5, tags: [PK.f, PK.f], chars: "질베르타 (2/7) · 이본 (2/24)",  tag: "여캐 연속 2종", note: "2/7 질베르타(여 · 원소 반응 축) + 2/24 이본(여 · 냉기 메인 DPS, Top-tier 등급). 2/5 선택 호출 허가증(6성 선택권) 지급 이벤트까지 겹쳐 3개월 매출 정점($35M). 런칭 열기 + 여캐 2종 연속 + 선택권 트리플 동력." },
+      { month: "MAR (v1.1 P1·P2)", stars: 4, tags: [PK.f, PK.f], chars: "탕탕 (3/12) · 로시 (3/29)", tag: "여캐 연속", note: "첫 메이저 업데이트. 탕탕(여 · 무릉 청파채 대당가, 물 속성) Phase 1, 로시(여 · 울프팀, 6성 물리·열기 하이브리드) Phase 2. 서로 다른 2개 팩션의 대표 캐릭터 연속 편성, 매출 $32M 유지." },
+    ],
+    characters: [
+      {
+        name: "Tangtang", nameKo: "탕탕",
+        tags: ["신규", "여성", "물", "듀얼핸드캐논"], role: "S",
+        fields: {
+          설정: "무릉(武陵) 지역 청파채(淸波寨)의 '대당가(大當家)'. 성격이 시원시원하고 의리를 중시하며, 행동이 거침없는 인물. 청파채 주민들의 손에 거두어져 자란 고아로 본 혈통은 불명. 평소 안대를 착용하며, 벗으면 눈에 깃든 오리지늄 감염 패턴이 드러남 — 강력한 오리지늄 아츠의 원천이자 혈통의 비밀을 암시하는 복선. 물놀이와 자유를 갈망하면서도 청파채의 미래를 짊어지겠다는 포부를 품음.",
+          속성: "오리지늄 아츠 물 속성 · 원거리 딜러 (쌍권총)",
+          전투: "와류 → 용오름 체인 전환 — 기본 공격으로 와류를 생성하고, 특정 타이밍에 용오름으로 변환 시 광역 피해 + 풀링 효과. 궁극기는 광역 행동 정지. 냉기 파티와 강한 시너지.",
+          연출: "옆으로 비스듬히 쥐는 총자세, 기하학 장식의 마우저형 쌍권총 스위칭, 물 소환 제스처. 발포음의 저음역을 강조해 기존 엔드필드 총기 캐릭터와 차별화.",
+          성능: "S급 · 냉기 파티 완성형 보강. 숙련도 차이로 체감 딜 큼.",
+          매출: "v1.1 Phase 1 리텐션·매출 안정 견인. 중화권 캐릭터로 중화 지역 재유입 효과.",
+        },
+        eval: {
+          pos: "와류→용오름 체인이 숙련도 차이 반영, 엔드필드 첫 본격 중화권 캐릭터, 마우저 × 기하학 디자인 바이럴",
+          neg: "물 속성 제한된 적 타입 대응, 숙련자·초보자 체감 딜 차이 큼",
+          con: "'입양아 + 안문' 스토리 떡밥 과잉 — v1.1에서 미해결로 불만",
+        },
+        insight: "체인형 메커니즘(A→B 전환)은 숙련도 차이로 만족감 차별화, 단 튜토리얼·훈련장 연계 필수. '안대 아래 감염 패턴' 같은 신체 징표를 스토리 떡밥 UI로 쓸 때 해당 버전 내 최소 1개 단서 공개 권장.",
+        wiki: "https://endfield.wiki.gg/wiki/Tangtang",
+        image: "https://endfield.wiki.gg/images/Tangtang_Splash_Art.png?7b1382",
+      },
+      {
+        name: "Rossi", nameKo: "로시",
+        tags: ["신규", "여성", "6성", "물리·열기 하이브리드"], role: "SS",
+        fields: {
+          설정: "본명 '로시나 울프펄 루피노'. 울프팀의 '진주'로 불리는 존재이며, 오빠 '울프가드'(본명 카텔로 울프가드 루피노)의 여동생. 어린 외형이지만 뛰어난 전사·헌터. 아이 취급받는 것을 싫어하는 경쟁적 성격. 울프팀은 무릉 소속이 아닌 독립 팩션이며, 무릉 2장 청파채의 대당가 탕탕과는 타 팩션 간의 라이벌 서사로 교차.",
+          속성: "6성 물리 검 가드 · 물리 + 열기 피해 동시 운용 (엔드필드 최초 하이브리드형)",
+          전투: "취약(Vulnerability) 스택 → 방어력 감소 → 딜 출력 → 스택 재부여의 1인 완결 사이클. 아츠 감염을 취약으로 전환하는 고유 패시브 — 물리·아츠 혼합 파티에서 두 계열 효과를 동시 활용.",
+          연출: "빠른 스텝 + 연속 찌르기 모션, 늑대 문장 스킬 이펙트, 라이벌 대사. 아이 취급을 거부하는 모션(팔짱·삐진 포즈)이 대기 애니메이션에 포함됨.",
+          성능: "SS급 · 1인 완결형의 신 기준. 6성 Power Creep 가속 논쟁.",
+          매출: "v1.1 Phase 2 고점, Red Knight 내러티브 동시 출시로 스토리 몰입 매출 상승.",
+        },
+        eval: {
+          pos: "'혼자서 디버프+딜+스택 다 한다' 운영 편의성 극찬, 라이벌 서사 몰입감",
+          neg: "아츠 감염 → 취약 전환 메커니즘의 직관성 부족, 어린 외형 호불호",
+          con: "6성 Power Creep 가속 논쟁 — '1인 완결은 모집 경제를 훼손한다' 장기 우려",
+        },
+        insight: "1인 완결형은 운영 편의성·신규 유저 친화도 우위, 반면 팀 플레이 의존도 약화로 모집 경제(신규 캐릭터 구매 동력) 훼손 위험. 역할군당 1인 완결형 1명만 허용, 나머지는 의도적 시너지형 설계의 포트폴리오 전략 필요.",
+        wiki: "https://endfield.wiki.gg/wiki/Rossi",
+        image: "https://endfield.wiki.gg/images/Rossi_Splash_Art.png?f5a17e",
+      },
+    ],
+  },
+
+  /* ============ 니케 ============ */
+  {
+    idx: "G6",
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/af/c4/78/afc47868-f19d-8922-065e-ea6102dd57d0/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
+    title: "승리의 여신: 니케 (NIKKE)",
+    studio: "시프트업 (Shift Up)",
+    version: "봄 이벤트 (3/30–4/9)",
+    period: "2026.03 대상",
+    revenueTrend: [
+      { month: "JAN", value: 18.0, label: "스노우 화이트" },
+      { month: "FEB", value: 19.5, label: "벨벳+리코리코" },
+      { month: "MAR", value: 18.0, label: "아르카나 이격" },
+    ],
+    metrics: [
+      { k: "신규 출시", v: "1", trend: "(여1 이격 · 아르카나 포츈)", tone: "" },
+      { k: "매출 추세", v: "− 보합", trend: "3주 단독 픽업 이례적 편성", tone: "" },
+      { k: "메타 변화", v: "낮음", trend: "샷건 파티 고점 강화", tone: "" },
+    ],
+    pickup: [
+      { month: "JAN", stars: 3, tags: [PK.f], chars: "스노우 화이트: 헤비암즈",    tag: "여캐 이격/SSR", note: "신년 기념 이벤트 픽업. 스노우 화이트 계열 이격 편성으로 기존 팬덤 구매력 집중. 매출 $18M." },
+      { month: "FEB", stars: 4, tags: [PK.f, PK.x], chars: "벨벳 · 치사토·타키나 (콜라보)", tag: "콜라보+신규", note: "'FATAL MAID' 이벤트 벨벳(여 · 메이드 포 유 스쿼드). 리코리스 리코일 콜라보 치사토·타키나(여) + 쿠루미(여) 배포. 콜라보 효과로 3개월 매출 피크($19.5M)." },
+      { month: "MAR", stars: 3, tags: [PK.x], chars: "아르카나: 포츈 메이트 이격", tag: "이격(스킨+성능)",  note: "3/30 봄 이벤트. 아르카나 이격 + 한정 코스튬 5종(프리바티·베스티·바이퍼·소라·클레이) 패키지. 3주 단독 편성 보완용, 매출 $18M 보합." },
+    ],
+    characters: [
+      {
+        name: "Arcana: Fortune Mate", nameKo: "아르카나: 포츈 메이트",
+        tags: ["이격", "여성", "샷건"], role: "A",
+        fields: {
+          설정: "기존 아르카나의 '수수께끼의 미소녀 전학생 변신' 이격. 학원물 + 타로 점술 테마 결합. 봄 이벤트 중심 픽업.",
+          속성: "SSR · 버닝(Burn) 속성 · 버스트 II · 샷건(SG, Bittersweet) · 공격력 버퍼형 서포터",
+          전투: "샷건 아군 전체에 공격력 +39% (15초 · 풀 버스트 시 상시 유지) 버프. 버스트 스킬은 자신 제외 샷건 아군에 공격 대미지 +55% 버프. 2버스트임에도 솔로 레이드 DPS가 드레이크급 — 기존 아르카나 구조를 유지하면서 고점만 강화한 '이격'. 원본 아르카나와 동시 소지·운용 가능한 별도 캐릭터.",
+          연출: "교복 + 타로 카드 제스처, 벚꽃 이펙트. 궁극기 발동 시 타로 카드 원형 배치.",
+          성능: "A급 · 샷건 특화. 기존 샷건 파티에 직접 투입 가능.",
+          매출: "봄 패키지 5종 동시 출시로 스킨 매출 상승. 3주 단독 픽업의 수익 한계를 패키지로 보완.",
+        },
+        eval: {
+          pos: "코스튬 5종 동시 출시로 패키지 완성도, 단일 캐릭터 의존 리스크 분산",
+          neg: "3주 단독 픽업 장기화 시 피로도, 다른 니케 대기자 불만",
+          con: "'이격'과 '스킨'의 경계 애매 — 신 캐릭터인가 코스튬인가 명명 논쟁",
+        },
+        insight: "'이격' 시스템은 재고 확장 + 팬 서비스 동시 달성하나, 상품 명칭 정의 모호 시 유저 분류 혼란 → 환불 문의 증가. 출시 전 '이격 = X% 성능 변화' 가이드 공개로 기대치 관리 권장.",
+        wiki: "https://nikke-goddess-of-victory-international.fandom.com/wiki/Arcana:_Fortune_Mate",
+        image: "https://static.wikia.nocookie.net/nikke-goddess-of-victory-international/images/d/d7/Arcana_Fortune_Mate_MI.png/revision/latest?cb=20260319112400",
+      },
+    ],
+  },
+];
+
+/* ============ 공통 트렌드 분석 (5 cross-cutting insights, 실데이터 기반 재분석) ============ */
+const INSIGHTS = [
+  {
+    title: "픽업 성별·신규·복각 구성이 월간 매출의 1차 변수 (단, 단일 변수는 아님)",
+    body: "같은 퍼블리셔 호요버스 내부에서 원신(남캐 바르카 + 복각 구간)은 −27.5%, 젠레스(여캐 남궁우 신규)는 +24%. 기본 경향은 여캐 신규 ≥ 혼합 > 남캐 신규 > 복각 단독 순이지만, 스타레일 +50%(혼합 성별)는 신메카닉 2종(환락 운명·추공 메타) 효과가 성별 구성을 덮은 사례 — 메커니즘 신선도·팩션 완성감 같은 변수가 성별 효과를 뒤집을 수 있음. 기획 단계에서 '성별 로테이션'은 예측 모델의 기본 변수이되 단독 결정 변수는 아님.",
+    sources: "6 게임 / 18 배너 / 3월 매출 6종 교차",
+  },
+  {
+    title: "팩션 완성형 파티가 매출에 더블 동력을 제공",
+    body: "젠레스 남궁우(엔젤디 리더)는 여캐 신규라는 기본 동력 + 엔젤디 3인 팩션 완성이라는 추가 동력의 이중 매출 견인. 단일 팩션 완성이 이뤄지는 분기는 '모으는 맛' 심리가 집중 구매를 유도. 반면 원신 바르카는 유사한 팩션 구조 없이 단독 출시되어 성능 논란이 그대로 노출됨. 팩션 3인 완성형 파티 설계는 신규 매출을 최대치로 끌어올리는 고효율 편성이나, 팩션 외 범용성 미확보 시 이월 후 가치 급락 리스크 동반.",
+    sources: "젠레스 엔젤디 / 원신 몬드 / 엔드필드 무릉·울프팀 3사례",
+  },
+  {
+    title: "자원 관리 서브 레이어의 캐릭터별 1인 1자원 표준화",
+    body: "이달 출시 캐릭터 7종 모두 캐릭터 전용 자원 레이어 보유 — 달 반응(콜롬비나, 1월), 이도류 원소 전환(바르카), 웃음 포인트(스파키/효광), 미끼 추공(애쉬베일), 룬 3단(시그리카), 취약 스택(로시), 와류→용오름 체인(탕탕). 기본 시스템 위 전용 자원 1~2개 탑재가 신작 공식화. 학습 비용 누적은 구조적 과제로 부상.",
+    sources: "신규 7 캐릭터 기준",
+  },
+  {
+    title: "1인 완결형 vs 팀 의존형 — 같은 달 상반되는 설계 철학 충돌",
+    body: "로시(1인 완결 디버프+딜+스택 전담)와 시그리카(구원 없이 성능 급락)가 같은 3월 출시로 유저 반응 극단 분열. 1인 완결형은 운영 편의성·신규 유저 친화도 우위, 팀 의존형은 모집 경제 촉진 우위. 역할군당 1인 완결형 1명 + 나머지는 시너지형의 포트폴리오 전략이 균형점.",
+    sources: "엔드필드 로시 / 명조 시그리카",
+  },
+  {
+    title: "기존 인기 IP의 Alter Ego/이격 파생 캐릭터의 동시 등장",
+    body: "스파키(스파클의 가면 자아), 아르카나: 포츈 메이트(이격 스킨 겸 별개 캐릭터), 스노우 화이트 헤비암즈(이격) — 한 달에 3종 이상 관측. 개발 비용 절감 + 기존 팬덤 재수익화. 성공 공식은 '원본 메커니즘의 대칭 반전'(스파클 자원 흐름 ↔ 스파키 자원 흐름). 실패 요인은 '이격 vs 스킨' 명명 정의 모호로 인한 환불 문의.",
+    sources: "스타레일 / 니케 3사례",
+  },
+];
+
+/* ============ 메커니즘·기믹 비교 매트릭스 (실게임 기준 재설계) ============ */
+const MATRIX_COLS = [
+  "신캐 출시 주기",
+  "3월 신규 수",
+  "신규 메커니즘 도입",
+  "팩션·진영 락",
+  "자체 웹스토어",
+];
+const MATRIX_ROWS = [
+  { game: "원신",               cells: ["약 3주 (자백 → 바르카)",         { dot: "half", t: "남1 (바르카)" }, { dot: "full", t: "이도류 원소 전환" }, { dot: "none", t: "없음" },           { dot: "full", t: "적극 (할인)" }] },
+  { game: "붕괴: 스타레일",     cells: ["약 3주 (스파키 → 애쉬베일)",    { dot: "full", t: "여1·남1 (스파키·애쉬베일)" }, { dot: "full", t: "환락 운명 + 추공" }, { dot: "none", t: "없음" },     { dot: "full", t: "적극 (할인)" }] },
+  { game: "젠레스 존 제로",     cells: ["약 7주 (아리아 → 남궁우)",      { dot: "half", t: "여1 (남궁우)" }, { dot: "half", t: "격파 하이브리드" },   { dot: "full", t: "엔젤디(AOD) 등 진영" },   { dot: "full", t: "적극" }] },
+  { game: "명조: 워더링 웨이브", cells: ["약 6주 (에이메스 → 시그리카)",  { dot: "half", t: "여1 (시그리카) + 복각" }, { dot: "full", t: "에코 어빌리티 피해" }, { dot: "none", t: "없음" },  { dot: "full", t: "적극" }] },
+  { game: "명일방주: 엔드필드", cells: ["약 2.5주 (탕탕 → 로시)",        { dot: "full", t: "여2 (탕탕·로시)" }, { dot: "half", t: "오리지늄 아츠 반응" }, { dot: "full", t: "청파채·울프팀" }, { dot: "none", t: "미도입" }] },
+  { game: "승리의 여신 니케",   cells: ["약 2주 (이벤트 간격)",           { dot: "half", t: "여1 이격 (아르카나)" }, { dot: "none", t: "없음 (스킨 중심)" }, { dot: "half", t: "엘리시온 제조 · 베스트셀러 스쿼드" },        { dot: "half", t: "부분" }] },
+];
+
+/* ============ Do / Don't 체크리스트 (3월 데이터 기반 재추출) ============ */
+const DO_LIST = [
+  { t: "신체 징표·도구에 '설정 한 줄 + 메커니즘 한 줄' 쌍으로 기획 — 애쉬베일 의수(그림자 봉인 + 미끼 사출)가 교과서 사례.", emph: "설정 한 줄 + 메커니즘 한 줄" },
+  { t: "인기 캐릭터 Alter Ego는 원본 메커니즘의 대칭 반전으로 설계 — 스파키(자원 생성)가 스파클(자원 소모)의 반전 구조로 성공.", emph: "대칭 반전" },
+  { t: "팩션 완성감 + 팩션 외 범용 옵션의 2중 설계 — 남궁우 엔젤디 3인 완성이 여캐 신규 효과를 이중화한 사례.", emph: "2중 설계" },
+  { t: "체인형 메커니즘(A→B 전환)은 튜토리얼·훈련장 연계 필수 — 탕탕 와류→용오름 숙련도 차 큼.", emph: "튜토리얼·훈련장" },
+  { t: "남캐 픽업 분기에는 여캐 복각·스토리 이벤트·콜라보로 상쇄 — 원신 자백 배너의 느비예트 복각 병행이 부분적 효과.", emph: "상쇄 장치" },
+  { t: "신규 캐릭터의 스탠드얼론 가치 70% + 시너지 30% 룰 — 시그리카의 구원 의존 실패 사례의 반례로 권장.", emph: "70/30 룰" },
+];
+const DONT_LIST = [
+  { t: "특정 파트너 없이 성능 급락하는 복합 의존 설계 — 시그리카가 '구원 없으면 패스'로 TOP 10 이탈.", emph: "복합 의존 설계" },
+  { t: "스토리 떡밥만 던지고 해당 버전 내 단서 미공개 — 탕탕 안문 혈통 비밀이 v1.1에서 미해결로 불만.", emph: "떡밥 미해결" },
+  { t: "아이코닉 NPC 실장 시 성능이 내부 위상 대비 낮음 — 바르카 대단장 설정 vs T2 성능 괴리가 이탈 가속.", emph: "위상 대비 낮은 성능" },
+  { t: "복각을 신규 성능의 전제로 두는 '2연속 강매' 구조 — 시그리카+구원 동시 편성이 양쪽 매출 모두 눌렀음.", emph: "2연속 강매" },
+  { t: "역할군당 다수의 1인 완결형 배치 → 모집 경제 훼손 — 로시가 여럿이면 캐릭터 간 대체성으로 구매 동력 상실.", emph: "역할군 중복" },
+  { t: "'이격 vs 스킨' 같은 상품 카테고리 명칭 모호 — 아르카나 이격이 환불 문의 발생의 주 원인.", emph: "명칭 모호" },
+];
+
+/* ============ Watchlist (4월 후반~5월, 실제 예정) ============ */
+const WATCHLIST = [
+  { name: "시시아 (Shishia)", game: "젠레스", gameIdx: "G3", why: "NEPS 치안국 수사관, 전기 강공 + 독소 포인트 치명타. 남궁우(엔젤디)와 대비되는 팩션 + 메커니즘 조합. 4/15 v2.7 후반 출시.", when: "4/15" },
+  { name: "나나리 · 호토리",  game: "이환 (Neverness to Everness)", gameIdx: null,
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/72/e2/55/72e25573-294e-b516-7e61-dc95dfa3e872/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
+    why: "4/29 글로벌 런칭. Hotta Studio 신작. '천장 90회 + 픽뚫 없음' 공식 BM으로 서브컬처 BM 표준 경쟁 개시. 유저 친화 설계 실험의 첫 검증대.", when: "4/29" },
+  { name: "히유키·모니에·유노", game: "명조", gameIdx: "G4", why: "v3.3 전반 4/30 업데이트. 2주년 기념 3종 동시 편성. 시그리카 구원 의존 논란 이후 설계 철학 수정 여부 검증 포인트.", when: "4/30" },
+  { name: "에바네시아·트리비·선데이·비소", game: "스타레일", gameIdx: "G2", why: "v4.2 전반 5/13 업데이트. 4인 동시 픽업. 팀 내 역할 분담과 자원 간섭 설계의 테스트 케이스.", when: "5/13" },
+  { name: "파에투사", game: "소녀전선2: 망명 (GIRLS' FRONTLINE 2: EXILIUM)", gameIdx: null,
+    icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/3b/3d/15/3b3d153a-aa6e-0a7b-95d4-f0453c9c326c/AppIcon-1x_U007emarketing-0-8-0-85-220-0.png/512x512bb.jpg",
+    why: "5/14 '갈라진 두 궤도 하편' 업데이트. 연속 대형 업데이트로 매출 회복 시도 2차 웨이브.", when: "5/14" },
+];
+
+/* =========================================================
+   COMPONENTS
+   ========================================================= */
+const { useState, useEffect } = React;
+
+function Header() {
+  return (
+    <header className="rpt-header">
+      <div>
+        <div className="eyebrow">INTERNAL · 경쟁 분석 · {REPORT_META.issue}</div>
+        <h1>경쟁작 캐릭터 트렌드 <span className="muted">월간 보고서</span></h1>
+      </div>
+      <div className="meta-row">
+        <div><div className="k">MONTH</div><div className="v mono">{REPORT_META.month}</div></div>
+        <div><div className="k">ISSUED</div><div className="v mono">{REPORT_META.issued}</div></div>
+        <div><div className="k">GAMES</div><div className="v mono"><span className="hl">{REPORT_META.gamesAnalyzed}</span> / 6</div></div>
+        <div><div className="k">CHARS</div><div className="v mono"><span className="hl">{REPORT_META.charactersAnalyzed}</span></div></div>
+      </div>
+    </header>
+  );
+}
+
+function TOC() {
+  const items = [
+    { n: "01", t: "공통 트렌드",       h: "#s2" },
+    { n: "02", t: "매트릭스",          h: "#s3" },
+    { n: "03", t: "Do / Don't",      h: "#s4" },
+    { n: "04", t: "게임별 카탈로그",   h: "#s1" },
+    { n: "05", t: "다음 달 주목",     h: "#s5" },
+  ];
+  return (
+    <nav className="toc">
+      {items.map(i => (
+        <a key={i.h} href={i.h}><span className="n">{i.n}</span>{i.t}</a>
+      ))}
+    </nav>
+  );
+}
+
+function Summary() {
+  return (
+    <div className="summary">
+      <div className="label">이달의 3대 기획 트렌드 · TOP TRENDS</div>
+      <ol>
+        {TOP_TRENDS.map((t, i) => (
+          <li key={i}>
+            <div className="num">{String(i + 1).padStart(2, "0")}</div>
+            <div className="txt">
+              <strong>{t.title}</strong>
+              <span>{t.detail}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+function LegendBar() {
+  return (
+    <div className="legend-bar">
+      <span className="lbl">Pickup Palette</span>
+      {PICKUP_LEGEND.map(l => (
+        <span className="item" key={l.key}>
+          <span className="sw" style={{ background: l.color, opacity: l.key === "u" ? 0.5 : 1 }} />
+          {l.label}
+        </span>
+      ))}
+      <span style={{ marginLeft: "auto", color: "var(--fg-4)" }}>별점 = 3개월 중 상대 매출 강도 (5 = 해당 게임 최고월)</span>
+    </div>
+  );
+}
+
+function SectionHead({ sigil, title, hint, id }) {
+  return (
+    <div className="section-head" id={id}>
+      <span className="sigil">{sigil}</span>
+      <h2>{title}</h2>
+      {hint && <span className="hint">{hint}</span>}
+    </div>
+  );
+}
+
+function PickupCell({ cell }) {
+  const stars = Array.from({ length: 5 }).map((_, i) => (
+    <span key={i} className={i < cell.stars ? "" : "off"}>★</span>
+  ));
+  return (
+    <div className={"pickup-cell" + (cell.unknown ? " unknown" : "")}>
+      <div className="month">
+        <span>{cell.month}</span>
+        <span className="stars">{stars}</span>
+      </div>
+      <div className="swatch-row">
+        {cell.tags.map((c, i) => <span className="swatch" key={i} style={{ background: c }} />)}
+        <span className="mono" style={{ fontSize: 10, color: "var(--fg-4)", marginLeft: 2 }}>{cell.tag}</span>
+      </div>
+      <div className="char-names">{cell.chars}</div>
+      <div className="note">{cell.note}</div>
+    </div>
+  );
+}
+
+function CharacterAccordion({ char, defaultOpen = true }) {
+  const [open, setOpen] = useState(defaultOpen);
+  const fieldList = [
+    ["설정·배경",      "설정"],
+    ["속성·역할",      "속성"],
+    ["전투 스타일·메커니즘", "전투"],
+    ["동작·연출",      "연출"],
+    ["성능 평가",      "성능"],
+    ["매출 기여",      "매출"],
+  ];
+  const f = char.fields || {};
+  const e = char.eval || {};
+  return (
+    <div className={"char-accordion" + (open ? " open" : "")}>
+      <div className="char-head" onClick={() => setOpen(!open)}>
+        <div className="chev" />
+        <div className="c-name">
+          {char.nameKo}
+          <span className="c-alt">/ {char.name}</span>
+        </div>
+        <div className="c-tags">
+          {char.tags.map((t, i) => <span className="tag" key={i}>{t}</span>)}
+        </div>
+        <span className={"role-badge " + char.role}>{char.role}</span>
+      </div>
+      {open && (
+        <div className="char-body">
+          {char.image ? (
+            <img
+              className="char-splash"
+              src={char.image}
+              alt={char.name + " splash art"}
+              loading="lazy"
+              onError={(e) => {
+                const fallback = document.createElement('div');
+                fallback.className = 'char-splash-fallback';
+                fallback.textContent = '— 이미지 로드 실패 —';
+                e.target.replaceWith(fallback);
+              }}
+            />
+          ) : (
+            <div className="char-splash-fallback">— Fandom Wiki 스플래시 아트 URL 미등록 —</div>
+          )}
+          {fieldList.map(([label, key]) => (
+            <div className="field" key={key}>
+              <div className="f-label">{label}</div>
+              <div className={"f-val" + (char.placeholder ? " placeholder" : "")}>
+                {char.placeholder ? "— 수집 필요 —" : f[key]}
+              </div>
+            </div>
+          ))}
+          <div className="user-eval">
+            <div className="eval-col pos">
+              <div className="e-label">긍정 POSITIVE</div>
+              <div className={"e-val" + (char.placeholder ? " placeholder" : "")}>
+                {char.placeholder ? "— 수집 필요 —" : e.pos}
+              </div>
+            </div>
+            <div className="eval-col neg">
+              <div className="e-label">부정 NEGATIVE</div>
+              <div className={"e-val" + (char.placeholder ? " placeholder" : "")}>
+                {char.placeholder ? "— 수집 필요 —" : e.neg}
+              </div>
+            </div>
+            <div className="eval-col con">
+              <div className="e-label">논란 CONTROVERSY</div>
+              <div className={"e-val" + (char.placeholder ? " placeholder" : "")}>
+                {char.placeholder ? "— 수집 필요 —" : e.con}
+              </div>
+            </div>
+          </div>
+          <div className="insight-box">
+            <div className="i-label">기획자 시사점 · DESIGN IMPLICATION</div>
+            <div className={"i-val" + (char.placeholder ? " placeholder" : "")}>
+              {char.placeholder ? "— 수집 필요 —" : char.insight}
+            </div>
+          </div>
+          <a className="wiki-btn" href={char.wiki} target="_blank" rel="noopener">
+            <span className="glyph">📖</span> Fandom Wiki · {char.name}
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RevenueChart({ data }) {
+  const W = 440, H = 200;
+  const pad = { t: 26, r: 30, b: 38, l: 44 };
+  const values = data.map(d => d.value);
+  const vMax = Math.max(...values);
+  const vMin = Math.min(...values);
+  const pad5 = Math.max(1, (vMax - vMin) * 0.15);
+  const yMax = Math.ceil((vMax + pad5) / 5) * 5;
+  const yMin = Math.max(0, Math.floor((vMin - pad5) / 5) * 5);
+  const range = yMax - yMin || 1;
+
+  const plotW = W - pad.l - pad.r;
+  const plotH = H - pad.t - pad.b;
+  const xs = data.map((_, i) => pad.l + (i * plotW / (data.length - 1)));
+  const ys = data.map(d => pad.t + plotH - ((d.value - yMin) / range) * plotH);
+
+  const first = data[0].value, last = data[data.length - 1].value;
+  const pct = first > 0 ? ((last - first) / first) * 100 : 0;
+  const trend = pct > 3 ? "pos" : pct < -3 ? "neg" : "flat";
+  const lineColor = trend === "pos" ? "#5E8A4A" : trend === "neg" ? "#B54545" : "#4A6FA5";
+
+  const pathD = xs.map((x, i) => `${i === 0 ? "M" : "L"} ${x.toFixed(1)} ${ys[i].toFixed(1)}`).join(" ");
+  const areaD = pathD + ` L ${xs[xs.length - 1]} ${pad.t + plotH} L ${xs[0]} ${pad.t + plotH} Z`;
+
+  const yTicks = 4;
+  const yGrid = Array.from({ length: yTicks + 1 }).map((_, i) => {
+    const v = yMin + (i * range / yTicks);
+    const y = pad.t + plotH - (i * plotH / yTicks);
+    return { v, y };
+  });
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="월간 매출 추이">
+      {/* Y grid */}
+      {yGrid.map((g, i) => (
+        <g key={i}>
+          <line x1={pad.l} x2={W - pad.r} y1={g.y} y2={g.y} stroke="#E2D6BA" strokeWidth="1" strokeDasharray={i === 0 ? "0" : "2 3"} />
+          <text x={pad.l - 8} y={g.y + 3} textAnchor="end" fontSize="11" fill="#8C7F66" fontFamily="Inter">${g.v.toFixed(0)}M</text>
+        </g>
+      ))}
+      {/* X labels */}
+      {data.map((d, i) => (
+        <g key={i}>
+          <text x={xs[i]} y={H - pad.b + 14} textAnchor="middle" fontSize="11.5" fill="#8C7F66" letterSpacing="0.05em">{d.month}</text>
+          <text x={xs[i]} y={H - pad.b + 26} textAnchor="middle" fontSize="10.5" fill="#B0A386">{d.label}</text>
+        </g>
+      ))}
+      {/* Area fill */}
+      <path d={areaD} fill={lineColor} opacity="0.08" />
+      {/* Line */}
+      <path d={pathD} fill="none" stroke={lineColor} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+      {/* Points + value labels */}
+      {xs.map((x, i) => (
+        <g key={i}>
+          <circle cx={x} cy={ys[i]} r="4.5" fill="#FFFBF1" stroke={lineColor} strokeWidth="2" />
+          <text x={x} y={ys[i] - 10} textAnchor="middle" fontSize="12" fontWeight="600" fill="#1A140D" fontFamily="Inter">${data[i].value.toFixed(1)}M</text>
+        </g>
+      ))}
+      {/* Trend indicator top-right */}
+      <text x={W - pad.r} y={pad.t - 10} textAnchor="end" fontSize="11.5" fill={lineColor} fontFamily="Inter" fontWeight="600">
+        {trend === "pos" ? "▲" : trend === "neg" ? "▼" : "●"} {pct > 0 ? "+" : ""}{pct.toFixed(1)}% (3개월)
+      </text>
+    </svg>
+  );
+}
+
+function GameCard({ game }) {
+  return (
+    <article className="game-card">
+      <header className="gc-header">
+        {game.icon
+          ? <img className="gc-icon" src={game.icon} alt={game.title + " icon"} loading="lazy" />
+          : <div className="gc-idx mono">{game.idx}</div>}
+        <div>
+          <span className="gc-title">{game.title}</span>
+          <span className="gc-studio">/ {game.studio}</span>
+        </div>
+        <div className="gc-version">
+          <span className="ver">{game.version}</span>　·　{game.period}
+        </div>
+      </header>
+      {game.revenueTrend && (
+        <div className="trend-section">
+          <div className="trend-chart-wrap">
+            <div className="trend-chart-label">월간 매출 추이 · JAN→MAR 2026</div>
+            <RevenueChart data={game.revenueTrend} />
+            <div className="trend-chart-foot">Sensor Tower 기반 추정치 (iOS + Google Play만 반영, 웹스토어·PC·중국 제외)</div>
+          </div>
+          <div className="trend-metrics">
+            {game.metrics.map((m, i) => (
+              <div className="tm-row" key={i}>
+                <div className="tm-k">{m.k}</div>
+                <div className={"tm-v " + (m.tone || "")}>{m.v}</div>
+                <div className="tm-trend">{m.trend}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="pickup-timeline">
+        {game.pickup.map((c, i) => <PickupCell cell={c} key={i} />)}
+      </div>
+      <div className="char-list">
+        {game.characters.map((c, i) => (
+          <CharacterAccordion char={c} key={i} defaultOpen={true} />
+        ))}
+      </div>
+    </article>
+  );
+}
+
+function InsightCards() {
+  return (
+    <div className="insight-cards">
+      {INSIGHTS.map((ins, i) => (
+        <div className="insight-card" key={i}>
+          <div className="idx mono">{String(i + 1).padStart(2, "0")}</div>
+          <div>
+            <h3>{ins.title}</h3>
+            <p>{ins.body}</p>
+          </div>
+          <div className="sources">{ins.sources}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MatrixTable() {
+  return (
+    <div>
+      <div className="matrix-wrap">
+        <table className="matrix">
+          <thead>
+            <tr>
+              <th style={{ width: 190 }}>GAME</th>
+              {MATRIX_COLS.map(c => <th key={c}>{c}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {MATRIX_ROWS.map((row, i) => (
+              <tr key={i}>
+                <td className="row-label">{row.game}</td>
+                {row.cells.map((cell, j) => (
+                  <td key={j}>
+                    {typeof cell === "string"
+                      ? <span className="mono">{cell}</span>
+                      : <span><span className={"dot " + cell.dot} />{cell.t || "—"}</span>
+                    }
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div style={{ marginTop: 10, padding: "10px 14px", background: "var(--section)", border: "1px solid var(--line)", borderRadius: 6, fontSize: 11.5, color: "var(--fg-2)", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+        <span style={{ color: "var(--fg-4)", letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 10.5 }}>점 범례</span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          <span className="dot full" /> <b>뚜렷한 도입·강한 적용</b>
+        </span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          <span className="dot half" /> <b>부분적·조건부 적용</b>
+        </span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          <span className="dot none" /> <b>미도입·해당 없음</b>
+        </span>
+        <span style={{ marginLeft: "auto", color: "var(--fg-4)", fontSize: 10.5 }}>※ 강점/약점이 아닌 해당 특성의 도입 강도</span>
+      </div>
+    </div>
+  );
+}
+
+function DoDont() {
+  return (
+    <div className="dodont">
+      <div className="col do">
+        <h3>DO · 권장 패턴</h3>
+        <ul>
+          {DO_LIST.map((d, i) => (
+            <li key={i}>
+              {d.t.split(d.emph).map((part, idx, arr) => (
+                <React.Fragment key={idx}>
+                  {part}
+                  {idx < arr.length - 1 && <strong>{d.emph}</strong>}
+                </React.Fragment>
+              ))}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="col dont">
+        <h3>DON'T · 회피 패턴</h3>
+        <ul>
+          {DONT_LIST.map((d, i) => (
+            <li key={i}>
+              {d.t.split(d.emph).map((part, idx, arr) => (
+                <React.Fragment key={idx}>
+                  {part}
+                  {idx < arr.length - 1 && <strong>{d.emph}</strong>}
+                </React.Fragment>
+              ))}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function Watchlist() {
+  const iconMap = GAMES.reduce((m, g) => { m[g.idx] = g.icon; return m; }, {});
+  return (
+    <div className="watchlist">
+      {WATCHLIST.map((w, i) => {
+        const icon = w.icon || (w.gameIdx ? iconMap[w.gameIdx] : null);
+        return (
+          <div className="watch-item" key={i}>
+            <div className="w-when">{w.when}</div>
+            {icon
+              ? <img className="watch-icon" src={icon} alt={w.game + " icon"} loading="lazy" />
+              : <div className="watch-icon-fallback" title={w.game}>?</div>}
+            <div className="w-main">
+              <div>
+                <span className="w-name">{w.name}</span>
+                <span className="w-game">/ {w.game}</span>
+              </div>
+              <div className="w-why">{w.why}</div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="rpt-footer">
+      <div>
+        <h4>방법론 주의사항 · METHODOLOGY CAVEATS</h4>
+        <ul>
+          <li><strong>매출 집계 범위:</strong> Sensor Tower 기반 iOS + Google Play 추정치만 반영. 호요버스 HoYoLAB 웹스토어·쿠로 자체 결제·PC/PS5 콘솔 매출·중국 빌리빌리·탭탭 스토어는 전부 미집계. 원신·스타레일·명조는 실제 매출이 집계치의 1.5~2배 수준으로 추정됨. 절대 금액보다 <strong>전월 대비 방향성(±%)</strong> 중심으로 해석 권장.</li>
+          <li><strong>티어 평가:</strong> T2/S/SS 등급은 한국(게임톡·Vortex Gaming·gamsgo)과 영문(prydwen·Game8) 주요 공략 사이트의 종합 평가 가중 평균. 공식 지표 아님. 출시 3~4주 시점 데이터로 밸런스 패치에 따라 후속 변동 가능.</li>
+          <li><strong>유저 평가 3분할(긍정·부정·논란):</strong> 인벤·루리웹·나무위키 여담·아카라이브·디시 갤러리 상위 게시글과 r/gachagaming·ResetEra 월간 스레드의 정성 샘플링. 정량 sentiment 분석 아니며 통계적 대표성 없음.</li>
+          <li><strong>자료 미확보 구간:</strong> 스타레일 2026/1 (v3.7 후반) 신규 배너, 명조 2026/1 (v3.0 라하이 로이) 캐릭터 상세는 1차 소스에서 명확히 확인되지 않아 '복각 중심' 추정으로 처리. 정기 발행 운영 시 담당자가 보강 수집해야 할 슬롯.</li>
+          <li><strong>서버 기준:</strong> 모든 픽업 일정은 글로벌(아시아/북미) 기준. 중국 본토 서버(빌리빌리) 편성 및 시기와 상이할 수 있음.</li>
+          <li><strong>성별 분류:</strong> '여캐/남캐'는 공식 설정 기반 분류. 중성·인간 외 존재(스파키 가면 자아 등)는 외형 기준으로 해당 슬롯에 배치.</li>
+        </ul>
+      </div>
+      <div className="sources-list">
+        <h4>주요 출처 · SOURCES</h4>
+        <div className="sources-grid">
+          <div className="cat">
+            <div className="cat-label">매출 · 순위</div>
+            <div className="cat-item">Sensor Tower Blog</div>
+            <div className="cat-item">ixbt.games (월간 Top Grossing)</div>
+            <div className="cat-item">인벤 모바일게임 게시판</div>
+          </div>
+          <div className="cat">
+            <div className="cat-label">픽업 · 버전 일정</div>
+            <div className="cat-item">BitTopup Wiki</div>
+            <div className="cat-item">gamsgo · Vortex Gaming</div>
+            <div className="cat-item">각 게임 공식 · HoYoLAB</div>
+          </div>
+          <div className="cat">
+            <div className="cat-label">캐릭터 제원</div>
+            <div className="cat-item">Fandom Wiki (각 타이틀)</div>
+            <div className="cat-item">나무위키 · Endfield Talos Wiki</div>
+            <div className="cat-item">공식 캐릭터 PV</div>
+          </div>
+          <div className="cat">
+            <div className="cat-label">유저 반응</div>
+            <div className="cat-item">인벤 · 루리웹 · 아카라이브</div>
+            <div className="cat-item">게임톡 · 디스이즈게임</div>
+            <div className="cat-item">r/gachagaming · ResetEra</div>
+          </div>
+        </div>
+        <div style={{ marginTop: 14, color: "var(--fg-4)", fontSize: 10.5, lineHeight: 1.55 }}>
+          © Internal Use Only · 본 보고서는 경쟁 분석 목적의 내부 문서이며,<br/>
+          게임·캐릭터 IP는 각 퍼블리셔 소유. 인용·재배포 금지.
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function TweaksPanel() {
+  const [paletteOn, setPaletteOn] = useState(true);
+  useEffect(() => {
+    document.body.classList.toggle("palette-off", !paletteOn);
+  }, [paletteOn]);
+  const close = (e) => {
+    e.currentTarget.closest(".tweaks").style.display = "none";
+  };
+  return (
+    <div className="tweaks">
+      <h5>
+        TWEAKS
+        <span className="close" onClick={close}>✕</span>
+      </h5>
+      <div className="tw-row">
+        <div>
+          <label>픽업 팔레트</label>
+          <div className="desc">{paletteOn ? "여·남·복각·혼합 컬러 코드 사용" : "중립 회색 스와치"}</div>
+        </div>
+        <div
+          className={"switch " + (paletteOn ? "on" : "")}
+          onClick={() => setPaletteOn(!paletteOn)}
+        />
+      </div>
+    </div>
+  );
+}
+
+function GameCardButton({ game, onClick }) {
+  const charCount = game.characters.length;
+  return (
+    <button className="gcb" onClick={onClick}>
+      <div className="gcb-top">
+        {game.icon
+          ? <img className="gcb-icon" src={game.icon} alt={game.title + " icon"} loading="lazy" />
+          : <div className="gcb-idx mono">{game.idx}</div>}
+        <div className="gcb-title-wrap">
+          <div className="gcb-title">{game.title}</div>
+          <div className="gcb-studio mono">{game.studio} · {game.version}</div>
+        </div>
+        <div className="gcb-arrow">→</div>
+      </div>
+      <div className="gcb-metrics">
+        {game.metrics.map((m, i) => (
+          <div className="gcb-m" key={i}>
+            <div className="gcb-m-k mono">{m.k}</div>
+            <div className={"gcb-m-v " + (m.tone || "")}>{m.v}</div>
+          </div>
+        ))}
+      </div>
+      <div className="gcb-timeline">
+        {game.pickup.map((c, i) => (
+          <div className={"gcb-tl " + (c.unknown ? "unknown" : "")} key={i}>
+            <div className="gcb-tl-m mono">{c.month}</div>
+            <div className="gcb-tl-sw">
+              {c.tags.map((t, j) => <span className="sw" style={{ background: t }} key={j} />)}
+            </div>
+            <div className="gcb-tl-n">{c.chars}</div>
+          </div>
+        ))}
+      </div>
+      <div className="gcb-foot mono">
+        <span>{charCount} character{charCount > 1 ? "s" : ""}</span>
+        <span className="gcb-cta">세부 리포트 열기 ↗</span>
+      </div>
+    </button>
+  );
+}
+
+function GameDetailOverlay({ game, onClose, onPrev, onNext }) {
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "ArrowRight") onNext();
+    };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [game, onClose, onPrev, onNext]);
+  return (
+    <div className="detail-overlay" onClick={onClose}>
+      <div className="detail-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="detail-topbar">
+          <div className="detail-breadcrumb mono">
+            <span style={{ color: "var(--fg-4)" }}>DASHBOARD</span>
+            <span style={{ color: "var(--fg-4)", margin: "0 8px" }}>›</span>
+            <span style={{ color: "var(--fg-2)" }}>04 GAME CATALOG</span>
+            <span style={{ color: "var(--fg-4)", margin: "0 8px" }}>›</span>
+            <span style={{ color: "var(--info)" }}>{game.idx}</span>
+          </div>
+          <div className="detail-nav">
+            <button className="dn-btn" onClick={onPrev} title="이전 게임 (←)">← 이전</button>
+            <button className="dn-btn" onClick={onNext} title="다음 게임 (→)">다음 →</button>
+            <button className="dn-btn dn-close" onClick={onClose} title="닫기 (Esc)">✕ 닫기</button>
+          </div>
+        </div>
+        <div className="detail-scroll">
+          <div className="detail-inner">
+            <GameCard game={game} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [activeIdx, setActiveIdx] = useState(null);
+  const open  = (i) => setActiveIdx(i);
+  const close = () => setActiveIdx(null);
+  const prev  = () => setActiveIdx((i) => i === null ? 0 : (i - 1 + GAMES.length) % GAMES.length);
+  const next  = () => setActiveIdx((i) => i === null ? 0 : (i + 1) % GAMES.length);
+  return (
+    <div className="page">
+      <Header />
+      <TOC />
+      <Summary />
+      <SectionHead id="s2" sigil="01" title="공통 트렌드 분석 (cross-cutting insights)" hint="5 insights · 3월 실데이터 기반" />
+      <InsightCards />
+      <SectionHead id="s3" sigil="02" title="메커니즘·기믹 비교 매트릭스" hint="6 games × 5 cols" />
+      <MatrixTable />
+      <SectionHead id="s4" sigil="03" title="Do / Don't 체크리스트" hint="3월 사례 기반 재추출" />
+      <DoDont />
+      <SectionHead id="s1" sigil="04" title="게임별 카탈로그" hint="카드 선택 → 세부 리포트 (← → 키보드)" />
+      <LegendBar />
+      <div className="game-grid">
+        {GAMES.map((g, i) => (
+          <GameCardButton game={g} onClick={() => open(i)} key={i} />
+        ))}
+      </div>
+      <SectionHead id="s5" sigil="05" title="다음 달 주목 캐릭터" hint="watchlist · 2026.04 후반~05" />
+      <Watchlist />
+      <Footer />
+      <TweaksPanel />
+      {activeIdx !== null && (
+        <GameDetailOverlay
+          game={GAMES[activeIdx]}
+          onClose={close}
+          onPrev={prev}
+          onNext={next}
+        />
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
