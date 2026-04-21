@@ -33,6 +33,16 @@ html, body {
   padding-bottom: 20px; border-bottom: 1px solid var(--line-strong); margin-bottom: 28px;
 }
 .rpt-header .eyebrow { font-size: 12.5px; letter-spacing: 0.12em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 10px; }
+.rpt-header .back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12.5px; color: var(--fg-3); text-decoration: none;
+  padding: 4px 10px 4px 8px; border: 1px solid var(--line);
+  border-radius: 4px; background: var(--card);
+  margin-bottom: 14px; transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+.rpt-header .back-link:hover { color: var(--fg-h); border-color: var(--line-strong); background: var(--card-2); }
+.rpt-header .back-link .arrow { font-size: 14px; line-height: 1; }
 .rpt-header h1 { font-size: var(--h1); font-weight: 600; margin: 0; color: var(--fg-h); letter-spacing: -0.01em; }
 .rpt-header h1 .muted { color: var(--fg-3); font-weight: 400; }
 .meta-row { display: flex; gap: 28px; font-size: 12.5px; color: var(--fg-2); text-align: right; justify-content: flex-end; }
@@ -834,6 +844,7 @@ function Header() {
   return (
     <header className="rpt-header">
       <div>
+        <a href="./" className="back-link"><span className="arrow">←</span> 월간 트랜드 보고서</a>
         <div className="eyebrow">INTERNAL · 경쟁 분석 · {REPORT_META.issue}</div>
         <h1>경쟁작 캐릭터 트렌드 <span className="muted">월간 보고서</span></h1>
       </div>
