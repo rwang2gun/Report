@@ -1532,10 +1532,24 @@ function GameDetailOverlay({ game, onClose, onPrev, onNext }) {
 
 function App() {
   const [activeIdx, setActiveIdx] = useState(null);
-  const open  = (i) => setActiveIdx(i);
-  const close = () => setActiveIdx(null);
+  const open  = (i) => {
+    setActiveIdx(i);
+    window.history.pushState({ overlay: true }, "");
+  };
+  const close = () => {
+    if (window.history.state && window.history.state.overlay) {
+      window.history.back();
+    } else {
+      setActiveIdx(null);
+    }
+  };
   const prev  = () => setActiveIdx((i) => i === null ? 0 : (i - 1 + GAMES.length) % GAMES.length);
   const next  = () => setActiveIdx((i) => i === null ? 0 : (i + 1) % GAMES.length);
+  useEffect(() => {
+    const onPop = () => setActiveIdx(null);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
   return (
     <div className="page">
       <div className="sticky-topbar">
