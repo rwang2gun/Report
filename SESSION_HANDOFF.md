@@ -322,5 +322,57 @@ Remove-Item "D:\Claude\_repo" -Recurse -Force
 
 ---
 
-**작성**: Claude (2026.04.21 세션)
-**버전**: v1.0 · 인수인계 초판
+## 12. HTML UX 개선 이력 (2026.04.22 후반 세션)
+
+2026-02·2026-03 양쪽 동일 적용. 모바일 사용성 문제 제보로 시작한 반응형/네비게이션 개선 일괄.
+
+### 12-1. 모바일 반응형 대응
+- 미디어 쿼리 2단 추가: `@media (max-width: 960px)` (태블릿), `@media (max-width: 640px)` (모바일)
+- 주요 조정:
+  - 다단 그리드 스택: `.summary ol` 3→1열, `.gc-metrics`·`.gcb-metrics`·`.gcb-timeline`·`.pickup-timeline` 3→1열, `.char-body` 2→1열, `.user-eval` 3→1열, `.dodont`·`.game-grid` 2→1열, `.rpt-footer`·`.sources-grid` 재배치
+  - 헤더: `.rpt-header` 2→1열, 폰트 토큰 `--h1`~`--body` 단계적 축소, `.meta-row` flex-wrap 허용
+  - 디테일 모달: 모바일에서 풀스크린(`max-height: 100vh; border-radius: 0`), 태블릿은 여백 축소
+  - TOC: `overflow-x: auto` + 스크롤바 숨김으로 가로 스크롤
+  - 네비 버튼(`.dn-btn`): `word-break: keep-all` + `line-height: 1.35` — 한글 2글자 단어("이전"/"다음"/"닫기") 중간 꺾임 방지, 공백 경계에서만 줄바꿈
+
+### 12-2. 픽업 팔레트 토글(`TweaksPanel`) 제거
+- 우하단 플로팅 `.tweaks` 패널 완전 삭제: 컴포넌트 정의, `<TweaksPanel />` 렌더링, CSS(`.tweaks`·`.switch`·`body.palette-off`) 전부
+- 이유: `LegendBar`가 이미 색상 범례를 설명하고 있어 중복 UI
+- 스와치 색상 코드(여/남/복각/혼합/미확보) 자체는 유지
+
+### 12-3. Sticky 상단바 하단 여백 재분배
+- `.sticky-topbar` padding-bottom 초기 14/12/10 → 절반 축소 7/6/5
+- `.summary`에 `margin-top: 10px` 추가로 TOC↔요약 박스 사이 시각적 간격 확보
+- `scroll-padding-top` 동반 보정: 데스크톱 229 / 태블릿 188 / 모바일 167
+- 결과: sticky 영역(스크롤 시 계속 노출)은 좁게 유지, 요약 박스(일반 흐름)만 밀어냄
+
+### 12-4. 게임 디테일 팝업 - 브라우저 백버튼 연동
+- `App` 컴포넌트에 History API 도입:
+  - `open(i)`: `history.pushState({overlay: true}, "")` — 열 때 히스토리 엔트리 추가
+  - `close()`: `history.state.overlay` 확인 후 `history.back()` 호출 (엔트리 정리)
+  - `popstate` 리스너(`useEffect`): 이벤트 발생 시 `setActiveIdx(null)` — 모바일 백·마우스 백·Esc·X 버튼·오버레이 바깥 클릭 모두 동일 경로로 수렴
+- `prev`/`next`는 `pushState` 호출 안 함 — 팝업 내 좌우 이동 시 엔트리 증가 방지
+
+### 12-5. 커밋 이력 (2026.04.22 후반)
+| 커밋 | 내용 |
+|---|---|
+| `fd1e1f6` | 모바일 해상도 대응 + TweaksPanel 제거 + sticky 하단 여백 |
+| `94900d2` | sticky 하단 여백 절반으로 축소 (14→7, 12→6, 10→5) |
+| `89b119f` | 디테일 네비 버튼 줄바꿈을 기호·텍스트 경계로 고정 |
+| `5eb18f7` | 요약 박스 위 여백 추가 (margin-top: 10px) |
+| `5054cea` | 게임 디테일 팝업에 히스토리 엔트리 추가 — 브라우저 백버튼으로 닫힘 |
+
+### 12-6. 스킬 템플릿 동기화 필요 (TODO)
+위 개선사항은 `subculture-trend-report` 스킬의 `assets/template.html`에도 반영해야 다음 월간 보고서 생성 시 기본 포함됨. 특히:
+- 반응형 미디어 쿼리 블록 (`</style>` 직전)
+- `TweaksPanel` 및 관련 코드 삭제된 상태
+- sticky padding-bottom + summary margin-top 수치
+- History API 기반 `App` 컴포넌트
+- `.dn-btn`의 `word-break: keep-all`
+
+스킬 템플릿이 구버전이면 다음 달 보고서에서 이 개선들이 다시 빠진 채 생성됨.
+
+---
+
+**작성**: Claude (2026.04.21 세션 → 2026.04.22 후반 세션 증보)
+**버전**: v1.1 · HTML UX 개선 섹션(§12) 추가
