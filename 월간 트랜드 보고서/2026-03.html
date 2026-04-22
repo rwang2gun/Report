@@ -19,6 +19,7 @@
   --h1: 32px; --h2: 24px; --h3: 18px; --body: 15px; --small: 13.5px; --caption: 12.5px;
 }
 * { box-sizing: border-box; }
+html { scroll-padding-top: 64px; scroll-behavior: smooth; }
 html, body {
   margin: 0; padding: 0; background: var(--bg); color: var(--fg);
   font-family: "Pretendard", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -43,6 +44,15 @@ html, body {
 }
 .rpt-header .back-link:hover { color: var(--fg-h); border-color: var(--line-strong); background: var(--card-2); }
 .rpt-header .back-link .arrow { font-size: 14px; line-height: 1; }
+.rpt-header .title-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.rpt-header .month-badge {
+  display: inline-flex; align-items: center;
+  padding: 9px 18px 10px; border-radius: 7px;
+  background: var(--emph); color: #FFFBF1;
+  font-family: "Inter", sans-serif; font-variant-numeric: tabular-nums;
+  font-size: 30px; font-weight: 700; letter-spacing: -0.01em; line-height: 1;
+  white-space: nowrap; box-shadow: 0 2px 6px rgba(160, 85, 123, 0.22);
+}
 .rpt-header h1 { font-size: var(--h1); font-weight: 600; margin: 0; color: var(--fg-h); letter-spacing: -0.01em; }
 .rpt-header h1 .muted { color: var(--fg-3); font-weight: 400; }
 .meta-row { display: flex; gap: 28px; font-size: 12.5px; color: var(--fg-2); text-align: right; justify-content: flex-end; }
@@ -50,8 +60,10 @@ html, body {
 .meta-row .v { color: var(--fg); font-size: 14.5px; }
 .meta-row .v .hl { color: var(--info); }
 .toc {
+  position: sticky; top: 0; z-index: 50;
   display: flex; gap: 4px; margin-bottom: 32px; padding: 4px;
   background: var(--section); border: 1px solid var(--line); border-radius: 6px; font-size: 12.5px;
+  box-shadow: 0 2px 0 var(--bg), 0 6px 12px -6px rgba(26, 20, 13, 0.08);
 }
 .toc a { color: var(--fg-2); padding: 6px 10px; border-radius: 4px; text-decoration: none; transition: all 0.15s; white-space: nowrap; }
 .toc a:hover { color: var(--fg); background: var(--card); }
@@ -870,10 +882,12 @@ function Header() {
       <div>
         <a href="./" className="back-link"><span className="arrow">←</span> 월간 트랜드 보고서</a>
         <div className="eyebrow">INTERNAL · 경쟁 분석 · {REPORT_META.issue}</div>
-        <h1>경쟁작 캐릭터 트렌드 <span className="muted">월간 보고서</span></h1>
+        <div className="title-row">
+          <div className="month-badge">{REPORT_META.month}</div>
+          <h1>경쟁작 캐릭터 트렌드 <span className="muted">월간 보고서</span></h1>
+        </div>
       </div>
       <div className="meta-row">
-        <div><div className="k">MONTH</div><div className="v mono">{REPORT_META.month}</div></div>
         <div><div className="k">ISSUED</div><div className="v mono">{REPORT_META.issued}</div></div>
         <div><div className="k">GAMES</div><div className="v mono"><span className="hl">{REPORT_META.gamesAnalyzed}</span> / 6</div></div>
         <div><div className="k">CHARS</div><div className="v mono"><span className="hl">{REPORT_META.charactersAnalyzed}</span></div></div>
