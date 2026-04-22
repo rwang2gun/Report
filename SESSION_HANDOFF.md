@@ -40,16 +40,16 @@ Love and Deepspace는 남성향 타겟 외 제외.
 ### 2-2. 월간 HTML 보고서 2종
 - **2026-03 보고서** (VOL.01 · 최초 발행)
   - 로컬: `D:\Claude\Monthly Character Trend Report.html`
-  - 웹: https://rwang2gun.github.io/Report/월간%20트랜드%20보고서/2026-03.html
+  - 웹: https://rwang2gun.github.io/Report/character-trend-reports/2026-03.html
   - 9 캐릭터: 바르카·스파키·애쉬베일·시그리카·구원·남궁우·탕탕·로시·아르카나
 - **2026-02 보고서** (VOL.00 · 소급 백이슈)
-  - 웹: https://rwang2gun.github.io/Report/월간%20트랜드%20보고서/2026-02.html
+  - 웹: https://rwang2gun.github.io/Report/character-trend-reports/2026-02.html
   - 8 캐릭터: 자백·효광·수나·아리아·에이메스·질베르타·이본·벨벳
 
 ### 2-3. GitHub Pages 사이트
 - **리포**: https://github.com/rwang2gun/Report
-- **메인 홈**: https://rwang2gun.github.io/Report/ (3번째 배너 "월간 트랜드 보고서" 추가)
-- **랜딩 페이지**: https://rwang2gun.github.io/Report/월간%20트랜드%20보고서/
+- **메인 홈**: https://rwang2gun.github.io/Report/ (3번째 배너 "월간 트렌드 보고서" 추가)
+- **랜딩 페이지**: https://rwang2gun.github.io/Report/character-trend-reports/
   - 2 REPORTS 카운트
   - 2026.03 카드 + 2026.02 카드
 
@@ -202,7 +202,7 @@ cd _repo
 git config user.name "rwang2gun"
 git config user.email "rwang2gun@gmail.com"
 # ... 파일 수정 ...
-git add "월간 트랜드 보고서/"
+git add "character-trend-reports/"
 git commit -m "커밋 메시지 ... 
 
 Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
@@ -284,7 +284,7 @@ Remove-Item "D:\Claude\_repo" -Recurse -Force
 | 스킬 설치 경로 | `C:\Users\code1412\.claude\skills\subculture-trend-report\` |
 | GitHub 리포 | https://github.com/rwang2gun/Report |
 | GitHub Pages 홈 | https://rwang2gun.github.io/Report/ |
-| 월간 랜딩 | https://rwang2gun.github.io/Report/월간%20트랜드%20보고서/ |
+| 월간 랜딩 | https://rwang2gun.github.io/Report/character-trend-reports/ |
 | 이 문서 | `D:\Claude\SESSION_HANDOFF.md` |
 
 ---
@@ -304,7 +304,7 @@ Remove-Item "D:\Claude\_repo" -Recurse -Force
 1. `D:\Claude\Monthly Character Trend Report.html` (3월 최신, 템플릿 역할)
 2. `C:\Users\code1412\.claude\skills\subculture-trend-report\assets\template.html`
 3. `D:\Claude\subculture-trend-report.skill` (재패키징)
-4. GitHub `월간 트랜드 보고서/2026-XX.html` (clone → edit → commit → push)
+4. GitHub `character-trend-reports/2026-XX.html` (clone → edit → commit → push)
 
 ---
 
