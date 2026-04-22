@@ -1,4 +1,4 @@
-# 월간 트랜드 보고서
+# 월간 트렌드 보고서
 
 서브컬처·가챠 게임 6종의 월간 캐릭터 트렌드 분석 보고서.
 
@@ -39,7 +39,7 @@
 
 GitHub에서 HTML 파일을 직접 미리보려면 [`htmlpreview.github.io`](https://htmlpreview.github.io/) 경유:
 
-`https://htmlpreview.github.io/?https://github.com/rwang2gun/Report/blob/main/월간%20트랜드%20보고서/2026-03.html`
+`https://htmlpreview.github.io/?https://github.com/rwang2gun/Report/blob/main/월간%20트렌드%20보고서/2026-03.html`
 
 또는 파일을 다운로드해 로컬 브라우저로 열기.
 
