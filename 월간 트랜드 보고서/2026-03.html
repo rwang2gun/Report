@@ -19,7 +19,7 @@
   --h1: 32px; --h2: 24px; --h3: 18px; --body: 15px; --small: 13.5px; --caption: 12.5px;
 }
 * { box-sizing: border-box; }
-html { scroll-padding-top: 64px; scroll-behavior: smooth; }
+html { scroll-padding-top: 220px; scroll-behavior: smooth; }
 html, body {
   margin: 0; padding: 0; background: var(--bg); color: var(--fg);
   font-family: "Pretendard", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -28,7 +28,14 @@ html, body {
 }
 .mono { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-variant-numeric: tabular-nums; }
 .inter { font-family: "Inter", sans-serif; font-variant-numeric: tabular-nums; }
-.page { max-width: 1200px; margin: 0 auto; padding: 32px 40px 80px; }
+.page { max-width: 1200px; margin: 0 auto; padding: 0 40px 80px; }
+.sticky-topbar {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--bg);
+  margin-left: -40px; margin-right: -40px;
+  padding: 32px 40px 0;
+  box-shadow: 0 6px 14px -8px rgba(26, 20, 13, 0.12);
+}
 .rpt-header {
   display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end;
   padding-bottom: 20px; border-bottom: 1px solid var(--line-strong); margin-bottom: 28px;
@@ -60,10 +67,8 @@ html, body {
 .meta-row .v { color: var(--fg); font-size: 14.5px; }
 .meta-row .v .hl { color: var(--info); }
 .toc {
-  position: sticky; top: 0; z-index: 50;
-  display: flex; gap: 4px; margin-bottom: 32px; padding: 4px;
+  display: flex; gap: 4px; margin-bottom: 24px; padding: 4px;
   background: var(--section); border: 1px solid var(--line); border-radius: 6px; font-size: 12.5px;
-  box-shadow: 0 2px 0 var(--bg), 0 6px 12px -6px rgba(26, 20, 13, 0.08);
 }
 .toc a { color: var(--fg-2); padding: 6px 10px; border-radius: 4px; text-decoration: none; transition: all 0.15s; white-space: nowrap; }
 .toc a:hover { color: var(--fg); background: var(--card); }
@@ -1468,8 +1473,10 @@ function App() {
   const next  = () => setActiveIdx((i) => i === null ? 0 : (i + 1) % GAMES.length);
   return (
     <div className="page">
-      <Header />
-      <TOC />
+      <div className="sticky-topbar">
+        <Header />
+        <TOC />
+      </div>
       <Summary />
       <SectionHead id="s2" sigil="01" title="공통 트렌드 분석 (cross-cutting insights)" hint="5 insights · 3월 실데이터 기반" />
       <InsightCards />
