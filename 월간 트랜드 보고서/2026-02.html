@@ -794,7 +794,7 @@ const INSIGHTS = [
 /* ============ 메커니즘·기믹 비교 매트릭스 (실게임 기준 재설계) ============ */
 const MATRIX_COLS = [
   "신캐 출시 주기",
-  "3월 신규 수",
+  "2월 신규 수",
   "신규 메커니즘 도입",
   "팩션·진영 락",
   "자체 웹스토어",
@@ -808,7 +808,7 @@ const MATRIX_ROWS = [
   { game: "승리의 여신 니케",   cells: ["약 2주 (이벤트 간격)",            { dot: "half", t: "여1 (벨벳) + 콜라보 3종" }, { dot: "half", t: "리코리코 IP 콜라보" }, { dot: "half", t: "메이드 포 유 스쿼드 · 리코리코 콜라보" },        { dot: "half", t: "부분" }] },
 ];
 
-/* ============ Do / Don't 체크리스트 (3월 데이터 기반 재추출) ============ */
+/* ============ Do / Don't 체크리스트 (2월 데이터 기반 재추출) ============ */
 const DO_LIST = [
   { t: "런칭 2개월차에 신규 2종 연속 편성 + 선택권 지급 트리플 동력 — 엔드필드 2월 $35M 정점 달성 모델.", emph: "트리플 동력" },
   { t: "신규 운명·속성은 첫 캐릭터(도입 신호) → 후속 캐릭터(메타 완성) 2단계로 점진 확장 — 환락 운명 효광(2월) → 스파키(3월).", emph: "2단계 확장" },
@@ -826,7 +826,7 @@ const DONT_LIST = [
   { t: "신규 여캐 + 복각 2연속 강매 구조는 이월 매출 하락 유발 — 자백+느비예트 다음 달 −27.5%.", emph: "2연속 강매" },
 ];
 
-/* ============ Watchlist (4월 후반~5월, 실제 예정) ============ */
+/* ============ Watchlist (3월, 실제 예정) ============ */
 const WATCHLIST = [
   { name: "바르카 (Varka)", game: "원신", gameIdx: "G1", why: "v6.4 전반 2/25 시작. 몬드 페보니우스 기사단 대단장 실장 — 3년 루머 페이오프. 바람·양손검·이도류 원소 전환 메커니즘. 3월 여캐 부재로 매출 하락 가능성.", when: "2/25" },
   { name: "스파키 (Sparky) · 애쉬베일 (Ashveil)", game: "스타레일", gameIdx: "G2", why: "v4.0 후반 3/3 스파키(화염·환락, 스파클 분신) + v4.1 3/25 애쉬베일(번개·수렵, 미끼 추공). 환락 운명 완성 + 추공 메타 확립.", when: "3/3 · 3/25" },
@@ -1433,11 +1433,11 @@ function App() {
       <Header />
       <TOC />
       <Summary />
-      <SectionHead id="s2" sigil="01" title="공통 트렌드 분석 (cross-cutting insights)" hint="5 insights · 3월 실데이터 기반" />
+      <SectionHead id="s2" sigil="01" title="공통 트렌드 분석 (cross-cutting insights)" hint="5 insights · 2월 실데이터 기반" />
       <InsightCards />
       <SectionHead id="s3" sigil="02" title="메커니즘·기믹 비교 매트릭스" hint="6 games × 5 cols" />
       <MatrixTable />
-      <SectionHead id="s4" sigil="03" title="Do / Don't 체크리스트" hint="3월 사례 기반 재추출" />
+      <SectionHead id="s4" sigil="03" title="Do / Don't 체크리스트" hint="2월 사례 기반 재추출" />
       <DoDont />
       <SectionHead id="s1" sigil="04" title="게임별 카탈로그" hint="카드 선택 → 세부 리포트 (← → 키보드)" />
       <LegendBar />
@@ -1446,7 +1446,7 @@ function App() {
           <GameCardButton game={g} onClick={() => open(i)} key={i} />
         ))}
       </div>
-      <SectionHead id="s5" sigil="05" title="다음 달 주목 캐릭터" hint="watchlist · 2026.04 후반~05" />
+      <SectionHead id="s5" sigil="05" title="다음 달 주목 캐릭터" hint="watchlist · 2026.03" />
       <Watchlist />
       <Footer />
       <TweaksPanel />
