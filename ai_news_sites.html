@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 뉴스 사이트 모음</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0f;
+    --bg2: #141416;
+    --bg3: #1c1c1f;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.16);
+    --text: #f0efe8;
+    --text2: #8a8a8a;
+    --text3: #555;
+    --accent-kr: #c8f064;
+    --accent-en: #64b5f6;
+    --accent-nl: #f0a264;
+    --accent-cm: #c084f5;
+    --pill-kr-bg: rgba(200,240,100,0.1);
+    --pill-en-bg: rgba(100,181,246,0.1);
+    --pill-nl-bg: rgba(240,162,100,0.1);
+    --pill-cm-bg: rgba(192,132,245,0.1);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 48px 24px 80px;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 52px;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .tip {
+    margin-top: 36px;
+    padding: 14px 18px;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-left: 2px solid var(--accent-kr);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+
+  .tip strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .tip .sep { color: var(--text3); margin: 0 6px; }
+
+  /* Section */
+  .section {
+    margin-bottom: 44px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .section-flag {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 0.5px;
+    background: var(--border);
+  }
+
+  .subsection {
+    margin-bottom: 20px;
+  }
+
+  .subsection-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 8px;
+  }
+
+  /* Card */
+  .card {
+    display: block;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg3);
+    transform: translateY(-1px);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .card-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .card-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .card-url {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+  }
+
+  .card-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .pill {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .pill-kr  { background: var(--pill-kr-bg);  color: var(--accent-kr); }
+  .pill-en  { background: var(--pill-en-bg);  color: var(--accent-en); }
+  .pill-nl  { background: var(--pill-nl-bg);  color: var(--accent-nl); }
+  .pill-cm  { background: var(--pill-cm-bg);  color: var(--accent-cm); }
+
+  .arrow {
+    font-size: 12px;
+    color: var(--text3);
+    transition: color 0.15s, transform 0.15s;
+  }
+
+  .card:hover .arrow {
+    color: var(--text2);
+    transform: translate(2px, -2px);
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.55;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 0.5px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">curated / 2026.05</div>
+    <h1>AI 뉴스 사이트 모음</h1>
+    <p class="subtitle">한국어 + 해외 · 총 14개 사이트</p>
+
+    <div class="tip">
+      <strong>추천 조합</strong>
+      <span class="sep">·</span>매일 훑기: AI Weekly + AI타임스
+      <span class="sep">·</span>깊게 읽기: MIT Technology Review + 전자신문
+      <span class="sep">·</span>빠른 트렌드: The Rundown AI + 긱뉴스
+    </div>
+  </header>
+
+  <!-- 한국어 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-flag">🇰🇷</span>
+      <span class="section-title">한국어</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">AI 전문 미디어</div>
+      <div class="grid">
+        <a class="card" href="https://www.aitimes.com" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">AI타임스</span>
+              <span class="card-url">aitimes.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-kr">전문지</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">국내 AI 산업·정책 심층 보도. 인공지능 전문 미디어.</div>
+        </a>
+        <a class="card" href="https://www.aitimes.kr" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">인공지능신문</span>
+              <span class="card-url">aitimes.kr</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-kr">전문지</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">국내외 AI 기업·연구 소식. 빠른 업데이트.</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">IT 종합 미디어 · AI 섹션</div>
+      <div class="grid">
+        <a class="card" href="https://www.etnews.com" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">전자신문</span>
+              <span class="card-url">etnews.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-kr">종합</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">IT 종합지. 산업계·정책 동향에 강함.</div>
+        </a>
+        <a class="card" href="https://zdnet.co.kr" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">ZDNet Korea</span>
+              <span class="card-url">zdnet.co.kr</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-kr">종합</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">글로벌 ZDNet 계열. 기업 IT·AI 실무 관점.</div>
+        </a>
+        <a class="card" href="https://news.hada.io" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">긱뉴스 (GeekNews)</span>
+              <span class="card-url">news.hada.io</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-cm">커뮤니티</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">한국판 Hacker News. 해외 기사 한국어 요약. 개발자 커뮤니티 큐레이션.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 해외 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-flag">🌐</span>
+      <span class="section-title">해외</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">빠른 소식 / 종합</div>
+      <div class="grid">
+        <a class="card" href="https://techcrunch.com/category/artificial-intelligence" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">TechCrunch AI</span>
+              <span class="card-url">techcrunch.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-en">종합</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">스타트업·펀딩·모델 출시 빠른 보도.</div>
+        </a>
+        <a class="card" href="https://theverge.com/ai-artificial-intelligence" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">The Verge AI</span>
+              <span class="card-url">theverge.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-en">종합</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">대중 친화적, 심층 분석 병행.</div>
+        </a>
+        <a class="card" href="https://wired.com/tag/artificial-intelligence" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">Wired AI</span>
+              <span class="card-url">wired.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-en">종합</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">기술·사회·문화 교차점 분석.</div>
+        </a>
+        <a class="card" href="https://forbes.com/ai" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">Forbes AI</span>
+              <span class="card-url">forbes.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-en">종합</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">비즈니스·산업 영향 중심.</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">심층 분석 / 연구</div>
+      <div class="grid">
+        <a class="card" href="https://technologyreview.com" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">MIT Technology Review</span>
+              <span class="card-url">technologyreview.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-en">심층</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">AI 저널리즘 골드스탠다드. "왜 중요한지"를 분석.</div>
+        </a>
+        <a class="card" href="https://sciencedaily.com/news/computers_math/artificial_intelligence" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">ScienceDaily AI</span>
+              <span class="card-url">sciencedaily.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-en">심층</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">학술 논문·연구 기반 보도.</div>
+        </a>
+        <a class="card" href="https://aimagazine.com" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">AI Magazine</span>
+              <span class="card-url">aimagazine.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-en">심층</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">거버넌스·정책·기업 전략 커버리지 강함.</div>
+        </a>
+        <a class="card" href="https://artificialintelligence-news.com" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">AI News</span>
+              <span class="card-url">artificialintelligence-news.com</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-en">심층</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">산업별 세분화 커버리지. 비즈니스 AI 중심.</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">뉴스레터 / 큐레이션</div>
+      <div class="grid">
+        <a class="card" href="https://therundown.ai" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">The Rundown AI</span>
+              <span class="card-url">therundown.ai</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-nl">뉴스레터</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">200만+ 구독자. 뉴스 + 실무 적용법.</div>
+        </a>
+        <a class="card" href="https://aiweekly.co" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">AI Weekly</span>
+              <span class="card-url">aiweekly.co</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-nl">뉴스레터</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">주 3회 발행. 2017년부터 운영. 전문가용 큐레이션.</div>
+        </a>
+        <a class="card" href="https://superhuman.ai" target="_blank">
+          <div class="card-top">
+            <div class="card-left">
+              <span class="card-name">Superhuman AI</span>
+              <span class="card-url">superhuman.ai</span>
+            </div>
+            <div class="card-right">
+              <span class="pill pill-nl">뉴스레터</span>
+              <span class="arrow">↗</span>
+            </div>
+          </div>
+          <div class="card-desc">하루 3분. 150만+ 구독자.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>AI NEWS SITES · 14 SOURCES</span>
+    <span>2026.05</span>
+  </footer>
+
+</div>
+</body>
+</html>

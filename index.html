@@ -282,6 +282,7 @@
     <button class="filter-btn" data-filter="combat">전투 시스템</button>
     <button class="filter-btn" data-filter="ux">UX · 조작</button>
     <button class="filter-btn" data-filter="world"> 콘텐츠 </button>
+    <button class="filter-btn" data-filter="tech">Tech</button>
     <div class="search-wrap">
       <input class="search-input" type="text" placeholder="Search reports..." id="searchInput">
     </div>
@@ -339,6 +340,19 @@ const REPORTS = [
     tagBorder:"#f0c4a8",
     file:     "character-trend-reports/",
   },
+  {
+    title:    "AI 뉴스 사이트 모음",
+    desc:     "한국어·영어·네덜란드어·중국어 권역에서 AI 업계 소식을 큐레이션하는 뉴스·리소스 사이트 모음.",
+    category: "tech",
+    tags:     ["AI", "뉴스 큐레이션", "레퍼런스"],
+    ref:      "AI News",
+    date:     "2026.05",
+    accent:   "#7b6cd9",
+    tagBg:    "#f0eefa",
+    tagColor: "#5b4cb8",
+    tagBorder:"#d8d2f0",
+    file:     "ai_news_sites.html",
+  },
   // ── 새 리포트는 아래에 추가 ──
   // {
   //   title:    "보고서 제목",
@@ -358,6 +372,7 @@ const REPORTS = [
 const CATEGORY_LABELS = {
   all: "All Reports", reference: "레퍼런스 분석",
   combat: "전투 시스템", ux: "UX · 조작", world: "월드 · 탐험",
+  tech: "Tech",
 };
 
 let currentFilter = "all", currentSearch = "";
