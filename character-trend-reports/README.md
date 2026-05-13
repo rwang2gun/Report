@@ -24,7 +24,8 @@
 
 ## 방법론 주의사항
 
-- 매출 수치는 Sensor Tower 기반 iOS + Google Play 추정치. 웹스토어·PC·콘솔·중국 로컬 스토어 미집계.
+- 매출 수치: 2026.04호부터 [revenue.ennead.cc(GACHAREVENUE)](https://revenue.ennead.cc/revenue) GLOBAL 집계 사용 (Sensor Tower 직출). 2026.02~03호는 Sensor Tower Blog · ixbt.games 교차 기반 별도 추정치. 절대 금액은 호별 차이 있으나 전월 대비 방향성은 일치.
+- iOS + Google Play 기준. 웹스토어·PC·콘솔·중국 로컬 스토어 미집계 (호요버스·쿠로 게임은 실제 매출이 1.5~2배 가능).
 - 티어 평가는 한국·영어 공략 사이트 종합 가중 평균. 공식 지표 아님.
 - 유저 평가 3분할(긍정/부정/논란)은 정성 샘플링 기반, 통계적 대표성 없음.
 
@@ -32,6 +33,7 @@
 
 | 월 | 파일 | 비고 |
 |---|---|---|
+| 2026.04 | `2026-04.html` | VOL.02 · 매출 출처 ennead.cc 전환 |
 | 2026.03 | `2026-03.html` | VOL.01 (최초 발행) |
 | 2026.02 | `2026-02.html` | VOL.00 · 소급 작성된 백이슈 |
 
@@ -39,7 +41,7 @@
 
 GitHub에서 HTML 파일을 직접 미리보려면 [`htmlpreview.github.io`](https://htmlpreview.github.io/) 경유:
 
-`https://htmlpreview.github.io/?https://github.com/rwang2gun/Report/blob/main/character-trend-reports/2026-03.html`
+`https://htmlpreview.github.io/?https://github.com/rwang2gun/Report/blob/main/character-trend-reports/2026-04.html`
 
 또는 파일을 다운로드해 로컬 브라우저로 열기.
 
