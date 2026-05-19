@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>Subculture Monthly · Vol.01 — Round 03 · Page-Type Components</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+KR:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    html, body { margin: 0; padding: 0; background: #FCFAF3; color: #1a1a1a; font-family: 'Inter', system-ui, sans-serif; }
+
+    /* ─── Outer page chrome ──────────────────────────────────────────── */
+    .doc {
+      max-width: 1840px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+    .doc-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      padding-bottom: 16px; border-bottom: 1px solid rgba(26,26,26,0.3);
+    }
+    .doc-head .title {
+      font-family: 'EB Garamond', serif; font-size: 38px; letter-spacing: -0.02em; font-weight: 500;
+    }
+    .doc-head .meta {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
+      color: rgba(26,26,26,0.7); text-transform: uppercase; text-align: right;
+    }
+    .doc-head .meta .accent { color: #C44536; }
+
+    .doc-intro {
+      max-width: 920px; margin: 22px 0 36px;
+      font-family: 'Noto Serif KR', serif; font-size: 17px; line-height: 1.6;
+      color: #1a1a1a; opacity: 0.85;
+    }
+    .doc-intro code {
+      font-family: 'JetBrains Mono', monospace; font-size: 14px;
+      background: rgba(196,69,54,0.08); padding: 1px 6px; color: #C44536;
+      border-radius: 2px;
+    }
+
+    .doc-section-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin: 56px 0 18px; padding-bottom: 10px;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    .doc-section-head h2 {
+      margin: 0; font-family: 'EB Garamond', serif; font-size: 28px; letter-spacing: -0.01em; font-weight: 500;
+    }
+    .doc-section-head .num {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em;
+      color: #C44536; text-transform: uppercase;
+    }
+
+    /* ─── Component-examples grid ────────────────────────────────────── */
+    .examples-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px 24px;
+      margin-top: 24px;
+    }
+    .ex {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .ex-thumb {
+      width: 100%; aspect-ratio: 3/4; background: #FCFAF3; overflow: hidden;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.18), 0 18px 30px -22px rgba(0,0,0,0.35);
+      position: relative;
+    }
+    .ex-thumb > div {
+      transform-origin: top left;
+    }
+    .ex-label {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em;
+      color: rgba(26,26,26,0.7); text-transform: uppercase;
+    }
+    .ex-label .lhs { color: #C44536; font-weight: 600; }
+    .ex-name {
+      font-family: 'EB Garamond', serif; font-size: 17px; color: #1a1a1a;
+      letter-spacing: -0.01em;
+    }
+    .ex-sig {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.5;
+      color: rgba(26,26,26,0.62);
+    }
+    .ex-sig em { color: #C44536; font-style: normal; }
+
+    /* ─── Book area ──────────────────────────────────────────────────── */
+    .book-wrap {
+      margin-top: 40px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .book-stage {
+      position: relative;
+      background: #F4EFE0;
+      padding: 56px 40px 40px;
+      width: 100%; box-sizing: border-box;
+      box-shadow: inset 0 0 0 1px rgba(26,26,26,0.12);
+    }
+    .book-stage .book-meta {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em;
+      color: rgba(26,26,26,0.7); text-transform: uppercase;
+    }
+    .book-stage .book-meta .accent { color: #C44536; font-weight: 600; }
+    #book { margin: 0 auto; }
+
+    /* Each .page is a flippable leaf. Internal content uses transform:scale */
+    .page {
+      background: #FCFAF3;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(26,26,26,0.08);
+    }
+    .page .page-inner {
+      transform-origin: top left;
+    }
+
+    .book-controls {
+      display: flex; gap: 12px; margin-top: 22px; align-items: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em;
+      color: rgba(26,26,26,0.78); text-transform: uppercase;
+    }
+    .book-controls button {
+      font-family: inherit; font-size: inherit; letter-spacing: inherit;
+      text-transform: inherit; padding: 8px 14px; background: #1a1a1a; color: #FCFAF3;
+      border: none; cursor: pointer; transition: background 0.15s;
+    }
+    .book-controls button:hover { background: #C44536; }
+    .book-controls .pageno {
+      padding: 8px 14px; background: rgba(26,26,26,0.06); color: #1a1a1a; font-weight: 600;
+    }
+
+    /* ─── Data contract sticky note ──────────────────────────────────── */
+    .contract {
+      margin: 56px 0 0; padding: 24px 28px; background: #F6F2E4;
+      border-left: 4px solid #C44536;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.65;
+      color: #1a1a1a; white-space: pre; overflow-x: auto;
+    }
+    .contract .k { color: #C44536; font-weight: 600; }
+    .contract .c { color: rgba(26,26,26,0.55); font-style: italic; }
+
+    /* ─── Bookmark rail · desktop (fixed right) ───────────────────────── */
+    .book-stage { position: relative; }
+    .bookmark-rail {
+      position: fixed; top: 80px; right: 24px;
+      width: 220px; padding: 14px 18px;
+      background: #FCFAF3; border-left: 2px solid #1a1a1a;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      box-shadow: 0 8px 24px -16px rgba(0,0,0,0.3);
+      z-index: 100;
+    }
+    .bookmark-rail .rail-head {
+      font-size: 9px; color: #C44536; font-weight: 600;
+      padding-bottom: 8px; border-bottom: 1px solid rgba(26,26,26,0.18); margin-bottom: 10px;
+    }
+    .bookmark-rail .rail-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 7px 0; cursor: pointer; color: rgba(26,26,26,0.7);
+      border-bottom: 1px solid rgba(26,26,26,0.06);
+      transition: color 0.15s, background 0.15s;
+    }
+    .bookmark-rail .rail-item:last-child { border-bottom: none; }
+    .bookmark-rail .rail-item:hover { color: #C44536; background: rgba(196,69,54,0.04); }
+    .bookmark-rail .rail-item.active { color: #1a1a1a; font-weight: 600; }
+    .bookmark-rail .rail-item.active .rail-page { color: #C44536; }
+    .bookmark-rail .rail-page { font-weight: 500; opacity: 0.6; }
+
+    /* ─── Bookmark toggle + fullscreen modal · mobile ─────────────────── */
+    .bookmark-toggle {
+      position: absolute; top: 22px; right: 24px;
+      background: #1a1a1a; color: #FCFAF3;
+      border: none; padding: 8px 12px; cursor: pointer;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      display: none; z-index: 50;
+    }
+    .bookmark-toggle:hover { background: #C44536; }
+    .bookmark-modal {
+      position: fixed; inset: 0; background: rgba(26,26,26,0.96);
+      z-index: 9999; display: none; flex-direction: column;
+      padding: 40px 24px; color: #FCFAF3; overflow-y: auto;
+    }
+    .bookmark-modal.open { display: flex; }
+    .bookmark-modal .modal-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-bottom: 12px; border-bottom: 1px solid rgba(252,250,243,0.3);
+      margin-bottom: 24px;
+      font-family: 'EB Garamond', serif; font-size: 24px;
+    }
+    .bookmark-modal .modal-close {
+      background: none; border: none; color: #FCFAF3;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.18em; cursor: pointer; padding: 6px 12px;
+    }
+    .bookmark-modal .modal-item {
+      display: flex; justify-content: space-between; padding: 14px 0;
+      border-bottom: 1px solid rgba(252,250,243,0.15);
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+      letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
+      color: rgba(252,250,243,0.78);
+    }
+    .bookmark-modal .modal-item:hover { color: #FCFAF3; }
+    .bookmark-modal .modal-item.active { color: #FCFAF3; font-weight: 600; }
+    .bookmark-modal .modal-item.active .rail-page { color: #C44536; }
+
+    @media (max-width: 1340px) {
+      .bookmark-rail { display: none; }
+      .bookmark-toggle { display: block; }
+    }
+  </style>
+
+  <template id="__bundler_thumbnail" data-bg-color="#FAF6EC">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="800" fill="#FAF6EC"/>
+      <rect x="180" y="160" width="840" height="2" fill="#1A1A1A" opacity="0.4"/>
+      <text x="600" y="380" text-anchor="middle"
+            font-family="EB Garamond, Garamond, serif" font-size="180"
+            font-style="italic" fill="#1A1A1A" letter-spacing="-4">SM</text>
+      <text x="600" y="470" text-anchor="middle"
+            font-family="monospace" font-size="22" fill="#C44536"
+            letter-spacing="6">SUBCULTURE MONTHLY</text>
+      <text x="600" y="510" text-anchor="middle"
+            font-family="monospace" font-size="16" fill="#1A1A1A"
+            opacity="0.6" letter-spacing="4">VOL.01 · 2026.05 · R03 · 10 COMPONENTS</text>
+      <rect x="180" y="638" width="840" height="2" fill="#1A1A1A" opacity="0.4"/>
+      <circle cx="600" cy="700" r="6" fill="#C44536"/>
+    </svg>
+  </template>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Data + Component layers — separated. -->
+  <script type="text/babel" src="issue-2026-05.jsx"></script>
+  <script type="text/babel" src="magazine-shared-v2.jsx"></script>
+  <script type="text/babel" src="magazine-pages-front.jsx"></script>
+  <script type="text/babel" src="magazine-pages-back.jsx"></script>
+
+  <script type="text/babel" data-presets="env,react">
+    const PAGE_W = 1200;
+    const PAGE_H = 1600;
+
+    // ─── Example thumbnails (one render per component) ────────────────────
+    function Thumb({ scale = 0.27, children }) {
+      return (
+        <div className="ex-thumb" style={{ height: PAGE_H * scale }}>
+          <div className="page-inner" style={{ width: PAGE_W, height: PAGE_H, transform: `scale(${scale})` }}>
+            {children}
+          </div>
+        </div>
+      );
+    }
+
+    function Example({ no, name, signature, scale = 0.27, children }) {
+      return (
+        <div className="ex">
+          <Thumb scale={scale}>{children}</Thumb>
+          <div className="ex-label">
+            <span className="lhs">{no}</span>
+            <span>{name.match(/Page$/) ? "PAGE TYPE" : "COMPONENT"}</span>
+          </div>
+          <div className="ex-name">&lt;{name} /&gt;</div>
+          <div className="ex-sig" dangerouslySetInnerHTML={{ __html: signature }} />
+        </div>
+      );
+    }
+
+    // ─── Single-render examples grid ──────────────────────────────────────
+    function ExamplesGrid() {
+      const D = ISSUE_2026_05;
+      const g0 = D.games[0]; // 6번 호출되는 컴포넌트라는 점을 강조하려고 첫 게임으로 미리보기
+
+      return (
+        <div className="examples-grid">
+          <Example no="01 · P.00" name="CoverPage" signature="props · <em>meta</em>, <em>insights[3]</em>">
+            <CoverPage meta={D.meta} insights={D.insights} />
+          </Example>
+          <Example no="02 · P.01" name="TocPage" signature="props · <em>meta</em>, <em>games[6]</em>">
+            <TocPage meta={D.meta} games={D.games} />
+          </Example>
+          <Example no="03 · P.02" name="DataDashboardPage" signature="props · <em>...dashboard</em>, <em>meta</em>">
+            <DataDashboardPage meta={D.meta} {...D.dashboard} />
+          </Example>
+          <Example no="04 · P.03,05,07,09,11,13" name="GameFeatureVisualPage" signature="props · <em>game</em>, <em>index</em>, <em>total</em>, <em>pageNo</em>">
+            <GameFeatureVisualPage game={g0} index={0} total={D.games.length} pageNo="P.03" issue={D.meta.issue} />
+          </Example>
+          <Example no="05 · P.04,06,08,10,12,14" name="GameFeatureBodyPage" signature="props · <em>game</em>, <em>index</em>, <em>total</em>, <em>pageNo</em>, <em>prevPageNo</em>">
+            <GameFeatureBodyPage game={g0} index={0} total={D.games.length} pageNo="P.04" prevPageNo="P.03" issue={D.meta.issue} />
+          </Example>
+          <Example no="06 · P.15" name="CrossAnalysisPage" signature="props · <em>...crossAnalysis</em>, <em>meta</em>">
+            <CrossAnalysisPage meta={D.meta} {...D.crossAnalysis} />
+          </Example>
+          <Example no="07 · P.16" name="IndustryDeskPage" signature="props · <em>...industry</em>, <em>meta</em>">
+            <IndustryDeskPage meta={D.meta} {...D.industry} />
+          </Example>
+          <Example no="08 · P.17" name="CommunityPulsePage" signature="props · <em>...community</em>, <em>meta</em>">
+            <CommunityPulsePage meta={D.meta} {...D.community} />
+          </Example>
+          <Example no="09 · P.18" name="WatchlistPage" signature="props · <em>...watchlist</em>, <em>meta</em>">
+            <WatchlistPage meta={D.meta} {...D.watchlist} />
+          </Example>
+          <Example no="10 · P.19" name="ColophonPage" signature="props · <em>...colophon</em>, <em>meta</em>">
+            <ColophonPage meta={D.meta} {...D.colophon} />
+          </Example>
+        </div>
+      );
+    }
+
+    // ─── Book assembly — 20 page renders from the same 10 components ─────
+    const BOOK_W = 640;
+    const BOOK_H = Math.round(BOOK_W * (PAGE_H / PAGE_W)); // = 853
+
+    function BookPage({ children }) {
+      const scale = BOOK_W / PAGE_W;
+      return (
+        <div className="page">
+          <div className="page-inner" style={{ width: PAGE_W, height: PAGE_H, transform: `scale(${scale})` }}>
+            {children}
+          </div>
+        </div>
+      );
+    }
+
+    function buildBookPages(D) {
+      const pages = [];
+      pages.push({ key: "p00", el: <CoverPage meta={D.meta} insights={D.insights} /> });
+      pages.push({ key: "p01", el: <TocPage meta={D.meta} games={D.games} /> });
+      pages.push({ key: "p02", el: <DataDashboardPage meta={D.meta} {...D.dashboard} /> });
+      // 6 game spreads — SAME pair of components, 6 times.
+      D.games.forEach((g, i) => {
+        const leftNo  = `P.${String(3 + i * 2).padStart(2, "0")}`;
+        const rightNo = `P.${String(4 + i * 2).padStart(2, "0")}`;
+        pages.push({ key: `p${leftNo}`,  el: <GameFeatureVisualPage game={g} index={i} total={D.games.length} pageNo={leftNo} issue={D.meta.issue} /> });
+        pages.push({ key: `p${rightNo}`, el: <GameFeatureBodyPage   game={g} index={i} total={D.games.length} pageNo={rightNo} prevPageNo={leftNo} issue={D.meta.issue} /> });
+      });
+      pages.push({ key: "p15", el: <CrossAnalysisPage meta={D.meta} {...D.crossAnalysis} /> });
+      pages.push({ key: "p16", el: <IndustryDeskPage  meta={D.meta} {...D.industry} /> });
+      pages.push({ key: "p17", el: <CommunityPulsePage meta={D.meta} {...D.community} /> });
+      pages.push({ key: "p18", el: <WatchlistPage     meta={D.meta} {...D.watchlist} /> });
+      pages.push({ key: "p19", el: <ColophonPage      meta={D.meta} {...D.colophon} /> });
+      return pages;
+    }
+
+    // ─── Section anchors for bookmark rail (page index → label) ──────────
+    const SECTIONS = [
+      { id: 'cover',     label: '표지',         page: 0,  key: '0' },
+      { id: 'toc',       label: '목차',         page: 1,  key: '1' },
+      { id: 'numbers',   label: '데이터',       page: 2,  key: '2' },
+      { id: 'gi',        label: '원신',         page: 3,  key: '3' },
+      { id: 'hsr',       label: '스타레일',     page: 5,  key: '4' },
+      { id: 'zzz',       label: '젠레스',       page: 7,  key: '5' },
+      { id: 'ww',        label: '명조',         page: 9,  key: '6' },
+      { id: 'ef',        label: '엔드필드',     page: 11, key: '7' },
+      { id: 'nk',        label: '니케',         page: 13, key: '8' },
+      { id: 'cross',     label: '크로스',       page: 15, key: '9' },
+      { id: 'industry',  label: '산업',         page: 16 },
+      { id: 'community', label: '커뮤니티',     page: 17 },
+      { id: 'watch',     label: 'Watchlist',    page: 18 },
+      { id: 'colophon',  label: '콜로폰',       page: 19 },
+    ];
+    function sectionForPage(p) {
+      let s = SECTIONS[0];
+      for (const x of SECTIONS) if (x.page <= p) s = x;
+      return s;
+    }
+
+    function BookmarkRail({ flipRef, currentPage, mobileOpen, setMobileOpen }) {
+      const active = sectionForPage(currentPage).id;
+      const jump = (p) => { flipRef.current && flipRef.current.turnToPage(p); setMobileOpen(false); };
+      return (
+        <React.Fragment>
+          <nav className="bookmark-rail" aria-label="섹션 점프">
+            <div className="rail-head">CONTENTS · 14 SECTIONS</div>
+            {SECTIONS.map(s => (
+              <div key={s.id}
+                   className={'rail-item' + (s.id === active ? ' active' : '')}
+                   onClick={() => jump(s.page)}>
+                <span>{s.label}{s.key ? ' · ' + s.key : ''}</span>
+                <span className="rail-page">P.{String(s.page).padStart(2,'0')}</span>
+              </div>
+            ))}
+          </nav>
+          <button className="bookmark-toggle" onClick={() => setMobileOpen(true)} aria-label="목차 열기">
+            ≡ INDEX
+          </button>
+          <div className={'bookmark-modal' + (mobileOpen ? ' open' : '')} role="dialog" aria-modal="true">
+            <div className="modal-head">
+              <span>Contents</span>
+              <button className="modal-close" onClick={() => setMobileOpen(false)}>CLOSE ✕</button>
+            </div>
+            {SECTIONS.map(s => (
+              <div key={s.id}
+                   className={'modal-item' + (s.id === active ? ' active' : '')}
+                   onClick={() => jump(s.page)}>
+                <span>{s.label}{s.key ? ' (단축키 ' + s.key + ')' : ''}</span>
+                <span className="rail-page">P.{String(s.page).padStart(2,'0')}</span>
+              </div>
+            ))}
+          </div>
+        </React.Fragment>
+      );
+    }
+
+    function FlipBook() {
+      const D = ISSUE_2026_05;
+      const pages = buildBookPages(D);
+      const bookRef = React.useRef(null);
+      const flipRef = React.useRef(null);
+      const [page, setPage] = React.useState(0);
+      const [total, setTotal] = React.useState(pages.length);
+      const [mobileOpen, setMobileOpen] = React.useState(false);
+
+      React.useEffect(() => {
+        if (!bookRef.current) return;
+        const flip = new St.PageFlip(bookRef.current, {
+          width: BOOK_W, height: BOOK_H,
+          size: "fixed",
+          minWidth: 300, maxWidth: 1200,
+          minHeight: 400, maxHeight: 1600,
+          maxShadowOpacity: 0.45,
+          showCover: true,
+          mobileScrollSupport: false,
+          drawShadow: true,
+          flippingTime: 700,
+          usePortrait: false,
+          autoSize: false,
+          startPage: 0,
+        });
+        flip.loadFromHTML(bookRef.current.querySelectorAll('.page'));
+        flip.on('flip', (e) => setPage(e.data));
+        setTotal(flip.getPageCount());
+        flipRef.current = flip;
+        return () => { try { flip.destroy(); } catch (e) {} };
+      }, []);
+
+      // Keyboard shortcuts — ← → page flip, T toggle TOC, 0-9 section jump, Esc close modal
+      React.useEffect(() => {
+        const onKey = (e) => {
+          if (e.target && /input|textarea/i.test(e.target.tagName)) return;
+          if (!flipRef.current) return;
+          if (e.key === 'ArrowLeft')       { flipRef.current.flipPrev(); }
+          else if (e.key === 'ArrowRight') { flipRef.current.flipNext(); }
+          else if (e.key === 't' || e.key === 'T') { setMobileOpen(o => !o); }
+          else if (e.key === 'Escape')     { setMobileOpen(false); }
+          else if (/^[0-9]$/.test(e.key)) {
+            const target = SECTIONS.find(s => s.key === e.key);
+            if (target) flipRef.current.turnToPage(target.page);
+          }
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, []);
+
+      return (
+        <div className="book-wrap">
+          <div className="book-stage">
+            <div className="book-meta">
+              <span><span className="accent">FLIPBOOK</span> · 같은 10 컴포넌트가 20쪽으로 조립됩니다</span>
+              <span>StPageFlip · 1200×1600 캔버스 × scale {BOOK_W / PAGE_W}</span>
+            </div>
+            <div id="book" ref={bookRef} style={{ width: BOOK_W * 2, height: BOOK_H }}>
+              {pages.map((p) => (
+                <BookPage key={p.key}>{p.el}</BookPage>
+              ))}
+            </div>
+            <div className="book-controls">
+              <button onClick={() => flipRef.current && flipRef.current.flipPrev()}>← PREV</button>
+              <span className="pageno">{String(page).padStart(2, "0")} / {String(total - 1).padStart(2, "0")}</span>
+              <button onClick={() => flipRef.current && flipRef.current.flipNext()}>NEXT →</button>
+              <span style={{ marginLeft: 16, opacity: 0.62 }}>
+                ← → · T · 0–9 단축키 · 모서리를 끌어 넘기기
+              </span>
+            </div>
+            <BookmarkRail flipRef={flipRef} currentPage={page} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+          </div>
+        </div>
+      );
+    }
+
+    // ─── App ──────────────────────────────────────────────────────────────
+    function App() {
+      const D = ISSUE_2026_05;
+      return (
+        <div className="doc">
+          <header className="doc-head">
+            <div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: "#C44536", textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>
+                ROUND 03 · PAGE-TYPE COMPONENTS · {D.meta.coverDate}
+              </div>
+              <div className="title">Subculture Monthly · <span style={{ fontStyle: "italic" }}>Vol.01</span></div>
+            </div>
+            <div className="meta">
+              10 컴포넌트 · 1 데이터 객체 · 20 렌더<br/>
+              <span className="accent">props-driven · 다음 호엔 데이터만 교체</span>
+            </div>
+          </header>
+
+          <p className="doc-intro">
+            한 호 = 한 데이터 객체. <code>ISSUE_2026_05</code> 의 슬라이스를 각 페이지 컴포넌트의 <code>props</code> 로 넘기면 끝.
+            여섯 게임 피처는 같은 <code>&lt;GameFeatureVisualPage&gt;</code> · <code>&lt;GameFeatureBodyPage&gt;</code> 페어가
+            <code>games.map((g, i) =&gt; ...)</code> 패턴으로 6회 호출된 결과 — 하드코딩 없음.
+            다음 호는 <code>{"ISSUE_2026_06 = { ... }"}</code> 만 새로 작성해 동일 컴포넌트들에 넘기면 됩니다.
+          </p>
+
+          <div className="doc-section-head">
+            <h2>1 · 페이지 타입 컴포넌트 10개 (단일 렌더 예시)</h2>
+            <span className="num">SIGNATURE · DUMMY DATA × 1</span>
+          </div>
+          <ExamplesGrid />
+
+          <div className="doc-section-head">
+            <h2>2 · 같은 컴포넌트로 조립한 한 호 — 20쪽 플립북</h2>
+            <span className="num">STPAGEFLIP · 20 RENDERS</span>
+          </div>
+          <FlipBook />
+
+          <div className="doc-section-head">
+            <h2>3 · 데이터 컨트랙트</h2>
+            <span className="num">ISSUE_DATA · SCHEMA</span>
+          </div>
+          <pre className="contract" dangerouslySetInnerHTML={{ __html: `ISSUE_DATA = {
+  <span class="k">meta</span>:          { issue, date, coverDate, price, issn, tagline, title,
+                  coverLead, editorNote, coverArt },
+  <span class="k">insights</span>:      [ { n, head, en, body, signal } x 3 ],
+  <span class="k">dashboard</span>:     { section, headline, sub, aside,
+                  lineChart, donut, heatmap },
+  <span class="k">games</span>:         [ { id, ko, en, studio, patchTitle, patchEn, pageColor,
+                  character (with fields[8]),
+                  patchBullets[], quote,
+                  pickupTimeline[], revSignal } x 6 ],
+  <span class="k">crossAnalysis</span>: { section, headline, sub, trends[5], matrix, dosDonts },
+  <span class="k">industry</span>:      { section, headline, sub, studios[], upcoming[], regulations[] },
+  <span class="k">community</span>:     { section, headline, sub, events[5], directorLetter, fanWorks[] },
+  <span class="k">watchlist</span>:     { section, headline, sub, items[4-5] },
+  <span class="k">colophon</span>:      { section, headline, sub, sources[], methodology[], limits[],
+                  masthead, issn, next }
+};
+
+<span class="c">// next month:
+//   const ISSUE_2026_06 = { ...same shape };
+//   ReactDOM.render(&lt;CoverPage meta={ISSUE_2026_06.meta} ... /&gt;, root);</span>
+` }} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

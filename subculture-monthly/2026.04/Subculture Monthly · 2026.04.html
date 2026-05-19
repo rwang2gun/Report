@@ -1,0 +1,2401 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>Subculture Monthly</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+KR:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    html, body { margin: 0; padding: 0; background: #ECE5CC; color: #1a1a1a;
+                 font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; }
+
+    .reader {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      padding: 28px 40px 40px;
+      box-sizing: border-box;
+    }
+
+    .reader-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      padding-bottom: 14px; border-bottom: 1px solid rgba(26,26,26,0.2);
+      margin-bottom: 28px;
+    }
+    .reader-head .title {
+      font-family: 'EB Garamond', serif; font-size: 24px; font-weight: 500;
+      letter-spacing: -0.01em; color: #1a1a1a;
+    }
+    .reader-head .title em { font-style: italic; color: #1a1a1a; }
+    .reader-head .meta {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(26,26,26,0.7); text-align: right;
+    }
+    .reader-head .meta .accent { color: #C44536; font-weight: 600; }
+
+    .book-area {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 22px;
+    }
+
+    /* Each .page is a flippable leaf. */
+    .page {
+      background: #FCFAF3;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(26,26,26,0.08);
+    }
+    .page .page-inner { transform-origin: top left; }
+    /* Hard-cover pages — slightly darker tone, beefier shadow when stiff */
+    .page--stiff {
+      background: #F2EAD3;
+      box-shadow: inset 0 0 0 1px rgba(26,26,26,0.18),
+                  0 4px 22px -10px rgba(0,0,0,0.4);
+    }
+
+    .controls {
+      display: flex; gap: 12px; align-items: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.14em; color: rgba(26,26,26,0.78); text-transform: uppercase;
+    }
+    .controls button {
+      font-family: inherit; font-size: inherit; letter-spacing: inherit;
+      text-transform: inherit; padding: 8px 14px;
+      background: #1a1a1a; color: #FCFAF3; border: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .controls button:hover { background: #C44536; }
+    .controls .pageno {
+      padding: 8px 14px; background: rgba(26,26,26,0.06);
+      color: #1a1a1a; font-weight: 600;
+    }
+    .controls .hint { margin-left: 12px; opacity: 0.55; }
+
+    /* ─── Bookmark rail (right, desktop fixed) ────────────────────────── */
+    .bookmark-rail {
+      position: fixed; top: 100px; right: 24px;
+      width: 220px; padding: 14px 18px;
+      background: #FCFAF3; border-left: 2px solid #1a1a1a;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      box-shadow: 0 8px 24px -16px rgba(0,0,0,0.3);
+      z-index: 100;
+      max-height: calc(100vh - 140px); overflow-y: auto;
+    }
+    .bookmark-rail .rail-head {
+      font-size: 9px; color: #C44536; font-weight: 600;
+      padding-bottom: 8px; border-bottom: 1px solid rgba(26,26,26,0.18); margin-bottom: 10px;
+    }
+    .bookmark-rail .rail-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 7px 0; cursor: pointer; color: rgba(26,26,26,0.7);
+      border-bottom: 1px solid rgba(26,26,26,0.06);
+      transition: color 0.15s, background 0.15s;
+    }
+    .bookmark-rail .rail-item:last-child { border-bottom: none; }
+    .bookmark-rail .rail-item:hover { color: #C44536; background: rgba(196,69,54,0.04); }
+    .bookmark-rail .rail-item.active { color: #1a1a1a; font-weight: 600; }
+    .bookmark-rail .rail-item.active .rail-page { color: #C44536; }
+    .bookmark-rail .rail-page { font-weight: 500; opacity: 0.6; }
+
+    /* ─── Mobile toggle + fullscreen modal ────────────────────────────── */
+    .bookmark-toggle {
+      background: #1a1a1a; color: #FCFAF3;
+      border: none; padding: 8px 12px; cursor: pointer;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      display: none;
+    }
+    .bookmark-toggle:hover { background: #C44536; }
+    .bookmark-modal {
+      position: fixed; inset: 0; background: rgba(26,26,26,0.96);
+      z-index: 9999; display: none; flex-direction: column;
+      padding: 40px 24px; color: #FCFAF3; overflow-y: auto;
+    }
+    .bookmark-modal.open { display: flex; }
+    .bookmark-modal .modal-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-bottom: 12px; border-bottom: 1px solid rgba(252,250,243,0.3);
+      margin-bottom: 24px;
+      font-family: 'EB Garamond', serif; font-size: 24px;
+    }
+    .bookmark-modal .modal-close {
+      background: none; border: none; color: #FCFAF3;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.18em; cursor: pointer; padding: 6px 12px;
+    }
+    .bookmark-modal .modal-item {
+      display: flex; justify-content: space-between; padding: 14px 0;
+      border-bottom: 1px solid rgba(252,250,243,0.15);
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+      letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
+      color: rgba(252,250,243,0.78);
+    }
+    .bookmark-modal .modal-item:hover { color: #FCFAF3; }
+    .bookmark-modal .modal-item.active { color: #FCFAF3; font-weight: 600; }
+    .bookmark-modal .modal-item.active .rail-page { color: #C44536; }
+
+    @media (max-width: 1340px) {
+      .bookmark-rail { display: none; }
+      .bookmark-toggle { display: inline-block; }
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+  <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Data + Component layers — separated. -->
+  <script type="text/babel" data-source="issue-2026-04.jsx">
+// ISSUE_2026_04 — Subculture Monthly Vol.01 (April 2026)
+// 본 호는 실제 2026년 4월 데이터를 바탕으로 구성. 매출은 Sensor Tower / AppMagic /
+// GACHAREVENUE 인용 추정치이며, 패치 노트·캐릭터 명세는 각 사 공식 발표를 따른다.
+// 캐릭터·작품 IP는 본지가 다루는 비평·논평 대상이며 디자인 자체는 본지의 오리지널.
+
+const ISSUE_2026_04 = {
+  meta: {
+    issue: "Vol.01",
+    issueNo: "01",
+    date: "2026.04",
+    coverDate: "APR 2026",
+    price: "₩9,800",
+    issn: "ISSN 0000-0001",
+    tagline: "월간 서브컬처 데이터 저널",
+    title: "Subculture Monthly",
+    coverLead: {
+      ko: "이 달 서브컬처 디자인이 시도한 것, 그리고 배운 것.",
+      en: "What subculture design tried, and learned, this month.",
+    },
+    editorNote:
+      "여섯 작품이 같은 달, 서로 다른 \"기념일\"을 통과했다. HSR 3주년·명조 2주년·엔드필드 1.2 — 다 같은 패턴이었다: 신규 메인 딜러, 복각 묶음, 무료 보상 폭격. 시장은 매출로 답했고, 디자인은 그 다음 분기의 변수를 깔았다.",
+    coverArt: {
+      caption: "이 달의 표지 — 사냥의 밤, 애쉬베일",
+      slot: "COVER ILLUSTRATION · 540 × 760",
+    },
+  },
+
+  // ─── 3-track design insights (cover) ──────────────────────────────────────
+  insights: [
+    {
+      n: "01",
+      head: "Anniversary, 메인 딜러로",
+      en: "Anniversary Leads With the Carry",
+      body: "HSR 3주년·명조 2주년·원신 6.5가 같은 달에 모두 신규 \"메인 DPS\"를 phase 1에 배치. 서포터는 phase 2로 미루는 패턴이 표준화되는 첫 분기.",
+      signal: { v: "HSR 4.2 1주차 추정 $60M+", note: "Sensor Tower anniversary spike 추세 + Silver Wolf LV.999 공개 효과" },
+    },
+    {
+      n: "02",
+      head: "복각 트라이앵글",
+      en: "Rerun Triangles, Now Standard",
+      body: "phase당 신규 1명 + 복각 2~3명이 모든 HoYo 게임군과 Kuro까지 동시 정착. 한 픽업이 \"세 캐릭터를 동시에 끌어옴.\"",
+      signal: { v: "Firefly 직전 anniversary 복각 $40M 단독", note: "ixbt.games — 복각이 단독 신규 못지않은 spike 견인" },
+    },
+    {
+      n: "03",
+      head: "긴 배너의 등장",
+      en: "Long Banners Flatten the Curve",
+      body: "엔드필드 1.2 좡 팡이 배너 40일 — HoYo 표준 21일의 2배. 명조 3.3·ZZZ 2.7도 사이클을 늘렸다. 라이브 운영 부담은 줄고, ARPU 회수는 늘어난다.",
+      signal: { v: "엔드필드 4월 일매출 $2.9M (4/18)", note: "1월 글로벌 런칭 이후 최고치 / Outlook Respawn × AppMagic" },
+    },
+  ],
+
+  // ─── Data dashboard ───────────────────────────────────────────────────────
+  dashboard: {
+    section: "02 / Design Choices, Market-Tested",
+    headline: {
+      pre: "Anniversary가 시장에서",
+      emphasis: "다시 통한 한 달.",
+    },
+    sub:
+      "HSR 3주년·명조 2주년·엔드필드 1.2 모두 \"신규 메인 딜러 + 복각 묶음\"으로 똑같이 들어갔고, 시장도 똑같이 답했다. 회복분의 다수가 HoYo 두 작품·Kuro 한 작품에 집중. 후발 라인은 안정 국면.",
+    aside: {
+      totalRev: "$351.0M",
+      momChange: "+4.8%",
+      note: "6게임 합산 추정 매출 / 전월 대비 (Sensor Tower × GACHAREVENUE 교차)",
+    },
+    lineChart: {
+      label: "FIG. 01 · 3-Month Revenue · $ millions, est.",
+      source: "source: Sensor Tower / GACHAREVENUE / AppMagic composite",
+      months: ["FEB", "MAR", "APR"],
+      series: [
+        { id: "gi",  label: "GENSHIN",  data: [93.0, 68.0, 95.0] },
+        { id: "hsr", label: "STARRAIL", data: [93.0, 145.0, 110.0] },
+        { id: "zzz", label: "ZENLESS",  data: [35.0, 42.0, 38.0] },
+        { id: "ww",  label: "WUTHER.",  data: [38.0, 30.0, 52.0] },
+        { id: "ef",  label: "ENDFLD.",  data: [22.0, 18.0, 28.0] },
+        { id: "nk",  label: "NIKKE",    data: [22.0, 32.0, 28.0] },
+      ],
+      highlight: ["ww", "ef"],
+    },
+    donut: {
+      label: "FIG. 02 · New Units by Gender · APR",
+      headline: { pre: "여성 9, 남성 0 —", emphasis: "성비 편중 심화." },
+      caption: "4월 신규 5★/SSR 헤드라이너 10명 중 9명이 여성. 6게임 전체 남성 신규 0명 — anniversary 집중월의 \"간판 여성 메인 딜러\" 의존 신호.",
+      data: [
+        { label: "여성",   en: "Female", v: 9 },
+        { label: "남성",   en: "Male",   v: 0 },
+        { label: "비공개", en: "N/A",    v: 1 },
+      ],
+    },
+    heatmap: {
+      label: "FIG. 03 · Element × Title · last 6 months (NOV 2025 ─ APR 2026)",
+      scale: "0 ─ 4 release count",
+      headline: { pre: "전기와 빙,", emphasis: "두 축이 굵어졌다." },
+      caption: "Cryo·Electro가 4월에 동시 집중 — 히유키(글라시오), 좡 팡이(전기), 시시아(전기). 양자는 HSR 전용 속성 특성상 단일 타이틀에 집중.",
+      cols:    ["불꽃", "얼음", "전기", "물리", "양자"],
+      colsEn:  ["Pyro", "Cryo", "Electro", "Phys", "Quantum"],
+      rows: [
+        { id: "gi",  label: "GENSHIN",  values: [2, 1, 1, 1, 0] },
+        { id: "hsr", label: "STARRAIL", values: [1, 1, 2, 1, 2] },
+        { id: "zzz", label: "ZENLESS",  values: [2, 2, 1, 1, 0] },
+        { id: "ww",  label: "WUTHER.",  values: [1, 2, 1, 2, 0] },
+        { id: "ef",  label: "ENDFLD.",  values: [1, 1, 2, 2, 0] },
+        { id: "nk",  label: "NIKKE",    values: [2, 1, 2, 1, 0] },
+      ],
+    },
+  },
+
+  // ─── 6 game features ──────────────────────────────────────────────────────
+  games: [
+    {
+      id: "gi",
+      ko: "원신",
+      en: "Genshin Impact",
+      studio: "HoYoverse",
+      patchTitle: "Ver. 6.5 · 루나 VI",
+      patchEn: "PATCH NOTE",
+      pageColor: { splash: "#E5DDC9", stripe: "rgba(0,0,0,0.06)", angle: -14 },
+      character: {
+        ko: "린네아",
+        en: "Linnea",
+        splashUrl: "https://static.wikia.nocookie.net/gensin-impact/images/1/15/Character_Linnea_Full_Wish.png/revision/latest?cb=20260408022449",
+        splashFocus: "center 28%",
+        rarity: "5★",
+        role: "HYBRID SUPPORT",
+        roleKo: "하이브리드 서포터·힐러",
+        element: "GEO · 바위",
+        faction: "MONDSTADT · ADVENTURERS' GUILD",
+        banner: "Augur of Wonders",
+        release: "2026.04.08",
+        leadKo: "달의 결정화가 메커닉이 된 순간,",
+        leadEmph: "Geo 메타가 다시 깨어났다.",
+        leadAccent: "Geo",
+        body:
+          "Ver. 6.5 \"루나 VI\"에서 출시된 5★ 린네아는 페어리 종족 박물학자 캐릭터. 핵심은 Lunar-Crystallize 반응 — 하이드로 결정화를 달 결정화로 치환해 Moondrifts·Moon Cage 필드 오브젝트를 만든다. DEF 스케일링 힐 + Geo RES -30% 팀 디버프로 Mavuika·Citlali 라인의 영구 파츠 평가. \"신규 반응 도입 = 레거시 캐릭 복권 = 매출 사이클 재가동\"의 교과서적 사례.",
+        splashCaption: "HERO PORTRAIT · LINNEA · 가로 풀폭",
+        fields: [
+          { label: "설정",   en: "Lore",        body: "몬드 모험가 길드의 자문 위원이자 박물학자. 인간 사회에 섞여 사는 페어리(Fae) 종족 출신. 곁에 동반자 정령 Lumi를 데리고 다닌다." },
+          { label: "속성",   en: "Element",     body: "바위(Geo) · 활. Lunar-Crystallize 반응 전용 특화." },
+          { label: "전투",   en: "Combat",      body: "Moondrifts/Moon Cage 필드 오브젝트 생성. DEF·EM 동시 스케일링 하이브리드. 팀 Geo RES -30%." },
+          { label: "연출",   en: "Animation",   body: "Lumi 소환 시 흰빛 달무리 + 결정화된 달 케이지 부유. 몬드 신지역 환경과 시각적으로 통일." },
+          { label: "성능",   en: "Performance", body: "Tier S 추정 — Lunar 반응 팀의 영구 파츠. \"Geo 메타 재정의급\" 평." },
+          { label: "매출",   en: "Revenue",     body: "출시 첫 주 추정 미확보 (Sensor Tower 4월 보고서 미공개). 6.5는 신규 1 + 복각 3 안정 수익형 패치." },
+          { label: "평가",   en: "Reception",   body: "★★★★☆. 페어리 설정·일러스트 호평. Hexerei 버프 직전이라 평가 분기." },
+          { label: "시사점", en: "So What",     body: "신규 반응(Lunar-Crystallize)으로 사장된 속성을 살리고 레거시 캐릭에 다시 자원을 돌리는 설계 — HoYo가 가장 잘하는 패턴." },
+        ],
+      },
+      patchBullets: [
+        "몬드 북부 신규 지역 2종 — Windrest Peak / Temple of Space (5년 만의 몬드 확장)",
+        "Hexerei 버프 1차 — 몬드 레거시 7인 능력치/효과 보강",
+        "Lunar-Crystallize 반응 정식 도입",
+        "복각 배너: 차스카(바람), 라우마(풀), 네페르(불)",
+        "신규 월드 보스 + Spiral Abyss 층 리프레시",
+        "PS4 지원 종료 (2026.04.08)",
+      ],
+      quote: {
+        body: "\"린네아 빼면 6.5 즐길거리가 없다 진심으로 몬드 신지역 본거 자체가 보상.\"",
+        by: "fmkorea 원신 게시판 / 6.5 정리 글",
+      },
+      pickupTimeline: [
+        { m: "FEB", items: [{ x0: 0.04, w: 0.20, label: "바르카" }, { x0: 0.28, w: 0.18, label: "플린스 [복각]" }] },
+        { m: "MAR", items: [{ x0: 0.06, w: 0.20, label: "스커크 [복각]" }, { x0: 0.30, w: 0.20, label: "에스코피에 [복각]" }] },
+        { m: "APR", items: [{ x0: 0.04, w: 0.22, label: "린네아", highlight: true }, { x0: 0.30, w: 0.18, label: "차스카 [복각]" }] },
+      ],
+      revSignal: { firstWeek: "$95M (월간 추정)", change: "MoM +40%", note: "Sensor Tower 추세 + 6.5 패치 효과 — 6.5는 안정 수익형 구조" },
+    },
+
+    {
+      id: "hsr",
+      ko: "스타레일",
+      en: "Honkai: Star Rail",
+      studio: "HoYoverse",
+      patchTitle: "Ver. 4.1 · 새벽에 바치는 폭주",
+      patchEn: "PATCH NOTE",
+      pageColor: { splash: "#DCD8C7", stripe: "rgba(0,0,0,0.06)", angle: -20 },
+      character: {
+        ko: "애쉬베일",
+        en: "Ashveil",
+        splashUrl: "https://static.wikia.nocookie.net/houkai-star-rail/images/d/d4/Character_Ashveil_Splash_Art.png/revision/latest?cb=20260313174406",
+        splashFocus: "center 30%",
+        rarity: "5★",
+        role: "HUNT · CRIT DPS",
+        roleKo: "수렵 · 치명타 딜러",
+        element: "LIGHTNING · 번개",
+        faction: "STELLARON HUNTERS",
+        banner: "A Hunt Through Night",
+        release: "2026.03.25",
+        leadKo: "사냥의 밤이 시작되었다 —",
+        leadEmph: "한 마리만 표적이면 충분하다.",
+        leadAccent: "사냥의 밤",
+        body:
+          "Ver. 4.1 단축 패치(4주)의 단일 픽업 애쉬베일은 \"미끼\" 메커닉 — 적 1체를 Bait로 지정해 전체 적 DEF 감소 + 아군 추가 공격 발동. 한국 성우 강수진(쿠도 신이치·김전일) 캐스팅 화제. 단축 패치 자체가 3주년(4.2) 정렬용 — 매출은 4.2 anniversary로 이연된 압축 설계. 가장 영리한 라이브 운영 사례.",
+        splashCaption: "HERO PORTRAIT · ASHVEIL",
+        fields: [
+          { label: "설정",   en: "Lore",        body: "평소엔 나른한 사립탐정이지만 사건 추적 시 냉철해지는 이중성격. 4.x 메인 스토리 핵심 인물." },
+          { label: "속성",   en: "Element",     body: "번개(Lightning) · 운명의 길 수렵(The Hunt)." },
+          { label: "전투",   en: "Combat",      body: "적 1체 \"미끼(Bait)\" 지정 → 전체 적 DEF 감소, 아군 공격 시 follow-up. Gluttony 스택 → 궁극기 환산 폭딜." },
+          { label: "연출",   en: "Animation",   body: "야간 추적 모티프 — 검붉은 잿빛 입자, 사냥 표식 SFX. 4.x 톤과 통일." },
+          { label: "성능",   en: "Performance", body: "Tier S — 단일 보스/엘리트 최강급 Hunt 딜러. 팀 전체 CRIT DMG 버프로 서포터 역할 겸함. 망각의 전당 메타픽." },
+          { label: "매출",   en: "Revenue",     body: "4.1 단독 매출 자료 미확보. 단축 패치라 4.2(3주년)로 매출 이연 구조 — Sensor Tower 분석." },
+          { label: "평가",   en: "Reception",   body: "캐스팅·일러스트 호평. \"애쉬베일 명백 S급인데 4.2 실버울프 Lv.999 때문에 고민\" 류 반응 다수." },
+          { label: "시사점", en: "So What",     body: "단축 패치를 anniversary 정렬용으로 쓰는 라이브 서비스 운영의 정석. 매출 압축 후 3주년 폭발 — 설계 정밀도 최고급." },
+        ],
+      },
+      patchBullets: [
+        "4주 단축 패치 (3주년 4.2 정렬용)",
+        "신규 5성 1명(애쉬베일) + 복각 2명(히아신, 부트힐)",
+        "Hunt 운명 신규 메인 DPS 라인 강화",
+        "신규 광추 1종 · 유물 1세트",
+        "망각의 전당 · 혼돈의 기억 갱신",
+        "4.2 3주년 예고 — Silver Wolf Lv.999 / Evanescia / 환희 개척자",
+      ],
+      quote: {
+        body: "\"강수진 캐스팅 듣자마자 뽑기 확정함 명탐정 코난 그자체.\"",
+        by: "Inven 붕괴 스타레일 게시판",
+      },
+      pickupTimeline: [
+        { m: "FEB", items: [{ x0: 0.04, w: 0.20, label: "야오광" }, { x0: 0.28, w: 0.18, label: "스파시" }] },
+        { m: "MAR", items: [{ x0: 0.06, w: 0.20, label: "애쉬베일 (intro)" }, { x0: 0.32, w: 0.18, label: "히아신 [복각]" }] },
+        { m: "APR", items: [{ x0: 0.04, w: 0.22, label: "애쉬베일", highlight: true }, { x0: 0.30, w: 0.20, label: "부트힐 [복각]" }] },
+      ],
+      revSignal: { firstWeek: "$110M (월간 추정)", change: "3주년 정렬용 단축", note: "4.1은 매출 압축 패치 — 4.2 anniversary에서 spike 예정" },
+    },
+
+    {
+      id: "zzz",
+      ko: "젠레스",
+      en: "Zenless Zone Zero",
+      studio: "HoYoverse",
+      patchTitle: "Ver. 2.7 · 챔피언은 과거에 무릎 꿇지 않는다",
+      patchEn: "PATCH NOTE",
+      pageColor: { splash: "#E2D8C2", stripe: "rgba(0,0,0,0.07)", angle: -8 },
+      character: {
+        ko: "시시아",
+        en: "Cissia",
+        splashUrl: "https://static.wikia.nocookie.net/zenless-zone-zero/images/8/83/Agent_Cissia_Portrait.png/revision/latest?cb=20260306125558",
+        splashFocus: "center 30%",
+        rarity: "S랭크",
+        role: "ATTACK · HYBRID",
+        roleKo: "강습 · 하이브리드",
+        element: "ELECTRIC · 전기",
+        faction: "METROPOLITAN ORDER DIV.",
+        banner: "Venom Procession",
+        release: "2026.04.15",
+        leadKo: "한 슬롯에 메인+서브+버퍼,",
+        leadEmph: "세 역할이 들어왔다.",
+        leadAccent: "세 역할",
+        body:
+          "Ver. 2.7 Phase 2에서 데뷔한 시시아는 도시 질서국 사건 수사관 — Venom 메커닉을 다루는 강습 특성. Venom 스택으로 DEF Shred + 팀 CRIT DMG 버프 동시 부여. 메인 딜러 + 서브 DPS + 팀버퍼 3역할을 단일 캐릭에 몰빵하는 설계 — 한 명에 자원을 집중시키는 매출 전략의 가장 공격적인 실험.",
+        splashCaption: "HERO PORTRAIT · CISSIA",
+        fields: [
+          { label: "설정",   en: "Lore",        body: "도시 질서국(Metropolitan Order Division) 사건 전담 수사관. \"Venom(독)\" 메커닉을 다루는 신참 강력반급." },
+          { label: "속성",   en: "Element",     body: "전기(Electric) · 강습(Attack) 특성." },
+          { label: "전투",   en: "Combat",      body: "Venom 스택 적용 → DEF Shred + 팀 CRIT DMG 버프. Anomaly가 아닌 정통 강습 DPS 라인 강화." },
+          { label: "연출",   en: "Animation",   body: "도시 누아르 톤 — 보라/네온 핑크 전기 + 독성 안개. 2.7 격투 모티프와 대비되는 정밀 사격." },
+          { label: "성능",   en: "Performance", body: "Tier S 추정. S랭크 강습 + 팀버프 동시. 미야비/Lucia 등 기존 Attack 라인과 시너지." },
+          { label: "매출",   en: "Revenue",     body: "자료 미확보. 2.6 'Angels of Delusion' 동시 S랭크 3인 폭발 후 2.7은 분산 회수 분기." },
+          { label: "평가",   en: "Reception",   body: "★★★★☆. \"DEF Shred + CRIT DMG가 너무 깡패\", \"팀 자유도 늘어남\" 호평. 난궁우 대비 임팩트 약하단 의견도." },
+          { label: "시사점", en: "So What",     body: "단일 캐릭 3역할 몰빵 → 가챠 빈도 ↓ + 한 명에 자원 집중 ↑. HoYo가 ZZZ에서 가장 공격적으로 실험 중인 매출 전략." },
+        ],
+      },
+      patchBullets: [
+        "신규 S랭크 2명 (난궁우 3월, 시시아 4월)",
+        "복각 2종 — 이드하리, 시드",
+        "Stun 유틸 + Disorder 데미지 중심 밸런스",
+        "신규 A랭크 라인업 (Pulchra · Ben)",
+        "2.8 'Starlight Billy' 라이브스트림 (4/24) — 첫 Physical Rupture 에이전트 공개",
+        "신규 공허 캣츠아이 챕터",
+      ],
+      quote: {
+        body: "\"시시아 한 명으로 강습+버퍼+서브딜 다 됨 본가 게임 영업방식 그자체.\"",
+        by: "아카라이브 ZZZ 채널",
+      },
+      pickupTimeline: [
+        { m: "FEB", items: [{ x0: 0.04, w: 0.20, label: "순나" }, { x0: 0.28, w: 0.18, label: "아리아" }] },
+        { m: "MAR", items: [{ x0: 0.06, w: 0.20, label: "난궁우" }, { x0: 0.30, w: 0.20, label: "이드하리 [복각]" }] },
+        { m: "APR", items: [{ x0: 0.04, w: 0.22, label: "시시아", highlight: true }, { x0: 0.30, w: 0.18, label: "시드 [복각]" }] },
+      ],
+      revSignal: { firstWeek: "$38M (월간 추정)", change: "2.6 폭발 후 회수", note: "단일 캐릭 3역할 실험 — ARPU 집중 설계" },
+    },
+
+    {
+      id: "ww",
+      ko: "명조",
+      en: "Wuthering Waves",
+      studio: "Kuro Games",
+      patchTitle: "Ver. 3.3 · 은하 끝에서 메아리치는",
+      patchEn: "PATCH NOTE",
+      pageColor: { splash: "#D8D0BB", stripe: "rgba(0,0,0,0.06)", angle: -16 },
+      character: {
+        ko: "히유키",
+        en: "Hiyuki",
+        splashUrl: "https://static.wikia.nocookie.net/wutheringwaves/images/7/72/Hiyuki_Full_Sprite.png/revision/latest?cb=20260430155021",
+        splashFocus: "center 30%",
+        rarity: "5★",
+        role: "MAIN DPS",
+        roleKo: "메인 딜러",
+        element: "GLACIO · 빙",
+        faction: "BLACK SHORES",
+        banner: "Reverbs From the End of Galaxies",
+        release: "2026.04.30",
+        leadKo: "두 자아가 한 캐릭터에 —",
+        leadEmph: "시간을 빌려 쓰는 검사.",
+        leadAccent: "두 자아",
+        body:
+          "2주년 헤드라이너 히유키는 \"Present Self / Foreclaimed Self\" 이중 자아 + 시간 조작 모티프. 5타 일반공격 마지막 타에 Chafe 부여 → Glacio Bite 강화. Foreclaimed Self 폼 스위치로 시간정지 강공 사이클 형성. 자기완결형 디버퍼 겸 딜러 — 외부 셔틀 의존도가 낮아 신규 진입 장벽을 줄인다.",
+        splashCaption: "HERO PORTRAIT · HIYUKI",
+        fields: [
+          { label: "설정",   en: "Lore",        body: "글라시오 검을 다루는 신비계 레조네이터. 자기 미래를 미리 끌어다 쓰는 시간 조작 모티프 + 이중 자아 컨셉." },
+          { label: "속성",   en: "Element",     body: "글라시오(빙) · 검(Sword)." },
+          { label: "전투",   en: "Combat",      body: "5타 일반공격 끝에 Chafe 디버프 → 히유키 한정 Glacio Bite 강화. 헌신(Dedication) 자원 0~300. 거합(이아이) 카운터 + 시간정지 강공." },
+          { label: "연출",   en: "Animation",   body: "검집 거합 연출 · Foreclaimed Self 변신 시 시간정지 컷. 2주년 헤드라이너답게 시네마틱 톤 최상위급." },
+          { label: "성능",   en: "Performance", body: "T0 · 메타 메인 DPS. Glacio Chafe 시스템을 자체 완결로 돌려 칸트렐라 등 외부 의존 적음." },
+          { label: "매출",   en: "Revenue",     body: "4/30 출시로 4월 기여 1일분. 2주년 무료 40연 + 광고 푸시로 5월 1주 글로벌 톱 그로싱 진입 정황." },
+          { label: "평가",   en: "Reception",   body: "★★★★★. \"WuWa에서 가장 아이코닉한 캐릭터 중 하나\" — 메카닉 깊이 + 버스트 + 비주얼 전부 톱티어 평가 (BuffHub)." },
+          { label: "시사점", en: "So What",     body: "헤드라이너에 \"이중 자아 + 시간정지\" 같은 서사-기믹 일체화 설계 = Kuro의 2주년 카드. 자기완결형 캐릭은 신규 진입장벽을 낮춘다." },
+        ],
+      },
+      patchBullets: [
+        "2주년 업데이트 — 무료 40연 살포",
+        "신규 지역 + 메인 스토리 진행 (은하 끝 모티프)",
+        "Glacio Chafe 시스템 캐릭터 풀 확장",
+        "Phase 1 (히유키·모르네·이우노) / Phase 2 (데니아·치사·프롤로바)",
+        "5.5주 장기 패치, 4월 말~6월 중순 커버",
+      ],
+      quote: {
+        body: "\"Hiyuki is one of the most iconic characters in Wuthering Waves to date — mechanical depth, burst performance, and visual presentation are top-tier.\"",
+        by: "BuffHub 3.3 빌드 가이드",
+      },
+      pickupTimeline: [
+        { m: "FEB", items: [{ x0: 0.06, w: 0.18, label: "(3.1 자료 미확보)" }] },
+        { m: "MAR", items: [{ x0: 0.06, w: 0.18, label: "(3.2 자료 미확보)" }] },
+        { m: "APR", items: [{ x0: 0.04, w: 0.22, label: "히유키", highlight: true }, { x0: 0.30, w: 0.20, label: "모르네 [복각]" }] },
+      ],
+      revSignal: { firstWeek: "$52M (월간 추정)", change: "MoM +73%", note: "2주년 + 히유키 4/30 출시 → 5월 1주 톱 그로싱 진입 정황" },
+    },
+
+    {
+      id: "ef",
+      ko: "엔드필드",
+      en: "Arknights: Endfield",
+      studio: "Hypergryph",
+      patchTitle: "Ver. 1.2 · 봄의 깨어남에서",
+      patchEn: "PATCH NOTE",
+      pageColor: { splash: "#DAD3BC", stripe: "rgba(0,0,0,0.07)", angle: -18 },
+      character: {
+        ko: "좡 팡이",
+        en: "Zhuang Fangyi",
+        splashUrl: "https://endfield.wiki.gg/images/thumb/Zhuang_Fangyi_Splash_Art.png/1200px-Zhuang_Fangyi_Splash_Art.png?ffe30c",
+        splashFocus: "center 28%",
+        rarity: "6★",
+        role: "STRIKER",
+        roleKo: "스트라이커",
+        element: "ELECTRIC · 전기",
+        faction: "ENDFIELD CORPS · WULING",
+        banner: "갱신의 천둥 (Thunder of Renewal)",
+        release: "2026.04.17",
+        leadKo: "1월 런칭 이후 매출 슬럼프를",
+        leadEmph: "단숨에 끊은 6★.",
+        leadAccent: "$2.9M",
+        body:
+          "우링 챕터 2 \"At the Wake of Spring\"의 핵심 신규 6★. Marker Stone 근처 Ardashir 출현 사태 대응 인물로 Nefarith와 대치. 시그니처 무기 \"Lone Barge\" 동시 출시. 출시 다음날(4/18) 일매출 $2.9M — 1월 글로벌 런칭(1/25) 이후 일일 최고치. 누적 모바일 매출 $96.3M(AppMagic, PC/PS5/웹샵/중국 제외). 1주년 전 모멘텀 관리 성공의 신호.",
+        splashCaption: "HERO PORTRAIT · ZHUANG FANGYI",
+        fields: [
+          { label: "설정",   en: "Lore",        body: "우링(Wuling) 스토리 2장 신규 인물. Marker Stone 시설 근처 Ardashir 출현 대응 핵심." },
+          { label: "속성",   en: "Element",     body: "전기(Electric) · 스트라이커." },
+          { label: "전투",   en: "Combat",      body: "매우 높은 단일 딜 출력의 Striker. 시그너처 무기 Lone Barge 동시 출시 · Arsenal Exchange 3회차 보유." },
+          { label: "연출",   en: "Animation",   body: "전기 광역 연출 추정 (자료 미확보). 우링 챕터 톤과 정합." },
+          { label: "성능",   en: "Performance", body: "T0 단일 딜러 — 출시 직후 메타 픽업 자리매김." },
+          { label: "매출",   en: "Revenue",     body: "출시 다음날(4/18) 일매출 $2.9M (런칭 후 최고). 누적 모바일 $96.3M 시점 (AppMagic, Outlook Respawn 인용)." },
+          { label: "평가",   en: "Reception",   body: "성장세 둔화를 끊은 결정적 카드 평가. 산업 시스템 확장 + 신규 지역 동반." },
+          { label: "시사점", en: "So What",     body: "글로벌 런칭 후 첫 분기 매출 슬럼프를 \"신규 6성 + 메인 스토리 2장 + 40일 배너\"로 끊어내는 패턴 — HoYo/Kuro 운영 문법을 멀티 플랫폼 가챠에서도 실증." },
+        ],
+      },
+      patchBullets: [
+        "신규 6성 좡 팡이 + 시그니처 무기 Lone Barge",
+        "메인 스토리: 우링 챕터 2 \"At the Wake of Spring\" (Ardashir / Nefarith 대치)",
+        "신규 지역 + 산업 시스템 확장",
+        "보상/보전(compensation) 패키지 동봉",
+        "오프레이트 복각: Tangtang · Rossi",
+        "1.3 예고: Mifu · Camus · Feranmut Proxy 공개",
+      ],
+      quote: {
+        body: "\"The 'At the Wake of Spring' patch and new 6-star Zhuang Fangyi triggered a massive $2.9M daily revenue surge — Endfield's best day since January 25th.\"",
+        by: "Outlook Respawn · AppMagic 기반",
+      },
+      pickupTimeline: [
+        { m: "FEB", items: [{ x0: 0.06, w: 0.18, label: "(1.0 후속 자료 미확보)" }] },
+        { m: "MAR", items: [{ x0: 0.06, w: 0.18, label: "(1.1 자료 미확보)" }] },
+        { m: "APR", items: [{ x0: 0.04, w: 0.22, label: "좡 팡이", highlight: true }, { x0: 0.30, w: 0.20, label: "Tangtang [오프레이트]" }] },
+      ],
+      revSignal: { firstWeek: "$2.9M 일매출 (4/18)", change: "MoM +55% 추정", note: "1월 런칭 이후 일일 최고치 · 누적 모바일 $96.3M" },
+    },
+
+    {
+      id: "nk",
+      ko: "니케",
+      en: "Nikke",
+      studio: "Shift Up",
+      patchTitle: "GOOD WORLD 업데이트",
+      patchEn: "PATCH NOTE",
+      pageColor: { splash: "#DED5BE", stripe: "rgba(0,0,0,0.07)", angle: -12 },
+      character: {
+        ko: "스노우 크레인",
+        en: "Snow Crane",
+        splashUrl: "https://static.wikia.nocookie.net/nikke-goddess-of-victory-international/images/f/f7/Snow_Crane_MI.png/revision/latest?cb=20260409062217",
+        splashFocus: "center 28%",
+        rarity: "SSR",
+        role: "DEFENDER · HEALER",
+        roleKo: "디펜더 · 힐러",
+        element: "WATER · 수속성",
+        faction: "MISSILIS · VEILED ORDER",
+        banner: "Oath of Goodwill",
+        release: "2026.04.09",
+        leadKo: "주년 직전, 니케는",
+        leadEmph: "\"스킵 권장\"을 띄웠다.",
+        leadAccent: "스킵 권장",
+        body:
+          "베일드 오더 분대 소속 SR Sniper · 미실리스 · 디펜더-힐러 하이브리드. 버스트 III 발동 시 아군 HP를 고포텐시 회복 + Pierce 부여로 보조 딜링. BitTopup 등 가이드는 미드티어 평가로 \"3.5주년 크라운/라피:레드후드 대기 위한 스킵 권장\" 다수. 콜라보 사이 분기에 미드티어 신규를 깔고 매출은 주년에 집중하는 Shift Up의 분기 운영.",
+        splashCaption: "HERO PORTRAIT · SNOW CRANE",
+        fields: [
+          { label: "설정",   en: "Lore",        body: "베일드 오더 분대 소속. \"계약과 합의를 최우선으로 여기는\" 캐릭터로 공식 소개." },
+          { label: "속성",   en: "Element",     body: "수속성(Water) · 저격소총 \"Oath of Goodwill\"." },
+          { label: "전투",   en: "Combat",      body: "디펜더 + 지속 힐러. 버스트 III 발동 시 아군 HP 고포텐시 회복 + Pierce 부여." },
+          { label: "연출",   en: "Animation",   body: "자료 미확보." },
+          { label: "성능",   en: "Performance", body: "미드티어 힐러. S+ 메타 정의급 아님 — 3.5주년 자원 세이브 권장 다수." },
+          { label: "매출",   en: "Revenue",     body: "4월 매출 직접 수치 자료 미확보. 매출 임팩트는 3.5주년 픽업(크라운/라피:레드후드)으로 분산 추정." },
+          { label: "평가",   en: "Reception",   body: "\"Functional, not meta-defining\" — BitTopup 4월 티어리스트. 스킵 추천 다수." },
+          { label: "시사점", en: "So What",     body: "콜라보 사이 분기에 자체 신규를 미드티어로 깔고, 큰 매출은 주년 한정 + 코스튬 복각으로 회수. 스킵 추천이 나오는 픽업을 띄우는 것 자체가 5월 주년 매출 집중 신호." },
+        ],
+      },
+      patchBullets: [
+        "SSR Snow Crane 픽업 (4/9~4/22)",
+        "SSR Anis: Superstar 픽업 (4/23~5/14)",
+        "SSR Nien: X-Ray Eyes 픽업 (4/30~5/21)",
+        "신규 스토리 이벤트 \"GOOD WORLD\" + 로그인 보상",
+        "Drake/Liter/Exia/Biscuit 코스튬 가챠 복각",
+        "3.5주년 카운트다운 — 크라운, 라피:레드후드 예고",
+      ],
+      quote: {
+        body: "\"Community consensus as of early April 2026 places Snow Crane in the mid-tier healer bracket — most sources recommend skipping and saving for the 3.5th Anniversary banners.\"",
+        by: "BitTopup News · 2026.04",
+      },
+      pickupTimeline: [
+        { m: "FEB", items: [{ x0: 0.06, w: 0.18, label: "(자료 미확보)" }] },
+        { m: "MAR", items: [{ x0: 0.06, w: 0.20, label: "3.5주년 카운트다운" }] },
+        { m: "APR", items: [{ x0: 0.04, w: 0.22, label: "스노우 크레인", highlight: true }, { x0: 0.30, w: 0.18, label: "Anis: Star" }, { x0: 0.52, w: 0.18, label: "Nien" }] },
+      ],
+      revSignal: { firstWeek: "$28M (월간 추정)", change: "스킵 권장", note: "3.5주년 매출 집중 설계 · Stellar Blade·콜라보 모멘텀은 5월 이월" },
+    },
+  ],
+
+  // ─── Cross-game analysis ──────────────────────────────────────────────────
+  crossAnalysis: {
+    section: "15 / Cross-Game Analysis",
+    headline: { pre: "여섯 작품이 한 달간", emphasis: "겹친 다섯 가지." },
+    sub: "Anniversary 메인 딜러 보증 / 복각 트라이앵글 / 무료 SSR / Cryo 메타 / 사이클 연장 — 다섯 트렌드가 4월의 매출과 디자인을 같이 끌었다.",
+    trends: [
+      { n: "T1", head: "Anniversary = SS티어 보증",   why: "HSR 3주년 SW Lv.999, 명조 2주년 히유키 모두 즉시 SS티어. 주년 = 메타 톱 보증이 6게임 중 4게임에서 명시적." },
+      { n: "T2", head: "복각 트라이앵글 표준화",       why: "phase당 신규 1 + 복각 2~3. 원신 6.5 / HSR 4.2 / 명조 3.3 모두 동일 패턴. 18배너 / 6게임 표본." },
+      { n: "T3", head: "무료 SSR · 웹이벤트로 유입",   why: "HSR 800 jades / NIKKE Avistar / 엔드필드 챕터 무료 캐릭 — F2P 보상 인플레." },
+      { n: "T4", head: "Cryo 메인 딜러 메타 재유행",   why: "명조 히유키(글라시오), HSR SW(양자지만 디버프), 원신 직전 Cryo 라인 — 6개월 8건." },
+      { n: "T5", head: "긴 패치 · 긴 배너 실험",       why: "엔드필드 1.2 40일 / 명조 3.3 5.5주 / ZZZ 2.7 확장 — live-ops 부담 완화 추세." },
+    ],
+    matrix: {
+      label: "FIG. X · Trend × Title Matrix",
+      cols: ["T1", "T2", "T3", "T4", "T5"],
+      rows: [
+        { id: "gi",  label: "GENSHIN",  values: [1, 1, 0, 1, 1] },
+        { id: "hsr", label: "STARRAIL", values: [1, 1, 1, 0, 1] },
+        { id: "zzz", label: "ZENLESS",  values: [0, 0, 0, 0, 1] },
+        { id: "ww",  label: "WUTHER.",  values: [1, 1, 0, 1, 1] },
+        { id: "ef",  label: "ENDFLD.",  values: [0, 0, 0, 0, 1] },
+        { id: "nk",  label: "NIKKE",    values: [0, 0, 1, 0, 0] },
+      ],
+    },
+    dosDonts: {
+      dos: [
+        "Anniversary는 신규 메인 딜러로 phase 1에 — 보상 인플레와 메타 변화 동시 — HSR 4.2의 정석.",
+        "phase당 복각 2~3종 동시 배치 — pity 회수 + 매출 2차 spike — 원신 6.5 / HSR 4.2 / 명조 3.3.",
+        "무료 SSR · 800 jades 일괄 지급으로 신규/복귀 진입로 — HSR anniversary · NIKKE Avistar.",
+        "배너 길이 40-45일 — ARPU 회수 + live-ops 부담 완화 — 엔드필드 1.2.",
+        "신규 메커니즘과 캐릭터 시그너처를 일체화 — 명조 \"Frost Cycle\" = 히유키 시그너처.",
+        "단일 캐릭에 메인+서브+버퍼 다역할 몰빵 — 자원 집중 매출 전략 — ZZZ 시시아.",
+      ],
+      donts: [
+        "남성 신규 0명의 분기 운영 — 4월 6게임 중 남성 신규 0 — 장기 retention 리스크.",
+        "신규 메커니즘만 강조하고 dps 약체 — 시장은 외면 — ZZZ 일부 비판.",
+        "phase 2에 신규 0종 배치 — \"빈 phase\" 매출 누수.",
+        "직전 patch 캐릭과 시너지 0 — 고립 디자인 — 사장된 슬롯 양산.",
+        "보상 인플레가 메타 거리감 확대 — 자원 인플레 → F2P 이탈 가속.",
+        "지역·검열 결정에 늦은 대응 — 신뢰도 손실의 가장 빠른 경로.",
+      ],
+    },
+  },
+
+  // ─── Industry desk ────────────────────────────────────────────────────────
+  industry: {
+    section: "16 / Industry Desk",
+    headline: { pre: "스튜디오·라인업·규제,", emphasis: "한 페이지로." },
+    sub: "4월의 비즈니스 신호. 캐릭터 외부에서 일어난 결정도 시장에 잡힌다.",
+    studios: [
+      { name: "HoYoverse",  ko: "호요버스",     change: "+", note: "Genshin PS4 지원 종료(4/8) · HSR 3주년 글로벌 오프라인 이벤트 · 신작 \"Varsapura\" 31분 데모 공개." },
+      { name: "Kuro Games", ko: "쿠로 게임즈",  change: "+", note: "명조 3.3 2주년 4/30 출시 · 신규 \"어둠의 평원\" 지역 · HoYo 추격 담론 가속." },
+      { name: "Hypergryph", ko: "하이퍼그리프", change: "+", note: "엔드필드 1.2 출시 · 일매출 $2.9M 갱신 · 1.3 캐릭 Mifu/Camus/Feranmut Proxy 공개." },
+      { name: "Shift Up",   ko: "시프트업",     change: "+", note: "4/1 'UNBOU' 인수 완료 · Stellar Blade 2 자체 퍼블리싱 공식화 · Project Spirits 2027 예정." },
+      { name: "miHoYo CN",  ko: "(중국법인)",   change: "○", note: "Varsapura 모회사 진영 발표 · 별도 구조조정 보고 없음." },
+      { name: "Yostar",     ko: "요스타",       change: "○", note: "엔드필드 글로벌 퍼블리싱 견인 · 1.3 일정 동기화 준비." },
+    ],
+    upcoming: [
+      { when: "MAY", title: "명조 3.3 Phase 2 (데니아)",         note: "Glacio Chafe 시스템 확장 — 2주년 후반 retention 테스트 · 5/21." },
+      { when: "MAY", title: "HSR 4.2 Phase 2 (Evanescia)",        note: "Silver Wolf Lv.999 anniversary 후반 매출 지표 · 5/13~6/1." },
+      { when: "MAY", title: "원신 6.6 (니콜 · 로엔)",              note: "더블 신규 5★ \"불+얼음\" 트렌드 검증 · 5월 말." },
+      { when: "MAY", title: "ZZZ 2.8 \"Sunset of Eridu\" (Promeia)", note: "ZZZ 첫 Ice Attack 에이전트 · 5월 중하순." },
+      { when: "JUN", title: "엔드필드 1.3",                         note: "Mifu/Camus/Feranmut Proxy 신규 클래스 예고 · 5월 말~6월." },
+    ],
+    regulations: [
+      { region: "CN",  ko: "중국",   line: "NPPA 4/29 — 도메스틱 147 + 임포트 7 ISBN 발급 (2026년 누적 도메스틱 600건)." },
+      { region: "글로벌", ko: "글로벌", line: "HoYo 자체 웹스토어 운영 6게임 중 5게임 표준화 — Apple/Google 30% 우회 추세 지속." },
+      { region: "콘솔", ko: "콘솔",     line: "Genshin PS4 지원 종료(4/8) — 콘솔 fragmentation 정리 신호." },
+      { region: "KR",   ko: "한국",     line: "확률형 아이템 표시 의무 1년차 점검 진행 · 위반 적발 누적 통계 공개 예정." },
+    ],
+  },
+
+  // ─── Community pulse ──────────────────────────────────────────────────────
+  community: {
+    section: "17 / Community Pulse",
+    headline: { pre: "팬, 디렉터, 그리고", emphasis: "그 사이." },
+    sub: "4월의 커뮤니티 신호 — 보상 호평·메타 토론·콘솔 종료 반발이 같은 주에 일어났다.",
+    events: [
+      { when: "04.21", title: "HSR 3주년 무료 보상 호평 (1,600 jades 일괄)",  where: "글로벌 커뮤니티",      scale: "Reddit 12k+ upvotes · 24h" },
+      { when: "04.18", title: "엔드필드 좡 팡이 $2.9M 일매출 — 런칭 후 최고",  where: "트위터 · Outlook Respawn", scale: "AppMagic 1월 25일 이후 최고치" },
+      { when: "04.24", title: "Silver Wolf Lv.999 디자인·메카닉 공개",         where: "HSR 4.2 라이브",         scale: "유튜브 동시청 47만+" },
+      { when: "04.30", title: "명조 히유키 SS티어 입성과 \"히린치\" 조합 폭딜", where: "한·영어권 커뮤니티",     scale: "Game8 가이드 24h 100만+ 조회 추정" },
+      { when: "04.08", title: "원신 PS4 종료 — 구세대 유저 반발",                where: "글로벌 커뮤니티",      scale: "마이그레이션 가이드 배포 / 환불 청원 5천+" },
+    ],
+    directorLetter: {
+      head: "디렉터의 편지 — 발췌",
+      from: "명조 워더링 웨이브 / 3.3 공식 레터",
+      body:
+        "\"은하의 끝에서 메아리쳐 돌아온 별빛이 우리의 두 번째 해를 비춥니다 — 우리는 이 패치에서 한 캐릭터에 두 자아를 담는 시도를 했고, 그것이 이중성이라는 우리 IP의 출발점을 다시 짚는 작업이라 믿습니다.\"",
+      footer: "APR 2026 · DEVELOPER LETTER (추정 인용 — 원문 검증 미완)",
+    },
+    fanWorks: [
+      { kind: "MEME",          title: "「Lv.999 시스템」 무한 강화 패러디", by: "@hsr_memes",        note: "Twitter/X · 4월 말 트렌드" },
+      { kind: "ILLUSTRATION",  title: "히유키 Frost Cycle 비주얼",          by: "Pixiv 4월말 다수",  note: "Pixiv 4월말 신규 fanart 급증" },
+      { kind: "COSPLAY",       title: "좡 팡이 코스플레이 초기 예고",         by: "—",                note: "Comiket-level 행사 아직 미반영" },
+      { kind: "CLIP",          title: "애쉬베일 강수진 보이스 컷",            by: "@hsrkr_clips",    note: "유튜브 클립 50만+ 재생 추정" },
+    ],
+  },
+
+  // ─── Watchlist (next month) ───────────────────────────────────────────────
+  watchlist: {
+    section: "18 / Watchlist · MAY 2026",
+    headline: { pre: "다음 한 달,", emphasis: "다섯 개를 본다." },
+    sub: "수치보다 \"디자인 결정\"이 보이는 다섯 슬롯.",
+    items: [
+      { name: "Silver Wolf Lv.999 / Evanescia",  game: "스타레일",   why: "3주년 phase 2 — 자가 진화 캐릭 컨셉의 시장 검증.",                  when: "05.13" },
+      { name: "데니아 (Glacio Chafe 확장)",       game: "명조",       why: "3.3 후반 신규 — Kuro의 anniversary 후반 retention 테스트.",         when: "05.21" },
+      { name: "Promeia (ZZZ 첫 빙속 강습)",       game: "젠레스",     why: "2.8 'Sunset of Eridu' 메인 픽업 — ZZZ 4월 약세 회복 여부.",          when: "05월 중하순" },
+      { name: "니콜 · 로엔 (6.6 더블 신규)",      game: "원신",       why: "\"불+얼음\" 더블 5성 검증 — phase 1 신규 2종 동시 출시 패턴.",       when: "05월 말" },
+      { name: "ZZZ 1주년 (Lamiel · Valina)",      game: "젠레스",     why: "1주년 anniversary 디자인 — 보상 인플레 vs 메타 변화의 균형점.",      when: "06월 초" },
+    ],
+  },
+
+  // ─── Colophon ─────────────────────────────────────────────────────────────
+  colophon: {
+    section: "19 / Colophon",
+    headline: { pre: "출처, 방법,", emphasis: "그리고 한계." },
+    sub: "본지는 매월 6개 작품의 디자인 결정과 시장 반응을 함께 본다. 매출은 추정치이며, 디자인 판단은 편집부의 책임이다.",
+    sources: [
+      { label: "매출 추정",   from: "Sensor Tower · GACHAREVENUE · AppMagic", note: "iOS+Google Play 기준. CN Android 1.75× 보정값(GACHAREVENUE 관행)." },
+      { label: "패치·캐릭",   from: "각 사 공식 발표 · Game8 · BitTopup · BuffHub", note: "공식 발표 우선 · 비공식 정보는 표기 후 제외." },
+      { label: "한국 자료",   from: "나무위키 · 인벤 · 아카라이브 · fmkorea",   note: "캐릭터 한국명·커뮤니티 반응 1차 출처." },
+      { label: "규제·산업",    from: "Niko Partners Substack · AUTOMATON · Outlook Respawn", note: "중국 NPPA, Shift Up 인수, 엔드필드 매출 자료." },
+    ],
+    methodology: [
+      "월간 매출 = Sensor Tower 월간 톱 10 추세 + GACHAREVENUE 일별 데이터 교차.",
+      "디자인 결정 = 패치 노트·캐릭터 시트·디렉터 레터에서 명시된 변수.",
+      "트렌드 식별 = 6작품 중 2개 이상에서 동시 관찰된 결정만 트렌드로 분류.",
+      "Cryo·Glacio·빙속은 매트릭스에서 \"얼음\"으로 통일.",
+    ],
+    limits: [
+      "매출은 추정치 — 절대값보다 \"방향\"으로 읽어야 한다. PC·웹스토어·CN Android·콘솔 미반영분 다수.",
+      "Sensor Tower 4월 개별 게임 매출 원자료 직접 미확보 — 월간 합산은 추세 기반 추정.",
+      "명조 4월 매출은 3.3 출시(4/30)의 1일 기여만 반영 — 본격 효과는 5월 결산에서.",
+      "ZZZ 2.7 매출 자료 thin — Sensor Tower 월간 톱 10 부재(=$60M 이하) 교차검증.",
+      "명조 디렉터 레터 인용은 원문 검증 미완 — 추정 인용으로 표기.",
+      "표본은 6작품에 한정 — 슈팅·전략 장르 가챠 제외.",
+    ],
+    masthead: {
+      editor: "EDITOR · 편집부",
+      design: "DESIGN · Claude Design × Claude Code",
+      data:   "DATA · 자체 수집 (Sensor Tower · GACHAREVENUE · Game8 · NamuWiki 외)",
+      ad:     "ADVISORY · 자료 협조 · 각 사 공식 발표",
+    },
+    issn: "ISSN 0000-0001",
+    next: "NEXT ISSUE · Vol.02 · 2026.06.10",
+  },
+};
+
+Object.assign(window, { ISSUE_2026_04 });
+
+</script>
+  <script type="text/babel" data-source="magazine-shared-v2.jsx">
+// Shared primitives for the props-driven page components.
+// All data-aware primitives (charts, heatmap, timeline) accept their data
+// via props instead of reading globals — so the same primitive renders any
+// month's data when you swap the ISSUE object.
+
+// ─── Tone A — Classic Print tokens ──────────────────────────────────────────
+const TONE_A = /*EDITMODE-BEGIN*/{
+  "paper": "#FCFAF3",
+  "ink":   "#1A1A1A",
+  "red":   "#C44536",
+  "muted": "rgba(26,26,26,0.55)",
+  "hair":  "rgba(26,26,26,0.18)"
+}/*EDITMODE-END*/;
+
+// ─── PageFrame (1200x1600 canvas) ───────────────────────────────────────────
+function PageFrame({
+  bg = TONE_A.paper,
+  ink = TONE_A.ink,
+  grain = 4,
+  pageNo = null,
+  ofTotal = "VOL.01",
+  rule = true,
+  pageNoSide = "right",
+  pageNoColor = null,
+  children,
+  style = {},
+}) {
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: 1200,
+        height: 1600,
+        background: bg,
+        color: ink,
+        overflow: "hidden",
+        fontFamily: "'Noto Serif KR','EB Garamond',serif",
+        ...style,
+      }}
+    >
+      {children}
+
+      {grain > 0 && (
+        <svg
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            mixBlendMode: "multiply",
+            opacity: grain / 100,
+          }}
+        >
+          <filter id={`g-${pageNo || Math.random().toString(36).slice(2, 8)}`}>
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+            <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0" />
+          </filter>
+          <rect width="100%" height="100%" filter={`url(#g-${pageNo || Math.random().toString(36).slice(2, 8)})`} />
+        </svg>
+      )}
+
+      {pageNo !== null && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 36,
+            [pageNoSide]: 56,
+            fontFamily: "'JetBrains Mono','IBM Plex Mono',monospace",
+            fontSize: 11,
+            letterSpacing: "0.08em",
+            color: pageNoColor || ink,
+            display: "flex",
+            alignItems: "baseline",
+            gap: 10,
+            opacity: 0.85,
+          }}
+        >
+          {pageNoSide === "left" && <span style={{ opacity: 0.5 }}>{ofTotal}</span>}
+          <span style={{ fontSize: 14, fontWeight: 600 }}>{pageNo}</span>
+          {pageNoSide === "right" && <span style={{ opacity: 0.5 }}>{ofTotal}</span>}
+        </div>
+      )}
+
+      {rule && pageNo !== null && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 58,
+            [pageNoSide]: 110,
+            width: 240,
+            height: 1,
+            background: pageNoColor || ink,
+            opacity: 0.35,
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+// ─── SplashSlot — striped placeholder for "drop your image here" ────────────
+function SplashSlot({
+  width = "100%",
+  height = "100%",
+  bg = "#E8E2D5",
+  stripe = "rgba(0,0,0,0.06)",
+  ink = TONE_A.ink,
+  caption = "CHARACTER SPLASH ART",
+  sub = "1200 × 1600 · drop image",
+  angle = -28,
+}) {
+  const id = "stripes-" + (caption + sub).replace(/[^a-z0-9]/gi, "").slice(0, 16);
+  return (
+    <div style={{ position: "relative", width, height, background: bg, overflow: "hidden" }}>
+      <svg width="100%" height="100%" style={{ position: "absolute", inset: 0 }}>
+        <defs>
+          <pattern id={id} patternUnits="userSpaceOnUse" width="14" height="14" patternTransform={`rotate(${angle})`}>
+            <line x1="0" y1="0" x2="0" y2="14" stroke={stripe} strokeWidth="6" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+      <div
+        style={{
+          position: "absolute",
+          left: 24,
+          bottom: 24,
+          right: 24,
+          fontFamily: "'JetBrains Mono',monospace",
+          fontSize: 11,
+          letterSpacing: "0.14em",
+          color: ink,
+          textTransform: "uppercase",
+          lineHeight: 1.6,
+          opacity: 0.55,
+        }}
+      >
+        <div>{caption}</div>
+        <div style={{ opacity: 0.7 }}>{sub}</div>
+      </div>
+    </div>
+  );
+}
+
+// ─── RevLineChart — 3-month, N series ──────────────────────────────────────
+function RevLineChart({
+  width = 1100,
+  height = 360,
+  ink = TONE_A.ink,
+  grid = TONE_A.hair,
+  accent = TONE_A.red,
+  months = ["MAR", "APR", "MAY"],
+  series = [],            // [{ id, label, data: [n,n,n] }]
+  highlight = [],          // [id, ...]
+}) {
+  const pad = { l: 64, r: 110, t: 30, b: 36 };
+  const W = width - pad.l - pad.r;
+  const H = height - pad.t - pad.b;
+  const allVals = series.flatMap((s) => s.data);
+  const max = Math.ceil(Math.max(...allVals, 10) / 10) * 10;
+  const min = 0;
+  const x = (i) => pad.l + (W * i) / (months.length - 1);
+  const y = (v) => pad.t + H - ((v - min) / (max - min)) * H;
+  const ticks = [];
+  for (let t = 0; t <= max; t += Math.max(10, Math.round(max / 5 / 10) * 10)) ticks.push(t);
+
+  // Avoid stacking labels for non-highlighted series on top of each other
+  const ordered = series
+    .map((s, i) => ({ ...s, _i: i, lastY: y(s.data[s.data.length - 1]) }))
+    .sort((a, b) => a.lastY - b.lastY);
+  const minGap = 16;
+  for (let i = 1; i < ordered.length; i++) {
+    if (ordered[i].lastY - ordered[i - 1].lastY < minGap) ordered[i].lastY = ordered[i - 1].lastY + minGap;
+  }
+
+  return (
+    <svg width={width} height={height} style={{ display: "block" }}>
+      {ticks.map((t) => (
+        <g key={t}>
+          <line x1={pad.l} x2={pad.l + W} y1={y(t)} y2={y(t)} stroke={grid} strokeWidth="1" />
+          <text x={pad.l - 10} y={y(t) + 3} fontFamily="'JetBrains Mono',monospace" fontSize="10" textAnchor="end" fill={ink} opacity="0.6">
+            {`$${t}M`}
+          </text>
+        </g>
+      ))}
+      {months.map((m, i) => (
+        <text key={m} x={x(i)} y={pad.t + H + 22} fontFamily="'JetBrains Mono',monospace" fontSize="10" textAnchor="middle" fill={ink} opacity="0.7" letterSpacing="2">
+          {m}
+        </text>
+      ))}
+      {series.map((g, i) => {
+        const data = g.data;
+        const isHi = highlight.includes(g.id);
+        const lvl = [0.92, 0.78, 0.64, 0.5, 0.36, 0.22][i] ?? 0.4;
+        const stroke = isHi ? accent : `rgba(0,0,0,${lvl})`;
+        const sw = isHi ? 2 : 1;
+        const d = data.map((v, j) => `${j === 0 ? "M" : "L"}${x(j)},${y(v)}`).join(" ");
+        const labelY = ordered.find((o) => o._i === i).lastY;
+        return (
+          <g key={g.id}>
+            <path d={d} fill="none" stroke={stroke} strokeWidth={sw} />
+            {data.map((v, j) => (
+              <circle key={j} cx={x(j)} cy={y(v)} r={isHi ? 3 : 2} fill={stroke} />
+            ))}
+            <text
+              x={x(months.length - 1) + 12}
+              y={labelY + 4}
+              fontFamily="'JetBrains Mono',monospace"
+              fontSize="10"
+              fill={stroke}
+              opacity={isHi ? 1 : 0.85}
+              fontWeight={isHi ? 600 : 400}
+            >
+              {g.label}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ─── GenderDonut — donut with center total ─────────────────────────────────
+function GenderDonut({
+  size = 280,
+  ink = TONE_A.ink,
+  accent = TONE_A.red,
+  muted = "rgba(0,0,0,0.18)",
+  data = [],   // [{label, en, v}]
+}) {
+  const cx = size / 2, cy = size / 2, r = size * 0.36, rIn = r * 0.62;
+  const total = data.reduce((s, d) => s + d.v, 0);
+  let a0 = -Math.PI / 2;
+  const tones = [ink, "rgba(0,0,0,0.45)", muted];
+  return (
+    <svg width={size} height={size}>
+      {data.map((d, i) => {
+        const a1 = a0 + (d.v / total) * Math.PI * 2;
+        const large = a1 - a0 > Math.PI ? 1 : 0;
+        const p1 = [cx + r * Math.cos(a0), cy + r * Math.sin(a0)];
+        const p2 = [cx + r * Math.cos(a1), cy + r * Math.sin(a1)];
+        const p3 = [cx + rIn * Math.cos(a1), cy + rIn * Math.sin(a1)];
+        const p4 = [cx + rIn * Math.cos(a0), cy + rIn * Math.sin(a0)];
+        const path = `M${p1} A${r},${r} 0 ${large} 1 ${p2} L${p3} A${rIn},${rIn} 0 ${large} 0 ${p4} Z`;
+        const am = (a0 + a1) / 2;
+        const lx = cx + (r + 14) * Math.cos(am);
+        const ly = cy + (r + 14) * Math.sin(am);
+        a0 = a1;
+        return (
+          <g key={d.label}>
+            <path d={path} fill={tones[i] || muted} />
+            <text x={lx} y={ly} fontFamily="'JetBrains Mono',monospace" fontSize="10" textAnchor={lx < cx ? "end" : "start"} fill={ink} opacity="0.75">
+              {`${d.en} ${Math.round((d.v / total) * 100)}%`}
+            </text>
+          </g>
+        );
+      })}
+      <text x={cx} y={cy - 2} textAnchor="middle" fontFamily="'EB Garamond',serif" fontSize="28" fill={ink}>{total}</text>
+      <text x={cx} y={cy + 14} textAnchor="middle" fontFamily="'JetBrains Mono',monospace" fontSize="9" fill={ink} opacity="0.6" letterSpacing="1.5">NEW UNITS</text>
+    </svg>
+  );
+}
+
+// ─── Heatmap — N rows × M cols ──────────────────────────────────────────────
+function Heatmap({
+  ink = TONE_A.ink,
+  bg = TONE_A.paper,
+  inverted = false,
+  accent = TONE_A.red,
+  cell = 62,
+  cols = [],            // ["Pyro", ...]
+  rows = [],            // [{label, values: [n, n, n, ...]}]
+  max = 4,
+}) {
+  const tone = (v) => {
+    if (inverted) {
+      const t = v / max;
+      return `rgba(232,226,213,${0.08 + t * 0.7})`;
+    }
+    const t = v / max;
+    return `rgba(0,0,0,${0.06 + t * 0.65})`;
+  };
+  return (
+    <svg width={cell * cols.length + 90} height={cell * rows.length + 24}>
+      {cols.map((c, j) => (
+        <text key={c} x={90 + cell * j + cell / 2} y={14} fontFamily="'JetBrains Mono',monospace" fontSize="9" textAnchor="middle" fill={ink} opacity="0.7" letterSpacing="1">
+          {c.toUpperCase()}
+        </text>
+      ))}
+      {rows.map((r, i) => (
+        <g key={r.label} transform={`translate(0, ${24 + i * cell})`}>
+          <text x={82} y={cell / 2 + 4} fontFamily="'JetBrains Mono',monospace" fontSize="10" textAnchor="end" fill={ink} opacity="0.85">
+            {r.label}
+          </text>
+          {r.values.map((v, j) => (
+            <g key={j}>
+              <rect x={90 + cell * j} y={0} width={cell - 2} height={cell - 2} fill={tone(v)} />
+              <text
+                x={90 + cell * j + (cell - 2) / 2}
+                y={cell / 2 + 4}
+                fontFamily="'JetBrains Mono',monospace"
+                fontSize="11"
+                textAnchor="middle"
+                fill={v >= Math.ceil(max * 0.65) ? (inverted ? "#1B1B1B" : "#F5F1E8") : ink}
+                opacity={v === 0 ? 0.35 : 1}
+              >
+                {v}
+              </text>
+            </g>
+          ))}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ─── PickupTimeline — 3 lanes of horizontal bars ────────────────────────────
+function PickupTimeline({
+  ink = TONE_A.ink,
+  grid = TONE_A.hair,
+  accent = TONE_A.red,
+  width = 520,
+  height = 160,
+  lanes = [],
+}) {
+  const rowH = 36;
+  return (
+    <svg width={width} height={height} style={{ display: "block" }}>
+      {lanes.map((ln, i) => (
+        <g key={ln.m} transform={`translate(0, ${i * rowH + 14})`}>
+          <text x={0} y={14} fontFamily="'JetBrains Mono',monospace" fontSize="10" fill={ink} opacity="0.7" letterSpacing="1.5">{ln.m}</text>
+          <line x1={48} y1={11} x2={width - 10} y2={11} stroke={grid} strokeWidth="1" />
+          {ln.items.map((it, j) => {
+            const x = 48 + (width - 58) * it.x0;
+            const w = (width - 58) * it.w;
+            return (
+              <g key={j}>
+                <rect x={x} y={4} width={w} height={14} fill={it.highlight ? accent : "rgba(0,0,0,0.62)"} />
+                <text x={x} y={32} fontFamily="'JetBrains Mono',monospace" fontSize="9" fill={ink} opacity={it.highlight ? 1 : 0.7} fontWeight={it.highlight ? 600 : 400}>
+                  {it.label}
+                </text>
+              </g>
+            );
+          })}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ─── Small folio header used by inner pages ─────────────────────────────────
+function FolioHeader({ left, right, ink = TONE_A.ink, accent = TONE_A.red }) {
+  return (
+    <>
+      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: ink, opacity: 0.85 }}>
+        <span style={{ color: accent }}>{left}</span>
+        <span>{right}</span>
+      </div>
+      <div style={{ position: "absolute", top: 64, left: 56, right: 56, height: 1, background: ink, opacity: 0.4 }} />
+    </>
+  );
+}
+
+// ─── SectionTitle — top headline block used by inner pages ──────────────────
+function SectionTitle({ section, headline, sub, accent = TONE_A.red, ink = TONE_A.ink, maxWidth = 900 }) {
+  return (
+    <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
+      {section && (
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: accent, textTransform: "uppercase", marginBottom: 8 }}>
+          {section}
+        </div>
+      )}
+      <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 64, lineHeight: 0.98, margin: 0, color: ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
+        {headline.pre}
+        <br />
+        <span style={{ fontStyle: "italic", color: accent }}>{headline.emphasis}</span>
+      </h1>
+      {sub && (
+        <div style={{ marginTop: 14, maxWidth, fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.55, color: ink, opacity: 0.82, textWrap: "pretty" }}>
+          {sub}
+        </div>
+      )}
+    </div>
+  );
+}
+
+Object.assign(window, {
+  TONE_A,
+  PageFrame, SplashSlot,
+  RevLineChart, GenderDonut, Heatmap, PickupTimeline,
+  FolioHeader, SectionTitle,
+});
+
+</script>
+  <script type="text/babel" data-source="magazine-pages-front.jsx">
+// Page-type components — front half (P.00 ─ P.14)
+// All props-driven. Same component renders any month's data.
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <CoverPage meta={...} insights={[3]} />
+// P.00 — masthead, cover-art slot, 3 design insights, editor note
+// ═══════════════════════════════════════════════════════════════════════════
+function CoverPage({ meta, insights }) {
+  const T = TONE_A;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.00" ofTotal={meta.issue} pageNoSide="right" pageNoColor={T.ink}>
+      {/* Top metadata strip */}
+      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: T.ink }}>
+        <span>{meta.issue} · {meta.coverDate} · {meta.price}</span>
+        <span style={{ color: T.red }}>● 디자인 데스크 · A DESIGN REFERENCE</span>
+        <span>{meta.issn}</span>
+      </div>
+      <div style={{ position: "absolute", top: 70, left: 56, right: 56, height: 1, background: T.ink, opacity: 0.25 }} />
+
+      {/* Masthead */}
+      <div style={{ position: "absolute", top: 96, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 132, lineHeight: 0.92, fontWeight: 500, letterSpacing: "-0.02em", color: T.ink }}>
+          Subculture
+          <br />
+          <span style={{ fontStyle: "italic" }}>Monthly</span>
+        </div>
+        <div style={{ marginTop: 18, fontFamily: "'Noto Serif KR',serif", fontSize: 22, color: T.ink, opacity: 0.85, letterSpacing: "-0.01em", maxWidth: 900 }}>
+          {meta.coverLead.ko}
+        </div>
+      </div>
+
+      {/* Splash slot (left) */}
+      <div style={{ position: "absolute", left: 56, top: 460, width: 540, height: 760 }}>
+        <SplashSlot bg="#F2EDDD" stripe="rgba(26,26,26,0.07)" ink={T.ink} caption="COVER ILLUSTRATION" sub="540 × 760 · drop edition art" angle={-22} />
+        <div style={{ position: "absolute", left: 0, right: 0, bottom: 28, background: T.red, color: T.paper, padding: "10px 18px", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+          {meta.coverArt.caption}
+        </div>
+      </div>
+
+      {/* Right: 3 insight tracks */}
+      <div style={{ position: "absolute", left: 640, top: 460, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: T.red, marginBottom: 14 }}>
+          이번 호 · 디자인 인사이트 3트랙 / IN THIS ISSUE
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}` }}>
+          {insights.map((t) => (
+            <div key={t.n} style={{ padding: "22px 0", borderBottom: `1px solid ${T.hair}` }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
+                <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 52, lineHeight: 1, color: T.red, letterSpacing: "-0.02em", fontWeight: 500, flex: "0 0 70px" }}>
+                  {t.n}
+                </span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 32, lineHeight: 1.05, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
+                    {t.head}
+                    <span style={{ fontStyle: "italic", color: T.muted, marginLeft: 10, fontSize: 22 }}>/ {t.en}</span>
+                  </div>
+                  <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 15, lineHeight: 1.55, color: T.ink, opacity: 0.85, textWrap: "pretty" }}>
+                    {t.body}
+                  </div>
+                  <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 10, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+                    <span style={{ background: T.ink, color: T.paper, padding: "2px 6px" }}>SIGNAL</span>
+                    <span style={{ color: T.red, fontWeight: 600 }}>{t.signal.v}</span>
+                    <span style={{ color: T.muted }}>· {t.signal.note}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 22, paddingTop: 14, borderTop: `2px solid ${T.ink}` }}>
+          <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 15, lineHeight: 1.55, color: T.ink, fontStyle: "italic", opacity: 0.85, textWrap: "pretty" }}>
+            “{meta.editorNote}”
+          </div>
+          <div style={{ marginTop: 8, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
+            — 편집부 / EDITORIAL DESK
+          </div>
+        </div>
+      </div>
+    </PageFrame>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <TocPage meta={...} games={[6]} sections={[...]} />
+// P.01 — Table of Contents. Auto-builds 6 game spreads + named sections.
+// ═══════════════════════════════════════════════════════════════════════════
+function TocPage({ meta, games, sections }) {
+  const T = TONE_A;
+  // Build TOC entries: 3 pre-feature, 6 features, 5 post-feature
+  const pre = [
+    { p: "P.00", ko: "표지 · 이번 호의 인사이트 3트랙",       en: "Cover · 3 Design Insight Tracks" },
+    { p: "P.01", ko: "목차",                                   en: "Contents" },
+    { p: "P.02", ko: "데이터 데스크 · 4월의 시장 검증",         en: "Data Desk · This Month in Numbers" },
+  ];
+  const features = games.map((g, i) => {
+    const left = String(3 + i * 2).padStart(2, "0");
+    const right = String(4 + i * 2).padStart(2, "0");
+    return { p: `P.${left}–${right}`, ko: `피처 ${String(i + 1).padStart(2, "0")} · ${g.ko}`, en: `Feature ${String(i + 1).padStart(2, "0")} · ${g.en}`, char: g.character.ko };
+  });
+  const post = [
+    { p: "P.15", ko: "교차 분석 · 다섯 트렌드, 여섯 작품",     en: "Cross-Game Analysis" },
+    { p: "P.16", ko: "산업 데스크 · 스튜디오·라인업·규제",     en: "Industry Desk" },
+    { p: "P.17", ko: "커뮤니티 펄스 · 팬, 디렉터, 그 사이",    en: "Community Pulse" },
+    { p: "P.18", ko: "워치리스트 · 다음 한 달의 다섯 슬롯",    en: "Watchlist · JUN 2026" },
+    { p: "P.19", ko: "콜로폰 · 출처, 방법, 한계",              en: "Colophon" },
+  ];
+
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.01" pageNoSide="left" ofTotal={meta.issue}>
+      <FolioHeader left="● CONTENTS · 목차" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
+
+      <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+          01 / Table of Contents · {meta.coverDate}
+        </div>
+        <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 88, lineHeight: 0.94, margin: 0, color: T.ink, letterSpacing: "-0.03em", fontWeight: 500 }}>
+          이번 호의<br/>
+          <span style={{ fontStyle: "italic", color: T.red }}>스무 페이지.</span>
+        </h1>
+        <div style={{ marginTop: 16, maxWidth: 700, fontFamily: "'Noto Serif KR',serif", fontSize: 15, lineHeight: 1.6, color: T.ink, opacity: 0.82 }}>
+          편집 흐름은 단순합니다. 시장의 큰 그림 → 여섯 작품의 결정 → 다시 큰 그림. 같은 페이지 타입을 데이터만 바꿔서 매월 다시 만듭니다.
+        </div>
+      </div>
+
+      {/* TOC body — flex column with explicit gaps so blocks can never overlap */}
+      <div style={{ position: "absolute", top: 410, left: 56, right: 56, bottom: 140, display: "flex", flexDirection: "column", gap: 30 }}>
+        <TocBlock title="OPEN" subtitle="00 ─ 02" items={pre} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
+        <TocBlock title="FEATURES · 6 GAMES, 12 PAGES" subtitle="03 ─ 14" items={features} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} showChar />
+        <TocBlock title="CLOSE" subtitle="15 ─ 19" items={post} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
+      </div>
+
+      {/* Footer note */}
+      <div style={{ position: "absolute", bottom: 88, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
+        <span>한 호 = 한 데이터 객체. 다음 호는 ISSUE_2026_06 = &#123; ... &#125;</span>
+        <span style={{ color: T.red }}>10 PAGE TYPES · 20 RENDERS</span>
+      </div>
+    </PageFrame>
+  );
+}
+
+function TocBlock({ title, subtitle, items, accent, ink, hair, muted, showChar }) {
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", borderBottom: `2px solid ${ink}`, paddingBottom: 8, marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, letterSpacing: "0.24em", color: ink, textTransform: "uppercase", fontWeight: 600 }}>
+          {title}
+        </div>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: accent, textTransform: "uppercase" }}>
+          {subtitle}
+        </div>
+      </div>
+      <div>
+        {items.map((it, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 14, padding: "11px 0", borderBottom: `1px solid ${hair}` }}>
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, letterSpacing: "0.12em", color: accent, flex: "0 0 110px", fontWeight: 600 }}>
+              {it.p}
+            </span>
+            <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 26, color: ink, letterSpacing: "-0.01em", flex: showChar ? "0 0 420px" : "0 0 480px" }}>
+              {it.ko}
+            </span>
+            <span style={{ flex: 1, borderBottom: `1px dotted ${hair}`, transform: "translateY(-4px)" }} />
+            {showChar && (
+              <span style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic", fontSize: 18, color: accent, flex: "0 0 150px", textAlign: "right" }}>
+                / {it.char}
+              </span>
+            )}
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.12em", color: muted, textTransform: "uppercase", flex: "0 0 240px", textAlign: "right" }}>
+              {it.en}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <DataDashboardPage {...dashboard} meta={...} />
+// P.02 — section + headline + line chart + donut + heatmap
+// ═══════════════════════════════════════════════════════════════════════════
+function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, donut, heatmap }) {
+  const T = TONE_A;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.02" pageNoSide="right" ofTotal={meta.issue}>
+      <FolioHeader left="SECTION · DATA DESK" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
+
+      <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+          {section}
+        </div>
+        <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 64, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
+          {headline.pre}<br/>
+          <span style={{ fontStyle: "italic", color: T.red }}>{headline.emphasis}</span>
+        </h1>
+        <div style={{ marginTop: 14, maxWidth: 820, fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.55, color: T.ink, opacity: 0.82, textWrap: "pretty" }}>
+          {sub}
+        </div>
+        <div style={{ marginTop: 12, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", color: T.muted, textTransform: "uppercase" }}>
+          참고 — 6게임 합산 추정 매출 <span style={{ color: T.ink, fontWeight: 600 }}>{aside.totalRev}</span> · 전월 대비 <span style={{ color: T.red }}>{aside.momChange}</span>
+        </div>
+      </div>
+
+      {/* Line chart */}
+      <div style={{ position: "absolute", top: 410, left: 40, right: 40 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "0 20px", marginBottom: 10 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.ink, textTransform: "uppercase" }}>
+            {lineChart.label}
+          </div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted }}>
+            {lineChart.source}
+          </div>
+        </div>
+        <div style={{ background: "#F6F1E0", padding: "6px 20px 0", borderTop: `2px solid ${T.ink}`, borderBottom: `1px solid ${T.hair}` }}>
+          <RevLineChart
+            width={1120} height={380}
+            ink={T.ink} grid={T.hair} accent={T.red}
+            months={lineChart.months}
+            series={lineChart.series}
+            highlight={lineChart.highlight}
+          />
+        </div>
+      </div>
+
+      {/* Two-column bottom */}
+      <div style={{ position: "absolute", left: 56, right: 56, top: 920, display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 28 }}>
+        <div style={{ border: `1px solid ${T.hair}`, padding: 24, background: "rgba(255,255,255,0.4)" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+            {donut.label}
+          </div>
+          <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 28, color: T.ink, letterSpacing: "-0.01em", marginBottom: 14 }}>
+            {donut.headline.pre} <span style={{ color: T.red, fontStyle: "italic" }}>{donut.headline.emphasis}</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <GenderDonut size={280} ink={T.ink} accent={T.red} muted="rgba(0,0,0,0.18)" data={donut.data} />
+          </div>
+          <div style={{ marginTop: 14, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: T.ink, opacity: 0.8, textWrap: "pretty" }}>
+            {donut.caption}
+          </div>
+        </div>
+        <div style={{ border: `1px solid ${T.hair}`, padding: 24, background: "rgba(255,255,255,0.4)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.red, textTransform: "uppercase" }}>
+              {heatmap.label}
+            </div>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, color: T.muted, letterSpacing: "0.12em" }}>
+              {heatmap.scale}
+            </div>
+          </div>
+          <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 28, color: T.ink, letterSpacing: "-0.01em", marginBottom: 16, marginTop: 8 }}>
+            {heatmap.headline.pre}<br/>
+            <span style={{ fontStyle: "italic" }}>{heatmap.headline.emphasis}</span>
+          </div>
+          <Heatmap
+            ink={T.ink} bg={T.paper} accent={T.red} cell={62}
+            cols={heatmap.colsEn}
+            rows={heatmap.rows}
+          />
+          <div style={{ marginTop: 14, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: T.ink, opacity: 0.8, textWrap: "pretty" }}>
+            {heatmap.caption}
+          </div>
+        </div>
+      </div>
+    </PageFrame>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <GameFeatureVisualPage game={...} index={n} total={6} pageNo="P.03" />
+// Left page of a 2-page spread. Visual-first.
+// ═══════════════════════════════════════════════════════════════════════════
+function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
+  const T = TONE_A;
+  const C = game.character;
+  const pc = game.pageColor || { splash: "#E5DDC9", stripe: "rgba(0,0,0,0.06)", angle: -14 };
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo={pageNo} pageNoSide="left" ofTotal={issue}>
+      <div style={{ position: "absolute", inset: 0, background: pc.splash, overflow: "hidden" }}>
+        {C.splashUrl ? (
+          <React.Fragment>
+            <img
+              src={C.splashUrl}
+              alt={`${C.ko} / ${C.en} hero portrait`}
+              referrerPolicy="no-referrer"
+              style={{
+                position: "absolute", inset: 0,
+                width: "100%", height: "100%",
+                objectFit: "cover",
+                objectPosition: C.splashFocus || "center 30%",
+                filter: "saturate(0.92) contrast(0.96)",
+              }}
+            />
+            {/* Top fade — keeps the masthead legible. */}
+            <div style={{
+              position: "absolute", top: 0, left: 0, right: 0, height: 360,
+              background: `linear-gradient(to bottom, ${pc.splash} 0%, ${pc.splash}DD 28%, rgba(0,0,0,0) 100%)`,
+              pointerEvents: "none",
+            }} />
+            {/* Bottom fade — keeps the name plate readable. */}
+            <div style={{
+              position: "absolute", left: 0, right: 0, bottom: 0, height: 280,
+              background: `linear-gradient(to top, ${pc.splash} 0%, ${pc.splash}CC 35%, rgba(0,0,0,0) 100%)`,
+              pointerEvents: "none",
+            }} />
+          </React.Fragment>
+        ) : (
+          <SplashSlot
+            bg={pc.splash}
+            stripe={pc.stripe}
+            ink={T.ink}
+            caption={C.splashCaption}
+            sub={`1200 × 1600 · drop hero image · ${C.en}`}
+            angle={pc.angle}
+          />
+        )}
+      </div>
+
+      {/* Top overprint masthead */}
+      <div style={{ position: "absolute", top: 40, left: 56, right: 56 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: T.ink, opacity: 0.85 }}>
+          <span style={{ color: T.red }}>● FEATURE · {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
+          <span>SUBCULTURE MONTHLY · {issue}</span>
+        </div>
+        <div style={{ marginTop: 56, fontFamily: "'EB Garamond',serif", fontSize: 152, lineHeight: 0.86, letterSpacing: "-0.04em", fontWeight: 500, color: T.ink }}>
+          {game.en.split(":")[0].split(" ")[0]}
+          {game.en.split(":")[0].split(" ").length > 1 && <><br/><span style={{ fontStyle: "italic" }}>{game.en.split(":")[0].split(" ").slice(1).join(" ")}.</span></>}
+          {game.en.split(":")[0].split(" ").length === 1 && <><br/><span style={{ fontStyle: "italic" }}>{game.ko}.</span></>}
+        </div>
+        <div style={{ marginTop: 8, fontFamily: "'Noto Serif KR',serif", fontSize: 26, color: T.ink, opacity: 0.85, letterSpacing: "-0.01em" }}>
+          {game.ko} · {game.studio} · {game.patchTitle} · {C.release}
+        </div>
+      </div>
+
+      {/* Bottom name plate */}
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: T.paper, padding: "26px 28px 22px", boxShadow: "0 0 0 1px rgba(0,0,0,0.08)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 28, alignItems: "end" }}>
+          <div>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: T.red }}>
+              NEW UNIT · {C.release}
+            </div>
+            <div style={{ marginTop: 6, fontFamily: "'EB Garamond',serif", fontSize: 88, lineHeight: 0.9, letterSpacing: "-0.02em", color: T.ink, fontWeight: 500 }}>
+              {C.ko}<span style={{ fontStyle: "italic", color: T.red }}> / {C.en}</span>
+            </div>
+          </div>
+          <div style={{ borderLeft: `1px solid ${T.hair}`, paddingLeft: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 18px", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+            <span style={{ color: T.muted }}>RARITY</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.rarity}</span>
+            <span style={{ color: T.muted }}>ROLE</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.role}</span>
+            <span style={{ color: T.muted }}>ELEMENT</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.element}</span>
+            <span style={{ color: T.muted }}>BANNER</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.banner}</span>
+            <span style={{ color: T.muted }}>FACTION</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.faction}</span>
+          </div>
+          <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 28, lineHeight: 1, color: T.red, fontStyle: "italic" }}>
+            →
+          </div>
+        </div>
+      </div>
+    </PageFrame>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <GameFeatureBodyPage game={...} index={n} total={6} pageNo="P.04" />
+// Right page of a 2-page spread. Body, timeline, fields, patch, quote.
+// ═══════════════════════════════════════════════════════════════════════════
+function GameFeatureBodyPage({ game, index, total, pageNo, prevPageNo, issue }) {
+  const T = TONE_A;
+  const C = game.character;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo={pageNo} pageNoSide="right" ofTotal={issue}>
+      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: T.ink, opacity: 0.85 }}>
+        <span style={{ color: T.red }}>● cont&apos;d from {prevPageNo}</span>
+        <span>FEATURE · {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")} · {game.ko} / {game.en.toUpperCase()}</span>
+      </div>
+      <div style={{ position: "absolute", top: 64, left: 56, right: 56, height: 1, background: T.ink, opacity: 0.4 }} />
+
+      {/* Lead */}
+      <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+          DESIGN READ
+        </div>
+        <h2 style={{ fontFamily: "'EB Garamond',serif", fontSize: 60, lineHeight: 1.0, margin: 0, color: T.ink, letterSpacing: "-0.025em", fontWeight: 500 }}>
+          {C.leadKo}<br/>
+          <span style={{ fontStyle: "italic", color: T.red }}>{C.leadEmph}</span>
+        </h2>
+        <div style={{ marginTop: 16, fontFamily: "'Noto Serif KR',serif", fontSize: 15.5, lineHeight: 1.6, color: T.ink, opacity: 0.85, textWrap: "pretty", columns: 2, columnGap: 36 }}>
+          {C.body}
+        </div>
+      </div>
+
+      {/* Pickup timeline */}
+      <div style={{ position: "absolute", top: 460, left: 56, right: 56 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.ink, textTransform: "uppercase" }}>
+            FIG. A · 3-Month Banner Timeline
+          </span>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.12em" }}>RED = THIS ISSUE</span>
+        </div>
+        <PickupTimeline ink={T.ink} grid={T.hair} accent={T.red} width={1088} height={150} lanes={game.pickupTimeline} />
+        <div style={{ marginTop: 6, padding: "10px 14px", background: T.ink, color: T.paper, display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+            <span><span style={{ color: T.red }}>SIGNAL</span> · 첫 주 추정 매출 <b style={{ color: T.paper }}>{game.revSignal.firstWeek}</b> · <b style={{ color: "#F2B5A8" }}>{game.revSignal.change}</b> · {game.revSignal.note}</span>
+          <span style={{ color: "rgba(245,241,232,0.6)" }}>SOURCE · SENSORTOWER COMP.</span>
+        </div>
+      </div>
+
+      {/* 8-field grid */}
+      <div style={{ position: "absolute", top: 730, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+          CHARACTER FILE · 8 FIELDS
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}`, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+          {C.fields.map((f, i) => (
+            <div key={f.label} style={{ padding: "13px 18px 13px 0", borderBottom: i < 6 ? `1px solid ${T.hair}` : "none", borderRight: i % 2 === 0 ? `1px solid ${T.hair}` : "none", paddingLeft: i % 2 === 1 ? 18 : 0 }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.red, textTransform: "uppercase" }}>0{i + 1}</span>
+                <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 22, color: T.ink, letterSpacing: "-0.01em" }}>{f.label}</span>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, color: T.muted, letterSpacing: "0.16em", textTransform: "uppercase" }}>/ {f.en}</span>
+              </div>
+              <div style={{ marginTop: 3, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: T.ink, opacity: 0.82, textWrap: "pretty" }}>
+                {f.body}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Patch + Quote */}
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 24 }}>
+        <div style={{ borderLeft: `3px solid ${T.red}`, paddingLeft: 14 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+            {game.patchEn}
+          </div>
+          <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 22, marginTop: 4, color: T.ink, letterSpacing: "-0.01em" }}>
+            {game.patchTitle}
+          </div>
+          <ul style={{ marginTop: 8, padding: 0, listStyle: "none", fontFamily: "'Noto Serif KR',serif", fontSize: 12.5, lineHeight: 1.55, color: T.ink, opacity: 0.85 }}>
+            {game.patchBullets.map((b, i) => (
+              <li key={i} style={{ padding: "2px 0", display: "flex", gap: 8 }}>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", color: T.red, flex: "0 0 24px" }}>{String(i + 1).padStart(2, "0")}</span>
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div style={{ background: T.ink, color: T.paper, padding: 18, position: "relative" }}>
+          <div style={{ position: "absolute", top: -6, left: 14, fontFamily: "'EB Garamond',serif", fontSize: 64, lineHeight: 1, color: T.red, fontStyle: "italic" }}>“</div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginTop: 18 }}>
+            COMMUNITY PULSE
+          </div>
+          <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13.5, lineHeight: 1.55, marginTop: 8, color: T.paper, textWrap: "pretty" }}>
+            {game.quote.body}
+          </div>
+          <div style={{ marginTop: 12, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.paper, opacity: 0.7, letterSpacing: "0.12em" }}>
+            — {game.quote.by}
+          </div>
+        </div>
+      </div>
+    </PageFrame>
+  );
+}
+
+// ─── Hard cover & endpaper components ──────────────────────────────────────
+// These render under StPageFlip's showCover=true treatment: indices 0 and (n-1)
+// flip as stiff hardback. Inner endpapers preserve game-feature page pairing
+// while keeping the hardback pages free of any editorial content.
+
+function HardFrontCover({ meta }) {
+  return (
+    <PageFrame bg="#F2EAD3" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
+      style={{ boxShadow: "inset 0 0 80px rgba(26,26,26,0.06)" }}>
+      {/* Top edge band */}
+      <div style={{ position: "absolute", top: 64, left: 96, right: 96,
+                    display: "flex", justifyContent: "space-between",
+                    fontFamily: "'JetBrains Mono',monospace", fontSize: 11,
+                    letterSpacing: "0.28em", textTransform: "uppercase",
+                    color: "rgba(26,26,26,0.7)" }}>
+        <span>{meta.issn || "ISSN 0000-0001"}</span>
+        <span style={{ color: "#C44536", fontWeight: 600 }}>● 월간 · MONTHLY</span>
+        <span>{meta.price || "₩9,800"}</span>
+      </div>
+
+      {/* Centered masthead */}
+      <div style={{ position: "absolute", top: 580, left: 96, right: 96, textAlign: "center" }}>
+        <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 168, lineHeight: 0.95,
+                      letterSpacing: "-0.03em", color: "#1A1A1A", fontWeight: 500 }}>
+          Subculture
+        </div>
+        <div style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic",
+                      fontSize: 168, lineHeight: 0.95, letterSpacing: "-0.03em",
+                      color: "#1A1A1A", fontWeight: 500, marginTop: -10 }}>
+          Monthly
+        </div>
+      </div>
+
+      {/* Bottom: issue label + accent rule */}
+      <div style={{ position: "absolute", bottom: 140, left: 96, right: 96, textAlign: "center" }}>
+        <div style={{ width: 140, height: 1, background: "#1A1A1A", opacity: 0.4, margin: "0 auto 24px" }} />
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 16,
+                      letterSpacing: "0.5em", textTransform: "uppercase",
+                      color: "#1A1A1A" }}>
+          {meta.issue || "Vol.01"} · {meta.coverDate || "APR 2026"}
+        </div>
+        <div style={{ marginTop: 28, display: "flex", justifyContent: "center" }}>
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#C44536" }} />
+        </div>
+      </div>
+
+      {/* Bottom-edge mono tag */}
+      <div style={{ position: "absolute", bottom: 56, left: 0, right: 0, textAlign: "center",
+                    fontFamily: "'JetBrains Mono',monospace", fontSize: 10,
+                    letterSpacing: "0.4em", textTransform: "uppercase",
+                    color: "rgba(26,26,26,0.5)" }}>
+        {meta.tagline || "월간 서브컬처 데이터 저널"}
+      </div>
+    </PageFrame>
+  );
+}
+
+function EndpaperFront() {
+  return (
+    <PageFrame bg="#F4EDD9" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
+      {/* Very subtle hatched pattern */}
+      <svg style={{ position: "absolute", inset: 0, opacity: 0.06 }} width="100%" height="100%">
+        <defs>
+          <pattern id="endpaper-hatch-front" patternUnits="userSpaceOnUse" width="20" height="20" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="20" stroke="#1A1A1A" strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#endpaper-hatch-front)" />
+      </svg>
+
+      {/* Tiny monogram */}
+      <div style={{ position: "absolute", top: "50%", left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    fontFamily: "'EB Garamond',serif", fontStyle: "italic",
+                    fontSize: 96, color: "rgba(26,26,26,0.18)",
+                    letterSpacing: "-0.04em" }}>
+        S · M
+      </div>
+    </PageFrame>
+  );
+}
+
+function EndpaperBack() {
+  return (
+    <PageFrame bg="#F4EDD9" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
+      <svg style={{ position: "absolute", inset: 0, opacity: 0.06 }} width="100%" height="100%">
+        <defs>
+          <pattern id="endpaper-hatch-back" patternUnits="userSpaceOnUse" width="20" height="20" patternTransform="rotate(-45)">
+            <line x1="0" y1="0" x2="0" y2="20" stroke="#1A1A1A" strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#endpaper-hatch-back)" />
+      </svg>
+      <div style={{ position: "absolute", top: "50%", left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    fontFamily: "'EB Garamond',serif", fontStyle: "italic",
+                    fontSize: 96, color: "rgba(26,26,26,0.18)",
+                    letterSpacing: "-0.04em" }}>
+        S · M
+      </div>
+    </PageFrame>
+  );
+}
+
+function HardBackCover({ meta }) {
+  return (
+    <PageFrame bg="#F2EAD3" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
+      style={{ boxShadow: "inset 0 0 80px rgba(26,26,26,0.06)" }}>
+      {/* Top */}
+      <div style={{ position: "absolute", top: 64, left: 96, right: 96,
+                    display: "flex", justifyContent: "space-between",
+                    fontFamily: "'JetBrains Mono',monospace", fontSize: 11,
+                    letterSpacing: "0.28em", textTransform: "uppercase",
+                    color: "rgba(26,26,26,0.7)" }}>
+        <span>{meta.issn || "ISSN 0000-0001"}</span>
+        <span style={{ color: "#C44536", fontWeight: 600 }}>● 월간 · MONTHLY</span>
+        <span>{meta.price || "₩9,800"}</span>
+      </div>
+
+      {/* Center — single accent dot */}
+      <div style={{ position: "absolute", top: "50%", left: "50%",
+                    transform: "translate(-50%, -50%)", textAlign: "center" }}>
+        <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#C44536",
+                      margin: "0 auto 32px" }} />
+        <div style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic",
+                      fontSize: 42, color: "rgba(26,26,26,0.7)",
+                      letterSpacing: "-0.02em", maxWidth: 700 }}>
+          다음 호에 계속.
+        </div>
+        <div style={{ marginTop: 16, fontFamily: "'JetBrains Mono',monospace",
+                      fontSize: 12, letterSpacing: "0.32em", textTransform: "uppercase",
+                      color: "rgba(26,26,26,0.55)" }}>
+          {meta.next || "NEXT ISSUE · Vol.02 · 2026.06.10"}
+        </div>
+      </div>
+
+      {/* Bottom */}
+      <div style={{ position: "absolute", bottom: 64, left: 96, right: 96,
+                    display: "flex", justifyContent: "space-between",
+                    fontFamily: "'JetBrains Mono',monospace", fontSize: 10,
+                    letterSpacing: "0.32em", textTransform: "uppercase",
+                    color: "rgba(26,26,26,0.55)" }}>
+        <span>{meta.title || "Subculture Monthly"}</span>
+        <span>{meta.issue || "Vol.01"} · {meta.coverDate || "APR 2026"}</span>
+      </div>
+    </PageFrame>
+  );
+}
+
+Object.assign(window, {
+  CoverPage, TocPage, DataDashboardPage,
+  GameFeatureVisualPage, GameFeatureBodyPage,
+  HardFrontCover, EndpaperFront, EndpaperBack, HardBackCover,
+});
+
+</script>
+  <script type="text/babel" data-source="magazine-pages-back.jsx">
+// Page-type components — back half (P.15 ─ P.19)
+// All props-driven. Same component renders any month's data.
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <CrossAnalysisPage {...crossAnalysis} meta={...} />
+// P.15 — 5 trends × 6 titles matrix + dos/don'ts
+// ═══════════════════════════════════════════════════════════════════════════
+function CrossAnalysisPage({ meta, section, headline, sub, trends, matrix, dosDonts }) {
+  const T = TONE_A;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.15" pageNoSide="left" ofTotal={meta.issue}>
+      <FolioHeader left="SECTION · CROSS-GAME" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
+      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={840} />
+
+      {/* 5 trend cards */}
+      <div style={{ position: "absolute", top: 410, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+          FIG. X.1 · Five Trends
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 0, borderTop: `2px solid ${T.ink}`, borderBottom: `1px solid ${T.hair}` }}>
+          {trends.map((t, i) => (
+            <div key={t.n} style={{ padding: "16px 14px", borderRight: i < trends.length - 1 ? `1px solid ${T.hair}` : "none" }}>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.2em", color: T.red, fontWeight: 600 }}>
+                {t.n}
+              </div>
+              <div style={{ marginTop: 6, fontFamily: "'EB Garamond',serif", fontSize: 22, lineHeight: 1.1, color: T.ink, letterSpacing: "-0.01em", minHeight: 50 }}>
+                {t.head}
+              </div>
+              <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 12.5, lineHeight: 1.55, color: T.ink, opacity: 0.82, textWrap: "pretty" }}>
+                {t.why}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Matrix */}
+      <div style={{ position: "absolute", top: 660, left: 56, right: 56 }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 6 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+            {matrix.label}
+          </div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, color: T.muted, letterSpacing: "0.12em" }}>● = observed</div>
+        </div>
+        <CrossMatrix cols={matrix.cols} rows={matrix.rows} ink={T.ink} accent={T.red} hair={T.hair} muted={T.muted} />
+      </div>
+
+      {/* Do / Don't */}
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28 }}>
+        <div style={{ border: `1px solid ${T.hair}`, padding: "20px 22px", background: "rgba(255,255,255,0.4)" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.ink, fontWeight: 600 }}>● DO</div>
+          <ul style={{ listStyle: "none", padding: 0, margin: "10px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 14, lineHeight: 1.55, color: T.ink, opacity: 0.88 }}>
+            {dosDonts.dos.map((d, i) => (
+              <li key={i} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: i < dosDonts.dos.length - 1 ? `1px solid ${T.hair}` : "none" }}>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", color: T.ink, opacity: 0.6, flex: "0 0 28px" }}>{String(i + 1).padStart(2, "0")}</span>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div style={{ border: `1px solid ${T.red}`, padding: "20px 22px", background: T.red, color: T.paper }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.paper, fontWeight: 600 }}>○ DON&apos;T</div>
+          <ul style={{ listStyle: "none", padding: 0, margin: "10px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 14, lineHeight: 1.55, color: T.paper }}>
+            {dosDonts.donts.map((d, i) => (
+              <li key={i} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: i < dosDonts.donts.length - 1 ? "1px solid rgba(250,246,236,0.25)" : "none" }}>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", color: T.paper, opacity: 0.6, flex: "0 0 28px" }}>{String(i + 1).padStart(2, "0")}</span>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </PageFrame>
+  );
+}
+
+function CrossMatrix({ cols, rows, ink, accent, hair, muted }) {
+  const cellW = 100;
+  const labelW = 200;
+  const rowH = 38;
+  return (
+    <div style={{ borderTop: `2px solid ${ink}` }}>
+      <div style={{ display: "grid", gridTemplateColumns: `${labelW}px repeat(${cols.length}, ${cellW}px) 1fr`, alignItems: "center", height: 32, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: muted, textTransform: "uppercase" }}>
+        <span>TITLE</span>
+        {cols.map((c) => (
+          <span key={c} style={{ textAlign: "center", color: accent, fontWeight: 600 }}>{c}</span>
+        ))}
+        <span style={{ paddingLeft: 12, color: muted }}>OBSERVED COUNT</span>
+      </div>
+      {rows.map((r) => {
+        const count = r.values.reduce((s, v) => s + v, 0);
+        return (
+          <div key={r.id} style={{ display: "grid", gridTemplateColumns: `${labelW}px repeat(${cols.length}, ${cellW}px) 1fr`, alignItems: "center", height: rowH, borderTop: `1px solid ${hair}`, fontFamily: "'EB Garamond',serif", fontSize: 18, color: ink }}>
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.1em", fontWeight: 600 }}>{r.label}</span>
+            {r.values.map((v, j) => (
+              <span key={j} style={{ textAlign: "center", color: v ? accent : muted, fontSize: v ? 20 : 14 }}>{v ? "●" : "○"}</span>
+            ))}
+            <span style={{ paddingLeft: 12, fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: ink, opacity: 0.7 }}>
+              {count} / {cols.length}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <IndustryDeskPage {...industry} meta={...} />
+// P.16 — studios · upcoming · regulations
+// ═══════════════════════════════════════════════════════════════════════════
+function IndustryDeskPage({ meta, section, headline, sub, studios, upcoming, regulations }) {
+  const T = TONE_A;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.16" pageNoSide="right" ofTotal={meta.issue}>
+      <FolioHeader left="SECTION · INDUSTRY DESK" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
+      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={820} />
+
+      {/* Studios */}
+      <div style={{ position: "absolute", top: 410, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+          FIG. I.1 · Studios in Motion
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}` }}>
+          {studios.map((s, i) => {
+            const tone = s.change === "+" ? T.ink : s.change === "-" ? T.red : T.muted;
+            return (
+              <div key={s.name} style={{ display: "grid", gridTemplateColumns: "44px 230px 1fr", alignItems: "center", padding: "10px 0", borderBottom: `1px solid ${T.hair}`, gap: 14 }}>
+                <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 32, lineHeight: 1, color: tone, fontWeight: 500, textAlign: "center" }}>
+                  {s.change}
+                </span>
+                <div>
+                  <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 22, color: T.ink, letterSpacing: "-0.01em" }}>{s.name}</div>
+                  <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.12em" }}>{s.ko}</div>
+                </div>
+                <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 14, lineHeight: 1.5, color: T.ink, opacity: 0.85 }}>
+                  {s.note}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Upcoming + Regulations side-by-side */}
+      <div style={{ position: "absolute", left: 56, right: 56, top: 900, display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 28 }}>
+        <div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+            FIG. I.2 · Upcoming · 다음 90일
+          </div>
+          <div style={{ borderTop: `2px solid ${T.ink}` }}>
+            {upcoming.map((u, i) => (
+              <div key={i} style={{ display: "grid", gridTemplateColumns: "60px 1fr", padding: "10px 0", borderBottom: `1px solid ${T.hair}`, alignItems: "baseline", gap: 14 }}>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.16em", color: T.red, fontWeight: 600 }}>
+                  {u.when}
+                </span>
+                <div>
+                  <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 20, color: T.ink, letterSpacing: "-0.01em" }}>{u.title}</div>
+                  <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.78, marginTop: 2 }}>{u.note}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+            FIG. I.3 · Regulations Watch
+          </div>
+          <div style={{ borderTop: `2px solid ${T.ink}`, background: "rgba(255,255,255,0.4)" }}>
+            {regulations.map((r, i) => (
+              <div key={r.region} style={{ padding: "11px 12px", borderBottom: i < regulations.length - 1 ? `1px solid ${T.hair}` : "none" }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.2em", color: T.red, fontWeight: 600 }}>{r.region}</span>
+                  <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 16, color: T.ink, fontStyle: "italic" }}>{r.ko}</span>
+                </div>
+                <div style={{ marginTop: 3, fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.8, lineHeight: 1.5 }}>
+                  {r.line}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </PageFrame>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <CommunityPulsePage {...community} meta={...} />
+// P.17 — events · director letter · fan works
+// ═══════════════════════════════════════════════════════════════════════════
+function CommunityPulsePage({ meta, section, headline, sub, events, directorLetter, fanWorks }) {
+  const T = TONE_A;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.17" pageNoSide="left" ofTotal={meta.issue}>
+      <FolioHeader left="SECTION · COMMUNITY PULSE" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
+      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={820} />
+
+      {/* Events */}
+      <div style={{ position: "absolute", top: 410, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+          FIG. C.1 · Five Events · MAY 2026
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}` }}>
+          {events.map((e, i) => (
+            <div key={i} style={{ display: "grid", gridTemplateColumns: "100px 1fr 200px 160px", gap: 16, alignItems: "baseline", padding: "11px 0", borderBottom: `1px solid ${T.hair}` }}>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", color: T.red, fontWeight: 600 }}>{e.when}</span>
+              <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 22, color: T.ink, letterSpacing: "-0.01em" }}>{e.title}</span>
+              <span style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.75 }}>{e.where}</span>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: T.ink, textAlign: "right", letterSpacing: "0.08em" }}>{e.scale}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Director letter + fan works */}
+      <div style={{ position: "absolute", left: 56, right: 56, top: 820, display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 28 }}>
+        <div style={{ background: T.ink, color: T.paper, padding: "26px 28px 28px", position: "relative" }}>
+          <div style={{ position: "absolute", top: -10, left: 18, fontFamily: "'EB Garamond',serif", fontSize: 88, lineHeight: 1, color: T.red, fontStyle: "italic" }}>“</div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginTop: 36 }}>
+            {directorLetter.head}
+          </div>
+          <div style={{ marginTop: 4, fontFamily: "'EB Garamond',serif", fontSize: 22, color: T.paper, fontStyle: "italic" }}>
+            {directorLetter.from}
+          </div>
+          <div style={{ marginTop: 14, fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.65, color: T.paper, textWrap: "pretty" }}>
+            {directorLetter.body}
+          </div>
+          <div style={{ marginTop: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", color: T.paper, opacity: 0.65 }}>
+            — {directorLetter.footer}
+          </div>
+        </div>
+        <div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+            FIG. C.2 · Fan Works · 이번 호 픽
+          </div>
+          <div style={{ borderTop: `2px solid ${T.ink}` }}>
+            {fanWorks.map((f, i) => (
+              <div key={i} style={{ padding: "11px 0", borderBottom: `1px solid ${T.hair}` }}>
+                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
+                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.red, fontWeight: 600 }}>{f.kind}</span>
+                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.1em" }}>{f.by}</span>
+                </div>
+                <div style={{ marginTop: 3, fontFamily: "'EB Garamond',serif", fontSize: 19, color: T.ink, letterSpacing: "-0.01em" }}>
+                  {f.title}
+                </div>
+                <div style={{ marginTop: 1, fontFamily: "'Noto Serif KR',serif", fontSize: 12, color: T.ink, opacity: 0.7 }}>
+                  {f.note}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </PageFrame>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <WatchlistPage items={[...]} meta={...} />
+// P.18 — next month's 5 slots
+// ═══════════════════════════════════════════════════════════════════════════
+function WatchlistPage({ meta, section, headline, sub, items }) {
+  const T = TONE_A;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.18" pageNoSide="right" ofTotal={meta.issue}>
+      <FolioHeader left="SECTION · WATCHLIST" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
+      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={820} />
+
+      <div style={{ position: "absolute", top: 410, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+          FIG. W · Five Slots to Watch · JUN 2026
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}` }}>
+          {items.map((it, i) => (
+            <div key={i} style={{ display: "grid", gridTemplateColumns: "60px 1fr 200px", gap: 18, padding: "20px 0 22px", borderBottom: `1px solid ${T.hair}`, alignItems: "baseline" }}>
+              <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 56, lineHeight: 1, color: T.red, fontWeight: 500, letterSpacing: "-0.02em" }}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+                  <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 32, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>{it.name}</span>
+                  <span style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic", fontSize: 18, color: T.red }}>/ {it.game}</span>
+                </div>
+                <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 15, color: T.ink, opacity: 0.85, lineHeight: 1.55, textWrap: "pretty", maxWidth: 700 }}>
+                  {it.why}
+                </div>
+              </div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", color: T.ink, textAlign: "right" }}>
+                <span style={{ color: T.muted }}>WHEN</span><br/>
+                <span style={{ fontWeight: 600 }}>{it.when}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ position: "absolute", bottom: 110, left: 56, right: 56, padding: "16px 20px", background: T.ink, color: T.paper, display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+        <span><span style={{ color: T.red }}>NEXT</span> · 다음 호 발행일 · 2026.06.10</span>
+        <span style={{ color: "rgba(245,241,232,0.65)" }}>다섯 슬롯에서 다음 트렌드가 결정된다</span>
+      </div>
+    </PageFrame>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <ColophonPage {...colophon} meta={...} />
+// P.19 — sources · methodology · limits · masthead
+// ═══════════════════════════════════════════════════════════════════════════
+function ColophonPage({ meta, section, headline, sub, sources, methodology, limits, masthead, issn, next }) {
+  const T = TONE_A;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.19" pageNoSide="left" ofTotal={meta.issue}>
+      <FolioHeader left="SECTION · COLOPHON" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
+      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={820} />
+
+      {/* Sources */}
+      <div style={{ position: "absolute", top: 410, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+          01 · SOURCES · 출처
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}` }}>
+          {sources.map((s, i) => (
+            <div key={i} style={{ display: "grid", gridTemplateColumns: "180px 1fr 1fr", gap: 18, padding: "10px 0", borderBottom: `1px solid ${T.hair}`, alignItems: "baseline" }}>
+              <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 18, color: T.ink, letterSpacing: "-0.01em" }}>{s.label}</span>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: T.red, letterSpacing: "0.08em" }}>{s.from}</span>
+              <span style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.78, lineHeight: 1.55 }}>{s.note}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Methodology + Limits */}
+      <div style={{ position: "absolute", left: 56, right: 56, top: 720, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28 }}>
+        <div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+            02 · METHODOLOGY · 방법
+          </div>
+          <ol style={{ paddingLeft: 0, margin: 0, listStyle: "none", borderTop: `2px solid ${T.ink}` }}>
+            {methodology.map((m, i) => (
+              <li key={i} style={{ display: "flex", gap: 10, padding: "9px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 13.5, color: T.ink, opacity: 0.85, lineHeight: 1.55 }}>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", color: T.red, flex: "0 0 28px" }}>{String(i + 1).padStart(2, "0")}</span>
+                <span>{m}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+            03 · LIMITS · 한계
+          </div>
+          <ol style={{ paddingLeft: 0, margin: 0, listStyle: "none", borderTop: `2px solid ${T.ink}` }}>
+            {limits.map((m, i) => (
+              <li key={i} style={{ display: "flex", gap: 10, padding: "9px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 13.5, color: T.ink, opacity: 0.85, lineHeight: 1.55 }}>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", color: T.red, flex: "0 0 28px" }}>{String(i + 1).padStart(2, "0")}</span>
+                <span>{m}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      {/* Masthead */}
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 200 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+          04 · MASTHEAD · 편집부
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}`, borderBottom: `2px solid ${T.ink}`, padding: "12px 0", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 14, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.1em", color: T.ink }}>
+          <span>{masthead.editor}</span>
+          <span>{masthead.design}</span>
+          <span>{masthead.data}</span>
+          <span>{masthead.ad}</span>
+        </div>
+      </div>
+
+      {/* Footer slug */}
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 100, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase" }}>
+        <span>{issn} · © Subculture Monthly · {meta.issue}</span>
+        <span style={{ color: T.red }}>{next}</span>
+      </div>
+    </PageFrame>
+  );
+}
+
+Object.assign(window, {
+  CrossAnalysisPage, IndustryDeskPage, CommunityPulsePage, WatchlistPage, ColophonPage,
+});
+
+</script>
+
+  <script type="text/babel" data-presets="env,react">
+    const PAGE_W = 1200;
+    const PAGE_H = 1600;
+    const PAGE_RATIO = PAGE_H / PAGE_W;
+
+    function computeBookSize() {
+      const vw = window.innerWidth  || 1280;
+      const vh = window.innerHeight || 800;
+      const railVisible = vw > 1340;
+      const sidePad = 80;
+      const railReserve = railVisible ? 260 : 40;
+      const horizBudget = vw - sidePad - railReserve;
+      const wFromWidth  = Math.floor(horizBudget / 2);
+      const vertChrome = 220;
+      const hFromHeight = vh - vertChrome;
+      const wFromHeight = Math.floor(hFromHeight / PAGE_RATIO);
+      const w = Math.max(420, Math.min(900, wFromWidth, wFromHeight));
+      const h = Math.round(w * PAGE_RATIO);
+      return { w, h };
+    }
+
+    // ─── Section anchors for bookmark rail ───────────────────────────────
+    // Indices reflect 24-page layout:
+    //   0   jacket front (stiff)
+    //   1   endpaper front
+    //   2   cover (insights + KPI)
+    //   3   TOC
+    //   4   dashboard
+    //   5-16 6 game spreads (visual left, body right)
+    //   17  cross-game analysis
+    //   18  industry desk
+    //   19  community pulse
+    //   20  watchlist
+    //   21  colophon
+    //   22  endpaper back
+    //   23  jacket back (stiff)
+    const SECTIONS = [
+      { id: 'cover',     label: '표지',         page: 2,  key: '1' },
+      { id: 'toc',       label: '목차',         page: 3,  key: '2' },
+      { id: 'numbers',   label: '데이터',       page: 4,  key: '3' },
+      { id: 'gi',        label: '원신',         page: 5,  key: '4' },
+      { id: 'hsr',       label: '스타레일',     page: 7,  key: '5' },
+      { id: 'zzz',       label: '젠레스',       page: 9,  key: '6' },
+      { id: 'ww',        label: '명조',         page: 11, key: '7' },
+      { id: 'ef',        label: '엔드필드',     page: 13, key: '8' },
+      { id: 'nk',        label: '니케',         page: 15, key: '9' },
+      { id: 'cross',     label: '크로스',       page: 17 },
+      { id: 'industry',  label: '산업',         page: 18 },
+      { id: 'community', label: '커뮤니티',     page: 19 },
+      { id: 'watch',     label: 'Watchlist',    page: 20 },
+      { id: 'colophon',  label: '콜로폰',       page: 21 },
+    ];
+    function sectionForPage(p) {
+      let s = SECTIONS[0];
+      for (const x of SECTIONS) if (x.page <= p) s = x;
+      return s;
+    }
+
+    function BookPage({ children, stiff, bookW }) {
+      const scale = bookW / PAGE_W;
+      const cls = 'page' + (stiff ? ' page--stiff' : '');
+      const dataAttrs = stiff ? { 'data-density': 'hard' } : {};
+      return (
+        <div className={cls} {...dataAttrs}>
+          <div className="page-inner" style={{ width: PAGE_W, height: PAGE_H, transform: `scale(${scale})` }}>
+            {children}
+          </div>
+        </div>
+      );
+    }
+
+    function buildBookPages(D) {
+      const pages = [];
+      pages.push({ key: 'p-jacket-front',   stiff: true,  el: <HardFrontCover meta={D.meta} /> });
+      pages.push({ key: 'p-endpaper-front', stiff: false, el: <EndpaperFront /> });
+      pages.push({ key: 'p00', el: <CoverPage meta={D.meta} insights={D.insights} /> });
+      pages.push({ key: 'p01', el: <TocPage meta={D.meta} games={D.games} /> });
+      pages.push({ key: 'p02', el: <DataDashboardPage meta={D.meta} {...D.dashboard} /> });
+      D.games.forEach((g, i) => {
+        const leftNo  = `P.${String(3 + i * 2).padStart(2, "0")}`;
+        const rightNo = `P.${String(4 + i * 2).padStart(2, "0")}`;
+        pages.push({ key: `p${leftNo}`,  el: <GameFeatureVisualPage game={g} index={i} total={D.games.length} pageNo={leftNo} issue={D.meta.issue} /> });
+        pages.push({ key: `p${rightNo}`, el: <GameFeatureBodyPage   game={g} index={i} total={D.games.length} pageNo={rightNo} prevPageNo={leftNo} issue={D.meta.issue} /> });
+      });
+      pages.push({ key: 'p15', el: <CrossAnalysisPage meta={D.meta} {...D.crossAnalysis} /> });
+      pages.push({ key: 'p16', el: <IndustryDeskPage  meta={D.meta} {...D.industry} /> });
+      pages.push({ key: 'p17', el: <CommunityPulsePage meta={D.meta} {...D.community} /> });
+      pages.push({ key: 'p18', el: <WatchlistPage     meta={D.meta} {...D.watchlist} /> });
+      pages.push({ key: 'p19', el: <ColophonPage      meta={D.meta} {...D.colophon} /> });
+      pages.push({ key: 'p-endpaper-back', stiff: false, el: <EndpaperBack /> });
+      pages.push({ key: 'p-jacket-back',   stiff: true,  el: <HardBackCover meta={D.meta} /> });
+      return pages;
+    }
+
+    function BookmarkRail({ flipRef, currentPage, mobileOpen, setMobileOpen }) {
+      const active = sectionForPage(currentPage).id;
+      const jump = (p) => { flipRef.current && flipRef.current.turnToPage(p); setMobileOpen(false); };
+      return (
+        <React.Fragment>
+          <nav className="bookmark-rail" aria-label="섹션 점프">
+            <div className="rail-head">CONTENTS · {SECTIONS.length} SECTIONS</div>
+            {SECTIONS.map(s => (
+              <div key={s.id}
+                   className={'rail-item' + (s.id === active ? ' active' : '')}
+                   onClick={() => jump(s.page)}>
+                <span>{s.label}{s.key ? ' · ' + s.key : ''}</span>
+                <span className="rail-page">P.{String(s.page).padStart(2,'0')}</span>
+              </div>
+            ))}
+          </nav>
+          <div className={'bookmark-modal' + (mobileOpen ? ' open' : '')} role="dialog" aria-modal="true">
+            <div className="modal-head">
+              <span>Contents</span>
+              <button className="modal-close" onClick={() => setMobileOpen(false)}>CLOSE ✕</button>
+            </div>
+            {SECTIONS.map(s => (
+              <div key={s.id}
+                   className={'modal-item' + (s.id === active ? ' active' : '')}
+                   onClick={() => jump(s.page)}>
+                <span>{s.label}{s.key ? ' (단축키 ' + s.key + ')' : ''}</span>
+                <span className="rail-page">P.{String(s.page).padStart(2,'0')}</span>
+              </div>
+            ))}
+          </div>
+        </React.Fragment>
+      );
+    }
+
+    function FlipBook({ mobileOpen, setMobileOpen }) {
+      const D = ISSUE_2026_04;
+      const pages = buildBookPages(D);
+      const bookRef = React.useRef(null);
+      const flipRef = React.useRef(null);
+      const [page, setPage] = React.useState(0);
+      const [total, setTotal] = React.useState(pages.length);
+      const [bookSize, setBookSize] = React.useState(computeBookSize);
+      const pageRef = React.useRef(0);
+      pageRef.current = page;
+
+      React.useEffect(() => {
+        if (!bookRef.current) return;
+        const start = pageRef.current || 0;
+        const flip = new St.PageFlip(bookRef.current, {
+          width: bookSize.w, height: bookSize.h,
+          size: "fixed",
+          minWidth: 300, maxWidth: 1400,
+          minHeight: 400, maxHeight: 1900,
+          maxShadowOpacity: 0.55,
+          showCover: true,
+          mobileScrollSupport: false,
+          drawShadow: true,
+          flippingTime: 700,
+          usePortrait: false,
+          autoSize: false,
+          startPage: start,
+        });
+        flip.loadFromHTML(bookRef.current.querySelectorAll('.page'));
+        flip.on('flip', (e) => setPage(e.data));
+        setTotal(flip.getPageCount());
+        flipRef.current = flip;
+        return () => { try { flip.destroy(); } catch (e) {} };
+      }, [bookSize.w, bookSize.h]);
+
+      React.useEffect(() => {
+        let t;
+        const onResize = () => {
+          clearTimeout(t);
+          t = setTimeout(() => {
+            const next = computeBookSize();
+            setBookSize(prev => (prev.w === next.w && prev.h === next.h) ? prev : next);
+          }, 180);
+        };
+        window.addEventListener('resize', onResize);
+        return () => { clearTimeout(t); window.removeEventListener('resize', onResize); };
+      }, []);
+
+      React.useEffect(() => {
+        const onKey = (e) => {
+          if (e.target && /input|textarea/i.test(e.target.tagName)) return;
+          if (!flipRef.current) return;
+          if (e.key === 'ArrowLeft')       { flipRef.current.flipPrev(); }
+          else if (e.key === 'ArrowRight') { flipRef.current.flipNext(); }
+          else if (e.key === 't' || e.key === 'T') { setMobileOpen(o => !o); }
+          else if (e.key === 'Escape')     { setMobileOpen(false); }
+          else if (/^[0-9]$/.test(e.key)) {
+            const target = SECTIONS.find(s => s.key === e.key);
+            if (target) flipRef.current.turnToPage(target.page);
+          }
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, [setMobileOpen]);
+
+      return (
+        <React.Fragment>
+          <div className="book-area">
+            <div id="book" ref={bookRef} style={{ width: bookSize.w * 2, height: bookSize.h }}>
+              {pages.map(p => <BookPage key={p.key} stiff={p.stiff} bookW={bookSize.w}>{p.el}</BookPage>)}
+            </div>
+            <div className="controls">
+              <button onClick={() => flipRef.current && flipRef.current.flipPrev()}>← PREV</button>
+              <span className="pageno">{String(page).padStart(2, "0")} / {String(total - 1).padStart(2, "0")}</span>
+              <button onClick={() => flipRef.current && flipRef.current.flipNext()}>NEXT →</button>
+              <span className="hint">← → · T · 0–9 단축키 · 모서리를 끌어 넘기기</span>
+            </div>
+          </div>
+          <BookmarkRail flipRef={flipRef} currentPage={page} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+        </React.Fragment>
+      );
+    }
+
+    function App() {
+      const D = ISSUE_2026_04;
+      const [mobileOpen, setMobileOpen] = React.useState(false);
+      return (
+        <div className="reader">
+          <header className="reader-head">
+            <div>
+              <div className="title">{D.meta.title} · <em>{D.meta.issue}</em></div>
+            </div>
+            <div style={{display:"flex", alignItems:"baseline", gap: 14}}>
+              <div className="meta">
+                <span className="accent">{D.meta.coverDate}</span>
+                <span style={{marginLeft: 12, opacity: 0.6}}>{D.meta.tagline}</span>
+              </div>
+              <button className="bookmark-toggle" onClick={() => setMobileOpen(true)}>≡ INDEX</button>
+            </div>
+          </header>
+          <FlipBook mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
