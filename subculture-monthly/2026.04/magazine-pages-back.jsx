@@ -19,17 +19,17 @@ function CrossAnalysisPage({ meta, section, headline, sub, trends, matrix, dosDo
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 0, borderTop: `2px solid ${T.ink}`, borderBottom: `1px solid ${T.hair}` }}>
           {trends.map((t, i) => (
-            <div key={t.n} style={{ padding: "16px 14px", borderRight: i < trends.length - 1 ? `1px solid ${T.hair}` : "none" }}>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.2em", color: T.red, fontWeight: 600 }}>
+            <Zoomable key={t.n} label={`Trend ${t.n} — ${t.head}`} style={{ padding: "16px 14px", borderRight: i < trends.length - 1 ? `1px solid ${T.hair}` : "none", cursor: "zoom-in" }}>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.2em", color: T.red, fontWeight: 700 }}>
                 {t.n}
               </div>
-              <div style={{ marginTop: 6, fontFamily: "'EB Garamond',serif", fontSize: 22, lineHeight: 1.1, color: T.ink, letterSpacing: "-0.01em", minHeight: 50 }}>
+              <div style={{ marginTop: 6, fontFamily: "'EB Garamond',serif", fontSize: 24, lineHeight: 1.1, color: T.ink, letterSpacing: "-0.01em", minHeight: 56 }}>
                 {t.head}
               </div>
-              <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 12.5, lineHeight: 1.55, color: T.ink, opacity: 0.82, textWrap: "pretty" }}>
+              <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 13.5, lineHeight: 1.55, color: T.ink, opacity: 0.85, textWrap: "pretty" }}>
                 {t.why}
               </div>
-            </div>
+            </Zoomable>
           ))}
         </div>
       </div>
@@ -47,8 +47,8 @@ function CrossAnalysisPage({ meta, section, headline, sub, trends, matrix, dosDo
 
       {/* Do / Don't */}
       <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28 }}>
-        <div style={{ border: `1px solid ${T.hair}`, padding: "20px 22px", background: "rgba(255,255,255,0.4)" }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.ink, fontWeight: 600 }}>● DO</div>
+        <Zoomable label="Cross-Game — DO list" style={{ border: `1px solid ${T.hair}`, padding: "20px 22px", background: "rgba(255,255,255,0.4)", cursor: "zoom-in" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", color: T.ink, fontWeight: 700 }}>● DO</div>
           <ul style={{ listStyle: "none", padding: 0, margin: "10px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 14, lineHeight: 1.55, color: T.ink, opacity: 0.88 }}>
             {dosDonts.dos.map((d, i) => (
               <li key={i} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: i < dosDonts.dos.length - 1 ? `1px solid ${T.hair}` : "none" }}>
@@ -57,9 +57,9 @@ function CrossAnalysisPage({ meta, section, headline, sub, trends, matrix, dosDo
               </li>
             ))}
           </ul>
-        </div>
-        <div style={{ border: `1px solid ${T.red}`, padding: "20px 22px", background: T.red, color: T.paper }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.paper, fontWeight: 600 }}>○ DON&apos;T</div>
+        </Zoomable>
+        <Zoomable label="Cross-Game — DON'T list" style={{ border: `1px solid ${T.red}`, padding: "20px 22px", background: T.red, color: T.paper, cursor: "zoom-in" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", color: T.paper, fontWeight: 700 }}>○ DON&apos;T</div>
           <ul style={{ listStyle: "none", padding: 0, margin: "10px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 14, lineHeight: 1.55, color: T.paper }}>
             {dosDonts.donts.map((d, i) => (
               <li key={i} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: i < dosDonts.donts.length - 1 ? "1px solid rgba(250,246,236,0.25)" : "none" }}>
@@ -68,7 +68,7 @@ function CrossAnalysisPage({ meta, section, headline, sub, trends, matrix, dosDo
               </li>
             ))}
           </ul>
-        </div>
+        </Zoomable>
       </div>
     </PageFrame>
   );
@@ -164,7 +164,7 @@ function IndustryDeskPage({ meta, section, headline, sub, studios, upcoming, reg
         </div>
         <div>
           <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
-            FIG. I.3 · Regulations Watch
+            FIG. I.3 · Issues Watch
           </div>
           <div style={{ borderTop: `2px solid ${T.ink}`, background: "rgba(255,255,255,0.4)" }}>
             {regulations.map((r, i) => (
@@ -199,7 +199,7 @@ function CommunityPulsePage({ meta, section, headline, sub, events, directorLett
       {/* Events */}
       <div style={{ position: "absolute", top: 410, left: 56, right: 56 }}>
         <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
-          FIG. C.1 · Five Events · MAY 2026
+          FIG. C.1 · Five Events · {meta.coverDate}
         </div>
         <div style={{ borderTop: `2px solid ${T.ink}` }}>
           {events.map((e, i) => (
@@ -273,24 +273,24 @@ function WatchlistPage({ meta, section, headline, sub, items }) {
         </div>
         <div style={{ borderTop: `2px solid ${T.ink}` }}>
           {items.map((it, i) => (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "60px 1fr 200px", gap: 18, padding: "20px 0 22px", borderBottom: `1px solid ${T.hair}`, alignItems: "baseline" }}>
-              <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 56, lineHeight: 1, color: T.red, fontWeight: 500, letterSpacing: "-0.02em" }}>
+            <Zoomable key={i} label={`Watchlist ${String(i + 1).padStart(2, "0")} — ${it.name}`} style={{ display: "grid", gridTemplateColumns: "60px 1fr 200px", gap: 18, padding: "20px 0 22px", borderBottom: `1px solid ${T.hair}`, alignItems: "baseline", cursor: "zoom-in" }}>
+              <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 58, lineHeight: 1, color: T.red, fontWeight: 500, letterSpacing: "-0.02em" }}>
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-                  <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 32, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>{it.name}</span>
-                  <span style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic", fontSize: 18, color: T.red }}>/ {it.game}</span>
+                  <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 34, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>{it.name}</span>
+                  <span style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic", fontSize: 19, color: T.red }}>/ {it.game}</span>
                 </div>
-                <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 15, color: T.ink, opacity: 0.85, lineHeight: 1.55, textWrap: "pretty", maxWidth: 700 }}>
+                <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 15.5, color: T.ink, opacity: 0.88, lineHeight: 1.55, textWrap: "pretty", maxWidth: 700 }}>
                   {it.why}
                 </div>
               </div>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", color: T.ink, textAlign: "right" }}>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", color: T.ink, textAlign: "right" }}>
                 <span style={{ color: T.muted }}>WHEN</span><br/>
                 <span style={{ fontWeight: 600 }}>{it.when}</span>
               </div>
-            </div>
+            </Zoomable>
           ))}
         </div>
       </div>

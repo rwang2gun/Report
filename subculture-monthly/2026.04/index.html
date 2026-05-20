@@ -142,6 +142,72 @@
       .bookmark-rail { display: none; }
       .bookmark-toggle { display: inline-block; }
     }
+
+    /* ─── Zoom modal: click any element to enlarge it at native resolution ───── */
+    .zoomable { transition: filter 0.15s, transform 0.15s; }
+    .zoomable:hover {
+      filter: brightness(1.02);
+      outline: 1px dashed rgba(196,69,54,0.55);
+      outline-offset: 2px;
+    }
+    /* While the modal is open, the book stops accepting any pointer events —
+       this prevents an accidental page-flip from kicking in behind the lightbox. */
+    body.zoom-open #book,
+    body.zoom-open .controls,
+    body.zoom-open .bookmark-rail,
+    body.zoom-open .bookmark-toggle {
+      pointer-events: none !important;
+      user-select: none;
+    }
+    .zoom-modal {
+      position: fixed; inset: 0;
+      background: rgba(20,18,14,0.88);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      display: none; z-index: 10000;
+      align-items: center; justify-content: center;
+      cursor: zoom-out;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    .zoom-modal.open { display: flex; }
+    .zoom-modal-stage {
+      background: #FCFAF3;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      transform-origin: center center;
+      position: relative;
+      overflow: visible;
+    }
+    .zoom-modal-inner {
+      /* Cloned absolute-positioned children rely on a positioned parent. */
+      position: relative;
+      width: 100%; height: 100%;
+    }
+    /* Cloned content keeps absolute positioning relative to the stage. */
+    .zoom-modal-inner > * {
+      position: relative !important;
+      inset: auto !important;
+      top: auto !important; left: auto !important;
+      right: auto !important; bottom: auto !important;
+    }
+    .zoom-modal-close {
+      position: fixed; top: 24px; right: 28px;
+      background: #FCFAF3; color: #1a1a1a;
+      border: none; padding: 10px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; letter-spacing: 0.2em;
+      text-transform: uppercase; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      z-index: 10002;
+    }
+    .zoom-modal-close:hover { background: #C44536; color: #FCFAF3; }
+    .zoom-modal-label {
+      position: fixed; top: 28px; left: 28px;
+      color: #FCFAF3;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+      opacity: 0.85; z-index: 10002;
+    }
+    .zoom-modal-label .red { color: #E27062; font-weight: 600; }
   </style>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
@@ -151,6 +217,78 @@
 </head>
 <body>
   <div id="root"></div>
+
+  <!-- Zoom modal — populated dynamically by window.openZoom -->
+  <div class="zoom-modal" id="zoom-modal" role="dialog" aria-modal="true" aria-label="확대 보기">
+    <div class="zoom-modal-label" id="zoom-modal-label"><span class="red">●</span> ZOOM</div>
+    <button class="zoom-modal-close" id="zoom-modal-close" type="button">CLOSE ✕  · ESC</button>
+    <div class="zoom-modal-stage" id="zoom-modal-stage">
+      <div class="zoom-modal-inner" id="zoom-modal-inner"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const modal = document.getElementById('zoom-modal');
+      const stage = document.getElementById('zoom-modal-stage');
+      const inner = document.getElementById('zoom-modal-inner');
+      const label = document.getElementById('zoom-modal-label');
+      const closeBtn = document.getElementById('zoom-modal-close');
+
+      function clearChildren(el) {
+        while (el.firstChild) el.removeChild(el.firstChild);
+      }
+
+      function close() {
+        modal.classList.remove('open');
+        document.body.classList.remove('zoom-open');
+        clearChildren(inner);
+      }
+
+      function setLabel(text) {
+        clearChildren(label);
+        const dot = document.createElement('span');
+        dot.className = 'red';
+        dot.textContent = '●';
+        label.appendChild(dot);
+        label.appendChild(document.createTextNode(' ZOOM · ' + (text || '')));
+      }
+
+      window.openZoom = function (sourceEl, labelText) {
+        if (!sourceEl) return;
+        // Use offset dimensions — unaffected by ancestor CSS transforms.
+        const w = sourceEl.offsetWidth || 600;
+        const h = sourceEl.offsetHeight || 400;
+        const clone = sourceEl.cloneNode(true);
+        // Strip nested zoomable handlers + cursors so the modal isn't itself zoomable.
+        clone.style.cursor = 'default';
+        clone.querySelectorAll('.zoomable').forEach((el) => {
+          el.style.cursor = 'default';
+          el.removeAttribute('data-zoom-label');
+        });
+        clearChildren(inner);
+        stage.style.width = w + 'px';
+        stage.style.height = h + 'px';
+        inner.appendChild(clone);
+        // Scale to fit viewport (max 1.6× for small components).
+        const vw = window.innerWidth - 120;
+        const vh = window.innerHeight - 120;
+        const scale = Math.min(vw / w, vh / h, 1.6);
+        stage.style.transform = 'scale(' + scale + ')';
+        setLabel(labelText || sourceEl.getAttribute('data-zoom-label') || '');
+        modal.classList.add('open');
+        document.body.classList.add('zoom-open');
+      };
+
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) close();
+      });
+      closeBtn.addEventListener('click', close);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('open')) close();
+      });
+    })();
+  </script>
 
   <!-- Data + Component layers — separated. -->
   <script type="text/babel" src="issue-2026-04.jsx"></script>
@@ -313,6 +451,13 @@
           usePortrait: false,
           autoSize: false,
           startPage: start,
+          // ─── Drag detection narrowed ───────────────────────────────────
+          // Don't flip on a plain click — only on a deliberate drag from the corner.
+          disableFlipByClick: true,
+          // Require a longer swipe before the page lifts (default ~30).
+          swipeDistance: 80,
+          // Let clicks pass through to Zoomable children instead of being swallowed.
+          clickEventForward: true,
         });
         flip.loadFromHTML(bookRef.current.querySelectorAll('.page'));
         flip.on('flip', (e) => setPage(e.data));

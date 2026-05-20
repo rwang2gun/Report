@@ -385,9 +385,128 @@ function SectionTitle({ section, headline, sub, accent = TONE_A.red, ink = TONE_
   );
 }
 
+// ─── Zoomable — wrap any block so users can click to enlarge it ────────────
+// Also stops mousedown/touchstart from bubbling so the underlying PageFlip
+// never initiates a page-drag while the user is reaching for the zoom target.
+function Zoomable({ label = "", children, style = {}, className = "" }) {
+  const stop = (e) => e.stopPropagation();
+  const handleClick = (e) => {
+    if (typeof window === "undefined" || !window.openZoom) return;
+    e.stopPropagation();
+    window.openZoom(e.currentTarget, label);
+  };
+  return (
+    <div
+      className={`zoomable ${className}`}
+      data-zoom-label={label}
+      onMouseDown={stop}
+      onTouchStart={stop}
+      onClick={handleClick}
+      style={{ cursor: "zoom-in", ...style }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ─── MiniRevTrend — small 3-month bar chart for character body pages ───────
+// Cleaner: no Y-axis ticks, value above each bar in $93M form, MoM badge
+// floated top-right with its own label, month axis below. No more collisions.
+function MiniRevTrend({
+  width = 460,
+  height = 170,
+  ink = TONE_A.ink,
+  accent = TONE_A.red,
+  hair = TONE_A.hair,
+  paper = TONE_A.paper,
+  months = ["FEB", "MAR", "APR"],
+  values = [0, 0, 0],
+  highlight = 2,
+  unit = "$M",
+}) {
+  // Split unit like "$M" → prefix "$" + suffix "M" so we render "$93M" instead of "$M93".
+  const sym = /[$₩€¥£]/.test(unit && unit[0]) ? unit[0] : "$";
+  const suf = unit && unit.length > 1 ? unit.slice(1) : "M";
+
+  const pad = { l: 14, r: 14, t: 48, b: 36 };
+  const W = width - pad.l - pad.r;
+  const H = height - pad.t - pad.b;
+  const max = Math.ceil(Math.max(...values, 10) / 10) * 10;
+  const x = (i) => pad.l + (W * (i + 0.5)) / months.length;
+  const y = (v) => pad.t + H - (v / max) * H;
+  const barW = (W / months.length) * 0.5;
+
+  const prev = values[values.length - 2] || 0;
+  const curr = values[values.length - 1] || 0;
+  const mom = prev > 0 ? Math.round(((curr - prev) / prev) * 100) : 0;
+
+  return (
+    <svg width={width} height={height} style={{ display: "block" }}>
+      {/* baseline */}
+      <line x1={pad.l} x2={pad.l + W} y1={y(0)} y2={y(0)} stroke={ink} strokeWidth="1" opacity="0.35" />
+
+      {/* MoM badge — anchored top-right, two-line so it never collides with bar labels */}
+      <g transform={`translate(${width - pad.r}, 14)`}>
+        <text textAnchor="end" fontFamily="'JetBrains Mono',monospace" fontSize="10"
+              letterSpacing="1.6" fill={ink} opacity="0.55">
+          MOM
+        </text>
+        <text x="0" y="18" textAnchor="end" fontFamily="'JetBrains Mono',monospace"
+              fontSize="17" fontWeight="700" fill={mom >= 0 ? accent : ink}>
+          {`${mom >= 0 ? "+" : ""}${mom}%`}
+        </text>
+      </g>
+
+      {/* bars + value labels + month labels */}
+      {values.map((v, i) => {
+        const isHi = i === highlight;
+        const cx = x(i);
+        const valLabel = `${sym}${v}${suf}`;
+        return (
+          <g key={i}>
+            <rect
+              x={cx - barW / 2}
+              y={y(v)}
+              width={barW}
+              height={y(0) - y(v)}
+              fill={isHi ? accent : "rgba(0,0,0,0.2)"}
+            />
+            <text
+              x={cx}
+              y={y(v) - 10}
+              textAnchor="middle"
+              fontFamily="'JetBrains Mono',monospace"
+              fontSize={isHi ? 15 : 13}
+              fontWeight={isHi ? 700 : 500}
+              fill={isHi ? accent : ink}
+              opacity={isHi ? 1 : 0.72}
+            >
+              {valLabel}
+            </text>
+            <text
+              x={cx}
+              y={pad.t + H + 22}
+              textAnchor="middle"
+              fontFamily="'JetBrains Mono',monospace"
+              fontSize="12"
+              letterSpacing="1.8"
+              fontWeight={isHi ? 700 : 400}
+              fill={ink}
+              opacity={isHi ? 1 : 0.6}
+            >
+              {months[i]}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
 Object.assign(window, {
   TONE_A,
   PageFrame, SplashSlot,
   RevLineChart, GenderDonut, Heatmap, PickupTimeline,
+  MiniRevTrend, Zoomable,
   FolioHeader, SectionTitle,
 });
