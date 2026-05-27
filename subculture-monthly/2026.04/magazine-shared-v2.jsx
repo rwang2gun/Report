@@ -385,23 +385,68 @@ function SectionTitle({ section, headline, sub, accent = TONE_A.red, ink = TONE_
   );
 }
 
-// ─── Zoomable — wrap any block so users can click to enlarge it ────────────
-// Also stops mousedown/touchstart from bubbling so the underlying PageFlip
-// never initiates a page-drag while the user is reaching for the zoom target.
+// ─── Zoomable — wrap any block so users can tap/click to enlarge it ───────
+// Touch on iPad: page-flip's native touchstart listener on the book element
+// runs during bubble before any React handler attached at the React root, so
+// React's onTouchStart/onClick can't actually block page-flip from
+// preventDefault-ing the touch (which suppresses the synthesized click).
+// To beat that timing we attach native listeners directly to this element via
+// a ref — they fire first during bubble and we trigger the zoom from touchend
+// when the gesture is a tap (small total movement).
 function Zoomable({ label = "", children, style = {}, className = "" }) {
-  const stop = (e) => e.stopPropagation();
-  const handleClick = (e) => {
-    if (typeof window === "undefined" || !window.openZoom) return;
-    e.stopPropagation();
-    window.openZoom(e.currentTarget, label);
-  };
+  const ref = React.useRef(null);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let tap = null;
+    const fire = (target) => {
+      if (typeof window === "undefined" || !window.openZoom) return;
+      window.openZoom(target, label);
+    };
+    const onTouchStart = (e) => {
+      e.stopPropagation();
+      const t = e.touches && e.touches[0];
+      tap = t ? { x: t.clientX, y: t.clientY, ok: true } : null;
+    };
+    const onTouchMove = (e) => {
+      if (!tap || !tap.ok) return;
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      if (Math.hypot(t.clientX - tap.x, t.clientY - tap.y) > 12) tap.ok = false;
+    };
+    const onTouchEnd = (e) => {
+      if (tap && tap.ok) {
+        e.stopPropagation();
+        e.preventDefault();
+        fire(el);
+      }
+      tap = null;
+    };
+    const onMouseDown = (e) => e.stopPropagation();
+    const onClick = (e) => {
+      e.stopPropagation();
+      fire(el);
+    };
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove",  onTouchMove,  { passive: true });
+    el.addEventListener("touchend",   onTouchEnd);
+    el.addEventListener("mousedown",  onMouseDown);
+    el.addEventListener("click",      onClick);
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove",  onTouchMove);
+      el.removeEventListener("touchend",   onTouchEnd);
+      el.removeEventListener("mousedown",  onMouseDown);
+      el.removeEventListener("click",      onClick);
+    };
+  }, [label]);
+
   return (
     <div
+      ref={ref}
       className={`zoomable ${className}`}
       data-zoom-label={label}
-      onMouseDown={stop}
-      onTouchStart={stop}
-      onClick={handleClick}
       style={{ cursor: "zoom-in", ...style }}
     >
       {children}
