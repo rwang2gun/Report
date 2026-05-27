@@ -17,49 +17,13 @@
     .reader {
       min-height: 100vh;
       display: flex; flex-direction: column;
-      padding: 28px 40px 40px;
+      padding: 12px 16px 16px;
       box-sizing: border-box;
-      transition: padding 0.25s ease;
     }
-    /* Immersive mode: triggered when reader flips past the front cover */
-    .reader.immersive { padding: 8px 12px 12px; }
-    .reader.immersive .reader-head { display: none; }
-    .reader.immersive .book-area { gap: 10px; }
-
-    /* Floating exit-immersive button (top-right) */
-    .exit-immersive {
-      position: fixed; top: 14px; right: 18px;
-      z-index: 200;
-      background: rgba(26,26,26,0.86); color: #FCFAF3;
-      border: none; padding: 8px 14px;
-      font-family: 'JetBrains Mono', monospace; font-size: 11px;
-      letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer;
-      box-shadow: 0 6px 20px -8px rgba(0,0,0,0.4);
-      transition: background 0.15s;
-    }
-    .exit-immersive:hover { background: #C44536; }
-    /* Nudge the bookmark rail up when the header chrome is hidden */
-    .reader.immersive .bookmark-rail { top: 56px; }
-
-    .reader-head {
-      display: flex; align-items: baseline; justify-content: space-between;
-      padding-bottom: 14px; border-bottom: 1px solid rgba(26,26,26,0.2);
-      margin-bottom: 28px;
-    }
-    .reader-head .title {
-      font-family: 'EB Garamond', serif; font-size: 24px; font-weight: 500;
-      letter-spacing: -0.01em; color: #1a1a1a;
-    }
-    .reader-head .title em { font-style: italic; color: #1a1a1a; }
-    .reader-head .meta {
-      font-family: 'JetBrains Mono', monospace; font-size: 11px;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: rgba(26,26,26,0.7); text-align: right;
-    }
-    .reader-head .meta .accent { color: #C44536; font-weight: 600; }
 
     .book-area {
-      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 22px;
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 12px;
     }
 
     /* Each .page is a flippable leaf. */
@@ -122,11 +86,14 @@
     .bookmark-rail .rail-page { font-weight: 500; opacity: 0.6; }
 
     /* ─── Mobile toggle + fullscreen modal ────────────────────────────── */
+    /* Mobile-only floating index button (header is removed, so float top-right) */
     .bookmark-toggle {
-      background: #1a1a1a; color: #FCFAF3;
-      border: none; padding: 8px 12px; cursor: pointer;
+      position: fixed; top: 14px; right: 18px; z-index: 150;
+      background: rgba(26,26,26,0.86); color: #FCFAF3;
+      border: none; padding: 8px 14px; cursor: pointer;
       font-family: 'JetBrains Mono', monospace; font-size: 11px;
       letter-spacing: 0.18em; text-transform: uppercase;
+      box-shadow: 0 6px 20px -8px rgba(0,0,0,0.4);
       display: none;
     }
     .bookmark-toggle:hover { background: #C44536; }
@@ -321,15 +288,15 @@
     const PAGE_H = 1600;
     const PAGE_RATIO = PAGE_H / PAGE_W;
 
-    function computeBookSize(immersive) {
+    function computeBookSize() {
       const vw = window.innerWidth  || 1280;
       const vh = window.innerHeight || 800;
       const railVisible = vw > 1340;
-      const sidePad = immersive ? 24 : 80;
+      const sidePad = 24;
       const railReserve = railVisible ? 260 : 40;
       const horizBudget = vw - sidePad - railReserve;
       const wFromWidth  = Math.floor(horizBudget / 2);
-      const vertChrome = immersive ? 80 : 220;
+      const vertChrome = 80;
       const hFromHeight = vh - vertChrome;
       const wFromHeight = Math.floor(hFromHeight / PAGE_RATIO);
       const w = Math.max(420, Math.min(900, wFromWidth, wFromHeight));
@@ -444,24 +411,16 @@
       );
     }
 
-    function FlipBook({ mobileOpen, setMobileOpen, immersive, setImmersive }) {
+    function FlipBook({ mobileOpen, setMobileOpen }) {
       const D = ISSUE_2026_04;
       const pages = buildBookPages(D);
       const bookRef = React.useRef(null);
       const flipRef = React.useRef(null);
       const [page, setPage] = React.useState(0);
       const [total, setTotal] = React.useState(pages.length);
-      const [bookSize, setBookSize] = React.useState(() => computeBookSize(false));
+      const [bookSize, setBookSize] = React.useState(computeBookSize);
       const pageRef = React.useRef(0);
       pageRef.current = page;
-
-      // Recompute book size whenever immersive mode toggles
-      React.useEffect(() => {
-        setBookSize(prev => {
-          const next = computeBookSize(immersive);
-          return (prev.w === next.w && prev.h === next.h) ? prev : next;
-        });
-      }, [immersive]);
 
       React.useEffect(() => {
         if (!bookRef.current) return;
@@ -488,10 +447,7 @@
           clickEventForward: true,
         });
         flip.loadFromHTML(bookRef.current.querySelectorAll('.page'));
-        flip.on('flip', (e) => {
-          setPage(e.data);
-          if (setImmersive) setImmersive(e.data > 0);
-        });
+        flip.on('flip', (e) => setPage(e.data));
         setTotal(flip.getPageCount());
         flipRef.current = flip;
         return () => { try { flip.destroy(); } catch (e) {} };
@@ -502,13 +458,13 @@
         const onResize = () => {
           clearTimeout(t);
           t = setTimeout(() => {
-            const next = computeBookSize(immersive);
+            const next = computeBookSize();
             setBookSize(prev => (prev.w === next.w && prev.h === next.h) ? prev : next);
           }, 180);
         };
         window.addEventListener('resize', onResize);
         return () => { clearTimeout(t); window.removeEventListener('resize', onResize); };
-      }, [immersive]);
+      }, []);
 
       React.useEffect(() => {
         const onKey = (e) => {
@@ -517,10 +473,7 @@
           if (e.key === 'ArrowLeft')       { flipRef.current.flipPrev(); }
           else if (e.key === 'ArrowRight') { flipRef.current.flipNext(); }
           else if (e.key === 't' || e.key === 'T') { setMobileOpen(o => !o); }
-          else if (e.key === 'Escape')     {
-            if (mobileOpen) { setMobileOpen(false); }
-            else if (immersive && flipRef.current) { flipRef.current.turnToPage(0); }
-          }
+          else if (e.key === 'Escape')     { setMobileOpen(false); }
           else if (/^[0-9]$/.test(e.key)) {
             const target = SECTIONS.find(s => s.key === e.key);
             if (target) flipRef.current.turnToPage(target.page);
@@ -528,7 +481,7 @@
         };
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
-      }, [setMobileOpen, mobileOpen, immersive]);
+      }, [setMobileOpen]);
 
       return (
         <React.Fragment>
@@ -544,39 +497,16 @@
             </div>
           </div>
           <BookmarkRail flipRef={flipRef} currentPage={page} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
-          {immersive && (
-            <button
-              className="exit-immersive"
-              onClick={() => flipRef.current && flipRef.current.turnToPage(0)}
-              title="표지로 돌아가기 (Esc)"
-            >
-              ✕ EXIT
-            </button>
-          )}
         </React.Fragment>
       );
     }
 
     function App() {
-      const D = ISSUE_2026_04;
       const [mobileOpen, setMobileOpen] = React.useState(false);
-      const [immersive, setImmersive] = React.useState(false);
       return (
-        <div className={"reader" + (immersive ? " immersive" : "")}>
-          <header className="reader-head">
-            <div>
-              <div className="title">{D.meta.title} · <em>{D.meta.issue}</em></div>
-            </div>
-            <div style={{display:"flex", alignItems:"baseline", gap: 14}}>
-              <div className="meta">
-                <span className="accent">{D.meta.coverDate}</span>
-                <span style={{marginLeft: 12, opacity: 0.6}}>{D.meta.tagline}</span>
-              </div>
-              <button className="bookmark-toggle" onClick={() => setMobileOpen(true)}>≡ INDEX</button>
-            </div>
-          </header>
-          <FlipBook mobileOpen={mobileOpen} setMobileOpen={setMobileOpen}
-                    immersive={immersive} setImmersive={setImmersive} />
+        <div className="reader">
+          <FlipBook mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+          <button className="bookmark-toggle" onClick={() => setMobileOpen(true)}>≡ INDEX</button>
         </div>
       );
     }
