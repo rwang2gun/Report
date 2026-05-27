@@ -1,4 +1,4 @@
-// Page-type components — front half (P.00 ─ P.14)
+// Page-type components — front half (P.00 ─ P.02, plus 6 game features P.05 ─ P.16)
 // All props-driven. Same component renders any month's data.
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -92,15 +92,15 @@ function TocPage({ meta, games, sections }) {
     { p: "P.00", ko: "표지 · 이번 호의 인사이트 3트랙",       en: "Cover · 3 Design Insight Tracks" },
     { p: "P.01", ko: "목차",                                   en: "Contents" },
     { p: "P.02", ko: "데이터 데스크 · 4월의 시장 검증",         en: "Data Desk · This Month in Numbers" },
+    { p: "P.03", ko: "교차 분석 · 다섯 트렌드, 여섯 작품",     en: "Cross-Game Analysis" },
+    { p: "P.04", ko: "산업 데스크 · 스튜디오·라인업·규제",     en: "Industry Desk" },
   ];
   const features = games.map((g, i) => {
-    const left = String(3 + i * 2).padStart(2, "0");
-    const right = String(4 + i * 2).padStart(2, "0");
+    const left = String(5 + i * 2).padStart(2, "0");
+    const right = String(6 + i * 2).padStart(2, "0");
     return { p: `P.${left}–${right}`, ko: `피처 ${String(i + 1).padStart(2, "0")} · ${g.ko}`, en: `Feature ${String(i + 1).padStart(2, "0")} · ${g.en}`, char: g.character.ko };
   });
   const post = [
-    { p: "P.15", ko: "교차 분석 · 다섯 트렌드, 여섯 작품",     en: "Cross-Game Analysis" },
-    { p: "P.16", ko: "산업 데스크 · 스튜디오·라인업·규제",     en: "Industry Desk" },
     { p: "P.17", ko: "커뮤니티 펄스 · 팬, 디렉터, 그 사이",    en: "Community Pulse" },
     { p: "P.18", ko: "워치리스트 · 다음 한 달의 다섯 슬롯",    en: "Watchlist · JUN 2026" },
     { p: "P.19", ko: "콜로폰 · 출처, 방법, 한계",              en: "Colophon" },
@@ -125,9 +125,9 @@ function TocPage({ meta, games, sections }) {
 
       {/* TOC body — flex column with explicit gaps so blocks can never overlap */}
       <div style={{ position: "absolute", top: 410, left: 56, right: 56, bottom: 140, display: "flex", flexDirection: "column", gap: 30 }}>
-        <TocBlock title="OPEN" subtitle="00 ─ 02" items={pre} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
-        <TocBlock title="FEATURES · 6 GAMES, 12 PAGES" subtitle="03 ─ 14" items={features} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} showChar />
-        <TocBlock title="CLOSE" subtitle="15 ─ 19" items={post} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
+        <TocBlock title="OPEN" subtitle="00 ─ 04" items={pre} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
+        <TocBlock title="FEATURES · 6 GAMES, 12 PAGES" subtitle="05 ─ 16" items={features} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} showChar />
+        <TocBlock title="CLOSE" subtitle="17 ─ 19" items={post} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
       </div>
 
       {/* Footer note */}
@@ -266,7 +266,7 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// <GameFeatureVisualPage game={...} index={n} total={6} pageNo="P.03" />
+// <GameFeatureVisualPage game={...} index={n} total={6} pageNo="P.05" />
 // Left page of a 2-page spread. Visual-first.
 // ═══════════════════════════════════════════════════════════════════════════
 function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
@@ -408,7 +408,7 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// <GameFeatureBodyPage game={...} index={n} total={6} pageNo="P.04" />
+// <GameFeatureBodyPage game={...} index={n} total={6} pageNo="P.06" />
 // Right page of a 2-page spread. Body, timeline, fields, patch, quote.
 // ═══════════════════════════════════════════════════════════════════════════
 function GameFeatureBodyPage({ game, index, total, pageNo, prevPageNo, issue }) {
