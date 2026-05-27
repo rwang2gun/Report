@@ -71,12 +71,11 @@
       z-index: 5;
     }
     .page-tab {
-      display: flex; flex-direction: column;
       background: #F2EAD3;
       border: 1px solid rgba(26,26,26,0.15);
       border-left: 1px solid rgba(26,26,26,0.22);
       border-radius: 0 4px 4px 0;
-      padding: 4px 10px 4px 8px;
+      padding: 6px 10px 6px 8px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 9px;
       letter-spacing: 0.1em;
@@ -88,6 +87,8 @@
       box-shadow: 3px 1px 5px -2px rgba(0,0,0,0.22);
       transition: background 0.15s, color 0.15s, transform 0.15s;
       min-width: 56px;
+      font-weight: 600;
+      line-height: 1.2;
     }
     .page-tab:hover {
       background: #FCFAF3; color: #1a1a1a;
@@ -98,9 +99,6 @@
       border-color: #C44536;
       transform: translateX(2px);
     }
-    .page-tab .tab-label { font-weight: 600; line-height: 1.2; }
-    .page-tab .tab-page { font-size: 8px; opacity: 0.65; line-height: 1.3; margin-top: 1px; }
-    .page-tab.active .tab-page { opacity: 0.9; }
 
     /* Hide tabs on very narrow viewports where they'd overflow the book */
     @media (max-width: 640px) { .page-tabs { display: none; } }
@@ -378,8 +376,7 @@
                     type="button"
                     className={'page-tab' + (s.id === active ? ' active' : '')}
                     onClick={() => flipRef.current && flipRef.current.turnToPage(s.page)}>
-              <span className="tab-label">{s.label}{s.key ? ' · ' + s.key : ''}</span>
-              <span className="tab-page">P.{String(s.page).padStart(2,'0')}</span>
+              {s.label}
             </button>
           ))}
         </div>
