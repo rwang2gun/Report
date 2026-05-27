@@ -59,76 +59,51 @@
     }
     .controls .hint { margin-left: 12px; opacity: 0.55; }
 
-    /* ─── Bookmark rail (right, desktop fixed) ────────────────────────── */
-    .bookmark-rail {
-      position: fixed; top: 100px; right: 24px;
-      width: 220px; padding: 14px 18px;
-      background: #FCFAF3; border-left: 2px solid #1a1a1a;
-      font-family: 'JetBrains Mono', monospace; font-size: 10px;
-      letter-spacing: 0.16em; text-transform: uppercase;
-      box-shadow: 0 8px 24px -16px rgba(0,0,0,0.3);
-      z-index: 100;
-      max-height: calc(100vh - 140px); overflow-y: auto;
+    /* ─── Page bookmark tabs (attached to the book's right edge) ───────── */
+    .book-stage { position: relative; }
+    .page-tabs {
+      position: absolute;
+      left: 100%; top: 0; height: 100%;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      pointer-events: auto;
+      z-index: 5;
     }
-    .bookmark-rail .rail-head {
-      font-size: 9px; color: #C44536; font-weight: 600;
-      padding-bottom: 8px; border-bottom: 1px solid rgba(26,26,26,0.18); margin-bottom: 10px;
+    .page-tab {
+      display: flex; flex-direction: column;
+      background: #F2EAD3;
+      border: 1px solid rgba(26,26,26,0.15);
+      border-left: 1px solid rgba(26,26,26,0.22);
+      border-radius: 0 4px 4px 0;
+      padding: 4px 10px 4px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(26,26,26,0.7);
+      cursor: pointer;
+      white-space: nowrap;
+      text-align: left;
+      box-shadow: 3px 1px 5px -2px rgba(0,0,0,0.22);
+      transition: background 0.15s, color 0.15s, transform 0.15s;
+      min-width: 56px;
     }
-    .bookmark-rail .rail-item {
-      display: flex; justify-content: space-between; align-items: baseline;
-      padding: 7px 0; cursor: pointer; color: rgba(26,26,26,0.7);
-      border-bottom: 1px solid rgba(26,26,26,0.06);
-      transition: color 0.15s, background 0.15s;
+    .page-tab:hover {
+      background: #FCFAF3; color: #1a1a1a;
+      transform: translateX(3px);
     }
-    .bookmark-rail .rail-item:last-child { border-bottom: none; }
-    .bookmark-rail .rail-item:hover { color: #C44536; background: rgba(196,69,54,0.04); }
-    .bookmark-rail .rail-item.active { color: #1a1a1a; font-weight: 600; }
-    .bookmark-rail .rail-item.active .rail-page { color: #C44536; }
-    .bookmark-rail .rail-page { font-weight: 500; opacity: 0.6; }
+    .page-tab.active {
+      background: #C44536; color: #FCFAF3;
+      border-color: #C44536;
+      transform: translateX(2px);
+    }
+    .page-tab .tab-label { font-weight: 600; line-height: 1.2; }
+    .page-tab .tab-page { font-size: 8px; opacity: 0.65; line-height: 1.3; margin-top: 1px; }
+    .page-tab.active .tab-page { opacity: 0.9; }
 
-    /* ─── Mobile toggle + fullscreen modal ────────────────────────────── */
-    /* Sits inline with the .controls bar; hidden on desktop where the rail shows */
-    .bookmark-toggle {
-      background: #1a1a1a; color: #FCFAF3;
-      border: none; padding: 8px 14px; cursor: pointer;
-      font-family: 'JetBrains Mono', monospace; font-size: 11px;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      transition: background 0.15s;
-      display: none;
-    }
-    .bookmark-toggle:hover { background: #C44536; }
-    .bookmark-modal {
-      position: fixed; inset: 0; background: rgba(26,26,26,0.96);
-      z-index: 9999; display: none; flex-direction: column;
-      padding: 40px 24px; color: #FCFAF3; overflow-y: auto;
-    }
-    .bookmark-modal.open { display: flex; }
-    .bookmark-modal .modal-head {
-      display: flex; justify-content: space-between; align-items: baseline;
-      padding-bottom: 12px; border-bottom: 1px solid rgba(252,250,243,0.3);
-      margin-bottom: 24px;
-      font-family: 'EB Garamond', serif; font-size: 24px;
-    }
-    .bookmark-modal .modal-close {
-      background: none; border: none; color: #FCFAF3;
-      font-family: 'JetBrains Mono', monospace; font-size: 11px;
-      letter-spacing: 0.18em; cursor: pointer; padding: 6px 12px;
-    }
-    .bookmark-modal .modal-item {
-      display: flex; justify-content: space-between; padding: 14px 0;
-      border-bottom: 1px solid rgba(252,250,243,0.15);
-      font-family: 'JetBrains Mono', monospace; font-size: 13px;
-      letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
-      color: rgba(252,250,243,0.78);
-    }
-    .bookmark-modal .modal-item:hover { color: #FCFAF3; }
-    .bookmark-modal .modal-item.active { color: #FCFAF3; font-weight: 600; }
-    .bookmark-modal .modal-item.active .rail-page { color: #C44536; }
-
-    @media (max-width: 1340px) {
-      .bookmark-rail { display: none; }
-      .bookmark-toggle { display: inline-block; }
-    }
+    /* Hide tabs on very narrow viewports where they'd overflow the book */
+    @media (max-width: 640px) { .page-tabs { display: none; } }
 
     /* ─── Zoom modal: click any element to enlarge it at native resolution ───── */
     .zoomable { transition: filter 0.15s, transform 0.15s; }
@@ -141,8 +116,7 @@
        this prevents an accidental page-flip from kicking in behind the lightbox. */
     body.zoom-open #book,
     body.zoom-open .controls,
-    body.zoom-open .bookmark-rail,
-    body.zoom-open .bookmark-toggle {
+    body.zoom-open .page-tabs {
       pointer-events: none !important;
       user-select: none;
     }
@@ -296,14 +270,19 @@
       return (window.innerWidth || 1280) < SPREAD_MIN_VW;
     }
 
+    // Approx width reserved on the right side of the book for the .page-tabs
+    // bookmark column (label + page number + transform/shadow breathing room).
+    const TABS_RESERVE = 96;
+
     function computeBookSize() {
       const vw = window.innerWidth  || 1280;
       const vh = window.innerHeight || 800;
       const portrait = vw < SPREAD_MIN_VW;
-      const railVisible = !portrait && vw > 1340;
       const sidePad = portrait ? 16 : 24;
-      const railReserve = railVisible ? 260 : 40;
-      const horizBudget = vw - sidePad - railReserve;
+      // The book is centered, and tabs stick out on the right side. To keep
+      // tabs inside the viewport we have to reserve the same amount of room
+      // on the opposite side (left), since centering mirrors the constraint.
+      const horizBudget = vw - 2 * sidePad - 2 * TABS_RESERVE;
       // Portrait shows one page; landscape shows two side-by-side.
       const wFromWidth  = portrait ? horizBudget : Math.floor(horizBudget / 2);
       // Leaves room for the .controls bar (~40px) + gap + reader padding +
@@ -390,41 +369,24 @@
       return pages;
     }
 
-    function BookmarkRail({ flipRef, currentPage, mobileOpen, setMobileOpen }) {
+    function PageTabs({ flipRef, currentPage }) {
       const active = sectionForPage(currentPage).id;
-      const jump = (p) => { flipRef.current && flipRef.current.turnToPage(p); setMobileOpen(false); };
       return (
-        <React.Fragment>
-          <nav className="bookmark-rail" aria-label="섹션 점프">
-            <div className="rail-head">CONTENTS · {SECTIONS.length} SECTIONS</div>
-            {SECTIONS.map(s => (
-              <div key={s.id}
-                   className={'rail-item' + (s.id === active ? ' active' : '')}
-                   onClick={() => jump(s.page)}>
-                <span>{s.label}{s.key ? ' · ' + s.key : ''}</span>
-                <span className="rail-page">P.{String(s.page).padStart(2,'0')}</span>
-              </div>
-            ))}
-          </nav>
-          <div className={'bookmark-modal' + (mobileOpen ? ' open' : '')} role="dialog" aria-modal="true">
-            <div className="modal-head">
-              <span>Contents</span>
-              <button className="modal-close" onClick={() => setMobileOpen(false)}>CLOSE ✕</button>
-            </div>
-            {SECTIONS.map(s => (
-              <div key={s.id}
-                   className={'modal-item' + (s.id === active ? ' active' : '')}
-                   onClick={() => jump(s.page)}>
-                <span>{s.label}{s.key ? ' (단축키 ' + s.key + ')' : ''}</span>
-                <span className="rail-page">P.{String(s.page).padStart(2,'0')}</span>
-              </div>
-            ))}
-          </div>
-        </React.Fragment>
+        <div className="page-tabs" aria-label="섹션 북마크">
+          {SECTIONS.map(s => (
+            <button key={s.id}
+                    type="button"
+                    className={'page-tab' + (s.id === active ? ' active' : '')}
+                    onClick={() => flipRef.current && flipRef.current.turnToPage(s.page)}>
+              <span className="tab-label">{s.label}{s.key ? ' · ' + s.key : ''}</span>
+              <span className="tab-page">P.{String(s.page).padStart(2,'0')}</span>
+            </button>
+          ))}
+        </div>
       );
     }
 
-    function FlipBook({ mobileOpen, setMobileOpen }) {
+    function FlipBook() {
       const D = ISSUE_2026_04;
       const pages = buildBookPages(D);
       const bookRef = React.useRef(null);
@@ -485,8 +447,6 @@
           if (!flipRef.current) return;
           if (e.key === 'ArrowLeft')       { flipRef.current.flipPrev(); }
           else if (e.key === 'ArrowRight') { flipRef.current.flipNext(); }
-          else if (e.key === 't' || e.key === 'T') { setMobileOpen(o => !o); }
-          else if (e.key === 'Escape')     { setMobileOpen(false); }
           else if (/^[0-9]$/.test(e.key)) {
             const target = SECTIONS.find(s => s.key === e.key);
             if (target) flipRef.current.turnToPage(target.page);
@@ -494,35 +454,33 @@
         };
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
-      }, [setMobileOpen]);
+      }, []);
 
       // Portrait shows one page at a time; landscape renders a spread (2× width).
       const bookEl_w = bookSize.portrait ? bookSize.w : bookSize.w * 2;
 
       return (
-        <React.Fragment>
-          <div className="book-area">
+        <div className="book-area">
+          <div className="book-stage" style={{ width: bookEl_w, height: bookSize.h }}>
             <div id="book" ref={bookRef} style={{ width: bookEl_w, height: bookSize.h }}>
               {pages.map(p => <BookPage key={p.key} stiff={p.stiff} bookW={bookSize.w}>{p.el}</BookPage>)}
             </div>
-            <div className="controls">
-              <button onClick={() => flipRef.current && flipRef.current.flipPrev()}>← PREV</button>
-              <span className="pageno">{String(page).padStart(2, "0")} / {String(total - 1).padStart(2, "0")}</span>
-              <button onClick={() => flipRef.current && flipRef.current.flipNext()}>NEXT →</button>
-              <button className="bookmark-toggle" onClick={() => setMobileOpen(true)}>≡ INDEX</button>
-              <span className="hint">← → · T · 0–9 단축키 · 모서리를 끌어 넘기기</span>
-            </div>
+            <PageTabs flipRef={flipRef} currentPage={page} />
           </div>
-          <BookmarkRail flipRef={flipRef} currentPage={page} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
-        </React.Fragment>
+          <div className="controls">
+            <button onClick={() => flipRef.current && flipRef.current.flipPrev()}>← PREV</button>
+            <span className="pageno">{String(page).padStart(2, "0")} / {String(total - 1).padStart(2, "0")}</span>
+            <button onClick={() => flipRef.current && flipRef.current.flipNext()}>NEXT →</button>
+            <span className="hint">← → · 0–9 단축키 · 모서리를 끌어 넘기기</span>
+          </div>
+        </div>
       );
     }
 
     function App() {
-      const [mobileOpen, setMobileOpen] = React.useState(false);
       return (
         <div className="reader">
-          <FlipBook mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+          <FlipBook />
         </div>
       );
     }
