@@ -31,7 +31,7 @@ function CoverPage({ meta, insights }) {
 
       {/* Splash slot (left) */}
       <div style={{ position: "absolute", left: 56, top: 460, width: 540, height: 760 }}>
-        <SplashSlot bg="#F2EDDD" stripe="rgba(26,26,26,0.07)" ink={T.ink} caption="COVER ILLUSTRATION" sub="540 × 760 · drop edition art" angle={-22} />
+        <SplashSlot bg="#EFEFEB" stripe="rgba(26,26,26,0.07)" ink={T.ink} caption="COVER ILLUSTRATION" sub="540 × 760 · drop edition art" angle={-22} />
         <div style={{ position: "absolute", left: 0, right: 0, bottom: 28, background: T.red, color: T.paper, padding: "10px 18px", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
           {meta.coverArt.caption}
         </div>
@@ -211,7 +211,7 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
             {lineChart.source}
           </div>
         </div>
-        <div style={{ background: "#F6F1E0", padding: "6px 20px 0", borderTop: `2px solid ${T.ink}`, borderBottom: `1px solid ${T.hair}` }}>
+        <div style={{ background: "#F0F0EB", padding: "6px 20px 0", borderTop: `2px solid ${T.ink}`, borderBottom: `1px solid ${T.hair}` }}>
           <RevLineChart
             width={1120} height={380}
             ink={T.ink} grid={T.hair} accent={T.red}
@@ -272,7 +272,7 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
 function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
   const T = TONE_A;
   const C = game.character;
-  const pc = game.pageColor || { splash: "#E5DDC9", stripe: "rgba(0,0,0,0.06)", angle: -14 };
+  const pc = game.pageColor || { splash: "#DFDFD9", stripe: "rgba(0,0,0,0.06)", angle: -14 };
   // Title splits — first word stays roman, rest goes italic on a new line.
   const titleWords = game.en.split(":")[0].split(" ");
   const firstWord = titleWords[0];
@@ -555,7 +555,7 @@ function GameFeatureBodyPage({ game, index, total, pageNo, prevPageNo, issue }) 
 
 function HardFrontCover({ meta }) {
   return (
-    <PageFrame bg="#F2EAD3" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
+    <PageFrame bg="#ECECE8" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
       style={{ boxShadow: "inset 0 0 80px rgba(26,26,26,0.06)" }}>
       {/* Top edge band */}
       <div style={{ position: "absolute", top: 64, left: 96, right: 96,
@@ -607,7 +607,7 @@ function HardFrontCover({ meta }) {
 
 function EndpaperFront() {
   return (
-    <PageFrame bg="#F4EDD9" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
+    <PageFrame bg="#EFEFEA" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
       {/* Very subtle hatched pattern */}
       <svg style={{ position: "absolute", inset: 0, opacity: 0.06 }} width="100%" height="100%">
         <defs>
@@ -632,7 +632,7 @@ function EndpaperFront() {
 
 function EndpaperBack() {
   return (
-    <PageFrame bg="#F4EDD9" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
+    <PageFrame bg="#EFEFEA" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
       <svg style={{ position: "absolute", inset: 0, opacity: 0.06 }} width="100%" height="100%">
         <defs>
           <pattern id="endpaper-hatch-back" patternUnits="userSpaceOnUse" width="20" height="20" patternTransform="rotate(-45)">
@@ -654,7 +654,7 @@ function EndpaperBack() {
 
 function HardBackCover({ meta }) {
   return (
-    <PageFrame bg="#F2EAD3" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
+    <PageFrame bg="#ECECE8" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
       style={{ boxShadow: "inset 0 0 80px rgba(26,26,26,0.06)" }}>
       {/* Top */}
       <div style={{ position: "absolute", top: 64, left: 96, right: 96,

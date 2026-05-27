@@ -11,7 +11,7 @@
     rel="stylesheet"
   />
   <style>
-    html, body { margin: 0; padding: 0; background: #ECE5CC; color: #1a1a1a;
+    html, body { margin: 0; padding: 0; background: #EAEAE6; color: #1a1a1a;
                  font-family: 'Inter', system-ui, sans-serif; min-height: 100vh;
                  overflow-x: hidden; }
 
@@ -29,14 +29,14 @@
 
     /* Each .page is a flippable leaf. */
     .page {
-      background: #FCFAF3;
+      background: #FBFBFA;
       overflow: hidden;
       box-shadow: inset 0 0 0 1px rgba(26,26,26,0.08);
     }
     .page .page-inner { transform-origin: top left; }
     /* Hard-cover pages — slightly darker tone, beefier shadow when stiff */
     .page--stiff {
-      background: #F2EAD3;
+      background: #ECECE8;
       box-shadow: inset 0 0 0 1px rgba(26,26,26,0.18),
                   0 4px 22px -10px rgba(0,0,0,0.4);
     }
@@ -49,7 +49,7 @@
     .controls button {
       font-family: inherit; font-size: inherit; letter-spacing: inherit;
       text-transform: inherit; padding: 8px 14px;
-      background: #1a1a1a; color: #FCFAF3; border: none; cursor: pointer;
+      background: #1a1a1a; color: #FBFBFA; border: none; cursor: pointer;
       transition: background 0.15s;
     }
     .controls button:hover { background: #C44536; }
@@ -71,7 +71,7 @@
       z-index: 5;
     }
     .page-tab {
-      background: #F2EAD3;
+      background: #ECECE8;
       border: 1px solid rgba(26,26,26,0.15);
       border-left: 1px solid rgba(26,26,26,0.22);
       border-radius: 0 4px 4px 0;
@@ -91,11 +91,11 @@
       line-height: 1.2;
     }
     .page-tab:hover {
-      background: #FCFAF3; color: #1a1a1a;
+      background: #FBFBFA; color: #1a1a1a;
       transform: translateX(3px);
     }
     .page-tab.active {
-      background: #C44536; color: #FCFAF3;
+      background: #C44536; color: #FBFBFA;
       border-color: #C44536;
       transform: translateX(2px);
     }
@@ -130,7 +130,7 @@
     }
     .zoom-modal.open { display: flex; }
     .zoom-modal-stage {
-      background: #FCFAF3;
+      background: #FBFBFA;
       box-shadow: 0 40px 100px rgba(0,0,0,0.5);
       transform-origin: center center;
       position: relative;
@@ -150,7 +150,7 @@
     }
     .zoom-modal-close {
       position: fixed; top: 24px; right: 28px;
-      background: #FCFAF3; color: #1a1a1a;
+      background: #FBFBFA; color: #1a1a1a;
       border: none; padding: 10px 18px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px; letter-spacing: 0.2em;
@@ -158,10 +158,10 @@
       box-shadow: 0 6px 20px rgba(0,0,0,0.3);
       z-index: 10002;
     }
-    .zoom-modal-close:hover { background: #C44536; color: #FCFAF3; }
+    .zoom-modal-close:hover { background: #C44536; color: #FBFBFA; }
     .zoom-modal-label {
       position: fixed; top: 28px; left: 28px;
-      color: #FCFAF3;
+      color: #FBFBFA;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
       opacity: 0.85; z-index: 10002;

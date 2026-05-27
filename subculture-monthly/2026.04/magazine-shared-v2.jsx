@@ -5,7 +5,7 @@
 
 // ─── Tone A — Classic Print tokens ──────────────────────────────────────────
 const TONE_A = /*EDITMODE-BEGIN*/{
-  "paper": "#FCFAF3",
+  "paper": "#FBFBFA",
   "ink":   "#1A1A1A",
   "red":   "#C44536",
   "muted": "rgba(26,26,26,0.55)",
@@ -103,7 +103,7 @@ function PageFrame({
 function SplashSlot({
   width = "100%",
   height = "100%",
-  bg = "#E8E2D5",
+  bg = "#E4E4DF",
   stripe = "rgba(0,0,0,0.06)",
   ink = TONE_A.ink,
   caption = "CHARACTER SPLASH ART",
@@ -302,7 +302,7 @@ function Heatmap({
                 fontFamily="'JetBrains Mono',monospace"
                 fontSize="11"
                 textAnchor="middle"
-                fill={v >= Math.ceil(max * 0.65) ? (inverted ? "#1B1B1B" : "#F5F1E8") : ink}
+                fill={v >= Math.ceil(max * 0.65) ? (inverted ? "#1B1B1B" : "#F1F1ED") : ink}
                 opacity={v === 0 ? 0.35 : 1}
               >
                 {v}
