@@ -24,7 +24,7 @@
 
     .book-area {
       flex: 1; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 12px;
+      justify-content: flex-start; gap: 12px;
     }
 
     /* Each .page is a flippable leaf. */
@@ -306,7 +306,9 @@
       const horizBudget = vw - sidePad - railReserve;
       // Portrait shows one page; landscape shows two side-by-side.
       const wFromWidth  = portrait ? horizBudget : Math.floor(horizBudget / 2);
-      const vertChrome = 80;
+      // Leaves room for the .controls bar (~40px) + gap + reader padding +
+      // browser/safe-area chrome. Too small and the controls get cropped below.
+      const vertChrome = 120;
       const hFromHeight = vh - vertChrome;
       const wFromHeight = Math.floor(hFromHeight / PAGE_RATIO);
       const minW = portrait ? 280 : 420;
