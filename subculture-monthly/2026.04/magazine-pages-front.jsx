@@ -320,10 +320,14 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
                 filter: "saturate(0.92) contrast(0.96)",
               }}
             />
-            {/* Top fade — strong solid band then gentle fall-off so the masthead never sits on top of the image. */}
+            {/* Top fade — covers the masthead band only, then fades out before
+                reaching the character's face. The brand strip + ghosted English
+                wordmark end around y=240; the tagline box has its own backing,
+                so the fade only needs to keep the masthead text legible without
+                bleeding into the portrait. */}
             <div style={{
-              position: "absolute", top: 0, left: 0, right: 0, height: 480,
-              background: `linear-gradient(to bottom, ${pc.splash} 0%, ${pc.splash} 30%, ${pc.splash}EE 55%, rgba(0,0,0,0) 100%)`,
+              position: "absolute", top: 0, left: 0, right: 0, height: 280,
+              background: `linear-gradient(to bottom, ${pc.splash} 0%, ${pc.splash} 50%, rgba(0,0,0,0) 100%)`,
               pointerEvents: "none",
             }} />
             {/* Bottom fade — keeps the name plate readable. */}
