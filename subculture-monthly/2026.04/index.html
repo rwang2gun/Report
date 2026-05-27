@@ -86,14 +86,13 @@
     .bookmark-rail .rail-page { font-weight: 500; opacity: 0.6; }
 
     /* ─── Mobile toggle + fullscreen modal ────────────────────────────── */
-    /* Mobile-only floating index button (header is removed, so float top-right) */
+    /* Sits inline with the .controls bar; hidden on desktop where the rail shows */
     .bookmark-toggle {
-      position: fixed; top: 14px; right: 18px; z-index: 150;
-      background: rgba(26,26,26,0.86); color: #FCFAF3;
+      background: #1a1a1a; color: #FCFAF3;
       border: none; padding: 8px 14px; cursor: pointer;
       font-family: 'JetBrains Mono', monospace; font-size: 11px;
       letter-spacing: 0.18em; text-transform: uppercase;
-      box-shadow: 0 6px 20px -8px rgba(0,0,0,0.4);
+      transition: background 0.15s;
       display: none;
     }
     .bookmark-toggle:hover { background: #C44536; }
@@ -493,6 +492,7 @@
               <button onClick={() => flipRef.current && flipRef.current.flipPrev()}>← PREV</button>
               <span className="pageno">{String(page).padStart(2, "0")} / {String(total - 1).padStart(2, "0")}</span>
               <button onClick={() => flipRef.current && flipRef.current.flipNext()}>NEXT →</button>
+              <button className="bookmark-toggle" onClick={() => setMobileOpen(true)}>≡ INDEX</button>
               <span className="hint">← → · T · 0–9 단축키 · 모서리를 끌어 넘기기</span>
             </div>
           </div>
@@ -506,7 +506,6 @@
       return (
         <div className="reader">
           <FlipBook mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
-          <button className="bookmark-toggle" onClick={() => setMobileOpen(true)}>≡ INDEX</button>
         </div>
       );
     }
