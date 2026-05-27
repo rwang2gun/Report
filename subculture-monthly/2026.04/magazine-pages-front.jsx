@@ -318,6 +318,9 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
                 objectFit: "cover",
                 objectPosition: C.splashFocus || "center 30%",
                 filter: "saturate(0.92) contrast(0.96)",
+                // Subtle inset so the portrait has a breathing strip of the
+                // splash tone around it, instead of bleeding to the page edge.
+                transform: "scale(0.95)",
               }}
             />
             {/* Top fade — narrow band that only backs the feature label +
