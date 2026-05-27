@@ -138,6 +138,11 @@
     .bookmark-modal .modal-item.active { color: #FCFAF3; font-weight: 600; }
     .bookmark-modal .modal-item.active .rail-page { color: #C44536; }
 
+    @media (min-width: 1341px) {
+      /* Reserve right padding so the centered .book-area never sits under the rail.
+         Rail width 220 + right gap 24 + safety margin ~36 ≈ 280. */
+      .reader { padding-right: 320px; }
+    }
     @media (max-width: 1340px) {
       .bookmark-rail { display: none; }
       .bookmark-toggle { display: inline-block; }
@@ -176,6 +181,11 @@
       transform-origin: center center;
       position: relative;
       overflow: visible;
+      /* Inner padding so the cloned content has paper margins around it
+         instead of touching the stage edges. box-sizing keeps the stage's
+         outer dimensions (set via inline style) inclusive of this padding. */
+      box-sizing: border-box;
+      padding: 48px;
     }
     .zoom-modal-inner {
       /* Cloned absolute-positioned children rely on a positioned parent. */
@@ -259,6 +269,11 @@
         // Use offset dimensions — unaffected by ancestor CSS transforms.
         const w = sourceEl.offsetWidth || 600;
         const h = sourceEl.offsetHeight || 400;
+        // Paper margin around the cloned content. Keep in sync with the
+        // .zoom-modal-stage CSS padding (border-box).
+        const PAD = 48;
+        const stageW = w + PAD * 2;
+        const stageH = h + PAD * 2;
         const clone = sourceEl.cloneNode(true);
         // Strip nested zoomable handlers + cursors so the modal isn't itself zoomable.
         clone.style.cursor = 'default';
@@ -267,13 +282,13 @@
           el.removeAttribute('data-zoom-label');
         });
         clearChildren(inner);
-        stage.style.width = w + 'px';
-        stage.style.height = h + 'px';
+        stage.style.width = stageW + 'px';
+        stage.style.height = stageH + 'px';
         inner.appendChild(clone);
         // Scale to fit viewport (max 1.6× for small components).
         const vw = window.innerWidth - 120;
         const vh = window.innerHeight - 120;
-        const scale = Math.min(vw / w, vh / h, 1.6);
+        const scale = Math.min(vw / stageW, vh / stageH, 1.6);
         stage.style.transform = 'scale(' + scale + ')';
         setLabel(labelText || sourceEl.getAttribute('data-zoom-label') || '');
         modal.classList.add('open');
@@ -373,7 +388,7 @@
       pages.push({ key: 'p-endpaper-front', stiff: false, el: <EndpaperFront /> });
       pages.push({ key: 'p00', el: <CoverPage meta={D.meta} insights={D.insights} /> });
       pages.push({ key: 'p01', el: <TocPage meta={D.meta} games={D.games} /> });
-      pages.push({ key: 'p02', el: <DataDashboardPage meta={D.meta} {...D.dashboard} /> });
+      pages.push({ key: 'p02', el: <DataDashboardPage meta={D.meta} games={D.games} {...D.dashboard} /> });
       D.games.forEach((g, i) => {
         const leftNo  = `P.${String(3 + i * 2).padStart(2, "0")}`;
         const rightNo = `P.${String(4 + i * 2).padStart(2, "0")}`;
@@ -443,7 +458,7 @@
           size: "fixed",
           minWidth: 300, maxWidth: 1400,
           minHeight: 400, maxHeight: 1900,
-          maxShadowOpacity: 0.55,
+          maxShadowOpacity: 0.2,
           showCover: true,
           mobileScrollSupport: false,
           drawShadow: true,
@@ -459,6 +474,67 @@
           // Let clicks pass through to Zoomable children instead of being swallowed.
           clickEventForward: true,
         });
+        // ─── Patch corner-detection + hover-lift to a small triangle ────
+        // Library defaults are too aggressive:
+        //   • Corner zone is sqrt(w²+h²)/5 ≈ 400px on a 1200×1600 page,
+        //     so most of the inner area auto-peels on hover.
+        //   • Hover lift distance is 50px, which lifts a large flap that
+        //     covers content.
+        // We patch the controller prototype to shrink both: corner zone to
+        // min(w,h)/20 (~60px), lift to 18px.
+        try {
+          const findCtrl = (root) => {
+            const seen = new Set();
+            const stack = [root];
+            while (stack.length) {
+              const obj = stack.pop();
+              if (!obj || typeof obj !== 'object' || seen.has(obj)) continue;
+              seen.add(obj);
+              for (const k of Object.keys(obj)) {
+                const v = obj[k];
+                if (v && typeof v === 'object') {
+                  const proto = Object.getPrototypeOf(v);
+                  if (proto && typeof proto.isPointOnCorners === 'function') return v;
+                  stack.push(v);
+                }
+              }
+            }
+            return null;
+          };
+          const ctrl = findCtrl(flip);
+          if (ctrl) {
+            const proto = Object.getPrototypeOf(ctrl);
+            if (!proto.__cornerZonePatched) {
+              proto.__cornerZonePatched = true;
+              proto.isPointOnCorners = function (t) {
+                const e = this.getBoundsRect();
+                const w = e.pageWidth, h = e.height;
+                const s = Math.min(w, h) / 20;
+                const n = this.render.convertToBook(t);
+                return n.x > 0 && n.y > 0 && n.x < e.width && n.y < e.height
+                    && (n.x < s || n.x > e.width - s)
+                    && (n.y < s || n.y > e.height - s);
+              };
+              proto.showCorner = function (t) {
+                if (!this.checkState("read", "fold_corner")) return;
+                const e = this.getBoundsRect(), i = e.pageWidth;
+                if (this.isPointOnCorners(t)) {
+                  if (this.calc === null) {
+                    if (!this.start(t)) return;
+                    this.setState("fold_corner");
+                    this.calc.calc({ x: i - 1, y: 1 });
+                    const s = 18; // was 50 — small triangular peel
+                    const n = "bottom" === this.calc.getCorner() ? e.height - 1 : 1;
+                    const h = "bottom" === this.calc.getCorner() ? e.height - s : s;
+                    this.animateFlippingTo({ x: i - 1, y: n }, { x: i - s, y: h }, false, false);
+                  } else {
+                    this.do(this.render.convertToPage(t));
+                  }
+                }
+              };
+            }
+          }
+        } catch (err) { /* patch is best-effort; fall back to defaults */ }
         flip.loadFromHTML(bookRef.current.querySelectorAll('.page'));
         flip.on('flip', (e) => setPage(e.data));
         setTotal(flip.getPageCount());

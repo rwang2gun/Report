@@ -179,8 +179,16 @@ function TocBlock({ title, subtitle, items, accent, ink, hair, muted, showChar }
 // <DataDashboardPage {...dashboard} meta={...} />
 // P.02 — section + headline + line chart + donut + heatmap
 // ═══════════════════════════════════════════════════════════════════════════
-function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, donut, heatmap }) {
+function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, donut, heatmap, games = [] }) {
   const T = TONE_A;
+  // Merge Korean name + app icon from games[] into each series item by id.
+  // RevLineChart consumes ko/iconUrl if present, otherwise falls back to label.
+  const lineChartSeries = React.useMemo(() => {
+    return (lineChart.series || []).map((s) => {
+      const g = games.find((gm) => gm.id === s.id);
+      return { ...s, ko: g ? g.ko : undefined, iconUrl: g ? g.iconUrl : undefined };
+    });
+  }, [lineChart.series, games]);
   return (
     <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.02" pageNoSide="right" ofTotal={meta.issue}>
       <FolioHeader left="SECTION · DATA DESK" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
@@ -216,7 +224,7 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
             width={1120} height={380}
             ink={T.ink} grid={T.hair} accent={T.red}
             months={lineChart.months}
-            series={lineChart.series}
+            series={lineChartSeries}
             highlight={lineChart.highlight}
           />
         </div>
@@ -238,28 +246,43 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
             {donut.caption}
           </div>
         </Zoomable>
-        <Zoomable label="FIG. 03 · Element × Title Heatmap" style={{ border: `1px solid ${T.hair}`, padding: 24, background: "rgba(255,255,255,0.4)", cursor: "zoom-in" }}>
+        {/* FIG.03 — held. The columns (Pyro/Cryo/Electro/Phys/Quantum) were
+            applied uniformly across titles, but each game uses its own
+            element system, so the comparison wasn't apples-to-apples. Slot
+            reserved; replacement module decided in the next issue.
+            heatmap data in issue-2026-04.jsx is preserved for reference. */}
+        <div style={{ border: `1px solid ${T.hair}`, padding: 24, background: "rgba(255,255,255,0.4)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.red, textTransform: "uppercase" }}>
-              {heatmap.label}
+              FIG. 03 · TBD · 다음 호 재설계
             </div>
             <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, color: T.muted, letterSpacing: "0.12em" }}>
-              {heatmap.scale}
+              held
             </div>
           </div>
           <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 28, color: T.ink, letterSpacing: "-0.01em", marginBottom: 16, marginTop: 8 }}>
-            {heatmap.headline.pre}<br/>
-            <span style={{ fontStyle: "italic" }}>{heatmap.headline.emphasis}</span>
+            속성 체계는<br/>
+            <span style={{ fontStyle: "italic" }}>게임마다 다르다.</span>
           </div>
-          <Heatmap
-            ink={T.ink} bg={T.paper} accent={T.red} cell={62}
-            cols={heatmap.colsEn}
-            rows={heatmap.rows}
-          />
-          <div style={{ marginTop: 14, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: T.ink, opacity: 0.8, textWrap: "pretty" }}>
-            {heatmap.caption}
+          <div style={{
+            minHeight: 260,
+            border: `1px dashed ${T.hair}`,
+            borderRadius: 2,
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            gap: 12,
+            background: "rgba(0,0,0,0.025)",
+            padding: "24px 28px",
+          }}>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.24em", color: T.muted, textTransform: "uppercase" }}>
+              ⊘ Placeholder
+            </div>
+            <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.7, textAlign: "center", maxWidth: 360, lineHeight: 1.6 }}>
+              6게임의 속성 분류 체계가 모두 독립적이라 단일 매트릭스로 묶기 어렵다.
+              다음 호에서 게임별 분리 모듈로 재설계 예정.
+            </div>
           </div>
-        </Zoomable>
+        </div>
       </div>
     </PageFrame>
   );
@@ -279,48 +302,48 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
   const restWord = titleWords.length > 1 ? titleWords.slice(1).join(" ") + "." : game.ko + ".";
   return (
     <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo={pageNo} pageNoSide="left" ofTotal={issue}>
-      {/* Splash background — wrapped in Zoomable for click-to-enlarge */}
-      <Zoomable label={`${C.ko} / ${C.en} — Cover Art`} style={{ position: "absolute", inset: 0, cursor: "zoom-in" }}>
-        <div style={{ position: "absolute", inset: 0, background: pc.splash, overflow: "hidden" }}>
-          {C.splashUrl ? (
-            <React.Fragment>
-              <img
-                src={C.splashUrl}
-                alt={`${C.ko} / ${C.en} hero portrait`}
-                referrerPolicy="no-referrer"
-                style={{
-                  position: "absolute", inset: 0,
-                  width: "100%", height: "100%",
-                  objectFit: "cover",
-                  objectPosition: C.splashFocus || "center 30%",
-                  filter: "saturate(0.92) contrast(0.96)",
-                }}
-              />
-              {/* Top fade — strong solid band then gentle fall-off so the masthead never sits on top of the image. */}
-              <div style={{
-                position: "absolute", top: 0, left: 0, right: 0, height: 480,
-                background: `linear-gradient(to bottom, ${pc.splash} 0%, ${pc.splash} 30%, ${pc.splash}EE 55%, rgba(0,0,0,0) 100%)`,
-                pointerEvents: "none",
-              }} />
-              {/* Bottom fade — keeps the name plate readable. */}
-              <div style={{
-                position: "absolute", left: 0, right: 0, bottom: 0, height: 360,
-                background: `linear-gradient(to top, ${pc.splash} 0%, ${pc.splash}DD 35%, rgba(0,0,0,0) 100%)`,
-                pointerEvents: "none",
-              }} />
-            </React.Fragment>
-          ) : (
-            <SplashSlot
-              bg={pc.splash}
-              stripe={pc.stripe}
-              ink={T.ink}
-              caption={C.splashCaption}
-              sub={`1200 × 1600 · drop hero image · ${C.en}`}
-              angle={pc.angle}
+      {/* Splash background — plain (no zoom). The cover spread is decorative,
+          and wrapping it in Zoomable produced an empty modal because the
+          absolute+inset:0 sizing was stripped by the zoom-modal-inner reset. */}
+      <div style={{ position: "absolute", inset: 0, background: pc.splash, overflow: "hidden" }}>
+        {C.splashUrl ? (
+          <React.Fragment>
+            <img
+              src={C.splashUrl}
+              alt={`${C.ko} / ${C.en} hero portrait`}
+              referrerPolicy="no-referrer"
+              style={{
+                position: "absolute", inset: 0,
+                width: "100%", height: "100%",
+                objectFit: "cover",
+                objectPosition: C.splashFocus || "center 30%",
+                filter: "saturate(0.92) contrast(0.96)",
+              }}
             />
-          )}
-        </div>
-      </Zoomable>
+            {/* Top fade — strong solid band then gentle fall-off so the masthead never sits on top of the image. */}
+            <div style={{
+              position: "absolute", top: 0, left: 0, right: 0, height: 480,
+              background: `linear-gradient(to bottom, ${pc.splash} 0%, ${pc.splash} 30%, ${pc.splash}EE 55%, rgba(0,0,0,0) 100%)`,
+              pointerEvents: "none",
+            }} />
+            {/* Bottom fade — keeps the name plate readable. */}
+            <div style={{
+              position: "absolute", left: 0, right: 0, bottom: 0, height: 360,
+              background: `linear-gradient(to top, ${pc.splash} 0%, ${pc.splash}DD 35%, rgba(0,0,0,0) 100%)`,
+              pointerEvents: "none",
+            }} />
+          </React.Fragment>
+        ) : (
+          <SplashSlot
+            bg={pc.splash}
+            stripe={pc.stripe}
+            ink={T.ink}
+            caption={C.splashCaption}
+            sub={`1200 × 1600 · drop hero image · ${C.en}`}
+            angle={pc.angle}
+          />
+        )}
+      </div>
 
       {/* Top overprint masthead — game icon + Korean name as the brand
           marker, English title kept small/ghosted, tagline as hero. */}
@@ -381,7 +404,7 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
       </div>
 
       {/* Bottom name plate — bigger, more readable */}
-      <Zoomable label={`${C.ko} / ${C.en} — Spec Sheet`} style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: T.paper, padding: "30px 32px 26px", boxShadow: "0 0 0 1px rgba(0,0,0,0.1)", cursor: "zoom-in" }}>
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: T.paper, padding: "30px 32px 26px", boxShadow: "0 10px 28px -8px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.16)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 28, alignItems: "end" }}>
           <div>
             <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.24em", textTransform: "uppercase", color: T.red, fontWeight: 600 }}>
@@ -402,7 +425,7 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
             →
           </div>
         </div>
-      </Zoomable>
+      </div>
     </PageFrame>
   );
 }

@@ -138,6 +138,11 @@
     .bookmark-modal .modal-item.active { color: #FCFAF3; font-weight: 600; }
     .bookmark-modal .modal-item.active .rail-page { color: #C44536; }
 
+    @media (min-width: 1341px) {
+      /* Reserve right padding so the centered .book-area never sits under the rail.
+         Rail width 220 + right gap 24 + safety margin ~36 ≈ 280. */
+      .reader { padding-right: 320px; }
+    }
     @media (max-width: 1340px) {
       .bookmark-rail { display: none; }
       .bookmark-toggle { display: inline-block; }
@@ -176,6 +181,11 @@
       transform-origin: center center;
       position: relative;
       overflow: visible;
+      /* Inner padding so the cloned content has paper margins around it
+         instead of touching the stage edges. box-sizing keeps the stage's
+         outer dimensions (set via inline style) inclusive of this padding. */
+      box-sizing: border-box;
+      padding: 48px;
     }
     .zoom-modal-inner {
       /* Cloned absolute-positioned children rely on a positioned parent. */
@@ -259,6 +269,11 @@
         // Use offset dimensions — unaffected by ancestor CSS transforms.
         const w = sourceEl.offsetWidth || 600;
         const h = sourceEl.offsetHeight || 400;
+        // Paper margin around the cloned content. Keep in sync with the
+        // .zoom-modal-stage CSS padding (border-box).
+        const PAD = 48;
+        const stageW = w + PAD * 2;
+        const stageH = h + PAD * 2;
         const clone = sourceEl.cloneNode(true);
         // Strip nested zoomable handlers + cursors so the modal isn't itself zoomable.
         clone.style.cursor = 'default';
@@ -267,13 +282,13 @@
           el.removeAttribute('data-zoom-label');
         });
         clearChildren(inner);
-        stage.style.width = w + 'px';
-        stage.style.height = h + 'px';
+        stage.style.width = stageW + 'px';
+        stage.style.height = stageH + 'px';
         inner.appendChild(clone);
         // Scale to fit viewport (max 1.6× for small components).
         const vw = window.innerWidth - 120;
         const vh = window.innerHeight - 120;
-        const scale = Math.min(vw / w, vh / h, 1.6);
+        const scale = Math.min(vw / stageW, vh / stageH, 1.6);
         stage.style.transform = 'scale(' + scale + ')';
         setLabel(labelText || sourceEl.getAttribute('data-zoom-label') || '');
         modal.classList.add('open');
@@ -1154,6 +1169,9 @@ function SplashSlot({
 }
 
 // ─── RevLineChart — 3-month, N series ──────────────────────────────────────
+// series item: { id, label, data: [n,n,n], ko?, iconUrl? }
+// When ko/iconUrl are present the line-end label uses the Korean name and
+// shows a small circular icon (the game's app icon).
 function RevLineChart({
   width = 1100,
   height = 360,
@@ -1161,10 +1179,12 @@ function RevLineChart({
   grid = TONE_A.hair,
   accent = TONE_A.red,
   months = ["MAR", "APR", "MAY"],
-  series = [],            // [{ id, label, data: [n,n,n] }]
-  highlight = [],          // [id, ...]
+  series = [],
+  highlight = [],
 }) {
-  const pad = { l: 64, r: 110, t: 30, b: 36 };
+  const chartId = React.useId();
+  // Right padding widened from 110 to 140 so the icon + Korean label fits.
+  const pad = { l: 64, r: 140, t: 30, b: 36 };
   const W = width - pad.l - pad.r;
   const H = height - pad.t - pad.b;
   const allVals = series.flatMap((s) => s.data);
@@ -1175,11 +1195,12 @@ function RevLineChart({
   const ticks = [];
   for (let t = 0; t <= max; t += Math.max(10, Math.round(max / 5 / 10) * 10)) ticks.push(t);
 
-  // Avoid stacking labels for non-highlighted series on top of each other
+  // Avoid stacking labels for non-highlighted series on top of each other.
+  // Gap widened to 20 to make room for the 18px icon row.
   const ordered = series
     .map((s, i) => ({ ...s, _i: i, lastY: y(s.data[s.data.length - 1]) }))
     .sort((a, b) => a.lastY - b.lastY);
-  const minGap = 16;
+  const minGap = 20;
   for (let i = 1; i < ordered.length; i++) {
     if (ordered[i].lastY - ordered[i - 1].lastY < minGap) ordered[i].lastY = ordered[i - 1].lastY + minGap;
   }
@@ -1207,22 +1228,52 @@ function RevLineChart({
         const sw = isHi ? 2 : 1;
         const d = data.map((v, j) => `${j === 0 ? "M" : "L"}${x(j)},${y(v)}`).join(" ");
         const labelY = ordered.find((o) => o._i === i).lastY;
+        const lineEnd = x(months.length - 1);
+        const hasIcon = !!g.iconUrl;
+        const labelText = g.ko || g.label;
+        const iconR = 9;
+        const iconCx = lineEnd + 13 + iconR;
+        const clipId = `${chartId}-clip-${g.id}`;
         return (
           <g key={g.id}>
             <path d={d} fill="none" stroke={stroke} strokeWidth={sw} />
             {data.map((v, j) => (
               <circle key={j} cx={x(j)} cy={y(v)} r={isHi ? 3 : 2} fill={stroke} />
             ))}
+            {hasIcon && (
+              <React.Fragment>
+                <defs>
+                  <clipPath id={clipId}>
+                    <circle cx={iconCx} cy={labelY} r={iconR} />
+                  </clipPath>
+                </defs>
+                <image
+                  href={g.iconUrl}
+                  x={iconCx - iconR}
+                  y={labelY - iconR}
+                  width={iconR * 2}
+                  height={iconR * 2}
+                  clipPath={`url(#${clipId})`}
+                  preserveAspectRatio="xMidYMid slice"
+                />
+                <circle
+                  cx={iconCx} cy={labelY} r={iconR + 0.5}
+                  fill="none" stroke={stroke}
+                  strokeWidth={isHi ? 1.2 : 0.6}
+                  opacity={isHi ? 0.9 : 0.55}
+                />
+              </React.Fragment>
+            )}
             <text
-              x={x(months.length - 1) + 12}
+              x={lineEnd + (hasIcon ? 36 : 12)}
               y={labelY + 4}
-              fontFamily="'JetBrains Mono',monospace"
-              fontSize="10"
+              fontFamily={g.ko ? "'Noto Serif KR','EB Garamond',serif" : "'JetBrains Mono',monospace"}
+              fontSize={g.ko ? 12 : 10}
               fill={stroke}
               opacity={isHi ? 1 : 0.85}
-              fontWeight={isHi ? 600 : 400}
+              fontWeight={isHi ? 600 : 500}
             >
-              {g.label}
+              {labelText}
             </text>
           </g>
         );
@@ -1396,10 +1447,32 @@ function SectionTitle({ section, headline, sub, accent = TONE_A.red, ink = TONE_
 }
 
 // ─── Zoomable — wrap any block so users can click to enlarge it ────────────
-// Also stops mousedown/touchstart from bubbling so the underlying PageFlip
-// never initiates a page-drag while the user is reaching for the zoom target.
+// page-flip attaches native (non-React) listeners and watches mousemove to
+// trigger its hover-peel + drag. React's synthetic stopPropagation does not
+// reach those listeners, so a click on a chart that sits inside the corner
+// zone gets swallowed by the page-flip before the React onClick fires.
+// We attach our own native listeners and stop propagation at the DOM level,
+// so the library never sees the events when the pointer is over a zoomable.
 function Zoomable({ label = "", children, style = {}, className = "" }) {
-  const stop = (e) => e.stopPropagation();
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const stopNative = (e) => {
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    };
+    node.addEventListener("mousedown", stopNative);
+    node.addEventListener("mousemove", stopNative);
+    node.addEventListener("touchstart", stopNative, { passive: false });
+    node.addEventListener("touchmove", stopNative, { passive: false });
+    return () => {
+      node.removeEventListener("mousedown", stopNative);
+      node.removeEventListener("mousemove", stopNative);
+      node.removeEventListener("touchstart", stopNative);
+      node.removeEventListener("touchmove", stopNative);
+    };
+  }, []);
   const handleClick = (e) => {
     if (typeof window === "undefined" || !window.openZoom) return;
     e.stopPropagation();
@@ -1407,10 +1480,9 @@ function Zoomable({ label = "", children, style = {}, className = "" }) {
   };
   return (
     <div
+      ref={ref}
       className={`zoomable ${className}`}
       data-zoom-label={label}
-      onMouseDown={stop}
-      onTouchStart={stop}
       onClick={handleClick}
       style={{ cursor: "zoom-in", ...style }}
     >
@@ -1704,8 +1776,16 @@ function TocBlock({ title, subtitle, items, accent, ink, hair, muted, showChar }
 // <DataDashboardPage {...dashboard} meta={...} />
 // P.02 — section + headline + line chart + donut + heatmap
 // ═══════════════════════════════════════════════════════════════════════════
-function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, donut, heatmap }) {
+function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, donut, heatmap, games = [] }) {
   const T = TONE_A;
+  // Merge Korean name + app icon from games[] into each series item by id.
+  // RevLineChart consumes ko/iconUrl if present, otherwise falls back to label.
+  const lineChartSeries = React.useMemo(() => {
+    return (lineChart.series || []).map((s) => {
+      const g = games.find((gm) => gm.id === s.id);
+      return { ...s, ko: g ? g.ko : undefined, iconUrl: g ? g.iconUrl : undefined };
+    });
+  }, [lineChart.series, games]);
   return (
     <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.02" pageNoSide="right" ofTotal={meta.issue}>
       <FolioHeader left="SECTION · DATA DESK" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
@@ -1741,7 +1821,7 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
             width={1120} height={380}
             ink={T.ink} grid={T.hair} accent={T.red}
             months={lineChart.months}
-            series={lineChart.series}
+            series={lineChartSeries}
             highlight={lineChart.highlight}
           />
         </div>
@@ -1763,28 +1843,43 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
             {donut.caption}
           </div>
         </Zoomable>
-        <Zoomable label="FIG. 03 · Element × Title Heatmap" style={{ border: `1px solid ${T.hair}`, padding: 24, background: "rgba(255,255,255,0.4)", cursor: "zoom-in" }}>
+        {/* FIG.03 — held. The columns (Pyro/Cryo/Electro/Phys/Quantum) were
+            applied uniformly across titles, but each game uses its own
+            element system, so the comparison wasn't apples-to-apples. Slot
+            reserved; replacement module decided in the next issue.
+            heatmap data in issue-2026-04.jsx is preserved for reference. */}
+        <div style={{ border: `1px solid ${T.hair}`, padding: 24, background: "rgba(255,255,255,0.4)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.red, textTransform: "uppercase" }}>
-              {heatmap.label}
+              FIG. 03 · TBD · 다음 호 재설계
             </div>
             <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, color: T.muted, letterSpacing: "0.12em" }}>
-              {heatmap.scale}
+              held
             </div>
           </div>
           <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 28, color: T.ink, letterSpacing: "-0.01em", marginBottom: 16, marginTop: 8 }}>
-            {heatmap.headline.pre}<br/>
-            <span style={{ fontStyle: "italic" }}>{heatmap.headline.emphasis}</span>
+            속성 체계는<br/>
+            <span style={{ fontStyle: "italic" }}>게임마다 다르다.</span>
           </div>
-          <Heatmap
-            ink={T.ink} bg={T.paper} accent={T.red} cell={62}
-            cols={heatmap.colsEn}
-            rows={heatmap.rows}
-          />
-          <div style={{ marginTop: 14, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: T.ink, opacity: 0.8, textWrap: "pretty" }}>
-            {heatmap.caption}
+          <div style={{
+            minHeight: 260,
+            border: `1px dashed ${T.hair}`,
+            borderRadius: 2,
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            gap: 12,
+            background: "rgba(0,0,0,0.025)",
+            padding: "24px 28px",
+          }}>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.24em", color: T.muted, textTransform: "uppercase" }}>
+              ⊘ Placeholder
+            </div>
+            <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.7, textAlign: "center", maxWidth: 360, lineHeight: 1.6 }}>
+              6게임의 속성 분류 체계가 모두 독립적이라 단일 매트릭스로 묶기 어렵다.
+              다음 호에서 게임별 분리 모듈로 재설계 예정.
+            </div>
           </div>
-        </Zoomable>
+        </div>
       </div>
     </PageFrame>
   );
@@ -1804,48 +1899,48 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
   const restWord = titleWords.length > 1 ? titleWords.slice(1).join(" ") + "." : game.ko + ".";
   return (
     <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo={pageNo} pageNoSide="left" ofTotal={issue}>
-      {/* Splash background — wrapped in Zoomable for click-to-enlarge */}
-      <Zoomable label={`${C.ko} / ${C.en} — Cover Art`} style={{ position: "absolute", inset: 0, cursor: "zoom-in" }}>
-        <div style={{ position: "absolute", inset: 0, background: pc.splash, overflow: "hidden" }}>
-          {C.splashUrl ? (
-            <React.Fragment>
-              <img
-                src={C.splashUrl}
-                alt={`${C.ko} / ${C.en} hero portrait`}
-                referrerPolicy="no-referrer"
-                style={{
-                  position: "absolute", inset: 0,
-                  width: "100%", height: "100%",
-                  objectFit: "cover",
-                  objectPosition: C.splashFocus || "center 30%",
-                  filter: "saturate(0.92) contrast(0.96)",
-                }}
-              />
-              {/* Top fade — strong solid band then gentle fall-off so the masthead never sits on top of the image. */}
-              <div style={{
-                position: "absolute", top: 0, left: 0, right: 0, height: 480,
-                background: `linear-gradient(to bottom, ${pc.splash} 0%, ${pc.splash} 30%, ${pc.splash}EE 55%, rgba(0,0,0,0) 100%)`,
-                pointerEvents: "none",
-              }} />
-              {/* Bottom fade — keeps the name plate readable. */}
-              <div style={{
-                position: "absolute", left: 0, right: 0, bottom: 0, height: 360,
-                background: `linear-gradient(to top, ${pc.splash} 0%, ${pc.splash}DD 35%, rgba(0,0,0,0) 100%)`,
-                pointerEvents: "none",
-              }} />
-            </React.Fragment>
-          ) : (
-            <SplashSlot
-              bg={pc.splash}
-              stripe={pc.stripe}
-              ink={T.ink}
-              caption={C.splashCaption}
-              sub={`1200 × 1600 · drop hero image · ${C.en}`}
-              angle={pc.angle}
+      {/* Splash background — plain (no zoom). The cover spread is decorative,
+          and wrapping it in Zoomable produced an empty modal because the
+          absolute+inset:0 sizing was stripped by the zoom-modal-inner reset. */}
+      <div style={{ position: "absolute", inset: 0, background: pc.splash, overflow: "hidden" }}>
+        {C.splashUrl ? (
+          <React.Fragment>
+            <img
+              src={C.splashUrl}
+              alt={`${C.ko} / ${C.en} hero portrait`}
+              referrerPolicy="no-referrer"
+              style={{
+                position: "absolute", inset: 0,
+                width: "100%", height: "100%",
+                objectFit: "cover",
+                objectPosition: C.splashFocus || "center 30%",
+                filter: "saturate(0.92) contrast(0.96)",
+              }}
             />
-          )}
-        </div>
-      </Zoomable>
+            {/* Top fade — strong solid band then gentle fall-off so the masthead never sits on top of the image. */}
+            <div style={{
+              position: "absolute", top: 0, left: 0, right: 0, height: 480,
+              background: `linear-gradient(to bottom, ${pc.splash} 0%, ${pc.splash} 30%, ${pc.splash}EE 55%, rgba(0,0,0,0) 100%)`,
+              pointerEvents: "none",
+            }} />
+            {/* Bottom fade — keeps the name plate readable. */}
+            <div style={{
+              position: "absolute", left: 0, right: 0, bottom: 0, height: 360,
+              background: `linear-gradient(to top, ${pc.splash} 0%, ${pc.splash}DD 35%, rgba(0,0,0,0) 100%)`,
+              pointerEvents: "none",
+            }} />
+          </React.Fragment>
+        ) : (
+          <SplashSlot
+            bg={pc.splash}
+            stripe={pc.stripe}
+            ink={T.ink}
+            caption={C.splashCaption}
+            sub={`1200 × 1600 · drop hero image · ${C.en}`}
+            angle={pc.angle}
+          />
+        )}
+      </div>
 
       {/* Top overprint masthead — game icon + Korean name as the brand
           marker, English title kept small/ghosted, tagline as hero. */}
@@ -1906,7 +2001,7 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
       </div>
 
       {/* Bottom name plate — bigger, more readable */}
-      <Zoomable label={`${C.ko} / ${C.en} — Spec Sheet`} style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: T.paper, padding: "30px 32px 26px", boxShadow: "0 0 0 1px rgba(0,0,0,0.1)", cursor: "zoom-in" }}>
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: T.paper, padding: "30px 32px 26px", boxShadow: "0 10px 28px -8px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.16)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 28, alignItems: "end" }}>
           <div>
             <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.24em", textTransform: "uppercase", color: T.red, fontWeight: 600 }}>
@@ -1927,7 +2022,7 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
             →
           </div>
         </div>
-      </Zoomable>
+      </div>
     </PageFrame>
   );
 }
@@ -2697,7 +2792,7 @@ Object.assign(window, {
       pages.push({ key: 'p-endpaper-front', stiff: false, el: <EndpaperFront /> });
       pages.push({ key: 'p00', el: <CoverPage meta={D.meta} insights={D.insights} /> });
       pages.push({ key: 'p01', el: <TocPage meta={D.meta} games={D.games} /> });
-      pages.push({ key: 'p02', el: <DataDashboardPage meta={D.meta} {...D.dashboard} /> });
+      pages.push({ key: 'p02', el: <DataDashboardPage meta={D.meta} games={D.games} {...D.dashboard} /> });
       D.games.forEach((g, i) => {
         const leftNo  = `P.${String(3 + i * 2).padStart(2, "0")}`;
         const rightNo = `P.${String(4 + i * 2).padStart(2, "0")}`;
@@ -2767,7 +2862,7 @@ Object.assign(window, {
           size: "fixed",
           minWidth: 300, maxWidth: 1400,
           minHeight: 400, maxHeight: 1900,
-          maxShadowOpacity: 0.55,
+          maxShadowOpacity: 0.2,
           showCover: true,
           mobileScrollSupport: false,
           drawShadow: true,
@@ -2783,6 +2878,67 @@ Object.assign(window, {
           // Let clicks pass through to Zoomable children instead of being swallowed.
           clickEventForward: true,
         });
+        // ─── Patch corner-detection + hover-lift to a small triangle ────
+        // Library defaults are too aggressive:
+        //   • Corner zone is sqrt(w²+h²)/5 ≈ 400px on a 1200×1600 page,
+        //     so most of the inner area auto-peels on hover.
+        //   • Hover lift distance is 50px, which lifts a large flap that
+        //     covers content.
+        // We patch the controller prototype to shrink both: corner zone to
+        // min(w,h)/20 (~60px), lift to 18px.
+        try {
+          const findCtrl = (root) => {
+            const seen = new Set();
+            const stack = [root];
+            while (stack.length) {
+              const obj = stack.pop();
+              if (!obj || typeof obj !== 'object' || seen.has(obj)) continue;
+              seen.add(obj);
+              for (const k of Object.keys(obj)) {
+                const v = obj[k];
+                if (v && typeof v === 'object') {
+                  const proto = Object.getPrototypeOf(v);
+                  if (proto && typeof proto.isPointOnCorners === 'function') return v;
+                  stack.push(v);
+                }
+              }
+            }
+            return null;
+          };
+          const ctrl = findCtrl(flip);
+          if (ctrl) {
+            const proto = Object.getPrototypeOf(ctrl);
+            if (!proto.__cornerZonePatched) {
+              proto.__cornerZonePatched = true;
+              proto.isPointOnCorners = function (t) {
+                const e = this.getBoundsRect();
+                const w = e.pageWidth, h = e.height;
+                const s = Math.min(w, h) / 20;
+                const n = this.render.convertToBook(t);
+                return n.x > 0 && n.y > 0 && n.x < e.width && n.y < e.height
+                    && (n.x < s || n.x > e.width - s)
+                    && (n.y < s || n.y > e.height - s);
+              };
+              proto.showCorner = function (t) {
+                if (!this.checkState("read", "fold_corner")) return;
+                const e = this.getBoundsRect(), i = e.pageWidth;
+                if (this.isPointOnCorners(t)) {
+                  if (this.calc === null) {
+                    if (!this.start(t)) return;
+                    this.setState("fold_corner");
+                    this.calc.calc({ x: i - 1, y: 1 });
+                    const s = 18; // was 50 — small triangular peel
+                    const n = "bottom" === this.calc.getCorner() ? e.height - 1 : 1;
+                    const h = "bottom" === this.calc.getCorner() ? e.height - s : s;
+                    this.animateFlippingTo({ x: i - 1, y: n }, { x: i - s, y: h }, false, false);
+                  } else {
+                    this.do(this.render.convertToPage(t));
+                  }
+                }
+              };
+            }
+          }
+        } catch (err) { /* patch is best-effort; fall back to defaults */ }
         flip.loadFromHTML(bookRef.current.querySelectorAll('.page'));
         flip.on('flip', (e) => setPage(e.data));
         setTotal(flip.getPageCount());

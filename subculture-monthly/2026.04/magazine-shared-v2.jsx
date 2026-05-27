@@ -144,6 +144,9 @@ function SplashSlot({
 }
 
 // ─── RevLineChart — 3-month, N series ──────────────────────────────────────
+// series item: { id, label, data: [n,n,n], ko?, iconUrl? }
+// When ko/iconUrl are present the line-end label uses the Korean name and
+// shows a small circular icon (the game's app icon).
 function RevLineChart({
   width = 1100,
   height = 360,
@@ -151,10 +154,12 @@ function RevLineChart({
   grid = TONE_A.hair,
   accent = TONE_A.red,
   months = ["MAR", "APR", "MAY"],
-  series = [],            // [{ id, label, data: [n,n,n] }]
-  highlight = [],          // [id, ...]
+  series = [],
+  highlight = [],
 }) {
-  const pad = { l: 64, r: 110, t: 30, b: 36 };
+  const chartId = React.useId();
+  // Right padding widened from 110 to 140 so the icon + Korean label fits.
+  const pad = { l: 64, r: 140, t: 30, b: 36 };
   const W = width - pad.l - pad.r;
   const H = height - pad.t - pad.b;
   const allVals = series.flatMap((s) => s.data);
@@ -165,11 +170,12 @@ function RevLineChart({
   const ticks = [];
   for (let t = 0; t <= max; t += Math.max(10, Math.round(max / 5 / 10) * 10)) ticks.push(t);
 
-  // Avoid stacking labels for non-highlighted series on top of each other
+  // Avoid stacking labels for non-highlighted series on top of each other.
+  // Gap widened to 20 to make room for the 18px icon row.
   const ordered = series
     .map((s, i) => ({ ...s, _i: i, lastY: y(s.data[s.data.length - 1]) }))
     .sort((a, b) => a.lastY - b.lastY);
-  const minGap = 16;
+  const minGap = 20;
   for (let i = 1; i < ordered.length; i++) {
     if (ordered[i].lastY - ordered[i - 1].lastY < minGap) ordered[i].lastY = ordered[i - 1].lastY + minGap;
   }
@@ -197,22 +203,52 @@ function RevLineChart({
         const sw = isHi ? 2 : 1;
         const d = data.map((v, j) => `${j === 0 ? "M" : "L"}${x(j)},${y(v)}`).join(" ");
         const labelY = ordered.find((o) => o._i === i).lastY;
+        const lineEnd = x(months.length - 1);
+        const hasIcon = !!g.iconUrl;
+        const labelText = g.ko || g.label;
+        const iconR = 9;
+        const iconCx = lineEnd + 13 + iconR;
+        const clipId = `${chartId}-clip-${g.id}`;
         return (
           <g key={g.id}>
             <path d={d} fill="none" stroke={stroke} strokeWidth={sw} />
             {data.map((v, j) => (
               <circle key={j} cx={x(j)} cy={y(v)} r={isHi ? 3 : 2} fill={stroke} />
             ))}
+            {hasIcon && (
+              <React.Fragment>
+                <defs>
+                  <clipPath id={clipId}>
+                    <circle cx={iconCx} cy={labelY} r={iconR} />
+                  </clipPath>
+                </defs>
+                <image
+                  href={g.iconUrl}
+                  x={iconCx - iconR}
+                  y={labelY - iconR}
+                  width={iconR * 2}
+                  height={iconR * 2}
+                  clipPath={`url(#${clipId})`}
+                  preserveAspectRatio="xMidYMid slice"
+                />
+                <circle
+                  cx={iconCx} cy={labelY} r={iconR + 0.5}
+                  fill="none" stroke={stroke}
+                  strokeWidth={isHi ? 1.2 : 0.6}
+                  opacity={isHi ? 0.9 : 0.55}
+                />
+              </React.Fragment>
+            )}
             <text
-              x={x(months.length - 1) + 12}
+              x={lineEnd + (hasIcon ? 36 : 12)}
               y={labelY + 4}
-              fontFamily="'JetBrains Mono',monospace"
-              fontSize="10"
+              fontFamily={g.ko ? "'Noto Serif KR','EB Garamond',serif" : "'JetBrains Mono',monospace"}
+              fontSize={g.ko ? 12 : 10}
               fill={stroke}
               opacity={isHi ? 1 : 0.85}
-              fontWeight={isHi ? 600 : 400}
+              fontWeight={isHi ? 600 : 500}
             >
-              {g.label}
+              {labelText}
             </text>
           </g>
         );
@@ -386,10 +422,32 @@ function SectionTitle({ section, headline, sub, accent = TONE_A.red, ink = TONE_
 }
 
 // ─── Zoomable — wrap any block so users can click to enlarge it ────────────
-// Also stops mousedown/touchstart from bubbling so the underlying PageFlip
-// never initiates a page-drag while the user is reaching for the zoom target.
+// page-flip attaches native (non-React) listeners and watches mousemove to
+// trigger its hover-peel + drag. React's synthetic stopPropagation does not
+// reach those listeners, so a click on a chart that sits inside the corner
+// zone gets swallowed by the page-flip before the React onClick fires.
+// We attach our own native listeners and stop propagation at the DOM level,
+// so the library never sees the events when the pointer is over a zoomable.
 function Zoomable({ label = "", children, style = {}, className = "" }) {
-  const stop = (e) => e.stopPropagation();
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const stopNative = (e) => {
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    };
+    node.addEventListener("mousedown", stopNative);
+    node.addEventListener("mousemove", stopNative);
+    node.addEventListener("touchstart", stopNative, { passive: false });
+    node.addEventListener("touchmove", stopNative, { passive: false });
+    return () => {
+      node.removeEventListener("mousedown", stopNative);
+      node.removeEventListener("mousemove", stopNative);
+      node.removeEventListener("touchstart", stopNative);
+      node.removeEventListener("touchmove", stopNative);
+    };
+  }, []);
   const handleClick = (e) => {
     if (typeof window === "undefined" || !window.openZoom) return;
     e.stopPropagation();
@@ -397,10 +455,9 @@ function Zoomable({ label = "", children, style = {}, className = "" }) {
   };
   return (
     <div
+      ref={ref}
       className={`zoomable ${className}`}
       data-zoom-label={label}
-      onMouseDown={stop}
-      onTouchStart={stop}
       onClick={handleClick}
       style={{ cursor: "zoom-in", ...style }}
     >
