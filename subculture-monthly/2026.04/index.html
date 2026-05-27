@@ -12,7 +12,8 @@
   />
   <style>
     html, body { margin: 0; padding: 0; background: #ECE5CC; color: #1a1a1a;
-                 font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; }
+                 font-family: 'Inter', system-ui, sans-serif; min-height: 100vh;
+                 overflow-x: hidden; }
 
     .reader {
       min-height: 100vh;
@@ -25,10 +26,6 @@
       flex: 1; display: flex; flex-direction: column; align-items: center;
       justify-content: center; gap: 12px;
     }
-    /* When the cover is shown alone (showCover=true), shift the book so the
-       single visible page lands at the viewport center instead of the
-       right/left half of the empty spread. */
-    .book-wrap { transition: transform 0.35s ease; }
 
     /* Each .page is a flippable leaf. */
     .page {
@@ -291,20 +288,31 @@
     const PAGE_H = 1600;
     const PAGE_RATIO = PAGE_H / PAGE_W;
 
+    // Below this viewport width we drop to portrait (single-page) mode —
+    // spread mode requires roughly 2× the page width and overflows on tablets.
+    const SPREAD_MIN_VW = 1100;
+
+    function isPortraitMode() {
+      return (window.innerWidth || 1280) < SPREAD_MIN_VW;
+    }
+
     function computeBookSize() {
       const vw = window.innerWidth  || 1280;
       const vh = window.innerHeight || 800;
-      const railVisible = vw > 1340;
-      const sidePad = 24;
+      const portrait = vw < SPREAD_MIN_VW;
+      const railVisible = !portrait && vw > 1340;
+      const sidePad = portrait ? 16 : 24;
       const railReserve = railVisible ? 260 : 40;
       const horizBudget = vw - sidePad - railReserve;
-      const wFromWidth  = Math.floor(horizBudget / 2);
+      // Portrait shows one page; landscape shows two side-by-side.
+      const wFromWidth  = portrait ? horizBudget : Math.floor(horizBudget / 2);
       const vertChrome = 80;
       const hFromHeight = vh - vertChrome;
       const wFromHeight = Math.floor(hFromHeight / PAGE_RATIO);
-      const w = Math.max(420, Math.min(900, wFromWidth, wFromHeight));
+      const minW = portrait ? 280 : 420;
+      const w = Math.max(minW, Math.min(900, wFromWidth, wFromHeight));
       const h = Math.round(w * PAGE_RATIO);
-      return { w, h };
+      return { w, h, portrait };
     }
 
     // ─── Section anchors for bookmark rail ───────────────────────────────
@@ -438,7 +446,7 @@
           mobileScrollSupport: false,
           drawShadow: true,
           flippingTime: 700,
-          usePortrait: false,
+          usePortrait: bookSize.portrait,
           autoSize: false,
           startPage: start,
           // ─── Drag detection narrowed ───────────────────────────────────
@@ -486,21 +494,14 @@
         return () => window.removeEventListener('keydown', onKey);
       }, [setMobileOpen]);
 
-      // When sitting on the front or back hard cover (showCover behaviour),
-      // only one slot of the 2-page spread is rendered. Shift the book half a
-      // page so the visible cover lands at the viewport center.
-      const coverShift =
-        page === 0           ? -bookSize.w / 2
-      : page >= total - 1    ?  bookSize.w / 2
-      :                         0;
+      // Portrait shows one page at a time; landscape renders a spread (2× width).
+      const bookEl_w = bookSize.portrait ? bookSize.w : bookSize.w * 2;
 
       return (
         <React.Fragment>
           <div className="book-area">
-            <div className="book-wrap" style={{ transform: `translateX(${coverShift}px)` }}>
-              <div id="book" ref={bookRef} style={{ width: bookSize.w * 2, height: bookSize.h }}>
-                {pages.map(p => <BookPage key={p.key} stiff={p.stiff} bookW={bookSize.w}>{p.el}</BookPage>)}
-              </div>
+            <div id="book" ref={bookRef} style={{ width: bookEl_w, height: bookSize.h }}>
+              {pages.map(p => <BookPage key={p.key} stiff={p.stiff} bookW={bookSize.w}>{p.el}</BookPage>)}
             </div>
             <div className="controls">
               <button onClick={() => flipRef.current && flipRef.current.flipPrev()}>← PREV</button>
