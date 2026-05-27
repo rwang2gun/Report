@@ -1,14 +1,14 @@
-// Page-type components — back half (P.15 ─ P.19)
+// Page-type components — context (P.03–P.04) + back half (P.17 ─ P.19)
 // All props-driven. Same component renders any month's data.
 
 // ═══════════════════════════════════════════════════════════════════════════
 // <CrossAnalysisPage {...crossAnalysis} meta={...} />
-// P.15 — 5 trends × 6 titles matrix + dos/don'ts
+// P.03 — 5 trends × 6 titles matrix + dos/don'ts
 // ═══════════════════════════════════════════════════════════════════════════
 function CrossAnalysisPage({ meta, section, headline, sub, trends, matrix, dosDonts }) {
   const T = TONE_A;
   return (
-    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.15" pageNoSide="left" ofTotal={meta.issue}>
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.03" pageNoSide="left" ofTotal={meta.issue}>
       <FolioHeader left="SECTION · CROSS-GAME" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
       <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={840} />
 
@@ -107,12 +107,12 @@ function CrossMatrix({ cols, rows, ink, accent, hair, muted }) {
 
 // ═══════════════════════════════════════════════════════════════════════════
 // <IndustryDeskPage {...industry} meta={...} />
-// P.16 — studios · upcoming · regulations
+// P.04 — studios · upcoming · regulations
 // ═══════════════════════════════════════════════════════════════════════════
 function IndustryDeskPage({ meta, section, headline, sub, studios, upcoming, regulations }) {
   const T = TONE_A;
   return (
-    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.16" pageNoSide="right" ofTotal={meta.issue}>
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.04" pageNoSide="right" ofTotal={meta.issue}>
       <FolioHeader left="SECTION · INDUSTRY DESK" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
       <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={820} />
 

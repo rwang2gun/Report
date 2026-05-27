@@ -1,4 +1,4 @@
-// Page-type components — front half (P.00 ─ P.14)
+// Page-type components — front half (P.00 ─ P.02, plus 6 game features P.05 ─ P.16)
 // All props-driven. Same component renders any month's data.
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -31,7 +31,7 @@ function CoverPage({ meta, insights }) {
 
       {/* Splash slot (left) */}
       <div style={{ position: "absolute", left: 56, top: 460, width: 540, height: 760 }}>
-        <SplashSlot bg="#F2EDDD" stripe="rgba(26,26,26,0.07)" ink={T.ink} caption="COVER ILLUSTRATION" sub="540 × 760 · drop edition art" angle={-22} />
+        <SplashSlot bg="#EFEFEB" stripe="rgba(26,26,26,0.07)" ink={T.ink} caption="COVER ILLUSTRATION" sub="540 × 760 · drop edition art" angle={-22} />
         <div style={{ position: "absolute", left: 0, right: 0, bottom: 28, background: T.red, color: T.paper, padding: "10px 18px", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
           {meta.coverArt.caption}
         </div>
@@ -92,15 +92,15 @@ function TocPage({ meta, games, sections }) {
     { p: "P.00", ko: "표지 · 이번 호의 인사이트 3트랙",       en: "Cover · 3 Design Insight Tracks" },
     { p: "P.01", ko: "목차",                                   en: "Contents" },
     { p: "P.02", ko: "데이터 데스크 · 4월의 시장 검증",         en: "Data Desk · This Month in Numbers" },
+    { p: "P.03", ko: "교차 분석 · 다섯 트렌드, 여섯 작품",     en: "Cross-Game Analysis" },
+    { p: "P.04", ko: "산업 데스크 · 스튜디오·라인업·규제",     en: "Industry Desk" },
   ];
   const features = games.map((g, i) => {
-    const left = String(3 + i * 2).padStart(2, "0");
-    const right = String(4 + i * 2).padStart(2, "0");
+    const left = String(5 + i * 2).padStart(2, "0");
+    const right = String(6 + i * 2).padStart(2, "0");
     return { p: `P.${left}–${right}`, ko: `피처 ${String(i + 1).padStart(2, "0")} · ${g.ko}`, en: `Feature ${String(i + 1).padStart(2, "0")} · ${g.en}`, char: g.character.ko };
   });
   const post = [
-    { p: "P.15", ko: "교차 분석 · 다섯 트렌드, 여섯 작품",     en: "Cross-Game Analysis" },
-    { p: "P.16", ko: "산업 데스크 · 스튜디오·라인업·규제",     en: "Industry Desk" },
     { p: "P.17", ko: "커뮤니티 펄스 · 팬, 디렉터, 그 사이",    en: "Community Pulse" },
     { p: "P.18", ko: "워치리스트 · 다음 한 달의 다섯 슬롯",    en: "Watchlist · JUN 2026" },
     { p: "P.19", ko: "콜로폰 · 출처, 방법, 한계",              en: "Colophon" },
@@ -125,9 +125,9 @@ function TocPage({ meta, games, sections }) {
 
       {/* TOC body — flex column with explicit gaps so blocks can never overlap */}
       <div style={{ position: "absolute", top: 410, left: 56, right: 56, bottom: 140, display: "flex", flexDirection: "column", gap: 30 }}>
-        <TocBlock title="OPEN" subtitle="00 ─ 02" items={pre} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
-        <TocBlock title="FEATURES · 6 GAMES, 12 PAGES" subtitle="03 ─ 14" items={features} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} showChar />
-        <TocBlock title="CLOSE" subtitle="15 ─ 19" items={post} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
+        <TocBlock title="OPEN" subtitle="00 ─ 04" items={pre} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
+        <TocBlock title="FEATURES · 6 GAMES, 12 PAGES" subtitle="05 ─ 16" items={features} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} showChar />
+        <TocBlock title="CLOSE" subtitle="17 ─ 19" items={post} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
       </div>
 
       {/* Footer note */}
@@ -219,7 +219,7 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
             {lineChart.source}
           </div>
         </div>
-        <div style={{ background: "#F6F1E0", padding: "6px 20px 0", borderTop: `2px solid ${T.ink}`, borderBottom: `1px solid ${T.hair}` }}>
+        <div style={{ background: "#F0F0EB", padding: "6px 20px 0", borderTop: `2px solid ${T.ink}`, borderBottom: `1px solid ${T.hair}` }}>
           <RevLineChart
             width={1120} height={380}
             ink={T.ink} grid={T.hair} accent={T.red}
@@ -289,13 +289,13 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// <GameFeatureVisualPage game={...} index={n} total={6} pageNo="P.03" />
+// <GameFeatureVisualPage game={...} index={n} total={6} pageNo="P.05" />
 // Left page of a 2-page spread. Visual-first.
 // ═══════════════════════════════════════════════════════════════════════════
 function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
   const T = TONE_A;
   const C = game.character;
-  const pc = game.pageColor || { splash: "#E5DDC9", stripe: "rgba(0,0,0,0.06)", angle: -14 };
+  const pc = game.pageColor || { splash: "#DFDFD9", stripe: "rgba(0,0,0,0.06)", angle: -14 };
   // Title splits — first word stays roman, rest goes italic on a new line.
   const titleWords = game.en.split(":")[0].split(" ");
   const firstWord = titleWords[0];
@@ -431,7 +431,7 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// <GameFeatureBodyPage game={...} index={n} total={6} pageNo="P.04" />
+// <GameFeatureBodyPage game={...} index={n} total={6} pageNo="P.06" />
 // Right page of a 2-page spread. Body, timeline, fields, patch, quote.
 // ═══════════════════════════════════════════════════════════════════════════
 function GameFeatureBodyPage({ game, index, total, pageNo, prevPageNo, issue }) {
@@ -578,7 +578,7 @@ function GameFeatureBodyPage({ game, index, total, pageNo, prevPageNo, issue }) 
 
 function HardFrontCover({ meta }) {
   return (
-    <PageFrame bg="#F2EAD3" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
+    <PageFrame bg="#ECECE8" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
       style={{ boxShadow: "inset 0 0 80px rgba(26,26,26,0.06)" }}>
       {/* Top edge band */}
       <div style={{ position: "absolute", top: 64, left: 96, right: 96,
@@ -630,7 +630,7 @@ function HardFrontCover({ meta }) {
 
 function EndpaperFront() {
   return (
-    <PageFrame bg="#F4EDD9" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
+    <PageFrame bg="#EFEFEA" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
       {/* Very subtle hatched pattern */}
       <svg style={{ position: "absolute", inset: 0, opacity: 0.06 }} width="100%" height="100%">
         <defs>
@@ -655,7 +655,7 @@ function EndpaperFront() {
 
 function EndpaperBack() {
   return (
-    <PageFrame bg="#F4EDD9" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
+    <PageFrame bg="#EFEFEA" ink="#1A1A1A" grain={2} pageNo={null} rule={false}>
       <svg style={{ position: "absolute", inset: 0, opacity: 0.06 }} width="100%" height="100%">
         <defs>
           <pattern id="endpaper-hatch-back" patternUnits="userSpaceOnUse" width="20" height="20" patternTransform="rotate(-45)">
@@ -677,7 +677,7 @@ function EndpaperBack() {
 
 function HardBackCover({ meta }) {
   return (
-    <PageFrame bg="#F2EAD3" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
+    <PageFrame bg="#ECECE8" ink="#1A1A1A" grain={8} pageNo={null} rule={false}
       style={{ boxShadow: "inset 0 0 80px rgba(26,26,26,0.06)" }}>
       {/* Top */}
       <div style={{ position: "absolute", top: 64, left: 96, right: 96,

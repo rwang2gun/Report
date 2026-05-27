@@ -119,7 +119,7 @@ const ISSUE_2026_04 = {
       iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/df/69/1c/df691ca2-735f-4617-256d-a49202f8db1e/AppIcon-0-0-1x_U007epad-0-1-85-220.png/256x256bb.jpg",
       patchTitle: "Ver. 6.5 · 루나 VI",
       patchEn: "PATCH NOTE",
-      pageColor: { splash: "#E5DDC9", stripe: "rgba(0,0,0,0.06)", angle: -14 },
+      pageColor: { splash: "#DFDFD9", stripe: "rgba(0,0,0,0.06)", angle: -14 },
       character: {
         ko: "린네아",
         en: "Linnea",
@@ -194,7 +194,7 @@ const ISSUE_2026_04 = {
       iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/56/10/4a/56104ae6-272f-0619-908e-6ce14305b4fe/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/256x256bb.jpg",
       patchTitle: "Ver. 4.1 · 새벽에 바치는 폭주",
       patchEn: "PATCH NOTE",
-      pageColor: { splash: "#DCD8C7", stripe: "rgba(0,0,0,0.06)", angle: -20 },
+      pageColor: { splash: "#D6D5CF", stripe: "rgba(0,0,0,0.06)", angle: -20 },
       character: {
         ko: "애쉬베일",
         en: "Ashveil",
@@ -269,7 +269,7 @@ const ISSUE_2026_04 = {
       iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/91/1e/9d/911e9df7-8a8e-66e3-14d8-83867c5b219e/AppIcon-1x_U007emarketing-0-8-0-85-220.png/256x256bb.jpg",
       patchTitle: "Ver. 2.7 · 챔피언은 과거에 무릎 꿇지 않는다",
       patchEn: "PATCH NOTE",
-      pageColor: { splash: "#E2D8C2", stripe: "rgba(0,0,0,0.07)", angle: -8 },
+      pageColor: { splash: "#DBDAD3", stripe: "rgba(0,0,0,0.07)", angle: -8 },
       character: {
         ko: "시시아",
         en: "Cissia",
@@ -344,7 +344,7 @@ const ISSUE_2026_04 = {
       iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/b5/44/ca/b544ca0a-dd46-a268-b2fa-533d41f97ff7/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/256x256bb.jpg",
       patchTitle: "Ver. 3.3 · 은하 끝에서 메아리치는",
       patchEn: "PATCH NOTE",
-      pageColor: { splash: "#D8D0BB", stripe: "rgba(0,0,0,0.06)", angle: -16 },
+      pageColor: { splash: "#D2D2CA", stripe: "rgba(0,0,0,0.06)", angle: -16 },
       character: {
         ko: "히유키",
         en: "Hiyuki",
@@ -419,7 +419,7 @@ const ISSUE_2026_04 = {
       iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/6d/a6/e0/6da6e0eb-c4fa-4dc0-aa55-64eff735eb22/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/256x256bb.jpg",
       patchTitle: "Ver. 1.2 · 봄의 깨어남에서",
       patchEn: "PATCH NOTE",
-      pageColor: { splash: "#DAD3BC", stripe: "rgba(0,0,0,0.07)", angle: -18 },
+      pageColor: { splash: "#D4D3CB", stripe: "rgba(0,0,0,0.07)", angle: -18 },
       character: {
         ko: "장방이",
         en: "Zhuang Fangyi",
@@ -494,7 +494,7 @@ const ISSUE_2026_04 = {
       iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/6b/68/aa/6b68aa0c-6509-870f-d271-1232767f9482/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/256x256bb.jpg",
       patchTitle: "GOOD WORLD 업데이트",
       patchEn: "PATCH NOTE",
-      pageColor: { splash: "#DED5BE", stripe: "rgba(0,0,0,0.07)", angle: -12 },
+      pageColor: { splash: "#D8D8D1", stripe: "rgba(0,0,0,0.07)", angle: -12 },
       character: {
         ko: "스노우 크레인",
         en: "Snow Crane",
