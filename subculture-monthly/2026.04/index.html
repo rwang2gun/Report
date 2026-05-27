@@ -312,35 +312,37 @@
     }
 
     // ─── Section anchors for bookmark rail ───────────────────────────────
-    // Indices reflect 24-page layout:
+    // Indices reflect 26-page layout (cross + industry each split into 2):
     //   0   jacket front (stiff)
     //   1   endpaper front
     //   2   cover (insights + KPI)
     //   3   TOC
     //   4   dashboard
-    //   5   cross-game analysis
-    //   6   industry desk
-    //   7-18 6 game spreads (visual left, body right)
-    //   19  community pulse
-    //   20  watchlist
-    //   21  colophon
-    //   22  endpaper back
-    //   23  jacket back (stiff)
+    //   5   cross-game · trends
+    //   6   cross-game · playbook
+    //   7   industry · studios
+    //   8   industry · outlook
+    //   9-20 6 game spreads (visual left, body right)
+    //   21  community pulse
+    //   22  watchlist
+    //   23  colophon
+    //   24  endpaper back
+    //   25  jacket back (stiff)
     const SECTIONS = [
       { id: 'cover',     label: '표지',         page: 2  },
       { id: 'toc',       label: '목차',         page: 3  },
       { id: 'numbers',   label: '데이터',       page: 4  },
       { id: 'cross',     label: '크로스',       page: 5  },
-      { id: 'industry',  label: '산업',         page: 6  },
-      { id: 'gi',        label: '원신',         page: 7  },
-      { id: 'hsr',       label: '스타레일',     page: 9  },
-      { id: 'zzz',       label: '젠레스',       page: 11 },
-      { id: 'ww',        label: '명조',         page: 13 },
-      { id: 'ef',        label: '엔드필드',     page: 15 },
-      { id: 'nk',        label: '니케',         page: 17 },
-      { id: 'community', label: '커뮤니티',     page: 19 },
-      { id: 'watch',     label: 'Watchlist',    page: 20 },
-      { id: 'colophon',  label: '콜로폰',       page: 21 },
+      { id: 'industry',  label: '산업',         page: 7  },
+      { id: 'gi',        label: '원신',         page: 9  },
+      { id: 'hsr',       label: '스타레일',     page: 11 },
+      { id: 'zzz',       label: '젠레스',       page: 13 },
+      { id: 'ww',        label: '명조',         page: 15 },
+      { id: 'ef',        label: '엔드필드',     page: 17 },
+      { id: 'nk',        label: '니케',         page: 19 },
+      { id: 'community', label: '커뮤니티',     page: 21 },
+      { id: 'watch',     label: 'Watchlist',    page: 22 },
+      { id: 'colophon',  label: '콜로폰',       page: 23 },
     ];
     function sectionForPage(p) {
       let s = SECTIONS[0];
@@ -368,17 +370,19 @@
       pages.push({ key: 'p00', el: <CoverPage meta={D.meta} insights={D.insights} /> });
       pages.push({ key: 'p01', el: <TocPage meta={D.meta} games={D.games} data={D} /> });
       pages.push({ key: 'p02', el: <DataDashboardPage meta={D.meta} games={D.games} {...D.dashboard} /> });
-      pages.push({ key: 'p03', el: <CrossAnalysisPage meta={D.meta} {...D.crossAnalysis} /> });
-      pages.push({ key: 'p04', el: <IndustryDeskPage  meta={D.meta} {...D.industry} /> });
+      pages.push({ key: 'p03', el: <CrossAnalysisTrendsPage   meta={D.meta} {...D.crossAnalysis} /> });
+      pages.push({ key: 'p04', el: <CrossAnalysisPlaybookPage meta={D.meta} {...D.crossAnalysis} /> });
+      pages.push({ key: 'p05', el: <IndustryStudiosPage       meta={D.meta} {...D.industry} /> });
+      pages.push({ key: 'p06', el: <IndustryOutlookPage       meta={D.meta} {...D.industry} /> });
       D.games.forEach((g, i) => {
-        const leftNo  = `P.${String(5 + i * 2).padStart(2, "0")}`;
-        const rightNo = `P.${String(6 + i * 2).padStart(2, "0")}`;
+        const leftNo  = `P.${String(7 + i * 2).padStart(2, "0")}`;
+        const rightNo = `P.${String(8 + i * 2).padStart(2, "0")}`;
         pages.push({ key: `p${leftNo}`,  el: <GameFeatureVisualPage game={g} index={i} total={D.games.length} pageNo={leftNo} issue={D.meta.issue} /> });
         pages.push({ key: `p${rightNo}`, el: <GameFeatureBodyPage   game={g} index={i} total={D.games.length} pageNo={rightNo} prevPageNo={leftNo} issue={D.meta.issue} /> });
       });
-      pages.push({ key: 'p17', el: <CommunityPulsePage meta={D.meta} {...D.community} /> });
-      pages.push({ key: 'p18', el: <WatchlistPage     meta={D.meta} {...D.watchlist} /> });
-      pages.push({ key: 'p19', el: <ColophonPage      meta={D.meta} {...D.colophon} /> });
+      pages.push({ key: 'p19', el: <CommunityPulsePage meta={D.meta} {...D.community} /> });
+      pages.push({ key: 'p20', el: <WatchlistPage     meta={D.meta} {...D.watchlist} /> });
+      pages.push({ key: 'p21', el: <ColophonPage      meta={D.meta} {...D.colophon} /> });
       pages.push({ key: 'p-endpaper-back', stiff: false, el: <EndpaperBack /> });
       pages.push({ key: 'p-jacket-back',   stiff: true,  el: <HardBackCover meta={D.meta} /> });
       return pages;

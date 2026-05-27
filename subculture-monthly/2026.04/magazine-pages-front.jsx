@@ -94,13 +94,13 @@ function TocPage({ meta, games, data }) {
   // P.00 (cover) is intentionally omitted per editorial direction — the cover
   // doesn't carry a headline and listing it as "표지" was just padding.
   const entries = [
-    { p: "P.01", title: "목차",                                  cat: "Contents" },
-    { p: "P.02", title: joinHL(data.dashboard.headline),         cat: "데이터 데스크 · Data Desk" },
-    { p: "P.03", title: joinHL(data.crossAnalysis.headline),     cat: "교차 분석 · Cross-Game Analysis" },
-    { p: "P.04", title: joinHL(data.industry.headline),          cat: "산업 데스크 · Industry Desk" },
+    { p: "P.01",    title: "목차",                                  cat: "Contents" },
+    { p: "P.02",    title: joinHL(data.dashboard.headline),         cat: "데이터 데스크 · Data Desk" },
+    { p: "P.03–04", title: joinHL(data.crossAnalysis.headline),     cat: "교차 분석 · Cross-Game Analysis" },
+    { p: "P.05–06", title: joinHL(data.industry.headline),          cat: "산업 데스크 · Industry Desk" },
     ...games.map((g, i) => {
-      const left  = String(5 + i * 2).padStart(2, "0");
-      const right = String(6 + i * 2).padStart(2, "0");
+      const left  = String(7 + i * 2).padStart(2, "0");
+      const right = String(8 + i * 2).padStart(2, "0");
       return {
         p:     `P.${left}–${right}`,
         title: `${g.character.leadKo} ${g.character.leadEmph}`.replace(/\s+/g, " ").trim(),
@@ -111,9 +111,9 @@ function TocPage({ meta, games, data }) {
         char:  g.character.ko,
       };
     }),
-    { p: "P.17", title: joinHL(data.community.headline),         cat: "커뮤니티 펄스 · Community Pulse" },
-    { p: "P.18", title: joinHL(data.watchlist.headline),         cat: "워치리스트 · Watchlist" },
-    { p: "P.19", title: joinHL(data.colophon.headline),          cat: "콜로폰 · Colophon" },
+    { p: "P.19",    title: joinHL(data.community.headline),         cat: "커뮤니티 펄스 · Community Pulse" },
+    { p: "P.20",    title: joinHL(data.watchlist.headline),         cat: "워치리스트 · Watchlist" },
+    { p: "P.21",    title: joinHL(data.colophon.headline),          cat: "콜로폰 · Colophon" },
   ];
 
   return (

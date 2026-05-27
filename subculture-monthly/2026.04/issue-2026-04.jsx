@@ -654,7 +654,7 @@ const ISSUE_2026_04 = {
 
   // ─── Community pulse ──────────────────────────────────────────────────────
   community: {
-    section: "17 / Community Pulse",
+    section: "19 / Community Pulse",
     headline: { pre: "보상에는 박수, 메타에는 토론,", emphasis: "콘솔 종료에는 반발." },
     sub: "4월의 커뮤니티 신호는 같은 주에 세 방향으로 갈렸다. 본지가 추린 다섯 사건 · 한 통의 디렉터 레터 · 네 점의 팬워크.",
     events: [
@@ -681,7 +681,7 @@ const ISSUE_2026_04 = {
 
   // ─── Watchlist (next month) ───────────────────────────────────────────────
   watchlist: {
-    section: "18 / Watchlist · MAY 2026",
+    section: "20 / Watchlist · MAY 2026",
     headline: { pre: "다음 한 달,", emphasis: "수치보다 결정을 본다." },
     sub: "5월 매출은 5월에 들여다본다. 본지가 미리 짚어두는 것은 그 매출 뒤에 어떤 디자인 베팅이 깔렸는가 — 다섯 슬롯.",
     items: [
@@ -695,7 +695,7 @@ const ISSUE_2026_04 = {
 
   // ─── Colophon ─────────────────────────────────────────────────────────────
   colophon: {
-    section: "19 / Colophon",
+    section: "21 / Colophon",
     headline: { pre: "출처, 방법,", emphasis: "그리고 우리가 모르는 것." },
     sub: "본지는 매월 6개 작품의 디자인 결정과 시장 반응을 함께 본다. 매출은 추정치이며, 디자인 판단은 편집부의 책임이다. 모르는 것은 모른다고 적는다.",
     sources: [
