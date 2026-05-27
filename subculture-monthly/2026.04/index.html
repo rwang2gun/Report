@@ -25,6 +25,10 @@
       flex: 1; display: flex; flex-direction: column; align-items: center;
       justify-content: center; gap: 12px;
     }
+    /* When the cover is shown alone (showCover=true), shift the book so the
+       single visible page lands at the viewport center instead of the
+       right/left half of the empty spread. */
+    .book-wrap { transition: transform 0.35s ease; }
 
     /* Each .page is a flippable leaf. */
     .page {
@@ -482,11 +486,21 @@
         return () => window.removeEventListener('keydown', onKey);
       }, [setMobileOpen]);
 
+      // When sitting on the front or back hard cover (showCover behaviour),
+      // only one slot of the 2-page spread is rendered. Shift the book half a
+      // page so the visible cover lands at the viewport center.
+      const coverShift =
+        page === 0           ? -bookSize.w / 2
+      : page >= total - 1    ?  bookSize.w / 2
+      :                         0;
+
       return (
         <React.Fragment>
           <div className="book-area">
-            <div id="book" ref={bookRef} style={{ width: bookSize.w * 2, height: bookSize.h }}>
-              {pages.map(p => <BookPage key={p.key} stiff={p.stiff} bookW={bookSize.w}>{p.el}</BookPage>)}
+            <div className="book-wrap" style={{ transform: `translateX(${coverShift}px)` }}>
+              <div id="book" ref={bookRef} style={{ width: bookSize.w * 2, height: bookSize.h }}>
+                {pages.map(p => <BookPage key={p.key} stiff={p.stiff} bookW={bookSize.w}>{p.el}</BookPage>)}
+              </div>
             </div>
             <div className="controls">
               <button onClick={() => flipRef.current && flipRef.current.flipPrev()}>← PREV</button>
