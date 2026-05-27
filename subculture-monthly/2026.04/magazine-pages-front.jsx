@@ -105,6 +105,10 @@ function TocPage({ meta, games, data }) {
         p:     `P.${left}–${right}`,
         title: `${g.character.leadKo} ${g.character.leadEmph}`.replace(/\s+/g, " ").trim(),
         cat:   `피처 ${String(i + 1).padStart(2, "0")} · ${g.ko} / ${g.en.split(":")[0]}`,
+        // Game features get a character byline appended to the headline so each
+        // row reads "{editorial headline} — {character}". Non-feature entries
+        // leave this undefined.
+        char:  g.character.ko,
       };
     }),
     { p: "P.17", title: joinHL(data.community.headline),         cat: "커뮤니티 펄스 · Community Pulse" },
@@ -135,6 +139,11 @@ function TocPage({ meta, games, data }) {
             <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 3 }}>
               <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 22, lineHeight: 1.25, color: T.ink, letterSpacing: "-0.01em", fontWeight: 500, textWrap: "pretty" }}>
                 {e.title}
+                {e.char && (
+                  <span style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic", color: T.red, fontWeight: 500, marginLeft: 10, letterSpacing: "-0.01em" }}>
+                    — {e.char}
+                  </span>
+                )}
               </div>
               <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
                 {e.cat}
