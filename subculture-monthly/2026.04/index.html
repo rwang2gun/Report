@@ -366,7 +366,7 @@
       pages.push({ key: 'p-jacket-front',   stiff: true,  el: <HardFrontCover meta={D.meta} /> });
       pages.push({ key: 'p-endpaper-front', stiff: false, el: <EndpaperFront /> });
       pages.push({ key: 'p00', el: <CoverPage meta={D.meta} insights={D.insights} /> });
-      pages.push({ key: 'p01', el: <TocPage meta={D.meta} games={D.games} /> });
+      pages.push({ key: 'p01', el: <TocPage meta={D.meta} games={D.games} data={D} /> });
       pages.push({ key: 'p02', el: <DataDashboardPage meta={D.meta} games={D.games} {...D.dashboard} /> });
       pages.push({ key: 'p03', el: <CrossAnalysisPage meta={D.meta} {...D.crossAnalysis} /> });
       pages.push({ key: 'p04', el: <IndustryDeskPage  meta={D.meta} {...D.industry} /> });

@@ -85,25 +85,31 @@ function CoverPage({ meta, insights }) {
 // <TocPage meta={...} games={[6]} sections={[...]} />
 // P.01 — Table of Contents. Auto-builds 6 game spreads + named sections.
 // ═══════════════════════════════════════════════════════════════════════════
-function TocPage({ meta, games, sections }) {
+function TocPage({ meta, games, data }) {
   const T = TONE_A;
-  // Build TOC entries: 3 pre-feature, 6 features, 5 post-feature
-  const pre = [
-    { p: "P.00", ko: "표지 · 이번 호의 인사이트 3트랙",       en: "Cover · 3 Design Insight Tracks" },
-    { p: "P.01", ko: "목차",                                   en: "Contents" },
-    { p: "P.02", ko: "데이터 데스크 · 4월의 시장 검증",         en: "Data Desk · This Month in Numbers" },
-    { p: "P.03", ko: "교차 분석 · 다섯 트렌드, 여섯 작품",     en: "Cross-Game Analysis" },
-    { p: "P.04", ko: "산업 데스크 · 스튜디오·라인업·규제",     en: "Industry Desk" },
-  ];
-  const features = games.map((g, i) => {
-    const left = String(5 + i * 2).padStart(2, "0");
-    const right = String(6 + i * 2).padStart(2, "0");
-    return { p: `P.${left}–${right}`, ko: `피처 ${String(i + 1).padStart(2, "0")} · ${g.ko}`, en: `Feature ${String(i + 1).padStart(2, "0")} · ${g.en}`, char: g.character.ko };
-  });
-  const post = [
-    { p: "P.17", ko: "커뮤니티 펄스 · 팬, 디렉터, 그 사이",    en: "Community Pulse" },
-    { p: "P.18", ko: "워치리스트 · 다음 한 달의 다섯 슬롯",    en: "Watchlist · JUN 2026" },
-    { p: "P.19", ko: "콜로폰 · 출처, 방법, 한계",              en: "Colophon" },
+  // Join the editorial headline shards ("pre" + "emphasis") into one line.
+  const joinHL = (h) => `${h.pre} ${h.emphasis}`.replace(/\s+/g, " ").trim();
+
+  // Each entry: page number(s), real editorial headline as main, category as sub.
+  // P.00 (cover) is intentionally omitted per editorial direction — the cover
+  // doesn't carry a headline and listing it as "표지" was just padding.
+  const entries = [
+    { p: "P.01", title: "목차",                                  cat: "Contents" },
+    { p: "P.02", title: joinHL(data.dashboard.headline),         cat: "데이터 데스크 · Data Desk" },
+    { p: "P.03", title: joinHL(data.crossAnalysis.headline),     cat: "교차 분석 · Cross-Game Analysis" },
+    { p: "P.04", title: joinHL(data.industry.headline),          cat: "산업 데스크 · Industry Desk" },
+    ...games.map((g, i) => {
+      const left  = String(5 + i * 2).padStart(2, "0");
+      const right = String(6 + i * 2).padStart(2, "0");
+      return {
+        p:     `P.${left}–${right}`,
+        title: `${g.character.leadKo} ${g.character.leadEmph}`.replace(/\s+/g, " ").trim(),
+        cat:   `피처 ${String(i + 1).padStart(2, "0")} · ${g.ko} / ${g.en.split(":")[0]}`,
+      };
+    }),
+    { p: "P.17", title: joinHL(data.community.headline),         cat: "커뮤니티 펄스 · Community Pulse" },
+    { p: "P.18", title: joinHL(data.watchlist.headline),         cat: "워치리스트 · Watchlist" },
+    { p: "P.19", title: joinHL(data.colophon.headline),          cat: "콜로폰 · Colophon" },
   ];
 
   return (
@@ -114,64 +120,36 @@ function TocPage({ meta, games, sections }) {
         <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
           01 / Table of Contents · {meta.coverDate}
         </div>
-        <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 88, lineHeight: 0.94, margin: 0, color: T.ink, letterSpacing: "-0.03em", fontWeight: 500 }}>
-          이번 호의<br/>
-          <span style={{ fontStyle: "italic", color: T.red }}>스무 페이지.</span>
+        <h1 style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 96, lineHeight: 1.0, margin: 0, color: T.ink, letterSpacing: "-0.04em", fontWeight: 700 }}>
+          목차
         </h1>
-        <div style={{ marginTop: 16, maxWidth: 700, fontFamily: "'Noto Serif KR',serif", fontSize: 15, lineHeight: 1.6, color: T.ink, opacity: 0.82 }}>
-          편집 흐름은 단순합니다. 시장의 큰 그림 → 여섯 작품의 결정 → 다시 큰 그림. 같은 페이지 타입을 데이터만 바꿔서 매월 다시 만듭니다.
-        </div>
       </div>
 
-      {/* TOC body — flex column with explicit gaps so blocks can never overlap */}
-      <div style={{ position: "absolute", top: 410, left: 56, right: 56, bottom: 140, display: "flex", flexDirection: "column", gap: 30 }}>
-        <TocBlock title="OPEN" subtitle="00 ─ 04" items={pre} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
-        <TocBlock title="FEATURES · 6 GAMES, 12 PAGES" subtitle="05 ─ 16" items={features} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} showChar />
-        <TocBlock title="CLOSE" subtitle="17 ─ 19" items={post} accent={T.red} ink={T.ink} hair={T.hair} muted={T.muted} />
+      {/* TOC body — single flat list. Each row: page no · headline (main) · category (sub). */}
+      <div style={{ position: "absolute", top: 340, left: 56, right: 56, bottom: 130, borderTop: `2px solid ${T.ink}` }}>
+        {entries.map((e, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 22, padding: "13px 0 12px", borderBottom: `1px solid ${T.hair}` }}>
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.12em", color: T.red, flex: "0 0 100px", fontWeight: 600 }}>
+              {e.p}
+            </span>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 3 }}>
+              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 22, lineHeight: 1.25, color: T.ink, letterSpacing: "-0.01em", fontWeight: 500, textWrap: "pretty" }}>
+                {e.title}
+              </div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
+                {e.cat}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Footer note */}
       <div style={{ position: "absolute", bottom: 88, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
         <span>한 호 = 한 데이터 객체. 다음 호는 ISSUE_2026_06 = &#123; ... &#125;</span>
-        <span style={{ color: T.red }}>10 PAGE TYPES · 20 RENDERS</span>
+        <span style={{ color: T.red }}>{entries.length} ENTRIES</span>
       </div>
     </PageFrame>
-  );
-}
-
-function TocBlock({ title, subtitle, items, accent, ink, hair, muted, showChar }) {
-  return (
-    <div>
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", borderBottom: `2px solid ${ink}`, paddingBottom: 8, marginBottom: 8 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, letterSpacing: "0.24em", color: ink, textTransform: "uppercase", fontWeight: 600 }}>
-          {title}
-        </div>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: accent, textTransform: "uppercase" }}>
-          {subtitle}
-        </div>
-      </div>
-      <div>
-        {items.map((it, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 14, padding: "11px 0", borderBottom: `1px solid ${hair}` }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, letterSpacing: "0.12em", color: accent, flex: "0 0 110px", fontWeight: 600 }}>
-              {it.p}
-            </span>
-            <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 26, color: ink, letterSpacing: "-0.01em", flex: showChar ? "0 0 420px" : "0 0 480px" }}>
-              {it.ko}
-            </span>
-            <span style={{ flex: 1, borderBottom: `1px dotted ${hair}`, transform: "translateY(-4px)" }} />
-            {showChar && (
-              <span style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic", fontSize: 18, color: accent, flex: "0 0 150px", textAlign: "right" }}>
-                / {it.char}
-              </span>
-            )}
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.12em", color: muted, textTransform: "uppercase", flex: "0 0 240px", textAlign: "right" }}>
-              {it.en}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
   );
 }
 
