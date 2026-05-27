@@ -310,17 +310,17 @@
     //   22  endpaper back
     //   23  jacket back (stiff)
     const SECTIONS = [
-      { id: 'cover',     label: '표지',         page: 2,  key: '1' },
-      { id: 'toc',       label: '목차',         page: 3,  key: '2' },
-      { id: 'numbers',   label: '데이터',       page: 4,  key: '3' },
+      { id: 'cover',     label: '표지',         page: 2  },
+      { id: 'toc',       label: '목차',         page: 3  },
+      { id: 'numbers',   label: '데이터',       page: 4  },
       { id: 'cross',     label: '크로스',       page: 5  },
       { id: 'industry',  label: '산업',         page: 6  },
-      { id: 'gi',        label: '원신',         page: 7,  key: '4' },
-      { id: 'hsr',       label: '스타레일',     page: 9,  key: '5' },
-      { id: 'zzz',       label: '젠레스',       page: 11, key: '6' },
-      { id: 'ww',        label: '명조',         page: 13, key: '7' },
-      { id: 'ef',        label: '엔드필드',     page: 15, key: '8' },
-      { id: 'nk',        label: '니케',         page: 17, key: '9' },
+      { id: 'gi',        label: '원신',         page: 7  },
+      { id: 'hsr',       label: '스타레일',     page: 9  },
+      { id: 'zzz',       label: '젠레스',       page: 11 },
+      { id: 'ww',        label: '명조',         page: 13 },
+      { id: 'ef',        label: '엔드필드',     page: 15 },
+      { id: 'nk',        label: '니케',         page: 17 },
       { id: 'community', label: '커뮤니티',     page: 19 },
       { id: 'watch',     label: 'Watchlist',    page: 20 },
       { id: 'colophon',  label: '콜로폰',       page: 21 },
@@ -444,10 +444,6 @@
           if (!flipRef.current) return;
           if (e.key === 'ArrowLeft')       { flipRef.current.flipPrev(); }
           else if (e.key === 'ArrowRight') { flipRef.current.flipNext(); }
-          else if (/^[0-9]$/.test(e.key)) {
-            const target = SECTIONS.find(s => s.key === e.key);
-            if (target) flipRef.current.turnToPage(target.page);
-          }
         };
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
@@ -468,7 +464,7 @@
             <button onClick={() => flipRef.current && flipRef.current.flipPrev()}>← PREV</button>
             <span className="pageno">{String(page).padStart(2, "0")} / {String(total - 1).padStart(2, "0")}</span>
             <button onClick={() => flipRef.current && flipRef.current.flipNext()}>NEXT →</button>
-            <span className="hint">← → · 0–9 단축키 · 모서리를 끌어 넘기기</span>
+            <span className="hint">← → · 모서리를 끌어 넘기기</span>
           </div>
         </div>
       );
