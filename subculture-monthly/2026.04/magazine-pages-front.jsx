@@ -320,14 +320,13 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
                 filter: "saturate(0.92) contrast(0.96)",
               }}
             />
-            {/* Top fade — covers the masthead band only, then fades out before
-                reaching the character's face. The brand strip + ghosted English
-                wordmark end around y=240; the tagline box has its own backing,
-                so the fade only needs to keep the masthead text legible without
-                bleeding into the portrait. */}
+            {/* Top fade — narrow band that only backs the feature label +
+                brand strip (~y=170). The English wordmark and tagline box
+                below have their own treatments. Keeping the fade short means
+                the character's face area stays clear of any haze. */}
             <div style={{
-              position: "absolute", top: 0, left: 0, right: 0, height: 280,
-              background: `linear-gradient(to bottom, ${pc.splash} 0%, ${pc.splash} 50%, rgba(0,0,0,0) 100%)`,
+              position: "absolute", top: 0, left: 0, right: 0, height: 180,
+              background: `linear-gradient(to bottom, ${pc.splash} 0%, ${pc.splash} 55%, rgba(0,0,0,0) 100%)`,
               pointerEvents: "none",
             }} />
             {/* Bottom fade — keeps the name plate readable. */}
@@ -380,8 +379,9 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
           </div>
         </div>
 
-        {/* English wordmark — ghosted, plays support role */}
-        <div style={{ marginTop: 14, fontFamily: "'EB Garamond',serif", fontSize: 64, lineHeight: 0.95, letterSpacing: "-0.035em", fontWeight: 400, color: T.ink, opacity: 0.35, fontStyle: "italic" }}>
+        {/* English wordmark — ghosted, plays support role. Kept compact so it
+            doesn't sit across the character portrait below. */}
+        <div style={{ marginTop: 10, fontFamily: "'EB Garamond',serif", fontSize: 38, lineHeight: 0.95, letterSpacing: "-0.025em", fontWeight: 400, color: T.ink, opacity: 0.42, fontStyle: "italic" }}>
           {game.en.split(":")[0]}.
         </div>
 
