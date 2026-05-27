@@ -61,6 +61,13 @@
 
     /* ─── Page bookmark tabs (attached to the book's right edge) ───────── */
     .book-stage { position: relative; }
+    /* In landscape mode the #book element is a 2-page-wide spread, and the
+       front/back hard covers (showCover=true) occupy only one of the two slots
+       — so the cover lands off-center. .book-cover-shift moves just the book
+       content (not the tabs) by half a page so the lone cover sits at the
+       viewport center. Tabs keep their position alongside the page they
+       bookmark. */
+    .book-cover-shift { transition: transform 0.35s ease; }
     .page-tabs {
       position: absolute;
       left: 100%; top: 0; height: 100%;
@@ -523,11 +530,23 @@
       // Portrait shows one page at a time; landscape renders a spread (2× width).
       const bookEl_w = bookSize.portrait ? bookSize.w : bookSize.w * 2;
 
+      // showCover=true renders the front/back hard cover in only one slot of
+      // the 2-page spread. Slide the book half a page so the lone cover lands
+      // at viewport center. Portrait mode already shows one page at a time, so
+      // no shift is needed there.
+      const coverShift =
+        bookSize.portrait     ? 0
+      : page === 0            ? -bookSize.w / 2
+      : page === total - 1    ?  bookSize.w / 2
+      :                          0;
+
       return (
         <div className="book-area">
           <div className="book-stage" style={{ width: bookEl_w, height: bookSize.h }}>
-            <div id="book" ref={bookRef} style={{ width: bookEl_w, height: bookSize.h }}>
-              {pages.map(p => <BookPage key={p.key} stiff={p.stiff} bookW={bookSize.w}>{p.el}</BookPage>)}
+            <div className="book-cover-shift" style={{ transform: `translateX(${coverShift}px)` }}>
+              <div id="book" ref={bookRef} style={{ width: bookEl_w, height: bookSize.h }}>
+                {pages.map(p => <BookPage key={p.key} stiff={p.stiff} bookW={bookSize.w}>{p.el}</BookPage>)}
+              </div>
             </div>
             <PageTabs flipRef={flipRef} currentPage={page} />
           </div>
