@@ -1,5 +1,9 @@
-// Page-type components — context (P.03–P.06) + back half (P.19 ─ P.21)
+// Page-type components — context (P.03–P.06) + back half (P.25 ─ P.29)
 // All props-driven. Same component renders any month's data.
+//
+// Back-half pages use the same expansive scale as P.03–P.06: borderTop 2px
+// ink, 17-19px body, 32-38px row heads, EB Garamond italic numerals, and
+// generous row padding (18-22px) — sized for mobile readability.
 
 // ═══════════════════════════════════════════════════════════════════════════
 // <CrossAnalysisTrendsPage {...crossAnalysis} meta={...} />
@@ -253,71 +257,127 @@ function IndustryOutlookPage({ meta, upcoming, regulations }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// <CommunityPulsePage {...community} meta={...} />
-// P.19 — events · director letter · fan works
+// <CommunityEventsPage {...community} meta={...} />
+// P.25 — 5 events (vertical list, 32px titles) + director letter card
 // ═══════════════════════════════════════════════════════════════════════════
-function CommunityPulsePage({ meta, section, headline, sub, events, directorLetter, fanWorks }) {
+function CommunityEventsPage({ meta, section, headline, sub, events, directorLetter }) {
   const T = TONE_A;
   return (
-    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.19" pageNoSide="left" ofTotal={meta.issue}>
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.25" pageNoSide="left" ofTotal={meta.issue}>
       <FolioHeader left="SECTION · COMMUNITY PULSE" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
-      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={820} />
+      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={1000} />
 
-      {/* Events */}
-      <div style={{ position: "absolute", top: 410, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
-          FIG. C.1 · Five Events · {meta.coverDate}
+      {/* Events — vertical list, EB Garamond italic date + 32px title + meta line */}
+      <div style={{ position: "absolute", top: 440, left: 56, right: 56 }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+            FIG. C.1 · Five Events · {meta.coverDate}
+          </div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+            APR 2026 · 5 SIGNALS
+          </div>
         </div>
         <div style={{ borderTop: `2px solid ${T.ink}` }}>
           {events.map((e, i) => (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "100px 1fr 200px 160px", gap: 16, alignItems: "baseline", padding: "11px 0", borderBottom: `1px solid ${T.hair}` }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", color: T.red, fontWeight: 600 }}>{e.when}</span>
-              <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 22, color: T.ink, letterSpacing: "-0.01em" }}>{e.title}</span>
-              <span style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.75 }}>{e.where}</span>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: T.ink, textAlign: "right", letterSpacing: "0.08em" }}>{e.scale}</span>
-            </div>
+            <Zoomable key={i} label={`Event ${e.when} — ${e.title}`} style={{ display: "grid", gridTemplateColumns: "130px 1fr", columnGap: 24, padding: "20px 0 22px", borderBottom: `1px solid ${T.hair}`, alignItems: "start", cursor: "zoom-in" }}>
+              <div style={{ paddingTop: 4 }}>
+                <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 36, lineHeight: 1, color: T.red, fontWeight: 500, letterSpacing: "-0.02em", fontStyle: "italic" }}>
+                  {e.when}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 26, lineHeight: 1.25, color: T.ink, letterSpacing: "-0.01em", fontWeight: 600, textWrap: "pretty" }}>
+                  {e.title}
+                </div>
+                <div style={{ marginTop: 8, display: "flex", gap: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", color: T.ink, opacity: 0.78 }}>
+                  <span><span style={{ color: T.muted }}>WHERE</span> · {e.where}</span>
+                  <span style={{ marginLeft: "auto", color: T.red, fontWeight: 600 }}>{e.scale}</span>
+                </div>
+              </div>
+            </Zoomable>
           ))}
         </div>
       </div>
 
-      {/* Director letter + fan works */}
-      <div style={{ position: "absolute", left: 56, right: 56, top: 820, display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 28 }}>
-        <div style={{ background: T.ink, color: T.paper, padding: "26px 28px 28px", position: "relative" }}>
-          <div style={{ position: "absolute", top: -10, left: 18, fontFamily: "'EB Garamond',serif", fontSize: 88, lineHeight: 1, color: T.red, fontStyle: "italic" }}>“</div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginTop: 36 }}>
-            {directorLetter.head}
-          </div>
-          <div style={{ marginTop: 4, fontFamily: "'EB Garamond',serif", fontSize: 22, color: T.paper, fontStyle: "italic" }}>
-            {directorLetter.from}
-          </div>
-          <div style={{ marginTop: 14, fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.65, color: T.paper, textWrap: "pretty" }}>
-            {directorLetter.body}
-          </div>
-          <div style={{ marginTop: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", color: T.paper, opacity: 0.65 }}>
-            — {directorLetter.footer}
-          </div>
+      {/* Director letter — full-width card */}
+      <Zoomable label={`Director Letter — ${directorLetter.from}`} style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: T.ink, color: T.paper, padding: "30px 32px 32px", position: "relative", cursor: "zoom-in" }}>
+        <div style={{ position: "absolute", top: -12, left: 22, fontFamily: "'EB Garamond',serif", fontSize: 108, lineHeight: 1, color: T.red, fontStyle: "italic" }}>“</div>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginTop: 44, fontWeight: 700 }}>
+          {directorLetter.head}
         </div>
-        <div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+        <div style={{ marginTop: 6, fontFamily: "'EB Garamond',serif", fontSize: 28, color: T.paper, fontStyle: "italic", letterSpacing: "-0.01em" }}>
+          {directorLetter.from}
+        </div>
+        <div style={{ marginTop: 16, fontFamily: "'Noto Serif KR',serif", fontSize: 18, lineHeight: 1.7, color: T.paper, textWrap: "pretty", maxWidth: 1000 }}>
+          {directorLetter.body}
+        </div>
+        <div style={{ marginTop: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.16em", color: T.paper, opacity: 0.65 }}>
+          — {directorLetter.footer}
+        </div>
+      </Zoomable>
+    </PageFrame>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <CommunityWorksPage {...community} meta={...} />
+// P.26 — fan works (vertical list, 32px titles)
+// ═══════════════════════════════════════════════════════════════════════════
+function CommunityWorksPage({ meta, fanWorks }) {
+  const T = TONE_A;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.26" pageNoSide="right" ofTotal={meta.issue}>
+      <FolioHeader left={`CONT'D · COMMUNITY · FAN WORKS`} right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
+
+      <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+          26 / Community · Fan Works
+        </div>
+        <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 60, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
+          본지가 골라 본 이번 호의<br/>
+          <span style={{ fontStyle: "italic", color: T.red }}>팬 메이드 신호.</span>
+        </h1>
+      </div>
+
+      <div style={{ position: "absolute", top: 360, left: 56, right: 56 }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
             FIG. C.2 · Fan Works · 이번 호 픽
           </div>
-          <div style={{ borderTop: `2px solid ${T.ink}` }}>
-            {fanWorks.map((f, i) => (
-              <div key={i} style={{ padding: "11px 0", borderBottom: `1px solid ${T.hair}` }}>
-                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.red, fontWeight: 600 }}>{f.kind}</span>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.1em" }}>{f.by}</span>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+            {fanWorks.length} ITEMS · CURATED
+          </div>
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}` }}>
+          {fanWorks.map((f, i) => (
+            <Zoomable key={i} label={`Fan Work ${f.kind} — ${f.title}`} style={{ display: "grid", gridTemplateColumns: "120px 1fr 200px", columnGap: 24, padding: "22px 0 24px", borderBottom: `1px solid ${T.hair}`, alignItems: "start", cursor: "zoom-in" }}>
+              <div style={{ paddingTop: 6 }}>
+                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, fontWeight: 700 }}>
+                  {f.kind}
                 </div>
-                <div style={{ marginTop: 3, fontFamily: "'EB Garamond',serif", fontSize: 19, color: T.ink, letterSpacing: "-0.01em" }}>
+                <div style={{ marginTop: 6, fontFamily: "'EB Garamond',serif", fontSize: 28, lineHeight: 1, color: T.red, fontWeight: 500, letterSpacing: "-0.02em", fontStyle: "italic" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 30, color: T.ink, letterSpacing: "-0.015em", lineHeight: 1.15, fontWeight: 500 }}>
                   {f.title}
                 </div>
-                <div style={{ marginTop: 1, fontFamily: "'Noto Serif KR',serif", fontSize: 12, color: T.ink, opacity: 0.7 }}>
+                <div style={{ marginTop: 10, fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.6, color: T.ink, opacity: 0.88, textWrap: "pretty" }}>
                   {f.note}
                 </div>
               </div>
-            ))}
-          </div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", color: T.ink, textAlign: "right", paddingTop: 8 }}>
+                <span style={{ color: T.muted }}>BY</span><br/>
+                <span style={{ fontWeight: 600 }}>{f.by}</span>
+              </div>
+            </Zoomable>
+          ))}
         </div>
+      </div>
+
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, padding: "14px 18px", background: "rgba(255,255,255,0.5)", border: `1px solid ${T.hair}`, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", color: T.ink, opacity: 0.78, textTransform: "uppercase" }}>
+        <span style={{ color: T.red, fontWeight: 700 }}>NOTE</span> · 본지는 팬 워크에서 다음 호 분석 단서를 찾는다 — 미메·일러스트·코스프레·클립의 양과 톤은 디자인 수용 신호다.
       </div>
     </PageFrame>
   );
@@ -325,45 +385,51 @@ function CommunityPulsePage({ meta, section, headline, sub, events, directorLett
 
 // ═══════════════════════════════════════════════════════════════════════════
 // <WatchlistPage items={[...]} meta={...} />
-// P.20 — next month's 5 slots
+// P.27 — next month's 5 slots. Single page; row sizes match the trends-list
+// scale used on P.03 / P.05.
 // ═══════════════════════════════════════════════════════════════════════════
 function WatchlistPage({ meta, section, headline, sub, items }) {
   const T = TONE_A;
   return (
-    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.20" pageNoSide="right" ofTotal={meta.issue}>
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.27" pageNoSide="left" ofTotal={meta.issue}>
       <FolioHeader left="SECTION · WATCHLIST" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
-      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={820} />
+      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={1000} />
 
-      <div style={{ position: "absolute", top: 410, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
-          FIG. W · Five Slots to Watch · JUN 2026
+      <div style={{ position: "absolute", top: 440, left: 56, right: 56 }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+            FIG. W · Five Slots to Watch · JUN 2026
+          </div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+            MAY 2026 · 5 BETS
+          </div>
         </div>
         <div style={{ borderTop: `2px solid ${T.ink}` }}>
           {items.map((it, i) => (
-            <Zoomable key={i} label={`Watchlist ${String(i + 1).padStart(2, "0")} — ${it.name}`} style={{ display: "grid", gridTemplateColumns: "60px 1fr 200px", gap: 18, padding: "20px 0 22px", borderBottom: `1px solid ${T.hair}`, alignItems: "baseline", cursor: "zoom-in" }}>
-              <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 58, lineHeight: 1, color: T.red, fontWeight: 500, letterSpacing: "-0.02em" }}>
+            <Zoomable key={i} label={`Watchlist ${String(i + 1).padStart(2, "0")} — ${it.name}`} style={{ display: "grid", gridTemplateColumns: "80px 1fr 200px", gap: 22, padding: "22px 0 24px", borderBottom: `1px solid ${T.hair}`, alignItems: "start", cursor: "zoom-in" }}>
+              <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 60, lineHeight: 1, color: T.red, fontWeight: 500, letterSpacing: "-0.02em", paddingTop: 2 }}>
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-                  <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 34, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>{it.name}</span>
-                  <span style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic", fontSize: 19, color: T.red }}>/ {it.game}</span>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+                  <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 36, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500, lineHeight: 1.1 }}>{it.name}</span>
+                  <span style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic", fontSize: 22, color: T.red }}>/ {it.game}</span>
                 </div>
-                <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 15.5, color: T.ink, opacity: 0.88, lineHeight: 1.55, textWrap: "pretty", maxWidth: 700 }}>
+                <div style={{ marginTop: 10, fontFamily: "'Noto Serif KR',serif", fontSize: 17, color: T.ink, opacity: 0.9, lineHeight: 1.65, textWrap: "pretty", maxWidth: 800 }}>
                   {it.why}
                 </div>
               </div>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", color: T.ink, textAlign: "right" }}>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", color: T.ink, textAlign: "right", paddingTop: 10 }}>
                 <span style={{ color: T.muted }}>WHEN</span><br/>
-                <span style={{ fontWeight: 600 }}>{it.when}</span>
+                <span style={{ fontWeight: 600, fontSize: 15 }}>{it.when}</span>
               </div>
             </Zoomable>
           ))}
         </div>
       </div>
 
-      <div style={{ position: "absolute", bottom: 110, left: 56, right: 56, padding: "16px 20px", background: T.ink, color: T.paper, display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>
-        <span><span style={{ color: T.red }}>NEXT</span> · 다음 호 발행일 · 2026.06.10</span>
+      <div style={{ position: "absolute", bottom: 110, left: 56, right: 56, padding: "18px 22px", background: T.ink, color: T.paper, display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+        <span><span style={{ color: T.red, fontWeight: 700 }}>NEXT</span> · 다음 호 발행일 · 2026.06.10</span>
         <span style={{ color: "rgba(245,241,232,0.65)" }}>다섯 슬롯에서 다음 트렌드가 결정된다</span>
       </div>
     </PageFrame>
@@ -371,68 +437,110 @@ function WatchlistPage({ meta, section, headline, sub, items }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// <ColophonPage {...colophon} meta={...} />
-// P.21 — sources · methodology · limits · masthead
+// <ColophonSourcesPage {...colophon} meta={...} />
+// P.28 — sources (vertical list, 24px labels) + methodology (numbered list)
 // ═══════════════════════════════════════════════════════════════════════════
-function ColophonPage({ meta, section, headline, sub, sources, methodology, limits, masthead, issn, next }) {
+function ColophonSourcesPage({ meta, section, headline, sub, sources, methodology }) {
   const T = TONE_A;
   return (
-    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.21" pageNoSide="left" ofTotal={meta.issue}>
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.28" pageNoSide="right" ofTotal={meta.issue}>
       <FolioHeader left="SECTION · COLOPHON" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
-      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={820} />
+      <SectionTitle section={section} headline={headline} sub={sub} accent={T.red} ink={T.ink} maxWidth={1000} />
 
-      {/* Sources */}
-      <div style={{ position: "absolute", top: 410, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
-          01 · SOURCES · 출처
+      {/* Sources — vertical list with 24px labels */}
+      <div style={{ position: "absolute", top: 440, left: 56, right: 56 }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
+            01 · SOURCES · 출처
+          </div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+            {sources.length} CHANNELS
+          </div>
         </div>
         <div style={{ borderTop: `2px solid ${T.ink}` }}>
           {sources.map((s, i) => (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "180px 1fr 1fr", gap: 18, padding: "10px 0", borderBottom: `1px solid ${T.hair}`, alignItems: "baseline" }}>
-              <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 18, color: T.ink, letterSpacing: "-0.01em" }}>{s.label}</span>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: T.red, letterSpacing: "0.08em" }}>{s.from}</span>
-              <span style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.78, lineHeight: 1.55 }}>{s.note}</span>
+            <div key={i} style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 22, padding: "18px 0 20px", borderBottom: `1px solid ${T.hair}`, alignItems: "start" }}>
+              <div>
+                <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 24, color: T.ink, letterSpacing: "-0.015em", fontWeight: 500, lineHeight: 1.15 }}>{s.label}</div>
+                <div style={{ marginTop: 4, fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: T.red, letterSpacing: "0.08em", textWrap: "pretty" }}>{s.from}</div>
+              </div>
+              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 16, color: T.ink, opacity: 0.88, lineHeight: 1.6, textWrap: "pretty", paddingTop: 4 }}>
+                {s.note}
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Methodology + Limits */}
-      <div style={{ position: "absolute", left: 56, right: 56, top: 720, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28 }}>
-        <div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+      {/* Methodology — numbered list, full width */}
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110 }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
             02 · METHODOLOGY · 방법
           </div>
-          <ol style={{ paddingLeft: 0, margin: 0, listStyle: "none", borderTop: `2px solid ${T.ink}` }}>
-            {methodology.map((m, i) => (
-              <li key={i} style={{ display: "flex", gap: 10, padding: "9px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 13.5, color: T.ink, opacity: 0.85, lineHeight: 1.55 }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", color: T.red, flex: "0 0 28px" }}>{String(i + 1).padStart(2, "0")}</span>
-                <span>{m}</span>
-              </li>
-            ))}
-          </ol>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+            {methodology.length} STEPS
+          </div>
         </div>
-        <div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+        <ol style={{ paddingLeft: 0, margin: 0, listStyle: "none", borderTop: `2px solid ${T.ink}` }}>
+          {methodology.map((m, i) => (
+            <li key={i} style={{ display: "flex", gap: 16, padding: "12px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 16, color: T.ink, opacity: 0.9, lineHeight: 1.6, alignItems: "baseline" }}>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.red, flex: "0 0 36px", fontWeight: 700, letterSpacing: "0.14em" }}>{String(i + 1).padStart(2, "0")}</span>
+              <span style={{ textWrap: "pretty" }}>{m}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </PageFrame>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <ColophonLimitsPage {...colophon} meta={...} />
+// P.29 — limits + masthead + footer slug
+// ═══════════════════════════════════════════════════════════════════════════
+function ColophonLimitsPage({ meta, limits, masthead, issn, next }) {
+  const T = TONE_A;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.29" pageNoSide="left" ofTotal={meta.issue}>
+      <FolioHeader left={`CONT'D · COLOPHON · LIMITS`} right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
+
+      <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+          29 / Colophon · Limits & Masthead
+        </div>
+        <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 60, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
+          우리가 본 것, 보지 못한 것,<br/>
+          <span style={{ fontStyle: "italic", color: T.red }}>그리고 이 호를 만든 사람들.</span>
+        </h1>
+      </div>
+
+      {/* Limits — full width numbered list */}
+      <div style={{ position: "absolute", top: 360, left: 56, right: 56 }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
             03 · LIMITS · 한계
           </div>
-          <ol style={{ paddingLeft: 0, margin: 0, listStyle: "none", borderTop: `2px solid ${T.ink}` }}>
-            {limits.map((m, i) => (
-              <li key={i} style={{ display: "flex", gap: 10, padding: "9px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 13.5, color: T.ink, opacity: 0.85, lineHeight: 1.55 }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", color: T.red, flex: "0 0 28px" }}>{String(i + 1).padStart(2, "0")}</span>
-                <span>{m}</span>
-              </li>
-            ))}
-          </ol>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+            {limits.length} CAVEATS
+          </div>
         </div>
+        <ol style={{ paddingLeft: 0, margin: 0, listStyle: "none", borderTop: `2px solid ${T.ink}` }}>
+          {limits.map((m, i) => (
+            <li key={i} style={{ display: "flex", gap: 16, padding: "12px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 16, color: T.ink, opacity: 0.9, lineHeight: 1.6, alignItems: "baseline" }}>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.red, flex: "0 0 36px", fontWeight: 700, letterSpacing: "0.14em" }}>{String(i + 1).padStart(2, "0")}</span>
+              <span style={{ textWrap: "pretty" }}>{m}</span>
+            </li>
+          ))}
+        </ol>
       </div>
 
       {/* Masthead */}
       <div style={{ position: "absolute", left: 56, right: 56, bottom: 200 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 6 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8, fontWeight: 700 }}>
           04 · MASTHEAD · 편집부
         </div>
-        <div style={{ borderTop: `2px solid ${T.ink}`, borderBottom: `2px solid ${T.ink}`, padding: "12px 0", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 14, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.1em", color: T.ink }}>
+        <div style={{ borderTop: `2px solid ${T.ink}`, borderBottom: `2px solid ${T.ink}`, padding: "16px 0", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px 28px", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.1em", color: T.ink }}>
           <span>{masthead.editor}</span>
           <span>{masthead.design}</span>
           <span>{masthead.data}</span>
@@ -441,9 +549,9 @@ function ColophonPage({ meta, section, headline, sub, sources, methodology, limi
       </div>
 
       {/* Footer slug */}
-      <div style={{ position: "absolute", left: 56, right: 56, bottom: 100, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase" }}>
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 100, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase" }}>
         <span>{issn} · © Subculture Monthly · {meta.issue}</span>
-        <span style={{ color: T.red }}>{next}</span>
+        <span style={{ color: T.red, fontWeight: 700 }}>{next}</span>
       </div>
     </PageFrame>
   );
@@ -452,5 +560,6 @@ function ColophonPage({ meta, section, headline, sub, sources, methodology, limi
 Object.assign(window, {
   CrossAnalysisTrendsPage, CrossAnalysisPlaybookPage,
   IndustryStudiosPage, IndustryOutlookPage,
-  CommunityPulsePage, WatchlistPage, ColophonPage,
+  CommunityEventsPage, CommunityWorksPage, WatchlistPage,
+  ColophonSourcesPage, ColophonLimitsPage,
 });
