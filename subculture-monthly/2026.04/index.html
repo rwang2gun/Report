@@ -312,22 +312,26 @@
     }
 
     // ─── Section anchors for bookmark rail ───────────────────────────────
-    // Indices reflect 26-page layout (cross + industry each split into 2):
+    // Indices reflect 30-page layout — game features expand to 3 pages each
+    // (visual + character + design) and community/colophon each split into 2
+    // so body text can run at mobile-readable sizes (17-19px / 1.65-1.7 lh):
     //   0   jacket front (stiff)
     //   1   endpaper front
-    //   2   cover (insights + KPI)
+    //   2   cover
     //   3   TOC
     //   4   dashboard
     //   5   cross-game · trends
     //   6   cross-game · playbook
     //   7   industry · studios
     //   8   industry · outlook
-    //   9-20 6 game spreads (visual left, body right)
-    //   21  community pulse
-    //   22  watchlist
-    //   23  colophon
-    //   24  endpaper back
-    //   25  jacket back (stiff)
+    //   9-26 6 game spreads × 3 pages (visual + character + design)
+    //   27  community · events + director letter
+    //   28  community · fan works
+    //   29  watchlist
+    //   30  colophon · sources + methodology
+    //   31  colophon · limits + masthead
+    //   32  endpaper back
+    //   33  jacket back (stiff)
     const SECTIONS = [
       { id: 'cover',     label: '표지',         page: 2  },
       { id: 'toc',       label: '목차',         page: 3  },
@@ -335,14 +339,14 @@
       { id: 'cross',     label: '크로스',       page: 5  },
       { id: 'industry',  label: '산업',         page: 7  },
       { id: 'gi',        label: '원신',         page: 9  },
-      { id: 'hsr',       label: '스타레일',     page: 11 },
-      { id: 'zzz',       label: '젠레스',       page: 13 },
-      { id: 'ww',        label: '명조',         page: 15 },
-      { id: 'ef',        label: '엔드필드',     page: 17 },
-      { id: 'nk',        label: '니케',         page: 19 },
-      { id: 'community', label: '커뮤니티',     page: 21 },
-      { id: 'watch',     label: 'Watchlist',    page: 22 },
-      { id: 'colophon',  label: '콜로폰',       page: 23 },
+      { id: 'hsr',       label: '스타레일',     page: 12 },
+      { id: 'zzz',       label: '젠레스',       page: 15 },
+      { id: 'ww',        label: '명조',         page: 18 },
+      { id: 'ef',        label: '엔드필드',     page: 21 },
+      { id: 'nk',        label: '니케',         page: 24 },
+      { id: 'community', label: '커뮤니티',     page: 27 },
+      { id: 'watch',     label: 'Watchlist',    page: 29 },
+      { id: 'colophon',  label: '콜로폰',       page: 30 },
     ];
     function sectionForPage(p) {
       let s = SECTIONS[0];
@@ -375,14 +379,19 @@
       pages.push({ key: 'p05', el: <IndustryStudiosPage       meta={D.meta} {...D.industry} /> });
       pages.push({ key: 'p06', el: <IndustryOutlookPage       meta={D.meta} {...D.industry} /> });
       D.games.forEach((g, i) => {
-        const leftNo  = `P.${String(7 + i * 2).padStart(2, "0")}`;
-        const rightNo = `P.${String(8 + i * 2).padStart(2, "0")}`;
-        pages.push({ key: `p${leftNo}`,  el: <GameFeatureVisualPage game={g} index={i} total={D.games.length} pageNo={leftNo} issue={D.meta.issue} /> });
-        pages.push({ key: `p${rightNo}`, el: <GameFeatureBodyPage   game={g} index={i} total={D.games.length} pageNo={rightNo} prevPageNo={leftNo} issue={D.meta.issue} /> });
+        // Each game = 3 pages: visual + character + design.
+        const p1 = `P.${String(7 + i * 3).padStart(2, "0")}`;
+        const p2 = `P.${String(8 + i * 3).padStart(2, "0")}`;
+        const p3 = `P.${String(9 + i * 3).padStart(2, "0")}`;
+        pages.push({ key: `p${p1}`, el: <GameFeatureVisualPage    game={g} index={i} total={D.games.length} pageNo={p1} issue={D.meta.issue} /> });
+        pages.push({ key: `p${p2}`, el: <GameFeatureCharacterPage game={g} index={i} total={D.games.length} pageNo={p2} prevPageNo={p1} issue={D.meta.issue} /> });
+        pages.push({ key: `p${p3}`, el: <GameFeatureDesignPage    game={g} index={i} total={D.games.length} pageNo={p3} prevPageNo={p2} issue={D.meta.issue} /> });
       });
-      pages.push({ key: 'p19', el: <CommunityPulsePage meta={D.meta} {...D.community} /> });
-      pages.push({ key: 'p20', el: <WatchlistPage     meta={D.meta} {...D.watchlist} /> });
-      pages.push({ key: 'p21', el: <ColophonPage      meta={D.meta} {...D.colophon} /> });
+      pages.push({ key: 'p25', el: <CommunityEventsPage  meta={D.meta} {...D.community} /> });
+      pages.push({ key: 'p26', el: <CommunityWorksPage   meta={D.meta} fanWorks={D.community.fanWorks} /> });
+      pages.push({ key: 'p27', el: <WatchlistPage        meta={D.meta} {...D.watchlist} /> });
+      pages.push({ key: 'p28', el: <ColophonSourcesPage  meta={D.meta} {...D.colophon} /> });
+      pages.push({ key: 'p29', el: <ColophonLimitsPage   meta={D.meta} {...D.colophon} /> });
       pages.push({ key: 'p-endpaper-back', stiff: false, el: <EndpaperBack /> });
       pages.push({ key: 'p-jacket-back',   stiff: true,  el: <HardBackCover meta={D.meta} /> });
       return pages;
