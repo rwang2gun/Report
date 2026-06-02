@@ -22,7 +22,7 @@ function CoverPage({ meta, insights }) {
   return (
     <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo="P.00" ofTotal={meta.issue} pageNoSide="right" pageNoColor={T.ink}>
       {/* Top metadata strip */}
-      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: T.ink }}>
+      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", textTransform: "uppercase", color: T.ink }}>
         <span>{meta.issue} · {meta.coverDate} · {meta.price}</span>
         <span style={{ color: T.red }}>● 디자인 데스크 · A DESIGN REFERENCE</span>
         <span>{meta.issn}</span>
@@ -44,14 +44,14 @@ function CoverPage({ meta, insights }) {
       {/* Splash slot (left) */}
       <div style={{ position: "absolute", left: 56, top: 460, width: 540, height: 760 }}>
         <SplashSlot bg="#EFEFEB" stripe="rgba(26,26,26,0.07)" ink={T.ink} caption="COVER ILLUSTRATION" sub="540 × 760 · drop edition art" angle={-22} />
-        <div style={{ position: "absolute", left: 0, right: 0, bottom: 28, background: T.red, color: T.paper, padding: "10px 18px", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+        <div style={{ position: "absolute", left: 0, right: 0, bottom: 28, background: T.red, color: T.paper, padding: "10px 18px", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase" }}>
           {meta.coverArt.caption}
         </div>
       </div>
 
       {/* Right: 3 insight tracks */}
       <div style={{ position: "absolute", left: 640, top: 460, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: T.red, marginBottom: 14 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", color: T.red, marginBottom: 14 }}>
           이번 호 · 디자인 인사이트 3트랙 / IN THIS ISSUE
         </div>
         <div style={{ borderTop: `2px solid ${T.ink}` }}>
@@ -66,10 +66,10 @@ function CoverPage({ meta, insights }) {
                     {t.head}
                     <span style={{ fontStyle: "italic", color: T.muted, marginLeft: 10, fontSize: 22 }}>/ {t.en}</span>
                   </div>
-                  <div style={{ marginTop: 8, fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.6, color: T.ink, opacity: 0.88, textWrap: "pretty" }}>
+                  <div style={{ marginTop: 8, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.6, color: T.ink, opacity: 0.88, textWrap: "pretty" }}>
                     {t.body}
                   </div>
-                  <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 10, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+                  <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 10, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", textTransform: "uppercase" }}>
                     <span style={{ background: T.ink, color: T.paper, padding: "3px 8px", fontWeight: 600 }}>SIGNAL</span>
                     <span style={{ color: T.red, fontWeight: 600 }}>{t.signal.v}</span>
                     <span style={{ color: T.muted }}>· {t.signal.note}</span>
@@ -81,10 +81,10 @@ function CoverPage({ meta, insights }) {
         </div>
 
         <div style={{ marginTop: 22, paddingTop: 14, borderTop: `2px solid ${T.ink}` }}>
-          <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 15, lineHeight: 1.55, color: T.ink, fontStyle: "italic", opacity: 0.85, textWrap: "pretty" }}>
+          <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: T.ink, fontStyle: "italic", opacity: 0.85, textWrap: "pretty" }}>
             “{meta.editorNote}”
           </div>
-          <div style={{ marginTop: 8, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
+          <div style={{ marginTop: 8, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
             — 편집부 / EDITORIAL DESK
           </div>
         </div>
@@ -134,7 +134,7 @@ function TocPage({ meta, games, data }) {
       <FolioHeader left="● CONTENTS · 목차" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
 
       <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
           01 / Table of Contents · {meta.coverDate}
         </div>
         <h1 style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 96, lineHeight: 1.0, margin: 0, color: T.ink, letterSpacing: "-0.04em", fontWeight: 700 }}>
@@ -158,7 +158,7 @@ function TocPage({ meta, games, data }) {
                   </span>
                 )}
               </div>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
                 {e.cat}
               </div>
             </div>
@@ -167,7 +167,7 @@ function TocPage({ meta, games, data }) {
       </div>
 
       {/* Footer note */}
-      <div style={{ position: "absolute", bottom: 88, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
+      <div style={{ position: "absolute", bottom: 88, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.16em", color: T.muted, textTransform: "uppercase" }}>
         <span>한 호 = 한 데이터 객체. 다음 호는 ISSUE_2026_06 = &#123; ... &#125;</span>
         <span style={{ color: T.red }}>{entries.length} ENTRIES</span>
       </div>
@@ -194,17 +194,17 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
       <FolioHeader left="SECTION · DATA DESK" right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
 
       <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
           {section}
         </div>
         <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 64, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
           {headline.pre}<br/>
           <span style={{ fontStyle: "italic", color: T.red }}>{headline.emphasis}</span>
         </h1>
-        <div style={{ marginTop: 14, maxWidth: 820, fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.55, color: T.ink, opacity: 0.82, textWrap: "pretty" }}>
+        <div style={{ marginTop: 14, maxWidth: 820, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: T.ink, opacity: 0.82, textWrap: "pretty" }}>
           {sub}
         </div>
-        <div style={{ marginTop: 12, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", color: T.muted, textTransform: "uppercase" }}>
+        <div style={{ marginTop: 12, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", color: T.muted, textTransform: "uppercase" }}>
           참고 — 6게임 합산 추정 매출 <span style={{ color: T.ink, fontWeight: 600 }}>{aside.totalRev}</span> · 전월 대비 <span style={{ color: T.red }}>{aside.momChange}</span>
         </div>
       </div>
@@ -212,10 +212,10 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
       {/* Line chart */}
       <Zoomable label="FIG. 01 · 3-Month Revenue (6 titles)" style={{ position: "absolute", top: 410, left: 40, right: 40, cursor: "zoom-in" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "0 20px", marginBottom: 10 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.18em", color: T.ink, textTransform: "uppercase", fontWeight: 600 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.ink, textTransform: "uppercase", fontWeight: 600 }}>
             {lineChart.label}
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: T.muted }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted }}>
             {lineChart.source}
           </div>
         </div>
@@ -233,7 +233,7 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
       {/* Two-column bottom */}
       <div style={{ position: "absolute", left: 56, right: 56, top: 920, display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 28 }}>
         <Zoomable label="FIG. 02 · New Units by Gender" style={{ border: `1px solid ${T.hair}`, padding: 24, background: "rgba(255,255,255,0.4)", cursor: "zoom-in" }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
             {donut.label}
           </div>
           <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 28, color: T.ink, letterSpacing: "-0.01em", marginBottom: 14 }}>
@@ -253,10 +253,10 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
             heatmap data in issue-2026-04.jsx is preserved for reference. */}
         <div style={{ border: `1px solid ${T.hair}`, padding: 24, background: "rgba(255,255,255,0.4)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.18em", color: T.red, textTransform: "uppercase" }}>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.red, textTransform: "uppercase" }}>
               FIG. 03 · TBD · 다음 호 재설계
             </div>
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, color: T.muted, letterSpacing: "0.12em" }}>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.12em" }}>
               held
             </div>
           </div>
@@ -274,7 +274,7 @@ function DataDashboardPage({ meta, section, headline, sub, aside, lineChart, don
             background: "rgba(0,0,0,0.025)",
             padding: "24px 28px",
           }}>
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.24em", color: T.muted, textTransform: "uppercase" }}>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.24em", color: T.muted, textTransform: "uppercase" }}>
               ⊘ Placeholder
             </div>
             <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.7, textAlign: "center", maxWidth: 360, lineHeight: 1.6 }}>
@@ -354,7 +354,7 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
       {/* Top overprint masthead — game icon + Korean name as the brand
           marker, English title kept small/ghosted, tagline as hero. */}
       <div style={{ position: "absolute", top: 40, left: 56, right: 56, pointerEvents: "none" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", color: T.ink, opacity: 0.9 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", color: T.ink, opacity: 0.9 }}>
           <span style={{ color: T.red, fontWeight: 600 }}>● FEATURE · {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
           <span style={{ fontWeight: 600 }}>SUBCULTURE MONTHLY · {issue}</span>
         </div>
@@ -376,7 +376,7 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
             <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 44, color: T.ink, fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.0 }}>
               {game.ko}
             </div>
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.16em", color: T.ink, opacity: 0.75, textTransform: "uppercase", fontWeight: 600 }}>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.16em", color: T.ink, opacity: 0.75, textTransform: "uppercase", fontWeight: 600 }}>
               {game.studio} · {game.patchTitle} · {C.release}
             </div>
           </div>
@@ -399,7 +399,7 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
               borderLeft: `3px solid ${T.red}`,
               boxShadow: "0 1px 0 rgba(26,26,26,0.06)",
             }}>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, letterSpacing: "0.22em", color: T.red, fontWeight: 700, textTransform: "uppercase", marginBottom: 4 }}>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, fontWeight: 700, textTransform: "uppercase", marginBottom: 4 }}>
                 THIS UNIT
               </div>
               <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 30, color: T.ink, lineHeight: 1.25, letterSpacing: "-0.015em", fontWeight: 600 }}>
@@ -410,26 +410,24 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
         )}
       </div>
 
-      {/* Bottom name plate — bigger, more readable */}
-      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: T.paper, padding: "30px 32px 26px", boxShadow: "0 10px 28px -8px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.16)" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 28, alignItems: "end" }}>
+      {/* Bottom name plate — character name + release date. Full profile
+          (rarity/role/element/banner/faction) lives on P.08's PROFILE card
+          where it can breathe at readable sizes. */}
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: T.paper, padding: "30px 36px 28px", boxShadow: "0 10px 28px -8px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.16)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 36, alignItems: "end" }}>
           <div>
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.24em", textTransform: "uppercase", color: T.red, fontWeight: 600 }}>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.24em", textTransform: "uppercase", color: T.red, fontWeight: 600 }}>
               NEW UNIT · {C.release}
             </div>
-            <div style={{ marginTop: 8, fontFamily: "'EB Garamond',serif", fontSize: 96, lineHeight: 0.9, letterSpacing: "-0.02em", color: T.ink, fontWeight: 500 }}>
+            <div style={{ marginTop: 8, fontFamily: "'EB Garamond',serif", fontSize: 104, lineHeight: 0.9, letterSpacing: "-0.02em", color: T.ink, fontWeight: 500 }}>
               {C.ko}<span style={{ fontStyle: "italic", color: T.red }}> / {C.en}</span>
             </div>
           </div>
-          <div style={{ borderLeft: `1px solid ${T.hair}`, paddingLeft: 24, display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "8px 18px", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-            <span style={{ color: T.muted }}>RARITY</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.rarity}</span>
-            <span style={{ color: T.muted }}>ROLE</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.role}</span>
-            <span style={{ color: T.muted }}>ELEMENT</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.element}</span>
-            <span style={{ color: T.muted }}>BANNER</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.banner}</span>
-            <span style={{ color: T.muted }}>FACTION</span><span style={{ color: T.ink, fontWeight: 600 }}>{C.faction}</span>
-          </div>
-          <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 32, lineHeight: 1, color: T.red, fontStyle: "italic" }}>
-            →
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.muted, textTransform: "uppercase" }}>
+              프로필은 P.08에
+            </span>
+            <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 44, lineHeight: 1, color: T.red, fontStyle: "italic" }}>→</span>
           </div>
         </div>
       </div>
@@ -439,94 +437,12 @@ function GameFeatureVisualPage({ game, index, total, pageNo, issue }) {
 
 // ═══════════════════════════════════════════════════════════════════════════
 // <GameFeatureCharacterPage game={...} pageNo="P.08" prevPageNo="P.07" />
-// Page 2 of 3 in a game spread — character intro + tagline + user reactions.
-// Single-column body at 19px / 1.7 lh for mobile readability.
+// Page 2 of 3 in a game spread — character intro + tagline + 3-mo revenue
+// trend + user reactions. Single-column body at 19px / 1.7 lh for mobile
+// readability. The rev trend anchors the character with launch-impact data
+// before the reactions.
 // ═══════════════════════════════════════════════════════════════════════════
 function GameFeatureCharacterPage({ game, index, total, pageNo, prevPageNo, issue }) {
-  const T = TONE_A;
-  const C = game.character;
-  return (
-    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo={pageNo} pageNoSide={sideForPageNo(pageNo)} ofTotal={issue}>
-      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", color: T.ink, opacity: 0.9 }}>
-        <span style={{ color: T.red, fontWeight: 600 }}>● cont&apos;d from {prevPageNo}</span>
-        <span style={{ fontWeight: 600 }}>FEATURE · {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")} · {game.ko} / {game.en.toUpperCase()}</span>
-      </div>
-      <div style={{ position: "absolute", top: 64, left: 56, right: 56, height: 1, background: T.ink, opacity: 0.45 }} />
-
-      {/* Top: section label + lead headline */}
-      <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 10, fontWeight: 700 }}>
-          CHARACTER · 캐릭터 소개 · {C.ko}
-        </div>
-        <h2 style={{ fontFamily: "'EB Garamond',serif", fontSize: 78, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.025em", fontWeight: 500 }}>
-          {C.leadKo}<br/>
-          <span style={{ fontStyle: "italic", color: T.red }}>{C.leadEmph}</span>
-        </h2>
-      </div>
-
-      {/* Tagline — boxed key line */}
-      {C.tagline && (
-        <Zoomable label={`${C.ko} — Tagline`} style={{ position: "absolute", top: 330, left: 56, right: 56, cursor: "zoom-in" }}>
-          <div style={{ borderLeft: `4px solid ${T.red}`, padding: "18px 24px 20px", background: "rgba(255,255,255,0.5)" }}>
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, fontWeight: 700, textTransform: "uppercase", marginBottom: 8 }}>
-              TAGLINE · 이 캐릭의 키 라인
-            </div>
-            <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 30, lineHeight: 1.32, color: T.ink, fontStyle: "italic", letterSpacing: "-0.01em", fontWeight: 500 }}>
-              {C.tagline}
-            </div>
-          </div>
-        </Zoomable>
-      )}
-
-      {/* Intro body — single column, 19px / 1.7 line-height */}
-      <Zoomable label={`${C.ko} — Character Intro`} style={{ position: "absolute", top: 510, left: 56, right: 56, cursor: "zoom-in" }}>
-        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
-            FIG. F.1 · Intro · 본문
-          </span>
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
-            {C.rarity} · {C.role} · {C.element}
-          </span>
-        </div>
-        <div style={{ borderTop: `2px solid ${T.ink}`, paddingTop: 18, fontFamily: "'Noto Serif KR',serif", fontSize: 19, lineHeight: 1.7, color: T.ink, opacity: 0.92, textWrap: "pretty", maxWidth: 1080 }}>
-          {C.intro || C.body}
-        </div>
-      </Zoomable>
-
-      {/* User reactions — 3 stacked-large quote cards */}
-      <Zoomable label={`${C.ko} — User Reactions`} style={{ position: "absolute", left: 56, right: 56, bottom: 110, cursor: "zoom-in" }}>
-        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 10 }}>
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", color: T.red, fontWeight: 700, textTransform: "uppercase" }}>
-            FIG. F.2 · User Reactions · 유저 반응
-          </span>
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: T.muted, letterSpacing: "0.14em" }}>
-            3 sources · 국내외 커뮤니티
-          </span>
-        </div>
-        <div style={{ borderTop: `2px solid ${T.ink}`, paddingTop: 14, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 }}>
-          {(C.reactions || []).map((r, i) => (
-            <div key={i} style={{ background: "rgba(255,255,255,0.55)", border: `1px solid ${T.hair}`, padding: "22px 22px 24px", position: "relative" }}>
-              <div style={{ position: "absolute", top: -6, left: 14, fontFamily: "'EB Garamond',serif", fontSize: 68, lineHeight: 1, color: T.red, fontStyle: "italic", opacity: 0.85 }}>“</div>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.2em", color: T.red, fontWeight: 700, textTransform: "uppercase", marginLeft: 32, marginBottom: 10 }}>
-                {r.src}
-              </div>
-              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.65, color: T.ink, opacity: 0.92, textWrap: "pretty" }}>
-                {r.body}
-              </div>
-            </div>
-          ))}
-        </div>
-      </Zoomable>
-    </PageFrame>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// <GameFeatureDesignPage game={...} pageNo="P.09" prevPageNo="P.08" />
-// Page 3 of 3 in a game spread — strengths/weaknesses + patch notes +
-// revenue trend. Good/Bad uses the big DO/DON'T treatment from P.04 Playbook.
-// ═══════════════════════════════════════════════════════════════════════════
-function GameFeatureDesignPage({ game, index, total, pageNo, prevPageNo, issue }) {
   const T = TONE_A;
   const C = game.character;
   const rev = C.revTrend || {
@@ -540,7 +456,155 @@ function GameFeatureDesignPage({ game, index, total, pageNo, prevPageNo, issue }
   };
   return (
     <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo={pageNo} pageNoSide={sideForPageNo(pageNo)} ofTotal={issue}>
-      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", color: T.ink, opacity: 0.9 }}>
+      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", color: T.ink, opacity: 0.9 }}>
+        <span style={{ color: T.red, fontWeight: 600 }}>● cont&apos;d from {prevPageNo}</span>
+        <span style={{ fontWeight: 600 }}>FEATURE · {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")} · {game.ko} / {game.en.toUpperCase()}</span>
+      </div>
+      <div style={{ position: "absolute", top: 64, left: 56, right: 56, height: 1, background: T.ink, opacity: 0.45 }} />
+
+      {/* Top: section label + lead headline */}
+      <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 10, fontWeight: 700 }}>
+          CHARACTER · 캐릭터 소개 · {C.ko}
+        </div>
+        <h2 style={{ fontFamily: "'EB Garamond',serif", fontSize: 78, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.025em", fontWeight: 500 }}>
+          {C.leadKo}<br/>
+          <span style={{ fontStyle: "italic", color: T.red }}>{C.leadEmph}</span>
+        </h2>
+      </div>
+
+      {/* Profile card — full 5-stat sheet that used to sit cramped on P.07's
+          name-plate. Korean leads, English fades to support so the page reads
+          fluently. Row 1 = short stats (rarity / role / element);
+          row 2 = long stats (banner / faction). */}
+      <Zoomable label={`${C.ko} — Profile`} style={{ position: "absolute", top: 330, left: 56, right: 56, cursor: "zoom-in" }}>
+        <div style={{ borderLeft: `4px solid ${T.red}`, padding: "18px 26px 20px", background: "rgba(255,255,255,0.55)" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12 }}>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, fontWeight: 700, textTransform: "uppercase" }}>
+              PROFILE · 캐릭터 프로필
+            </div>
+            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", color: T.muted }}>
+              RELEASE · {C.release}
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "0.7fr 1.5fr 1.2fr", gap: "0 28px", alignItems: "end" }}>
+            <div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>RARITY · 등급</div>
+              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 28, color: T.ink, fontWeight: 700, letterSpacing: "-0.015em", lineHeight: 1 }}>{C.rarity}</div>
+            </div>
+            <div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>ROLE · 역할</div>
+              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 21, color: T.ink, fontWeight: 600, letterSpacing: "-0.01em", lineHeight: 1.15 }}>{C.roleKo || C.role}</div>
+              {C.roleKo && (
+                <div style={{ marginTop: 2, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.12em" }}>{C.role}</div>
+              )}
+            </div>
+            <div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>ELEMENT · 원소</div>
+              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 21, color: T.ink, fontWeight: 600, letterSpacing: "-0.01em", lineHeight: 1.15 }}>{C.element}</div>
+            </div>
+          </div>
+          <div style={{ marginTop: 14, borderTop: `1px solid ${T.hair}`, paddingTop: 12, display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "0 28px", alignItems: "end" }}>
+            <div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>BANNER · 픽업</div>
+              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 19, color: T.ink, fontWeight: 600, letterSpacing: "-0.01em", lineHeight: 1.2 }}>{C.banner}</div>
+            </div>
+            <div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>FACTION · 소속</div>
+              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 19, color: T.ink, fontWeight: 600, letterSpacing: "-0.01em", lineHeight: 1.2 }}>{C.factionKo || C.faction}</div>
+              {C.factionKo && (
+                <div style={{ marginTop: 2, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.12em" }}>{C.faction}</div>
+              )}
+            </div>
+          </div>
+        </div>
+      </Zoomable>
+
+      {/* Intro body — single column, 19px / 1.7 line-height */}
+      <Zoomable label={`${C.ko} — Character Intro`} style={{ position: "absolute", top: 540, left: 56, right: 56, cursor: "zoom-in" }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
+            FIG. F.1 · Intro · 본문
+          </span>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
+            {C.ko} / {C.en}
+          </span>
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}`, paddingTop: 18, fontFamily: "'Noto Serif KR',serif", fontSize: 19, lineHeight: 1.7, color: T.ink, opacity: 0.92, textWrap: "pretty", maxWidth: 1080 }}>
+          {C.intro || C.body}
+        </div>
+      </Zoomable>
+
+      {/* 3-mo revenue trend — wide chart on top, insight callout beneath. Fills
+          the gap between intro body and user reactions with a single dense block. */}
+      <Zoomable label={`${game.ko} — Revenue Trend`} style={{ position: "absolute", left: 56, right: 56, top: 820, bottom: 370, background: "rgba(0,0,0,0.04)", border: `1px solid ${T.hair}`, padding: "20px 28px 18px", cursor: "zoom-in", display: "flex", flexDirection: "column" }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 10 }}>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
+            FIG. F.2 · {rev.label}
+          </span>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>{rev.unit} · MoM</span>
+        </div>
+        <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <MiniRevTrend
+            width={1000} height={300}
+            ink={T.ink} accent={T.red} hair={T.hair} paper={T.paper}
+            months={rev.months}
+            values={rev.values}
+            highlight={rev.highlight ?? rev.months.length - 1}
+            unit={rev.unit || "$"}
+          />
+        </div>
+        <div style={{ borderTop: `1px solid ${T.hair}`, paddingTop: 10, marginTop: 6 }}>
+          <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: T.ink, opacity: 0.92, textWrap: "pretty" }}>
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, fontWeight: 700, marginRight: 10 }}>INSIGHT ·</span>
+            {rev.note}
+          </div>
+          <div style={{ marginTop: 6, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
+            SOURCE · {rev.source}
+          </div>
+        </div>
+      </Zoomable>
+
+      {/* User reactions — 3 stacked-large quote cards */}
+      <Zoomable label={`${C.ko} — User Reactions`} style={{ position: "absolute", left: 56, right: 56, bottom: 110, cursor: "zoom-in" }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 10 }}>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, fontWeight: 700, textTransform: "uppercase" }}>
+            FIG. F.3 · User Reactions · 유저 반응
+          </span>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
+            3 sources · 국내외 커뮤니티
+          </span>
+        </div>
+        <div style={{ borderTop: `2px solid ${T.ink}`, paddingTop: 14, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 }}>
+          {(C.reactions || []).map((r, i) => (
+            <div key={i} style={{ background: "rgba(255,255,255,0.55)", border: `1px solid ${T.hair}`, padding: "22px 22px 24px", position: "relative" }}>
+              <div style={{ position: "absolute", top: -6, left: 14, fontFamily: "'EB Garamond',serif", fontSize: 68, lineHeight: 1, color: T.red, fontStyle: "italic", opacity: 0.85 }}>“</div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.2em", color: T.red, fontWeight: 700, textTransform: "uppercase", marginLeft: 32, marginBottom: 10 }}>
+                {r.src}
+              </div>
+              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.65, color: T.ink, opacity: 0.92, textWrap: "pretty" }}>
+                {r.body}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Zoomable>
+    </PageFrame>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// <GameFeatureDesignPage game={...} pageNo="P.09" prevPageNo="P.08" />
+// Page 3 of 3 in a game spread — strengths/weaknesses + patch notes.
+// Good/Bad uses the big DO/DON'T treatment from P.04 Playbook. The 3-mo
+// revenue trend lives on the preceding character page (P.08) instead.
+// ═══════════════════════════════════════════════════════════════════════════
+function GameFeatureDesignPage({ game, index, total, pageNo, prevPageNo, issue }) {
+  const T = TONE_A;
+  const C = game.character;
+  return (
+    <PageFrame bg={T.paper} ink={T.ink} grain={1} pageNo={pageNo} pageNoSide={sideForPageNo(pageNo)} ofTotal={issue}>
+      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", color: T.ink, opacity: 0.9 }}>
         <span style={{ color: T.red, fontWeight: 600 }}>● cont&apos;d from {prevPageNo}</span>
         <span style={{ fontWeight: 600 }}>FEATURE · {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")} · {game.ko} / {game.en.toUpperCase()}</span>
       </div>
@@ -548,7 +612,7 @@ function GameFeatureDesignPage({ game, index, total, pageNo, prevPageNo, issue }
 
       {/* Top: section label + subtitle */}
       <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 10, fontWeight: 700 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 10, fontWeight: 700 }}>
           DESIGN & PATCH · 디자인과 패치 · {game.ko}
         </div>
         <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 36, color: T.ink, opacity: 0.78, letterSpacing: "-0.015em", fontStyle: "italic", lineHeight: 1.15 }}>
@@ -559,26 +623,26 @@ function GameFeatureDesignPage({ game, index, total, pageNo, prevPageNo, issue }
       {/* Strengths / Weaknesses — big DO/DON'T style, 2 cols */}
       <div style={{ position: "absolute", top: 240, left: 56, right: 56, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28 }}>
         <Zoomable label={`${C.ko} — Strengths`} style={{ border: `1px solid ${T.hair}`, padding: "22px 24px 24px", background: "rgba(255,255,255,0.45)", cursor: "zoom-in" }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, letterSpacing: "0.22em", color: T.ink, fontWeight: 700, textTransform: "uppercase", marginBottom: 6 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.ink, fontWeight: 700, textTransform: "uppercase", marginBottom: 6 }}>
             ● STRENGTHS · 디자인 강점
           </div>
-          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 16.5, lineHeight: 1.6, color: T.ink, opacity: 0.92 }}>
+          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.6, color: T.ink, opacity: 0.92 }}>
             {(C.good || []).map((g, i) => (
               <li key={i} style={{ display: "flex", gap: 12, padding: "10px 0", borderBottom: i < (C.good.length - 1) ? `1px solid ${T.hair}` : "none" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, color: T.red, opacity: 0.85, flex: "0 0 32px", fontWeight: 700 }}>{String(i + 1).padStart(2, "0")}</span>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.red, opacity: 0.85, flex: "0 0 32px", fontWeight: 700 }}>{String(i + 1).padStart(2, "0")}</span>
                 <span style={{ textWrap: "pretty" }}>{g}</span>
               </li>
             ))}
           </ul>
         </Zoomable>
         <Zoomable label={`${C.ko} — Weaknesses`} style={{ border: `1px solid ${T.red}`, padding: "22px 24px 24px", background: T.red, color: T.paper, cursor: "zoom-in" }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, letterSpacing: "0.22em", color: T.paper, fontWeight: 700, textTransform: "uppercase", marginBottom: 6 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.paper, fontWeight: 700, textTransform: "uppercase", marginBottom: 6 }}>
             ○ WEAKNESSES · 약점·개선점
           </div>
-          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 16.5, lineHeight: 1.6, color: T.paper }}>
+          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.6, color: T.paper }}>
             {(C.bad || []).map((b, i) => (
               <li key={i} style={{ display: "flex", gap: 12, padding: "10px 0", borderBottom: i < (C.bad.length - 1) ? "1px solid rgba(250,246,236,0.28)" : "none" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, color: T.paper, opacity: 0.78, flex: "0 0 32px", fontWeight: 700 }}>{String(i + 1).padStart(2, "0")}</span>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.paper, opacity: 0.78, flex: "0 0 32px", fontWeight: 700 }}>{String(i + 1).padStart(2, "0")}</span>
                 <span style={{ textWrap: "pretty" }}>{b}</span>
               </li>
             ))}
@@ -587,16 +651,16 @@ function GameFeatureDesignPage({ game, index, total, pageNo, prevPageNo, issue }
       </div>
 
       {/* Patch notes — full width, big list */}
-      <Zoomable label={`${game.ko} — Patch Notes`} style={{ position: "absolute", top: 700, left: 56, right: 56, cursor: "zoom-in" }}>
+      <Zoomable label={`${game.ko} — Patch Notes`} style={{ position: "absolute", top: 700, left: 56, right: 56, bottom: 110, cursor: "zoom-in", overflow: "hidden" }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", color: T.red, fontWeight: 700, textTransform: "uppercase" }}>
-            FIG. F.3 · {game.patchEn}
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, fontWeight: 700, textTransform: "uppercase" }}>
+            FIG. F.4 · {game.patchEn}
           </span>
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: T.muted, letterSpacing: "0.14em" }}>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
             {game.patchBullets.length} items
           </span>
         </div>
-        <ul style={{ listStyle: "none", padding: 0, margin: 0, borderTop: `2px solid ${T.ink}`, fontFamily: "'Noto Serif KR',serif", fontSize: 17, lineHeight: 1.55, color: T.ink, opacity: 0.92 }}>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, borderTop: `2px solid ${T.ink}`, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: T.ink, opacity: 0.92 }}>
           {game.patchBullets.map((b, i) => (
             <li key={i} style={{ display: "flex", gap: 16, padding: "13px 0", borderBottom: `1px solid ${T.hair}`, alignItems: "baseline" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", color: T.red, flex: "0 0 40px", fontWeight: 700 }}>{String(i + 1).padStart(2, "0")}</span>
@@ -604,36 +668,6 @@ function GameFeatureDesignPage({ game, index, total, pageNo, prevPageNo, issue }
             </li>
           ))}
         </ul>
-      </Zoomable>
-
-      {/* Revenue trend — bottom, chart + note side-by-side */}
-      <Zoomable label={`${game.ko} — Revenue Trend`} style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: "rgba(0,0,0,0.04)", border: `1px solid ${T.hair}`, padding: "18px 22px 16px", cursor: "zoom-in" }}>
-        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
-            FIG. F.4 · {rev.label}
-          </span>
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: T.muted, letterSpacing: "0.14em" }}>{rev.unit} · MoM</span>
-        </div>
-        <div style={{ display: "flex", gap: 30, alignItems: "flex-start" }}>
-          <div style={{ flex: "0 0 auto" }}>
-            <MiniRevTrend
-              width={600} height={200}
-              ink={T.ink} accent={T.red} hair={T.hair} paper={T.paper}
-              months={rev.months}
-              values={rev.values}
-              highlight={rev.highlight ?? rev.months.length - 1}
-              unit={rev.unit || "$"}
-            />
-          </div>
-          <div style={{ flex: 1, paddingTop: 10 }}>
-            <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 15.5, lineHeight: 1.6, color: T.ink, opacity: 0.92, textWrap: "pretty" }}>
-              {rev.note}
-            </div>
-            <div style={{ marginTop: 12, fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
-              SOURCE · {rev.source}
-            </div>
-          </div>
-        </div>
       </Zoomable>
     </PageFrame>
   );
@@ -651,7 +685,7 @@ function HardFrontCover({ meta }) {
       {/* Top edge band */}
       <div style={{ position: "absolute", top: 64, left: 96, right: 96,
                     display: "flex", justifyContent: "space-between",
-                    fontFamily: "'JetBrains Mono',monospace", fontSize: 11,
+                    fontFamily: "'JetBrains Mono',monospace", fontSize: 13,
                     letterSpacing: "0.28em", textTransform: "uppercase",
                     color: "rgba(26,26,26,0.7)" }}>
         <span>{meta.issn || "ISSN 0000-0001"}</span>
@@ -675,7 +709,7 @@ function HardFrontCover({ meta }) {
       {/* Bottom: issue label + accent rule */}
       <div style={{ position: "absolute", bottom: 140, left: 96, right: 96, textAlign: "center" }}>
         <div style={{ width: 140, height: 1, background: "#1A1A1A", opacity: 0.4, margin: "0 auto 24px" }} />
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 16,
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13,
                       letterSpacing: "0.5em", textTransform: "uppercase",
                       color: "#1A1A1A" }}>
           {meta.issue || "Vol.01"} · {meta.coverDate || "APR 2026"}
@@ -687,7 +721,7 @@ function HardFrontCover({ meta }) {
 
       {/* Bottom-edge mono tag */}
       <div style={{ position: "absolute", bottom: 56, left: 0, right: 0, textAlign: "center",
-                    fontFamily: "'JetBrains Mono',monospace", fontSize: 10,
+                    fontFamily: "'JetBrains Mono',monospace", fontSize: 13,
                     letterSpacing: "0.4em", textTransform: "uppercase",
                     color: "rgba(26,26,26,0.5)" }}>
         {meta.tagline || "월간 서브컬처 데이터 저널"}
@@ -750,7 +784,7 @@ function HardBackCover({ meta }) {
       {/* Top */}
       <div style={{ position: "absolute", top: 64, left: 96, right: 96,
                     display: "flex", justifyContent: "space-between",
-                    fontFamily: "'JetBrains Mono',monospace", fontSize: 11,
+                    fontFamily: "'JetBrains Mono',monospace", fontSize: 13,
                     letterSpacing: "0.28em", textTransform: "uppercase",
                     color: "rgba(26,26,26,0.7)" }}>
         <span>{meta.issn || "ISSN 0000-0001"}</span>
@@ -769,7 +803,7 @@ function HardBackCover({ meta }) {
           다음 호에 계속.
         </div>
         <div style={{ marginTop: 16, fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 12, letterSpacing: "0.32em", textTransform: "uppercase",
+                      fontSize: 13, letterSpacing: "0.32em", textTransform: "uppercase",
                       color: "rgba(26,26,26,0.55)" }}>
           {meta.next || "NEXT ISSUE · Vol.02 · 2026.06.10"}
         </div>
@@ -778,7 +812,7 @@ function HardBackCover({ meta }) {
       {/* Bottom */}
       <div style={{ position: "absolute", bottom: 64, left: 96, right: 96,
                     display: "flex", justifyContent: "space-between",
-                    fontFamily: "'JetBrains Mono',monospace", fontSize: 10,
+                    fontFamily: "'JetBrains Mono',monospace", fontSize: 13,
                     letterSpacing: "0.32em", textTransform: "uppercase",
                     color: "rgba(26,26,26,0.55)" }}>
         <span>{meta.title || "Subculture Monthly"}</span>

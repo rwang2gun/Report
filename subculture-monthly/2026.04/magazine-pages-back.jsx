@@ -19,10 +19,10 @@ function CrossAnalysisTrendsPage({ meta, section, headline, sub, trends }) {
       {/* 5 trend rows — vertical layout, each row gets generous room. */}
       <div style={{ position: "absolute", top: 440, left: 56, right: 56 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
             FIG. X.1 · Five Trends
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
             APR 2026 · CROSS-CUT
           </div>
         </div>
@@ -38,7 +38,7 @@ function CrossAnalysisTrendsPage({ meta, section, headline, sub, trends }) {
                 <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 32, lineHeight: 1.2, color: T.ink, letterSpacing: "-0.01em", fontWeight: 700 }}>
                   {t.head}
                 </div>
-                <div style={{ marginTop: 10, fontFamily: "'Noto Serif KR',serif", fontSize: 17, lineHeight: 1.65, color: T.ink, opacity: 0.85, textWrap: "pretty", maxWidth: 940 }}>
+                <div style={{ marginTop: 10, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.65, color: T.ink, opacity: 0.85, textWrap: "pretty", maxWidth: 940 }}>
                   {t.why}
                 </div>
               </div>
@@ -61,7 +61,7 @@ function CrossAnalysisPlaybookPage({ meta, matrix, dosDonts }) {
       <FolioHeader left={`CONT'D · CROSS-GAME PLAYBOOK`} right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
 
       <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
           04 / Cross-Game · Playbook
         </div>
         <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 60, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
@@ -73,10 +73,10 @@ function CrossAnalysisPlaybookPage({ meta, matrix, dosDonts }) {
       {/* Matrix */}
       <div style={{ position: "absolute", top: 360, left: 56, right: 56 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
             {matrix.label}
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>● = observed</div>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>● = observed</div>
         </div>
         <CrossMatrix cols={matrix.cols} rows={matrix.rows} ink={T.ink} accent={T.red} hair={T.hair} muted={T.muted} big />
       </div>
@@ -84,22 +84,22 @@ function CrossAnalysisPlaybookPage({ meta, matrix, dosDonts }) {
       {/* Do / Don't — bigger text, more spacing */}
       <div style={{ position: "absolute", left: 56, right: 56, top: 780, bottom: 110, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
         <Zoomable label="Cross-Game — DO list" style={{ border: `1px solid ${T.hair}`, padding: "24px 26px", background: "rgba(255,255,255,0.4)", cursor: "zoom-in" }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, letterSpacing: "0.22em", color: T.ink, fontWeight: 700, marginBottom: 4 }}>● DO</div>
-          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.6, color: T.ink, opacity: 0.9 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.ink, fontWeight: 700, marginBottom: 4 }}>● DO</div>
+          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.6, color: T.ink, opacity: 0.9 }}>
             {dosDonts.dos.map((d, i) => (
               <li key={i} style={{ display: "flex", gap: 12, padding: "9px 0", borderBottom: i < dosDonts.dos.length - 1 ? `1px solid ${T.hair}` : "none" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, color: T.red, opacity: 0.85, flex: "0 0 32px", fontWeight: 600 }}>{String(i + 1).padStart(2, "0")}</span>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.red, opacity: 0.85, flex: "0 0 32px", fontWeight: 600 }}>{String(i + 1).padStart(2, "0")}</span>
                 <span>{d}</span>
               </li>
             ))}
           </ul>
         </Zoomable>
         <Zoomable label="Cross-Game — DON'T list" style={{ border: `1px solid ${T.red}`, padding: "24px 26px", background: T.red, color: T.paper, cursor: "zoom-in" }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, letterSpacing: "0.22em", color: T.paper, fontWeight: 700, marginBottom: 4 }}>○ DON&apos;T</div>
-          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.6, color: T.paper }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.paper, fontWeight: 700, marginBottom: 4 }}>○ DON&apos;T</div>
+          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0 0", fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.6, color: T.paper }}>
             {dosDonts.donts.map((d, i) => (
               <li key={i} style={{ display: "flex", gap: 12, padding: "9px 0", borderBottom: i < dosDonts.donts.length - 1 ? "1px solid rgba(250,246,236,0.28)" : "none" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, color: T.paper, opacity: 0.75, flex: "0 0 32px", fontWeight: 600 }}>{String(i + 1).padStart(2, "0")}</span>
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.paper, opacity: 0.75, flex: "0 0 32px", fontWeight: 600 }}>{String(i + 1).padStart(2, "0")}</span>
                 <span>{d}</span>
               </li>
             ))}
@@ -117,11 +117,11 @@ function CrossMatrix({ cols, rows, ink, accent, hair, muted, big }) {
   const labelW  = big ? 240 : 200;
   const rowH    = big ? 56  : 38;
   const headerH = big ? 40  : 32;
-  const headerFS  = big ? 12 : 10;
-  const rowLabelFS = big ? 15 : 12;
+  const headerFS  = big ? 14 : 13;
+  const rowLabelFS = big ? 15 : 13;
   const dotOnFS  = big ? 26 : 20;
   const dotOffFS = big ? 18 : 14;
-  const countFS  = big ? 13 : 12;
+  const countFS  = big ? 14 : 13;
   return (
     <div style={{ borderTop: `2px solid ${ink}` }}>
       <div style={{ display: "grid", gridTemplateColumns: `${labelW}px repeat(${cols.length}, ${cellW}px) 1fr`, alignItems: "center", height: headerH, fontFamily: "'JetBrains Mono',monospace", fontSize: headerFS, letterSpacing: "0.18em", color: muted, textTransform: "uppercase" }}>
@@ -162,10 +162,10 @@ function IndustryStudiosPage({ meta, section, headline, sub, studios }) {
 
       <div style={{ position: "absolute", top: 440, left: 56, right: 56 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
             FIG. I.1 · Studios in Motion
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
             APR 2026 · 6 STUDIOS
           </div>
         </div>
@@ -179,9 +179,9 @@ function IndustryStudiosPage({ meta, section, headline, sub, studios }) {
                 </span>
                 <div style={{ paddingTop: 4 }}>
                   <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 32, color: T.ink, letterSpacing: "-0.015em", lineHeight: 1.1 }}>{s.name}</div>
-                  <div style={{ marginTop: 4, fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: T.muted, letterSpacing: "0.14em" }}>{s.ko}</div>
+                  <div style={{ marginTop: 4, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>{s.ko}</div>
                 </div>
-                <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.6, color: T.ink, opacity: 0.88, textWrap: "pretty", paddingTop: 6 }}>
+                <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.6, color: T.ink, opacity: 0.88, textWrap: "pretty", paddingTop: 6 }}>
                   {s.note}
                 </div>
               </div>
@@ -204,7 +204,7 @@ function IndustryOutlookPage({ meta, upcoming, regulations }) {
       <FolioHeader left={`CONT'D · INDUSTRY OUTLOOK`} right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
 
       <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
           06 / Industry Desk · Outlook
         </div>
         <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 60, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
@@ -215,18 +215,18 @@ function IndustryOutlookPage({ meta, upcoming, regulations }) {
 
       {/* Upcoming — full width */}
       <div style={{ position: "absolute", top: 340, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
           FIG. I.2 · Upcoming · 다음 90일
         </div>
         <div style={{ borderTop: `2px solid ${T.ink}` }}>
           {upcoming.map((u, i) => (
             <div key={i} style={{ display: "grid", gridTemplateColumns: "120px 1fr", padding: "16px 0 18px", borderBottom: `1px solid ${T.hair}`, alignItems: "baseline", gap: 20 }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, letterSpacing: "0.18em", color: T.red, fontWeight: 600 }}>
+              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.red, fontWeight: 600 }}>
                 {u.when}
               </span>
               <div>
                 <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 28, color: T.ink, letterSpacing: "-0.015em", lineHeight: 1.15 }}>{u.title}</div>
-                <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 15, color: T.ink, opacity: 0.82, marginTop: 6, lineHeight: 1.55 }}>{u.note}</div>
+                <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.82, marginTop: 6, lineHeight: 1.55 }}>{u.note}</div>
               </div>
             </div>
           ))}
@@ -235,7 +235,7 @@ function IndustryOutlookPage({ meta, upcoming, regulations }) {
 
       {/* Regulations — full width, below */}
       <div style={{ position: "absolute", left: 56, right: 56, bottom: 110 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
           FIG. I.3 · Issues Watch
         </div>
         <div style={{ borderTop: `2px solid ${T.ink}`, display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 0 }}>
@@ -245,7 +245,7 @@ function IndustryOutlookPage({ meta, upcoming, regulations }) {
                 <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, fontWeight: 700 }}>{r.region}</span>
                 <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 20, color: T.ink, fontStyle: "italic", letterSpacing: "-0.01em" }}>{r.ko}</span>
               </div>
-              <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 14.5, color: T.ink, opacity: 0.85, lineHeight: 1.6 }}>
+              <div style={{ marginTop: 6, fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.85, lineHeight: 1.6 }}>
                 {r.line}
               </div>
             </div>
@@ -270,10 +270,10 @@ function CommunityEventsPage({ meta, section, headline, sub, events, directorLet
       {/* Events — vertical list, EB Garamond italic date + 32px title + meta line */}
       <div style={{ position: "absolute", top: 440, left: 56, right: 56 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
             FIG. C.1 · Five Events · {meta.coverDate}
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
             APR 2026 · 5 SIGNALS
           </div>
         </div>
@@ -289,7 +289,7 @@ function CommunityEventsPage({ meta, section, headline, sub, events, directorLet
                 <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 26, lineHeight: 1.25, color: T.ink, letterSpacing: "-0.01em", fontWeight: 600, textWrap: "pretty" }}>
                   {e.title}
                 </div>
-                <div style={{ marginTop: 8, display: "flex", gap: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", color: T.ink, opacity: 0.78 }}>
+                <div style={{ marginTop: 8, display: "flex", gap: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", color: T.ink, opacity: 0.78 }}>
                   <span><span style={{ color: T.muted }}>WHERE</span> · {e.where}</span>
                   <span style={{ marginLeft: "auto", color: T.red, fontWeight: 600 }}>{e.scale}</span>
                 </div>
@@ -302,7 +302,7 @@ function CommunityEventsPage({ meta, section, headline, sub, events, directorLet
       {/* Director letter — full-width card */}
       <Zoomable label={`Director Letter — ${directorLetter.from}`} style={{ position: "absolute", left: 56, right: 56, bottom: 110, background: T.ink, color: T.paper, padding: "30px 32px 32px", position: "relative", cursor: "zoom-in" }}>
         <div style={{ position: "absolute", top: -12, left: 22, fontFamily: "'EB Garamond',serif", fontSize: 108, lineHeight: 1, color: T.red, fontStyle: "italic" }}>“</div>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginTop: 44, fontWeight: 700 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginTop: 44, fontWeight: 700 }}>
           {directorLetter.head}
         </div>
         <div style={{ marginTop: 6, fontFamily: "'EB Garamond',serif", fontSize: 28, color: T.paper, fontStyle: "italic", letterSpacing: "-0.01em" }}>
@@ -311,7 +311,7 @@ function CommunityEventsPage({ meta, section, headline, sub, events, directorLet
         <div style={{ marginTop: 16, fontFamily: "'Noto Serif KR',serif", fontSize: 18, lineHeight: 1.7, color: T.paper, textWrap: "pretty", maxWidth: 1000 }}>
           {directorLetter.body}
         </div>
-        <div style={{ marginTop: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.16em", color: T.paper, opacity: 0.65 }}>
+        <div style={{ marginTop: 18, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.16em", color: T.paper, opacity: 0.65 }}>
           — {directorLetter.footer}
         </div>
       </Zoomable>
@@ -330,7 +330,7 @@ function CommunityWorksPage({ meta, fanWorks }) {
       <FolioHeader left={`CONT'D · COMMUNITY · FAN WORKS`} right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
 
       <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
           26 / Community · Fan Works
         </div>
         <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 60, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
@@ -341,10 +341,10 @@ function CommunityWorksPage({ meta, fanWorks }) {
 
       <div style={{ position: "absolute", top: 360, left: 56, right: 56 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
             FIG. C.2 · Fan Works · 이번 호 픽
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
             {fanWorks.length} ITEMS · CURATED
           </div>
         </div>
@@ -363,11 +363,11 @@ function CommunityWorksPage({ meta, fanWorks }) {
                 <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 30, color: T.ink, letterSpacing: "-0.015em", lineHeight: 1.15, fontWeight: 500 }}>
                   {f.title}
                 </div>
-                <div style={{ marginTop: 10, fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.6, color: T.ink, opacity: 0.88, textWrap: "pretty" }}>
+                <div style={{ marginTop: 10, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.6, color: T.ink, opacity: 0.88, textWrap: "pretty" }}>
                   {f.note}
                 </div>
               </div>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", color: T.ink, textAlign: "right", paddingTop: 8 }}>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", color: T.ink, textAlign: "right", paddingTop: 8 }}>
                 <span style={{ color: T.muted }}>BY</span><br/>
                 <span style={{ fontWeight: 600 }}>{f.by}</span>
               </div>
@@ -376,7 +376,7 @@ function CommunityWorksPage({ meta, fanWorks }) {
         </div>
       </div>
 
-      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, padding: "14px 18px", background: "rgba(255,255,255,0.5)", border: `1px solid ${T.hair}`, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.14em", color: T.ink, opacity: 0.78, textTransform: "uppercase" }}>
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 110, padding: "14px 18px", background: "rgba(255,255,255,0.5)", border: `1px solid ${T.hair}`, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", color: T.ink, opacity: 0.78, textTransform: "uppercase" }}>
         <span style={{ color: T.red, fontWeight: 700 }}>NOTE</span> · 본지는 팬 워크에서 다음 호 분석 단서를 찾는다 — 미메·일러스트·코스프레·클립의 양과 톤은 디자인 수용 신호다.
       </div>
     </PageFrame>
@@ -397,10 +397,10 @@ function WatchlistPage({ meta, section, headline, sub, items }) {
 
       <div style={{ position: "absolute", top: 440, left: 56, right: 56 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase" }}>
             FIG. W · Five Slots to Watch · JUN 2026
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
             MAY 2026 · 5 BETS
           </div>
         </div>
@@ -415,20 +415,20 @@ function WatchlistPage({ meta, section, headline, sub, items }) {
                   <span style={{ fontFamily: "'EB Garamond',serif", fontSize: 36, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500, lineHeight: 1.1 }}>{it.name}</span>
                   <span style={{ fontFamily: "'EB Garamond',serif", fontStyle: "italic", fontSize: 22, color: T.red }}>/ {it.game}</span>
                 </div>
-                <div style={{ marginTop: 10, fontFamily: "'Noto Serif KR',serif", fontSize: 17, color: T.ink, opacity: 0.9, lineHeight: 1.65, textWrap: "pretty", maxWidth: 800 }}>
+                <div style={{ marginTop: 10, fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.9, lineHeight: 1.65, textWrap: "pretty", maxWidth: 800 }}>
                   {it.why}
                 </div>
               </div>
               <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", color: T.ink, textAlign: "right", paddingTop: 10 }}>
                 <span style={{ color: T.muted }}>WHEN</span><br/>
-                <span style={{ fontWeight: 600, fontSize: 15 }}>{it.when}</span>
+                <span style={{ fontWeight: 600, fontSize: 17 }}>{it.when}</span>
               </div>
             </Zoomable>
           ))}
         </div>
       </div>
 
-      <div style={{ position: "absolute", bottom: 110, left: 56, right: 56, padding: "18px 22px", background: T.ink, color: T.paper, display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+      <div style={{ position: "absolute", bottom: 110, left: 56, right: 56, padding: "18px 22px", background: T.ink, color: T.paper, display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.14em", textTransform: "uppercase" }}>
         <span><span style={{ color: T.red, fontWeight: 700 }}>NEXT</span> · 다음 호 발행일 · 2026.06.10</span>
         <span style={{ color: "rgba(245,241,232,0.65)" }}>다섯 슬롯에서 다음 트렌드가 결정된다</span>
       </div>
@@ -450,10 +450,10 @@ function ColophonSourcesPage({ meta, section, headline, sub, sources, methodolog
       {/* Sources — vertical list with 24px labels */}
       <div style={{ position: "absolute", top: 440, left: 56, right: 56 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
             01 · SOURCES · 출처
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
             {sources.length} CHANNELS
           </div>
         </div>
@@ -462,9 +462,9 @@ function ColophonSourcesPage({ meta, section, headline, sub, sources, methodolog
             <div key={i} style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 22, padding: "18px 0 20px", borderBottom: `1px solid ${T.hair}`, alignItems: "start" }}>
               <div>
                 <div style={{ fontFamily: "'EB Garamond',serif", fontSize: 24, color: T.ink, letterSpacing: "-0.015em", fontWeight: 500, lineHeight: 1.15 }}>{s.label}</div>
-                <div style={{ marginTop: 4, fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: T.red, letterSpacing: "0.08em", textWrap: "pretty" }}>{s.from}</div>
+                <div style={{ marginTop: 4, fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.red, letterSpacing: "0.08em", textWrap: "pretty" }}>{s.from}</div>
               </div>
-              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 16, color: T.ink, opacity: 0.88, lineHeight: 1.6, textWrap: "pretty", paddingTop: 4 }}>
+              <div style={{ fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.88, lineHeight: 1.6, textWrap: "pretty", paddingTop: 4 }}>
                 {s.note}
               </div>
             </div>
@@ -475,16 +475,16 @@ function ColophonSourcesPage({ meta, section, headline, sub, sources, methodolog
       {/* Methodology — numbered list, full width */}
       <div style={{ position: "absolute", left: 56, right: 56, bottom: 110 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
             02 · METHODOLOGY · 방법
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
             {methodology.length} STEPS
           </div>
         </div>
         <ol style={{ paddingLeft: 0, margin: 0, listStyle: "none", borderTop: `2px solid ${T.ink}` }}>
           {methodology.map((m, i) => (
-            <li key={i} style={{ display: "flex", gap: 16, padding: "12px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 16, color: T.ink, opacity: 0.9, lineHeight: 1.6, alignItems: "baseline" }}>
+            <li key={i} style={{ display: "flex", gap: 16, padding: "12px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.9, lineHeight: 1.6, alignItems: "baseline" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.red, flex: "0 0 36px", fontWeight: 700, letterSpacing: "0.14em" }}>{String(i + 1).padStart(2, "0")}</span>
               <span style={{ textWrap: "pretty" }}>{m}</span>
             </li>
@@ -506,7 +506,7 @@ function ColophonLimitsPage({ meta, limits, masthead, issn, next }) {
       <FolioHeader left={`CONT'D · COLOPHON · LIMITS`} right={`SUBCULTURE MONTHLY · ${meta.issue}`} />
 
       <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8 }}>
           29 / Colophon · Limits & Masthead
         </div>
         <h1 style={{ fontFamily: "'EB Garamond',serif", fontSize: 60, lineHeight: 0.98, margin: 0, color: T.ink, letterSpacing: "-0.02em", fontWeight: 500 }}>
@@ -518,16 +518,16 @@ function ColophonLimitsPage({ meta, limits, masthead, issn, next }) {
       {/* Limits — full width numbered list */}
       <div style={{ position: "absolute", top: 360, left: 56, right: 56 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", fontWeight: 700 }}>
             03 · LIMITS · 한계
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: T.muted, letterSpacing: "0.14em" }}>
+          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.muted, letterSpacing: "0.14em" }}>
             {limits.length} CAVEATS
           </div>
         </div>
         <ol style={{ paddingLeft: 0, margin: 0, listStyle: "none", borderTop: `2px solid ${T.ink}` }}>
           {limits.map((m, i) => (
-            <li key={i} style={{ display: "flex", gap: 16, padding: "12px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 16, color: T.ink, opacity: 0.9, lineHeight: 1.6, alignItems: "baseline" }}>
+            <li key={i} style={{ display: "flex", gap: 16, padding: "12px 0", borderBottom: `1px solid ${T.hair}`, fontFamily: "'Noto Serif KR',serif", fontSize: 13, color: T.ink, opacity: 0.9, lineHeight: 1.6, alignItems: "baseline" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: T.red, flex: "0 0 36px", fontWeight: 700, letterSpacing: "0.14em" }}>{String(i + 1).padStart(2, "0")}</span>
               <span style={{ textWrap: "pretty" }}>{m}</span>
             </li>
@@ -537,7 +537,7 @@ function ColophonLimitsPage({ meta, limits, masthead, issn, next }) {
 
       {/* Masthead */}
       <div style={{ position: "absolute", left: 56, right: 56, bottom: 200 }}>
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8, fontWeight: 700 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: T.red, textTransform: "uppercase", marginBottom: 8, fontWeight: 700 }}>
           04 · MASTHEAD · 편집부
         </div>
         <div style={{ borderTop: `2px solid ${T.ink}`, borderBottom: `2px solid ${T.ink}`, padding: "16px 0", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px 28px", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.1em", color: T.ink }}>
@@ -549,7 +549,7 @@ function ColophonLimitsPage({ meta, limits, masthead, issn, next }) {
       </div>
 
       {/* Footer slug */}
-      <div style={{ position: "absolute", left: 56, right: 56, bottom: 100, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase" }}>
+      <div style={{ position: "absolute", left: 56, right: 56, bottom: 100, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.18em", color: T.muted, textTransform: "uppercase" }}>
         <span>{issn} · © Subculture Monthly · {meta.issue}</span>
         <span style={{ color: T.red, fontWeight: 700 }}>{next}</span>
       </div>

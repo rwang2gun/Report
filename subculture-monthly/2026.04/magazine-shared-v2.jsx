@@ -67,7 +67,7 @@ function PageFrame({
             bottom: 36,
             [pageNoSide]: 56,
             fontFamily: "'JetBrains Mono','IBM Plex Mono',monospace",
-            fontSize: 11,
+            fontSize: 13,
             letterSpacing: "0.08em",
             color: pageNoColor || ink,
             display: "flex",
@@ -77,7 +77,7 @@ function PageFrame({
           }}
         >
           {pageNoSide === "left" && <span style={{ opacity: 0.5 }}>{ofTotal}</span>}
-          <span style={{ fontSize: 14, fontWeight: 600 }}>{pageNo}</span>
+          <span style={{ fontSize: 13, fontWeight: 600 }}>{pageNo}</span>
           {pageNoSide === "right" && <span style={{ opacity: 0.5 }}>{ofTotal}</span>}
         </div>
       )}
@@ -128,7 +128,7 @@ function SplashSlot({
           bottom: 24,
           right: 24,
           fontFamily: "'JetBrains Mono',monospace",
-          fontSize: 11,
+          fontSize: 13,
           letterSpacing: "0.14em",
           color: ink,
           textTransform: "uppercase",
@@ -185,13 +185,13 @@ function RevLineChart({
       {ticks.map((t) => (
         <g key={t}>
           <line x1={pad.l} x2={pad.l + W} y1={y(t)} y2={y(t)} stroke={grid} strokeWidth="1" />
-          <text x={pad.l - 10} y={y(t) + 3} fontFamily="'JetBrains Mono',monospace" fontSize="10" textAnchor="end" fill={ink} opacity="0.6">
+          <text x={pad.l - 10} y={y(t) + 3} fontFamily="'JetBrains Mono',monospace" fontSize="13" textAnchor="end" fill={ink} opacity="0.6">
             {`$${t}M`}
           </text>
         </g>
       ))}
       {months.map((m, i) => (
-        <text key={m} x={x(i)} y={pad.t + H + 22} fontFamily="'JetBrains Mono',monospace" fontSize="10" textAnchor="middle" fill={ink} opacity="0.7" letterSpacing="2">
+        <text key={m} x={x(i)} y={pad.t + H + 22} fontFamily="'JetBrains Mono',monospace" fontSize="13" textAnchor="middle" fill={ink} opacity="0.7" letterSpacing="2">
           {m}
         </text>
       ))}
@@ -243,7 +243,7 @@ function RevLineChart({
               x={lineEnd + (hasIcon ? 36 : 12)}
               y={labelY + 4}
               fontFamily={g.ko ? "'Noto Serif KR','EB Garamond',serif" : "'JetBrains Mono',monospace"}
-              fontSize={g.ko ? 12 : 10}
+              fontSize={g.ko ? 13 : 13}
               fill={stroke}
               opacity={isHi ? 1 : 0.85}
               fontWeight={isHi ? 600 : 500}
@@ -286,14 +286,14 @@ function GenderDonut({
         return (
           <g key={d.label}>
             <path d={path} fill={tones[i] || muted} />
-            <text x={lx} y={ly} fontFamily="'JetBrains Mono',monospace" fontSize="10" textAnchor={lx < cx ? "end" : "start"} fill={ink} opacity="0.75">
+            <text x={lx} y={ly} fontFamily="'JetBrains Mono',monospace" fontSize="13" textAnchor={lx < cx ? "end" : "start"} fill={ink} opacity="0.75">
               {`${d.en} ${Math.round((d.v / total) * 100)}%`}
             </text>
           </g>
         );
       })}
       <text x={cx} y={cy - 2} textAnchor="middle" fontFamily="'EB Garamond',serif" fontSize="28" fill={ink}>{total}</text>
-      <text x={cx} y={cy + 14} textAnchor="middle" fontFamily="'JetBrains Mono',monospace" fontSize="9" fill={ink} opacity="0.6" letterSpacing="1.5">NEW UNITS</text>
+      <text x={cx} y={cy + 14} textAnchor="middle" fontFamily="'JetBrains Mono',monospace" fontSize="13" fill={ink} opacity="0.6" letterSpacing="1.5">NEW UNITS</text>
     </svg>
   );
 }
@@ -320,13 +320,13 @@ function Heatmap({
   return (
     <svg width={cell * cols.length + 90} height={cell * rows.length + 24}>
       {cols.map((c, j) => (
-        <text key={c} x={90 + cell * j + cell / 2} y={14} fontFamily="'JetBrains Mono',monospace" fontSize="9" textAnchor="middle" fill={ink} opacity="0.7" letterSpacing="1">
+        <text key={c} x={90 + cell * j + cell / 2} y={14} fontFamily="'JetBrains Mono',monospace" fontSize="13" textAnchor="middle" fill={ink} opacity="0.7" letterSpacing="1">
           {c.toUpperCase()}
         </text>
       ))}
       {rows.map((r, i) => (
         <g key={r.label} transform={`translate(0, ${24 + i * cell})`}>
-          <text x={82} y={cell / 2 + 4} fontFamily="'JetBrains Mono',monospace" fontSize="10" textAnchor="end" fill={ink} opacity="0.85">
+          <text x={82} y={cell / 2 + 4} fontFamily="'JetBrains Mono',monospace" fontSize="13" textAnchor="end" fill={ink} opacity="0.85">
             {r.label}
           </text>
           {r.values.map((v, j) => (
@@ -336,7 +336,7 @@ function Heatmap({
                 x={90 + cell * j + (cell - 2) / 2}
                 y={cell / 2 + 4}
                 fontFamily="'JetBrains Mono',monospace"
-                fontSize="11"
+                fontSize="13"
                 textAnchor="middle"
                 fill={v >= Math.ceil(max * 0.65) ? (inverted ? "#1B1B1B" : "#F1F1ED") : ink}
                 opacity={v === 0 ? 0.35 : 1}
@@ -365,7 +365,7 @@ function PickupTimeline({
     <svg width={width} height={height} style={{ display: "block" }}>
       {lanes.map((ln, i) => (
         <g key={ln.m} transform={`translate(0, ${i * rowH + 14})`}>
-          <text x={0} y={14} fontFamily="'JetBrains Mono',monospace" fontSize="10" fill={ink} opacity="0.7" letterSpacing="1.5">{ln.m}</text>
+          <text x={0} y={14} fontFamily="'JetBrains Mono',monospace" fontSize="13" fill={ink} opacity="0.7" letterSpacing="1.5">{ln.m}</text>
           <line x1={48} y1={11} x2={width - 10} y2={11} stroke={grid} strokeWidth="1" />
           {ln.items.map((it, j) => {
             const x = 48 + (width - 58) * it.x0;
@@ -373,7 +373,7 @@ function PickupTimeline({
             return (
               <g key={j}>
                 <rect x={x} y={4} width={w} height={14} fill={it.highlight ? accent : "rgba(0,0,0,0.62)"} />
-                <text x={x} y={32} fontFamily="'JetBrains Mono',monospace" fontSize="9" fill={ink} opacity={it.highlight ? 1 : 0.7} fontWeight={it.highlight ? 600 : 400}>
+                <text x={x} y={32} fontFamily="'JetBrains Mono',monospace" fontSize="13" fill={ink} opacity={it.highlight ? 1 : 0.7} fontWeight={it.highlight ? 600 : 400}>
                   {it.label}
                 </text>
               </g>
@@ -389,7 +389,7 @@ function PickupTimeline({
 function FolioHeader({ left, right, ink = TONE_A.ink, accent = TONE_A.red }) {
   return (
     <>
-      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: ink, opacity: 0.85 }}>
+      <div style={{ position: "absolute", top: 40, left: 56, right: 56, display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", color: ink, opacity: 0.85 }}>
         <span style={{ color: accent }}>{left}</span>
         <span>{right}</span>
       </div>
@@ -403,7 +403,7 @@ function SectionTitle({ section, headline, sub, accent = TONE_A.red, ink = TONE_
   return (
     <div style={{ position: "absolute", top: 92, left: 56, right: 56 }}>
       {section && (
-        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: "0.22em", color: accent, textTransform: "uppercase", marginBottom: 8 }}>
+        <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, letterSpacing: "0.22em", color: accent, textTransform: "uppercase", marginBottom: 8 }}>
           {section}
         </div>
       )}
@@ -413,7 +413,7 @@ function SectionTitle({ section, headline, sub, accent = TONE_A.red, ink = TONE_
         <span style={{ fontStyle: "italic", color: accent }}>{headline.emphasis}</span>
       </h1>
       {sub && (
-        <div style={{ marginTop: 14, maxWidth, fontFamily: "'Noto Serif KR',serif", fontSize: 16, lineHeight: 1.55, color: ink, opacity: 0.82, textWrap: "pretty" }}>
+        <div style={{ marginTop: 14, maxWidth, fontFamily: "'Noto Serif KR',serif", fontSize: 13, lineHeight: 1.55, color: ink, opacity: 0.82, textWrap: "pretty" }}>
           {sub}
         </div>
       )}
@@ -528,12 +528,12 @@ function MiniRevTrend({
 
       {/* MoM badge — anchored top-right, two-line so it never collides with bar labels */}
       <g transform={`translate(${width - pad.r}, 14)`}>
-        <text textAnchor="end" fontFamily="'JetBrains Mono',monospace" fontSize="10"
+        <text textAnchor="end" fontFamily="'JetBrains Mono',monospace" fontSize="13"
               letterSpacing="1.6" fill={ink} opacity="0.55">
           MOM
         </text>
         <text x="0" y="18" textAnchor="end" fontFamily="'JetBrains Mono',monospace"
-              fontSize="17" fontWeight="700" fill={mom >= 0 ? accent : ink}>
+              fontSize="13" fontWeight="700" fill={mom >= 0 ? accent : ink}>
           {`${mom >= 0 ? "+" : ""}${mom}%`}
         </text>
       </g>
@@ -569,7 +569,7 @@ function MiniRevTrend({
               y={pad.t + H + 22}
               textAnchor="middle"
               fontFamily="'JetBrains Mono',monospace"
-              fontSize="12"
+              fontSize="13"
               letterSpacing="1.8"
               fontWeight={isHi ? 700 : 400}
               fill={ink}

@@ -130,6 +130,7 @@ const ISSUE_2026_04 = {
         roleKo: "하이브리드 서포터·힐러",
         element: "GEO · 바위",
         faction: "MONDSTADT · ADVENTURERS' GUILD",
+        factionKo: "몬드 · 모험가 길드",
         banner: "Augur of Wonders",
         release: "2026.04.08",
         tagline: "달빛 결정을 품은 페어리 박물학자",
@@ -150,7 +151,7 @@ const ISSUE_2026_04 = {
         ],
         reactions: [
           { src: "fmkorea · 원신 게시판", body: "린네아 비주얼 진짜 미쳤다. Lumi랑 같이 다니는 모션 보는 순간 픽업 확정했음." },
-          { src: "Reddit r/Genshin_Impact", body: "Geo finally has a true carry. Lunar Crystallize feels like a real new reaction, not just a band-aid." },
+          { src: "Reddit r/Genshin_Impact", body: "드디어 Geo에 진짜 메인 딜러가 생겼다. Lunar Crystallize는 임시방편이 아니라 진짜 새 반응처럼 느껴진다." },
           { src: "인벤 원신", body: "달 신지역 풍경이랑 캐릭이 한 세트로 묶여있어서 새 지역 보는 거 자체가 보상임." },
         ],
         revTrend: {
@@ -205,6 +206,7 @@ const ISSUE_2026_04 = {
         roleKo: "수렵 · 치명타 딜러",
         element: "LIGHTNING · 번개",
         faction: "STELLARON HUNTERS",
+        factionKo: "스텔라론 헌터즈",
         banner: "A Hunt Through Night",
         release: "2026.03.25",
         tagline: "낮엔 탐정, 밤엔 천둥의 사냥꾼",
@@ -225,7 +227,7 @@ const ISSUE_2026_04 = {
         ],
         reactions: [
           { src: "인벤 붕괴 스타레일", body: "강수진 캐스팅 듣자마자 뽑기 확정. 명탐정 코난 그 자체임 이건." },
-          { src: "Reddit r/HonkaiStarRail", body: "Ashveil's bait mechanic genuinely changes how I think about target priority. 4.x's design statement." },
+          { src: "Reddit r/HonkaiStarRail", body: "애쉬베일의 미끼 메커니즘이 타겟 우선순위를 보는 관점 자체를 바꿔놓는다. 4.x 디자인의 선언문 같은 캐릭." },
           { src: "아카라이브 HSR", body: "근데 4.2 Silver Wolf Lv.999 보고 또 보류 중. 운영진 의도 다 보임." },
         ],
         revTrend: {
@@ -280,6 +282,7 @@ const ISSUE_2026_04 = {
         roleKo: "강습 · 하이브리드",
         element: "ELECTRIC · 전기",
         faction: "METROPOLITAN ORDER DIV.",
+        factionKo: "메트로폴리탄 질서국 · 사건전담반",
         banner: "Venom Procession",
         release: "2026.04.15",
         tagline: "독을 두른 질서국의 신참 수사관",
@@ -300,7 +303,7 @@ const ISSUE_2026_04 = {
         ],
         reactions: [
           { src: "아카라이브 ZZZ 채널", body: "시시아 한 명이 강습+버퍼+서브딜 다 됨. 본가 게임 영업방식 그 자체네." },
-          { src: "Reddit r/ZenlessZoneZero", body: "DEF shred + CRIT DMG on the same resource is just unfair design — Venom stacks do too much." },
+          { src: "Reddit r/ZenlessZoneZero", body: "방깎이랑 치명타 피해를 같은 자원에 묶어둔 건 그냥 불공정한 설계다 — Venom 스택 하나가 너무 많은 걸 다 해준다." },
           { src: "디시 ZZZ 갤러리", body: "보라 네온 핑크 일러 미친듯이 잘뽑힘. 미야비랑 같이 쓰니까 화면 자체가 다름." },
         ],
         revTrend: {
@@ -355,6 +358,7 @@ const ISSUE_2026_04 = {
         roleKo: "메인 딜러",
         element: "GLACIO · 빙",
         faction: "BLACK SHORES",
+        factionKo: "블랙 쇼어",
         banner: "Reverbs From the End of Galaxies",
         release: "2026.04.30",
         tagline: "검 한 자루로 두 자아를 가르는 검사",
@@ -374,9 +378,9 @@ const ISSUE_2026_04 = {
           "4/30 출시로 4월 매출 기여 1일분만 잡혀 단기 수치 평가가 미루어짐",
         ],
         reactions: [
-          { src: "BuffHub", body: "Hiyuki is one of the most iconic characters in Wuthering Waves to date — mechanical depth, burst performance, and visual presentation are top-tier." },
+          { src: "BuffHub", body: "히유키는 명조 역대 캐릭 중 가장 아이코닉한 축에 든다 — 메커니즘 깊이, 폭딜 퍼포먼스, 비주얼 연출 모두 최상위." },
           { src: "fmkorea 명조 채널", body: "히유키 시간정지 컷신 보면 \"이게 2주년이지\" 소리 절로 나옴. Kuro 이번엔 진짜 작정함." },
-          { src: "Reddit r/WutheringWaves", body: "The dual-self mechanic isn't just flavor — it changes how you plan rotation. Anniversary character done right." },
+          { src: "Reddit r/WutheringWaves", body: "이중 자아 메커니즘은 단순 컨셉 장식이 아니다 — 로테이션 짜는 방식 자체를 바꾼다. 2주년 캐릭은 이래야 한다는 표본." },
         ],
         revTrend: {
           label: "3-MO REVENUE TREND",
@@ -430,6 +434,7 @@ const ISSUE_2026_04 = {
         roleKo: "스트라이커",
         element: "ELECTRIC · 전기",
         faction: "ENDFIELD CORPS · WULING",
+        factionKo: "엔드필드 본대 · 우링 지부",
         banner: "갱신의 천둥 (Thunder of Renewal)",
         release: "2026.04.17",
         tagline: "우링의 강철 비를 가르는 스트라이커",
@@ -449,9 +454,9 @@ const ISSUE_2026_04 = {
           "전기 광역 연출 자료가 패치 초반 공개 부족 — 시네마틱 비중 평가 보류",
         ],
         reactions: [
-          { src: "Outlook Respawn · X", body: "The 'At the Wake of Spring' patch and new 6-star Zhuang Fangyi triggered a massive $2.9M daily revenue surge — Endfield's best day since January 25th." },
+          { src: "Outlook Respawn · X", body: "'봄의 깨어남' 패치와 신규 6성 장방이가 일매출 $2.9M의 대형 spike를 견인 — 엔드필드 1/25 이후 최고 일매출." },
           { src: "디시 엔드필드 갤러리", body: "장방이 일딜 진심으로 미친 수준임. 우링 챕터까지 같이 풀려서 컨텐츠 갈증이 한방에 해결됨." },
-          { src: "Reddit r/Arknights", body: "Endfield finally feels like a real live-service. Long banner + chapter + 6★ — the playbook works on PC too." },
+          { src: "Reddit r/Arknights", body: "엔드필드가 드디어 진짜 라이브 서비스처럼 느껴진다. 장기 배너 + 챕터 + 6성 — 이 playbook이 PC에서도 그대로 통한다." },
         ],
         revTrend: {
           label: "3-MO REVENUE TREND",
@@ -505,6 +510,7 @@ const ISSUE_2026_04 = {
         roleKo: "디펜더 · 힐러",
         element: "WATER · 수속성",
         faction: "MISSILIS · VEILED ORDER",
+        factionKo: "미실리스 · 베일드 오더",
         banner: "Oath of Goodwill",
         release: "2026.04.09",
         tagline: "약속을 무기로 삼는 베일드 오더 저격수",
@@ -524,9 +530,9 @@ const ISSUE_2026_04 = {
           "SR 등급 컷신 비중이 SSR 대비 낮아 외형 임팩트 한정",
         ],
         reactions: [
-          { src: "BitTopup News · 2026.04", body: "Community consensus as of early April 2026 places Snow Crane in the mid-tier healer bracket — most sources recommend skipping and saving for the 3.5th Anniversary banners." },
+          { src: "BitTopup News · 2026.04", body: "2026년 4월 초 커뮤니티 합의는 스노우 크레인을 중티어 힐러로 분류 — 대부분의 가이드는 스킵하고 3.5주년 배너용으로 자원을 모을 것을 권장." },
           { src: "디시 니케 갤러리", body: "스노우 크레인 일러는 진짜 잘뽑힘. 근데 가이드 다 스킵 권장이라 마음만 무거움." },
-          { src: "Reddit r/NikkeMobile", body: "Functional, not meta-defining. Honestly a good 'rest unit' before the anniversary storm hits." },
+          { src: "Reddit r/NikkeMobile", body: "제 몫은 하지만 메타를 정의하진 못한다. 솔직히 주년 폭풍 직전의 좋은 '쉬어가는 캐릭' 정도." },
         ],
         revTrend: {
           label: "3-MO REVENUE TREND",

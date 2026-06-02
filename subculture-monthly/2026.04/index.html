@@ -84,7 +84,7 @@
       border-radius: 0 4px 4px 0;
       padding: 6px 10px 6px 8px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
+      font-size: 13px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: rgba(26,26,26,0.7);
@@ -175,7 +175,7 @@
       position: fixed; top: 28px; left: 28px;
       color: #FBFBFA;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+      font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
       opacity: 0.85; z-index: 10002;
     }
     .zoom-modal-label .red { color: #E27062; font-weight: 600; }
@@ -266,20 +266,34 @@
     })();
   </script>
 
-  <!-- Data + Component layers — separated. -->
-  <script type="text/babel" src="issue-2026-04.jsx"></script>
-  <script type="text/babel" src="magazine-shared-v2.jsx"></script>
-  <script type="text/babel" src="magazine-pages-front.jsx"></script>
-  <script type="text/babel" src="magazine-pages-back.jsx"></script>
+  <!-- Data + Component layers — separated. Cache-busting query param bumped
+       per minute so the browser doesn't serve a stale disk-cached jsx after
+       edits. (Dev-only; not a concern for the production export.) -->
+  <script>
+    (function () {
+      var v = 'v=' + Date.now();
+      var srcs = ['issue-2026-04.jsx', 'magazine-shared-v2.jsx',
+                  'magazine-pages-front.jsx', 'magazine-pages-back.jsx'];
+      srcs.forEach(function (s) {
+        var el = document.createElement('script');
+        el.type = 'text/babel';
+        el.src = s + '?' + v;
+        document.head.appendChild(el);
+      });
+    })();
+  </script>
 
   <script type="text/babel" data-presets="env,react">
     const PAGE_W = 1200;
     const PAGE_H = 1600;
     const PAGE_RATIO = PAGE_H / PAGE_W;
 
-    // Below this viewport width we drop to portrait (single-page) mode —
-    // spread mode requires roughly 2× the page width and overflows on tablets.
-    const SPREAD_MIN_VW = 1100;
+    // Portrait (single-page) mode is permanently forced. Spread mode
+    // halves the per-page width, which compounds with the page → viewport
+    // scale and drops small labels well below readable size. Better to
+    // sacrifice the open-magazine aesthetic and let each page render at
+    // full native 1200px width.
+    const SPREAD_MIN_VW = 99999;
 
     function isPortraitMode() {
       return (window.innerWidth || 1280) < SPREAD_MIN_VW;
@@ -300,13 +314,18 @@
       const horizBudget = vw - 2 * sidePad - 2 * TABS_RESERVE;
       // Portrait shows one page; landscape shows two side-by-side.
       const wFromWidth  = portrait ? horizBudget : Math.floor(horizBudget / 2);
-      // Leaves room for the .controls bar (~40px) + gap + reader padding +
-      // browser/safe-area chrome. Too small and the controls get cropped below.
-      const vertChrome = 120;
+      // Vertical chrome reserved for the .controls bar and reader padding.
+      const vertChrome = 80;
       const hFromHeight = vh - vertChrome;
       const wFromHeight = Math.floor(hFromHeight / PAGE_RATIO);
       const minW = portrait ? 280 : 420;
-      const w = Math.max(minW, Math.min(900, wFromWidth, wFromHeight));
+      // Cap raised 900 → 1200 (= PAGE_W) so on a wide viewport the page
+      // renders close to native size. wFromHeight is honored so the book
+      // always fits inside the viewport — no vertical scroll, no clipped
+      // edges. On a typical desktop (1600×1000) this lands around
+      // w≈690, scale≈0.575, with the page tabs sitting snug to the
+      // book's right edge.
+      const w = Math.max(minW, Math.min(1200, wFromWidth, wFromHeight));
       const h = Math.round(w * PAGE_RATIO);
       return { w, h, portrait };
     }
