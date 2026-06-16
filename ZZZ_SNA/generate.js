@@ -40,29 +40,59 @@ function normalizeVersion(v) {
 
 const agentRaw = parseCSV(fs.readFileSync('D:/Claude/ZZZ_SNA/ZZZ 에이전트 db01.csv', 'utf-8'));
 const skillRaw = parseCSV(fs.readFileSync('D:/Claude/ZZZ_SNA/ZZZ 스킬 db01.csv', 'utf-8'));
+const skillRaw02 = parseCSV(fs.readFileSync('D:/Claude/ZZZ_SNA/ZZZ 스킬 db02.csv', 'utf-8'));
 
-const agentData = agentRaw.map(a => ({
-  name: a['에이전트명'],
-  element: a['속성'],
-  faction: a['진영'],
-  version: normalizeVersion(a['출시버전']),
-  rawVersion: a['출시버전'],
-  cls: a['클래스'],
-  note: a['비고'] || ''
-}));
+const agentData = agentRaw.map(a => {
+  const note = a['비고'] || '';
+  const gm = note.match(/\[([SA])등급\]/);
+  return {
+    name: a['에이전트명'],
+    element: a['속성'],
+    faction: a['진영'],
+    version: normalizeVersion(a['출시버전']),
+    rawVersion: a['출시버전'],
+    cls: a['클래스'],
+    grade: gm ? gm[1] : '',
+    note: note
+  };
+});
 
-const skillData = skillRaw.map(s => ({
-  name: s['이름'],
-  agent: s['ZZZ 에이전트'],
-  major: s['대분류'],
-  minor: s['소분류'],
-  damage: normalizeDamage(s['피해유형']),
-  effects: splitMulti(s['부가효과']),
-  reactions: splitMulti(s['리액션 태그']),
-  resource: s['소모 자원'] || '',
-  buff: s['전용 버프'] || '',
-  synergies: splitMulti(s['시너지'])
-}));
+// db02(신 스키마)에 존재하는 에이전트 — 이들은 db02 데이터를 우선 사용(중복 방지)
+const db02Agents = new Set(skillRaw02.map(s => s['ZZZ 에이전트']).filter(Boolean));
+
+// db01(구 스키마): 리액션 태그 → reactions, 소모 자원 → resource, 전용 버프 → buff
+const skillData01 = skillRaw
+  .filter(s => !db02Agents.has(s['ZZZ 에이전트']))  // db02에 있는 에이전트는 제외
+  .map(s => ({
+    name: s['이름'],
+    agent: s['ZZZ 에이전트'],
+    major: s['대분류'],
+    minor: s['소분류'],
+    damage: normalizeDamage(s['피해유형']),
+    effects: splitMulti(s['부가효과']),
+    reactions: splitMulti(s['리액션 태그']),
+    resource: s['소모 자원'] || '',
+    buff: s['전용 버프'] || '',
+    synergies: splitMulti(s['시너지'])
+  }));
+
+// db02(신 스키마): 적 디버프 → reactions, 전용 자원 → resource (전용 버프 컬럼 없음)
+const skillData02 = skillRaw02
+  .filter(s => s['이름'] && s['ZZZ 에이전트'])
+  .map(s => ({
+    name: s['이름'],
+    agent: s['ZZZ 에이전트'],
+    major: s['대분류'],
+    minor: s['소분류'],
+    damage: normalizeDamage(s['피해유형']),
+    effects: splitMulti(s['부가효과']),
+    reactions: splitMulti(s['적 디버프']),
+    resource: s['전용 자원'] || '',
+    buff: '',
+    synergies: splitMulti(s['시너지'])
+  }));
+
+const skillData = [...skillData01, ...skillData02];
 
 const versions = [...new Set(agentData.map(a => a.version))].sort((a, b) => {
   const na = parseFloat(a), nb = parseFloat(b);
@@ -168,6 +198,11 @@ const html = `<!DOCTYPE html>
     </div>
 
     <div>
+      <div class="panel-title">에이전트 티어 필터</div>
+      <div class="elem-filter" id="tier-filter"></div>
+    </div>
+
+    <div>
       <div class="panel-title">범례 — 스킬 대분류</div>
       <div class="legend">
         <div class="legend-item"><div class="legend-dot" style="background:#388bfd"></div> 핵심스킬</div>
@@ -187,6 +222,14 @@ const html = `<!DOCTYPE html>
         <div class="legend-item"><div class="legend-dot" style="background:#1a7f37; border-radius:2px"></div> 부가 효과</div>
         <div class="legend-item"><div class="legend-dot" style="background:#7ee787; border-radius:2px"></div> 리액션 태그</div>
         <div class="legend-item"><div class="legend-dot" style="background:#56d364; border-radius:2px"></div> 시너지</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel-title">범례 — 티어 (캐릭터 이름 색)</div>
+      <div class="legend">
+        <div class="legend-item"><span style="color:#ffa726; font-weight:700">●</span> S티어</div>
+        <div class="legend-item"><span style="color:#d160ff; font-weight:700">●</span> A티어</div>
       </div>
     </div>
 
@@ -229,10 +272,13 @@ const attrColor = {
 const attrBorder = {
   damage: '#cc3333', effects: '#0d4a1e', reactions: '#2ea043', synergies: '#1a7f37'
 };
+// 티어별 5각형 아웃라인 색상 (속성과 무관)
+const tierColor = { 'S': '#ffa726', 'A': '#d160ff' };
 
 // State
 let selectedVersions = new Set(VERSIONS);
 let selectedElements = new Set(['물리', '불', '얼음', '전기', '에테르']);
+let selectedTiers = new Set(['S', 'A']);
 let simulation = null;
 let highlightedNodeId = null;
 let currentLinks = [];  // 하이라이트용 현재 링크 캐시
@@ -286,6 +332,32 @@ elemDefs.forEach(({ key, color }) => {
   elemFilter.appendChild(btn);
 });
 
+// 에이전트 티어 필터 버튼 생성
+const tierDefs = [
+  { key: 'S', label: 'S티어', color: tierColor['S'] },
+  { key: 'A', label: 'A티어', color: tierColor['A'] }
+];
+const tierFilter = document.getElementById('tier-filter');
+tierDefs.forEach(({ key, label, color }) => {
+  const btn = document.createElement('div');
+  btn.className = 'elem-btn active';
+  btn.dataset.tier = key;
+  btn.style.color = color;
+  const dot = document.createElement('span');
+  dot.className = 'dot';
+  dot.style.background = color;
+  dot.style.borderRadius = '2px';
+  btn.appendChild(dot);
+  btn.appendChild(document.createTextNode(label));
+  btn.onclick = () => {
+    btn.classList.toggle('active');
+    if (btn.classList.contains('active')) selectedTiers.add(key);
+    else selectedTiers.delete(key);
+    rebuildGraph();
+  };
+  tierFilter.appendChild(btn);
+});
+
 // SVG setup
 const svg = d3.select('#graph');
 const container = document.getElementById('canvas-area');
@@ -312,6 +384,7 @@ const tooltip = document.getElementById('tooltip');
 function showTooltip(event, d) {
   let html = \`<div class="tt-name">\${d.label}</div>\`;
   if (d.type === 'agent') {
+    if (d.data.grade) html += \`<div class="tt-row"><span class="tt-label">티어</span><span class="tt-val" style="color:\${tierColor[d.data.grade]||'#c9d1d9'};font-weight:700">\${d.data.grade}티어</span></div>\`;
     html += \`<div class="tt-row"><span class="tt-label">속성</span><span class="tt-val">\${d.data.element}</span></div>\`;
     html += \`<div class="tt-row"><span class="tt-label">진영</span><span class="tt-val">\${d.data.faction}</span></div>\`;
     html += \`<div class="tt-row"><span class="tt-label">클래스</span><span class="tt-val">\${d.data.cls}</span></div>\`;
@@ -350,7 +423,8 @@ function rebuildGraph() {
   highlightedNodeId = null;
   clearInfoPanel();
   const visibleAgents = AGENTS.filter(a =>
-    selectedVersions.has(a.version) && selectedElements.has(a.element));
+    selectedVersions.has(a.version) && selectedElements.has(a.element) &&
+    (selectedTiers.has(a.grade) || !a.grade));
   const visibleAgentNames = new Set(visibleAgents.map(a => a.name));
   const visibleSkills = SKILLS.filter(s => visibleAgentNames.has(s.agent));
 
@@ -580,8 +654,8 @@ function renderGraph(nodes, links) {
 
   allNodes.filter(d => d.type === 'agent').select('text')
     .text(d => d.label)
-    .attr('fill', d => nodeColor(d))
-    .style('font-size', '10px')
+    .style('fill', d => tierColor[d.data.grade] || nodeColor(d))
+    .style('font-size', '12px')
     .style('font-weight', '600')
     .style('text-shadow', '0 1px 3px #000');
 
